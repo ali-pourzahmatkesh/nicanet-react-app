@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import debounce from 'lodash.debounce'
+import { BounceLoader } from 'react-spinners';
 
 import HeaderComponent from '../../components/Header/HeaderComponent'
 import Layout, { ContentContainer } from '../../components/Partials/Layout'
@@ -21,13 +22,20 @@ const ChatsWrapper = styled.div`
   margin-top: 1rem;
 `
 
+const ChatsLoading = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem 0;
+`
+
 interface ChatContainerProps {
   conversations: any[]
+  isLoadingConversations: boolean
 } 
 
 function ChatContainer(props: ChatContainerProps & RouteComponentProps) {
-
-  const { conversations } = props
+  const { conversations, isLoadingConversations } = props
 
   const [isSearchingUsers, setIsSearchingUsers] = useState(false)
   const [resultUsers, setResultUsers] = useState([])
@@ -52,6 +60,17 @@ function ChatContainer(props: ChatContainerProps & RouteComponentProps) {
         <ChatListContainer>
           <SearchInput isLoading={isSearchingUsers} onChangeText={onSearchUsersDebounced} />
         </ChatListContainer>
+          {
+            isLoadingConversations &&
+            <ChatsLoading>
+              <BounceLoader
+                sizeUnit="rem"
+                size={2}
+                color="#5498a9"
+                loading
+              />
+            </ChatsLoading>
+          }
         <ChatsWrapper>
           {
             resultUsers.length > 0 && 
@@ -80,6 +99,7 @@ function ChatContainer(props: ChatContainerProps & RouteComponentProps) {
 const mapStateToProps = (state: any) => {
   return ({
     conversations: state.chat.conversations,
+    isLoadingConversations: state.chat.isLoadingConversations,
   })
 }
 

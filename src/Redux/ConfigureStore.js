@@ -12,7 +12,7 @@ function getPreloadedState() {
     auth: {
       token: localStorage.getItem('token'),
       user: JSON.parse(localStorage.getItem('user')),
-      userId: +localStorage.getItem('user_id')
+      userId: localStorage.getItem('user_id') ? +localStorage.getItem('user_id') : null
     },
   }
 }

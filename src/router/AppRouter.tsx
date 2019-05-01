@@ -1,5 +1,5 @@
 import React from 'react'
-import { Switch, Route, withRouter, RouteComponentProps } from 'react-router-dom'
+import { Switch, Route, withRouter, RouteComponentProps, Redirect } from 'react-router-dom'
 import LoginContainer from '../Containers/Login/LoginContainer'
 import HomeContainer from '../Containers/Home/HomeContainer';
 import ChatContainer from '../Containers/Chat/ChatContainer';
@@ -13,10 +13,19 @@ import {
   CHAT_ROOM_ROUTE,
 } from './RouterConstants'
 import { chatMiddleWare } from 'Redux/MiddlesWares/ChatMiddleWare';
+import { connect } from 'react-redux';
 
-class AppRouter extends React.Component<{} & RouteComponentProps<{}>, any> {
+interface AppRouterProps {
+  isloggedin: boolean
+}
+
+class AppRouter extends React.Component<any & RouteComponentProps<{}>, any> {
   render () {
-    // if (isloggedin) {}
+    const { location } = this.props
+    if (!this.props.isLoggedIn && !location.pathname.startsWith(LOGIN_ROUTE)) {
+      return <Redirect to={LOGIN_ROUTE} />
+    }
+
     chatMiddleWare.start()
 
     return (
@@ -31,4 +40,10 @@ class AppRouter extends React.Component<{} & RouteComponentProps<{}>, any> {
   }
 }
 
-export default withRouter(AppRouter)
+
+const mapStateToProps = (state: any) => ({
+  isLoggedIn: state.auth.userId !== null
+})
+
+
+export default connect(mapStateToProps)(withRouter(AppRouter))
