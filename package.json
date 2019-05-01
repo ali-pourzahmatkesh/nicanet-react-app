@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "connected-react-router": "^6.4.0",
+    "cors": "^2.8.5",
     "express": "^4.16.4",
     "history": "^4.9.0",
     "lodash.debounce": "^4.0.8",
