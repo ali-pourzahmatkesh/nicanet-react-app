@@ -1,0 +1,5 @@
+export const ROOT_ROUTE = '/'
+export const LOGIN_ROUTE = '/login'
+export const HOME_ROUTE = '/home'
+export const CHAT_ROUTE = '/chat'
+export const CHAT_ROOM_ROUTE = '/chat/:contactId'
