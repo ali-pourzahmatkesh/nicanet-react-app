@@ -59,11 +59,10 @@ function HeaderComponent (props) {
     <Container>
       <LinksContainer>
         <IconWrapper onClick={() => props.history.push(HOME_ROUTE)}>
-          <Icon
-            src={
-              route === '/home' || route === '/post' ? homeIconActive : homeIcon
-            }
-          />
+          {
+            (route.startsWith('/home') || route.startsWith('/post') || route.startsWith('/add-case') || route.startsWith('/show-case')) ?
+            <Icon src={homeIconActive} /> : <Icon src={homeIcon} />
+          }
           <IconTitle>Home</IconTitle>
         </IconWrapper>
         <IconWrapper onClick={() => false && undefined}>

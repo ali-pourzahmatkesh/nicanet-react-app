@@ -4,11 +4,12 @@ import styled from 'styled-components'
 import { ContentApi } from '../../Api/ContentApi'
 import HeaderComponent from '../../components/Header/HeaderComponent'
 import Layout from '../../components/Partials/Layout'
-import { ContentContainer, Button } from './Styled'
+import { ContentContainer } from './Styled'
 import Card from '../../components/Card/CardComponent'
 import logo from '../../Assets/logo.svg'
 import { connect } from 'react-redux';
 import { useEffect, useState } from 'react';
+import Navbar from 'components/Navbar/Navbar';
 
 const Logo = styled.img`
   margin: 0 auto;
@@ -31,18 +32,16 @@ function HomeContainer(props) {
     effect()
   }, [userId])
 
+  const goToPage = (route) => {
+    props.history.push(route)
+  }
+
   return (
     <Layout>
       <Logo src={logo} />
       <HeaderComponent />
       <ContentContainer>
-        <Button
-          onClick={() => {}
-            // Router.pushRoute('addCase', { postId: content.ContentId })
-          }
-        >
-          + Add new case
-        </Button>
+        <Navbar onSelectRoute={goToPage} />
         {content.length > 0 &&
           content.map(content => (
             <Card
