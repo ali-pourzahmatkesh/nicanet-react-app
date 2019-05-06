@@ -9,6 +9,12 @@ import AddCaseStepZero from 'Containers/AddCase/AddCaseStepZero';
 import { chatMiddleWare } from 'Redux/MiddlesWares/ChatMiddleWare';
 import { connect } from 'react-redux';
 import AddPostContainer from 'Containers/AddPost/AddPostContainer';
+import AddCaseStepOne from 'Containers/AddCase/AddCaseStepOne';
+import AddCaseStepTwo from 'Containers/AddCase/AddCaseStepTwo';
+import AddCaseStepThree from 'Containers/AddCase/AddCaseStepThree';
+import AddCaseStepFour from 'Containers/AddCase/AddCaseStepFour';
+import AddCaseStepFive from 'Containers/AddCase/AddCaseStepFive';
+import AddCaseStepSix from 'Containers/AddCase/AddCaseStepSix';
 
 import {
   ROOT_ROUTE,
@@ -18,13 +24,20 @@ import {
   CHAT_ROOM_ROUTE,
   ADD_CASE_STEP_ZERO_ROUTE,
   ADD_POST_ROUTE,
+  ADD_CASE_STEP_ONE_ROUTE,
+  ADD_CASE_STEP_TWO_ROUTE,
+  ADD_CASE_STEP_THREE_ROUTE,
+  ADD_CASE_STEP_FOUR_ROUTE,
+  ADD_CASE_STEP_FIVE_ROUTE,
+  ADD_CASE_STEP_SIX_ROUTE,
 } from './RouterConstants'
 
+
 interface AppRouterProps {
-  isloggedin: boolean
+  isLoggedIn: boolean
 }
 
-class AppRouter extends React.Component<any & RouteComponentProps<{}>, any> {
+class AppRouter extends React.Component<AppRouterProps & RouteComponentProps<{}>, any> {
   render () {
     const { location } = this.props
     if (!this.props.isLoggedIn && !location.pathname.startsWith(LOGIN_ROUTE)) {
@@ -41,6 +54,12 @@ class AppRouter extends React.Component<any & RouteComponentProps<{}>, any> {
         <Route path={CHAT_ROOM_ROUTE} exact component={RoomContainer} />
         <Route path={ADD_POST_ROUTE} exact component={AddPostContainer} />
         <Route path={ADD_CASE_STEP_ZERO_ROUTE} exact component={AddCaseStepZero} />
+        <Route path={ADD_CASE_STEP_ONE_ROUTE} exact component={AddCaseStepOne} />
+        <Route path={ADD_CASE_STEP_TWO_ROUTE} exact component={AddCaseStepTwo} />
+        <Route path={ADD_CASE_STEP_THREE_ROUTE} exact component={AddCaseStepThree} />
+        <Route path={ADD_CASE_STEP_FOUR_ROUTE} exact component={AddCaseStepFour} />
+        <Route path={ADD_CASE_STEP_FIVE_ROUTE} exact component={AddCaseStepFive} />
+        <Route path={ADD_CASE_STEP_SIX_ROUTE} exact component={AddCaseStepSix} />
         <Route path={ROOT_ROUTE} component={LoginContainer} />
       </Switch>
     )

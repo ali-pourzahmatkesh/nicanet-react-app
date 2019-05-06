@@ -49,18 +49,22 @@ const Container = styled.div`
   }
 `
 
-interface Option {
+export interface SelectOption {
   name: string
   value: string
 }
 
 interface SelectProps {
-  options: Option[]
+  options: SelectOption[]
   placeholder: string
   onChange?: (value: string | undefined) => void
 }
 
 class Select extends React.Component<SelectProps> {
+  static defaultProps = {
+    options: []
+  }
+
   render() {
     const { options, placeholder, onChange } = this.props
   
@@ -76,6 +80,7 @@ class Select extends React.Component<SelectProps> {
         <select placeholder="Year of Birth" className="select-css" onChange={handleChange}>
           <option value="Select_Default_Value">{placeholder}</option>
           {
+            options.length > 0 && 
             options.map(option => <option key={`${option.name}-${option.value}`} value={option.value}>{option.name}</option>)
           }
         </select>

@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { createForm } from 'rc-form';
 import styled from 'styled-components';
-import Select from 'components/Select/SelectComponent';
+import Select, { SelectOption } from 'components/Select/SelectComponent';
 import CaseFormItem from './CaseFormItem';
+import Radio from 'components/Radio/RadioComponent';
+import { ConfigApi } from 'Api/ConfigApi';
+import Input from 'components/Input/InputComponent';
+import { Title } from '../Components/Styled';
 
 const WeightAndHeight = styled.div`
   display: flex;
@@ -33,10 +37,21 @@ interface AddCaseStepZeroFormProps {
 }
 
 function AddCaseStepZeroForm(props: AddCaseStepZeroFormProps) {
+  const [educationDegrees, setEducationDegrees] = useState<SelectOption[]>([])
   const onSelect = console.log
   const {
     getFieldDecorator
   } = props.form;
+
+  useEffect(() => {
+    const effect = async () => {
+      const response = await ConfigApi.getConfig(124)
+      if (response.status === 200) {
+        setEducationDegrees(response.data.map((ed: any) => ({ name: ed.ConfigName, value: ed.ConfigId })))
+      }
+    }
+    effect()
+  }, [])
 
   return (
     <div>
@@ -57,6 +72,53 @@ function AddCaseStepZeroForm(props: AddCaseStepZeroFormProps) {
           )}
         </CaseFormItem>
       </WeightAndHeight>
+      <CaseFormItem>
+        {getFieldDecorator('Gender')(
+          <Radio label="Gender" options={[{ name: 'Male', value: 0 }, { name: 'Female', value: 1 }]} />
+        )}
+      </CaseFormItem>
+      <CaseFormItem>
+        {getFieldDecorator('PregnancyId')(
+          <Radio
+            label="Pregnancy Status:" 
+            options={[{ name: 'Yes', value: 105 }, { name: 'No', value: 106 }, { name: 'Unknown', value: 107}]} 
+          />
+        )}
+      </CaseFormItem>
+      <CaseFormItem>
+        {getFieldDecorator('MartialStatusId')(
+          <Radio
+            label="Marital Status:" 
+            options={[{ name: 'Single', value: 134 }, { name: 'Married', value: 135 }]} 
+          />
+        )}
+      </CaseFormItem>
+      <Title>Further information</Title>
+      <CaseFormItem>
+        {getFieldDecorator('GradeId')(
+          <Select options={educationDegrees} placeholder="Last Educational Degree" />
+        )}
+      </CaseFormItem>
+      <CaseFormItem>
+        {getFieldDecorator('JobTitle')(
+          <Input placeholder="Job Title" />
+        )}
+      </CaseFormItem>
+      <CaseFormItem>
+        {getFieldDecorator('CurrentResidence')(
+          <Input placeholder="Resident in" />
+        )}
+      </CaseFormItem>
+      <CaseFormItem>
+        {getFieldDecorator('Nationality')(
+          <Input placeholder="Nationality" />
+        )}
+      </CaseFormItem>
+      <CaseFormItem>
+        {getFieldDecorator('Originaly')(
+          <Input placeholder="Originally" />
+        )}
+      </CaseFormItem>
     </div>
   )
 }

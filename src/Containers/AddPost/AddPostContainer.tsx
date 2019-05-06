@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { PulseLoader } from 'react-spinners';
 
 import Layout from 'components/Partials/Layout';
-import HeaderComponent from 'components/Header/HeaderComponent';
 import PencilIconSource from 'Assets/Pencil.svg'
 import GalleryIconSource from 'Assets/Gallery.svg'
 import PhotoUploader, { Photo } from 'components/PhotoUploader/PhotoUploaderComponent';
@@ -122,7 +121,6 @@ function AddPostContainer(props: AddPostContainerProps) {
 
   return (
     <Layout>
-      <HeaderComponent />
       <Container>
         <Heading>
           <PencilIcon src={PencilIconSource} />
@@ -142,7 +140,8 @@ function AddPostContainer(props: AddPostContainerProps) {
             <PhotoUploader
               photos={photos}
               Picker={(onClick) => <FooterIcon onClick={() => onClick()} src={GalleryIconSource} />} 
-              onAddPhoto={photo => setPhotos([...photos, photo])}
+              onAddPhoto={photo => setPhotos(prevPhotos => [...prevPhotos, photo])}
+              onDeletePhoto={photoIndex => setPhotos([ ...photos ].filter((p, index) => index !== photoIndex))}
             />
           </div>
           <Button onClick={onSubmit}>

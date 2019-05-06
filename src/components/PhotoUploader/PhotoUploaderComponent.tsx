@@ -1,23 +1,45 @@
 import React, { useRef } from 'react'
 import styled from 'styled-components';
+import { IoIosClose } from 'react-icons/io'
 
 const FileInput = styled.input`
   display: none;
 `
 
-const PhotoWrapper = styled.div`
-  margin:5px;
+const Container = styled.div`
+  margin-bottom: 1.5rem;
 `
 
-const PhotosContainer = styled.div`
+const PhotoWrapper = styled.div`
+  margin:5px;
+  position: relative;
+`
+
+const LoadedPhotosContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   padding: -5px;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
 `
 
 const Photo = styled.img`
   width: 4rem;
   height: 4rem;
+`
+
+const CloseIconWrapper = styled.div`
+  position: absolute;
+  background-color: #fff;
+  border-radius: 3px;
+  left: 50%;
+  top: 50%;
+  width: 1.3rem;
+  height: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-50%) translateX(-50%);
 `
 
 export interface Photo {
@@ -29,6 +51,7 @@ interface PhotoUploaderProps {
   photos?: Photo[]
   Picker: (onClick: Function) => React.ReactNode;
   onAddPhoto: (photo: Photo) => void
+  onDeletePhoto: (photoIndex: number) => void
 }
 
 const PhotoUploader: React.FC<PhotoUploaderProps> = (props) => {
@@ -36,18 +59,22 @@ const PhotoUploader: React.FC<PhotoUploaderProps> = (props) => {
   const { photos = [], Picker } = props
   const handleImageChange = (e: any) => {
     e.preventDefault();
-
-    let reader = new FileReader();
-    let file = e.target.files[0];
-
-    reader.onloadend = () => {
-      props.onAddPhoto({
-        file: file,
-        previewUrl: reader.result
-      })
+    for (const selectedFile of e.target.files) {
+      const reader = new FileReader();
+  
+      reader.onloadend = () => {
+        props.onAddPhoto({
+          file: selectedFile,
+          previewUrl: reader.result
+        })
+      }
+  
+      reader.readAsDataURL(selectedFile)
     }
+  }
 
-    reader.readAsDataURL(file)
+  const onRemovePhoto = (photoIndex: number) => {
+    props.onDeletePhoto(photoIndex)
   }
 
   const openFilePicker = () => {
@@ -55,8 +82,9 @@ const PhotoUploader: React.FC<PhotoUploaderProps> = (props) => {
   }
 
   return (
-    <div>
+    <Container>
       <FileInput
+        multiple
         accept=".jpg,.jpeg,.png"
         ref={fileInputRef}
         className="fileInput" 
@@ -64,21 +92,24 @@ const PhotoUploader: React.FC<PhotoUploaderProps> = (props) => {
         onChange={(e)=> handleImageChange(e)}
       />
       {Picker(openFilePicker)}
-      <PhotosContainer>
+      <LoadedPhotosContainer>
         {
-          photos.map(photo => {
+          photos.map((photo, index) => {
               if (photo.previewUrl === null) return null
 
               return (
                 <PhotoWrapper key={photo.previewUrl.toString()}>
+                  <CloseIconWrapper>
+                    <IoIosClose color="#ff0000" onClick={() => onRemovePhoto(index)} size={30} />
+                  </CloseIconWrapper>
                   <Photo src={photo.previewUrl.toString()} />
                 </PhotoWrapper>
               )
             }
           )
         }
-      </PhotosContainer>
-    </div>
+      </LoadedPhotosContainer>
+    </Container>
   )
 }
 

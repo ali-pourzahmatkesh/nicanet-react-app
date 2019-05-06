@@ -2,6 +2,8 @@ import React, { Fragment } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
 import { ToastContainer } from 'react-toastify'
 
+import TabBar from 'components/TabBar/TabBarComponent'
+
 const GlobalStyle = createGlobalStyle`
   * {
     box-sizing: border-box;
@@ -25,16 +27,17 @@ const GlobalStyle = createGlobalStyle`
 export default function Layout({ children, title = 'Pointina' }) {
   return (
     <Fragment>
-      <div>
         <ToastContainer />
         <GlobalStyle />
-        {children}
-      </div>
+        <ContentContainer>
+          {children}
+        </ContentContainer>
+      <TabBar />
     </Fragment>
   )
 }
 
-export const ContentContainer = styled.div`
+const ContentContainer = styled.div`
   margin: 0 auto;
   background-color: #fff;
   padding: 1rem;

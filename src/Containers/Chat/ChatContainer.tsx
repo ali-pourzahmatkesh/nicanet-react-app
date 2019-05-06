@@ -3,8 +3,7 @@ import styled from 'styled-components'
 import debounce from 'lodash.debounce'
 import { BounceLoader } from 'react-spinners';
 
-import HeaderComponent from '../../components/Header/HeaderComponent'
-import Layout, { ContentContainer } from '../../components/Partials/Layout'
+import Layout from '../../components/Partials/Layout'
 import { connect } from 'react-redux';
 import SearchInput from './Components/SearchInput';
 import ChatListItem from './Components/ChatListItem';
@@ -55,8 +54,6 @@ function ChatContainer(props: ChatContainerProps & RouteComponentProps) {
 
   return (
     <Layout>
-      <HeaderComponent />
-      <ContentContainer>
         <ChatListContainer>
           <SearchInput isLoading={isSearchingUsers} onChangeText={onSearchUsersDebounced} />
         </ChatListContainer>
@@ -91,7 +88,6 @@ function ChatContainer(props: ChatContainerProps & RouteComponentProps) {
             />)
           }
         </ChatsWrapper>
-      </ContentContainer>
     </Layout>
   )
 }

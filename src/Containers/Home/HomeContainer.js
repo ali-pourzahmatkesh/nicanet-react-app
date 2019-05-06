@@ -2,9 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { ContentApi } from '../../Api/ContentApi'
-import HeaderComponent from '../../components/Header/HeaderComponent'
 import Layout from '../../components/Partials/Layout'
-import { ContentContainer } from './Styled'
 import Card from '../../components/Card/CardComponent'
 import logo from '../../Assets/logo.svg'
 import { connect } from 'react-redux';
@@ -39,29 +37,26 @@ function HomeContainer(props) {
   return (
     <Layout>
       <Logo src={logo} />
-      <HeaderComponent />
-      <ContentContainer>
-        <Navbar onSelectRoute={goToPage} />
-        {content.length > 0 &&
-          content.map(content => (
-            <Card
-              onClick={() => {
-                // Router.pushRoute('post', { postId: content.ContentId })
-              }}
-              key={content.ContentId}
-              title={content.Subject}
-              subtitle={content.ContentText}
-              image={
-                content.MultiMedias.length > 0 && content.MultiMedias[0].FileUrl
-              }
-              author={{
-                image: content.WriterImage,
-                title: content.WriterFullName,
-                publishTime: content.TimeElapsed
-              }}
-            />
-          ))}
-      </ContentContainer>
+      <Navbar onSelectRoute={goToPage} />
+      {content.length > 0 &&
+        content.map(content => (
+          <Card
+            onClick={() => {
+              // Router.pushRoute('post', { postId: content.ContentId })
+            }}
+            key={content.ContentId}
+            title={content.Subject}
+            subtitle={content.ContentText}
+            image={
+              content.MultiMedias.length > 0 && content.MultiMedias[0].FileUrl
+            }
+            author={{
+              image: content.WriterImage,
+              title: content.WriterFullName,
+              publishTime: content.TimeElapsed
+            }}
+          />
+        ))}
     </Layout>
   )
 }

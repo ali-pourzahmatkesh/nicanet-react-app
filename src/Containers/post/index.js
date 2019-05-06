@@ -4,7 +4,6 @@ import { toast } from 'react-toastify'
 
 import { ContentApi } from '../../Api/ContentApi'
 import { withAuthSync } from '../../utils/auth'
-import HeaderComponent from '../../components/Header/HeaderComponent'
 import Layout from '../../components/Partials/Layout'
 import PostActions from '../../components/PostActions/PostActionsComponent'
 import PostStatusBar from '../../components/PostStatusBar/PostStatusBarComponent'
@@ -168,7 +167,6 @@ function Post(props) {
 
   return (
     <Layout>
-      <HeaderComponent />
       <PostWrapper>
         {MultiMedias && MultiMedias.length > 0 && (
           <PostImage

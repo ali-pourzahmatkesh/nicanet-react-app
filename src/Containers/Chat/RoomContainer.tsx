@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { BounceLoader } from 'react-spinners';
 
 import Layout from 'components/Partials/Layout';
-import HeaderComponent from 'components/Header/HeaderComponent';
 import MessageInput from './Components/MessageInput';
 import { CHAT_ROUTE } from 'router/RouterConstants';
 import { UsersApi } from 'Api/UsersApi';
@@ -116,7 +115,6 @@ function RoomContainer(props: RouteComponentProps<RoomContainerParams>) {
   if (isLoading) {
     return (
       <Layout>
-        <HeaderComponent />
         <LoadingWrapprer>
           <BounceLoader
             sizeUnit="rem"
@@ -131,7 +129,6 @@ function RoomContainer(props: RouteComponentProps<RoomContainerParams>) {
 
   return (
     <Layout>
-      <HeaderComponent />
       {
         contact &&
         <ChatHeader>
