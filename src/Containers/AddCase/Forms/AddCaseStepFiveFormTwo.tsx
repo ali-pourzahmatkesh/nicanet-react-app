@@ -52,19 +52,19 @@ function AddCaseStepFiveFormTwo(props: AddCaseStepFiveFormTwoProps) {
       </Drawer>
 
       <Drawer title="Sonography">
-        hi bitch
+        hi there this is not connected to backend yet
       </Drawer>
       
       <Drawer title="CT - Scan">
-        hi bitch
+        hi there this is not connected to backend yet
       </Drawer>
       
       <Drawer title="MRI">
-        hi bitch
+        hi there this is not connected to backend yet
       </Drawer>
       
       <Drawer title="Others">
-        hi bitch
+        hi there this is not connected to backend yet
       </Drawer>
     </div>
   )

@@ -52,43 +52,43 @@ function AddCaseStepFiveFormOne(props: AddCaseStepFiveFormOneProps) {
       </Drawer>
 
       <Drawer title="Blood Gas">
-        hi bitch
+        hi there this is not connected to backend yet
       </Drawer>
       
       <Drawer title="Biochemistry">
-        hi bitch
+        hi there this is not connected to backend yet
       </Drawer>
       
       <Drawer title="Gastrointestinal Function">
-        hi bitch
+        hi there this is not connected to backend yet
       </Drawer>
       
       <Drawer title="Cardiac Enzymes">
-        hi bitch
+        hi there this is not connected to backend yet
       </Drawer>
       
       <Drawer title="Lipid Profile">
-        hi bitch
+        hi there this is not connected to backend yet
       </Drawer>
       
       <Drawer title="Hormones">
-        hi bitch
+        hi there this is not connected to backend yet
       </Drawer>
       
       <Drawer title="Body Fluid Analysis">
-        hi bitch
+        hi there this is not connected to backend yet
       </Drawer>
       
       <Drawer title="Cultures">
-        hi bitch
+        hi there this is not connected to backend yet
       </Drawer>
       
       <Drawer title="Biopsy Reports">
-        hi bitch
+        hi there this is not connected to backend yet
       </Drawer>
       
       <Drawer title="Blood Bank">
-        hi bitch
+        hi there this is not connected to backend yet
       </Drawer>
     </div>
   )

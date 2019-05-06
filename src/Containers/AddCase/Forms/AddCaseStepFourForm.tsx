@@ -56,75 +56,75 @@ function AddCaseStepFourForm(props: AddCaseStepFourFormProps) {
       </Drawer>
 
       <Drawer title="Head">
-        hi bitch
+        hi there this is not connected to backend yet
       </Drawer>
       
       <Drawer title="Ear">
-        hi bitch
+        hi there this is not connected to backend yet
       </Drawer>
       
       <Drawer title="Eye">
-        hi bitch
+        hi there this is not connected to backend yet
       </Drawer>
       
       <Drawer title="Nose and Sinuses">
-        hi bitch
+        hi there this is not connected to backend yet
       </Drawer>
       
       <Drawer title="Mouth and Pharynx">
-        hi bitch
+        hi there this is not connected to backend yet
       </Drawer>
       
       <Drawer title="Neck and Lymph Nodes">
-        hi bitch
+        hi there this is not connected to backend yet
       </Drawer>
       
       <Drawer title="Breasts and Axilla">
-        hi bitch
+        hi there this is not connected to backend yet
       </Drawer>
       
       <Drawer title="Chest and Lungs">
-        hi bitch
+        hi there this is not connected to backend yet
       </Drawer>
       
       <Drawer title="Cardiovascular">
-        hi bitch
+        hi there this is not connected to backend yet
       </Drawer>
       
       <Drawer title="Abdomen">
-        hi bitch
+        hi there this is not connected to backend yet
       </Drawer>
       
       <Drawer title="Peripheral Vessels">
-        hi bitch
+        hi there this is not connected to backend yet
       </Drawer>
       
       <Drawer title="Urinary System / Rectum / Prostate">
-        hi bitch
+        hi there this is not connected to backend yet
       </Drawer>
       
       <Drawer title="Reproductive System">
-        hi bitch
+        hi there this is not connected to backend yet
       </Drawer>
       
       <Drawer title="Musculoskeletal">
-        hi bitch
+        hi there this is not connected to backend yet
       </Drawer>
       
       <Drawer title="Psychiatry">
-        hi bitch
+        hi there this is not connected to backend yet
       </Drawer>
       
       <Drawer title="Neurologic">
-        hi bitch
+        hi there this is not connected to backend yet
       </Drawer>
       
       <Drawer title="Hematologic">
-        hi bitch
+        hi there this is not connected to backend yet
       </Drawer>
       
       <Drawer title="Endocrine">
-        hi bitch
+        hi there this is not connected to backend yet
       </Drawer>
 
       <PhotoUploader
