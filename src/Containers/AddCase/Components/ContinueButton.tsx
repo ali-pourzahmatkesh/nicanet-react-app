@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components';
+import { PulseLoader } from 'react-spinners';
 
 const Button = styled.div`
   flex: 1;
@@ -13,15 +14,23 @@ const Button = styled.div`
 
 type ContinueButtonProps = {
   title?: string
+  isLoading?: boolean
   onClick: () => void
 }
 
 const ContinueButton: React.FC<ContinueButtonProps> = (props) => {
-  const { title, onClick } = props
+  const { title, onClick, isLoading } = props
 
   return (
     <Button onClick={onClick}>
-      {title}
+      {
+        isLoading ?
+        <PulseLoader
+          sizeUnit="rem"
+          size={0.5}
+          color="#fff"
+        /> : title
+      }
     </Button>
   )
 }

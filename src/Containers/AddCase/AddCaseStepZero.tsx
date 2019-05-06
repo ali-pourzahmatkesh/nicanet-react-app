@@ -2,10 +2,11 @@ import React from 'react'
 import styled from 'styled-components';
 import Layout from 'components/Partials/Layout';
 import AddCaseStepZeroForm from './Forms/AddCaseStepZeroForm';
-import ContinueButton from './Components/ContinueButton';
 import { RouteComponentProps } from 'react-router';
 import { ADD_CASE_STEP_ONE_ROUTE } from 'router/RouterConstants';
 import Heading from './Components/Heading';
+import { CaseApi } from 'Api/CaseApi';
+import { getPersonId } from 'utils/auth';
 
 const Container = styled.div`
   padding: 0 1rem;
@@ -13,7 +14,13 @@ const Container = styled.div`
 
 const AddCaseStepZero: React.FC<RouteComponentProps<{}>> = (props) => {
 
-  const onSubmit = () => {
+  const onSubmit = async (values: any) => {
+    const personId = getPersonId()
+    const { status, data } = await CaseApi.addNewCase({...values, PersonId: personId})
+    if (status !== 200) throw status
+    const { CaseId, PatientId } = data
+
+    localStorage.setItem('current_case', JSON.stringify({ CaseId, PatientId }))
     props.history.push(ADD_CASE_STEP_ONE_ROUTE)
   }
 
@@ -21,8 +28,7 @@ const AddCaseStepZero: React.FC<RouteComponentProps<{}>> = (props) => {
     <Layout>
       <Container>
         <Heading title="Case Report" subtitle="Patient Information" />
-        <AddCaseStepZeroForm />
-        <ContinueButton onClick={onSubmit} />
+        <AddCaseStepZeroForm onSubmit={onSubmit} />
       </Container>
     </Layout>
   )

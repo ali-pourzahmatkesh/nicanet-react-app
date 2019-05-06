@@ -7,6 +7,7 @@ import Radio from 'components/Radio/RadioComponent';
 import { ConfigApi } from 'Api/ConfigApi';
 import Input from 'components/Input/InputComponent';
 import { Title } from '../Components/Styled';
+import ContinueButton from '../Components/ContinueButton';
 
 const WeightAndHeight = styled.div`
   display: flex;
@@ -34,14 +35,32 @@ const Heights = new Array(230).fill(null).map((item, index) => {
 
 interface AddCaseStepZeroFormProps {
   form: any
+  onSubmit: (values: any) => Promise<any>
 }
 
 function AddCaseStepZeroForm(props: AddCaseStepZeroFormProps) {
   const [educationDegrees, setEducationDegrees] = useState<SelectOption[]>([])
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const onSelect = console.log
   const {
-    getFieldDecorator
-  } = props.form;
+    form: {
+      getFieldDecorator,
+      validateFields,
+    },
+    onSubmit
+  } = props;
+
+  const submit = () => {
+    validateFields(async (error: any, values: any) => {
+      if (error !== null) return
+      try {
+        setIsSubmitting(true)
+        await onSubmit(values)
+      } catch (_) {
+        setIsSubmitting(false)
+      }
+    });
+  }
 
   useEffect(() => {
     const effect = async () => {
@@ -73,15 +92,15 @@ function AddCaseStepZeroForm(props: AddCaseStepZeroFormProps) {
         </CaseFormItem>
       </WeightAndHeight>
       <CaseFormItem>
-        {getFieldDecorator('Gender')(
-          <Radio label="Gender" options={[{ name: 'Male', value: 0 }, { name: 'Female', value: 1 }]} />
+        {getFieldDecorator('Gender', { rules: [{required: true}] })(
+          <Radio label="Gender" options={[{ name: 'Male', value: true }, { name: 'Female', value: false }]} />
         )}
       </CaseFormItem>
       <CaseFormItem>
         {getFieldDecorator('PregnancyId')(
           <Radio
             label="Pregnancy Status:" 
-            options={[{ name: 'Yes', value: 105 }, { name: 'No', value: 106 }, { name: 'Unknown', value: 107}]} 
+            options={[{ name: 'Yes', value: 106 }, { name: 'No', value: 107 }, { name: 'Unknown', value: 108}]} 
           />
         )}
       </CaseFormItem>
@@ -119,6 +138,7 @@ function AddCaseStepZeroForm(props: AddCaseStepZeroFormProps) {
           <Input placeholder="Originally" />
         )}
       </CaseFormItem>
+      <ContinueButton isLoading={isSubmitting} onClick={submit} />
     </div>
   )
 }
