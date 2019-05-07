@@ -1,6 +1,7 @@
 import React, { useRef } from 'react'
 import styled from 'styled-components';
-import { IoIosClose } from 'react-icons/io'
+// import { IoIosClose } from 'react-icons/io'
+import { PulseLoader } from 'react-spinners';
 
 const FileInput = styled.input`
   display: none;
@@ -51,12 +52,14 @@ interface PhotoUploaderProps {
   photos?: Photo[]
   Picker: (onClick: Function) => React.ReactNode;
   onAddPhoto: (photo: Photo) => void
+  isLoading?: boolean
   onDeletePhoto: (photoIndex: number) => void
 }
 
 const PhotoUploader: React.FC<PhotoUploaderProps> = (props) => {
   const fileInputRef: any = useRef(HTMLInputElement);
-  const { photos = [], Picker } = props
+  const { photos = [], Picker, isLoading } = props
+
   const handleImageChange = (e: any) => {
     e.preventDefault();
     for (const selectedFile of e.target.files) {
@@ -92,6 +95,14 @@ const PhotoUploader: React.FC<PhotoUploaderProps> = (props) => {
         onChange={(e)=> handleImageChange(e)}
       />
       {Picker(openFilePicker)}
+      {
+        isLoading &&
+        <PulseLoader
+          sizeUnit="rem"
+          size={0.5}
+          color="#5498a9"
+        />
+      } 
       <LoadedPhotosContainer>
         {
           photos.map((photo, index) => {
@@ -99,9 +110,9 @@ const PhotoUploader: React.FC<PhotoUploaderProps> = (props) => {
 
               return (
                 <PhotoWrapper key={photo.previewUrl.toString()}>
-                  <CloseIconWrapper>
+                  {/* <CloseIconWrapper>
                     <IoIosClose color="#ff0000" onClick={() => onRemovePhoto(index)} size={30} />
-                  </CloseIconWrapper>
+                  </CloseIconWrapper> */}
                   <Photo src={photo.previewUrl.toString()} />
                 </PhotoWrapper>
               )

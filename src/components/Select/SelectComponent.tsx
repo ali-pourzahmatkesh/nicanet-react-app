@@ -4,6 +4,7 @@ import styled from 'styled-components';
 const Container = styled.div`
   display: flex;
   flex: 1;
+  position: relative;
 
   .select-css {
     outline: 0;
@@ -49,6 +50,10 @@ const Container = styled.div`
   }
 `
 
+const PlaceHolder = styled.div`
+  position: absolute;
+`
+
 export interface SelectOption {
   name: string
   value: string
@@ -56,8 +61,9 @@ export interface SelectOption {
 
 interface SelectProps {
   options: SelectOption[]
-  placeholder: string
+  placeholder?: string
   onChange?: (value: string | undefined) => void
+  value?: any
 }
 
 class Select extends React.Component<SelectProps> {
@@ -66,7 +72,7 @@ class Select extends React.Component<SelectProps> {
   }
 
   render() {
-    const { options, placeholder, onChange } = this.props
+    const { options, placeholder, onChange, value } = this.props
   
     const handleChange = (event: any) => {
       if (!onChange) return
@@ -77,8 +83,9 @@ class Select extends React.Component<SelectProps> {
   
     return (
       <Container>
+        { !value && placeholder && <PlaceHolder>{placeholder}</PlaceHolder> }
         <select placeholder="Year of Birth" className="select-css" onChange={handleChange}>
-          <option value="Select_Default_Value">{placeholder}</option>
+          <option value="Select_Default_Value" />
           {
             options.length > 0 && 
             options.map(option => <option key={`${option.name}-${option.value}`} value={option.value}>{option.name}</option>)

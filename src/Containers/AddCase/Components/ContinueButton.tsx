@@ -10,6 +10,7 @@ const Button = styled.div`
   background-color: #5498a9;
   color: #fff;
   border-radius: 0.5rem;
+  cursor: pointer;
 `
 
 type ContinueButtonProps = {
