@@ -13,7 +13,7 @@ const Container = styled.div`
 
 const AddCaseStepTwo: React.FC<RouteComponentProps<{}>> = (props) => {
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     props.history.push(ADD_CASE_STEP_THREE_ROUTE)
   }
 
@@ -29,8 +29,7 @@ const AddCaseStepTwo: React.FC<RouteComponentProps<{}>> = (props) => {
     <Layout>
       <Container>
         <Heading title="Case Report" subtitle="2/6" onGoBack={goToStepOne} onGoForward={goToStepTwo} />
-        <AddCaseStepTwoForm />
-        <ContinueButton onClick={onSubmit} />
+        <AddCaseStepTwoForm onSubmit={onSubmit} />
       </Container>
     </Layout>
   )

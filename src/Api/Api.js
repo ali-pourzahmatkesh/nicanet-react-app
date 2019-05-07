@@ -8,24 +8,18 @@ export const ChatApi = axios.create({
   baseURL: 'http://app.pointina.ir:8080'
 })
 
-export const getToken = async () => {
-  const oldToken = localStorage.getItem('api_token')
-  if (oldToken) {
-    Api.defaults.headers.common.Authorization = `Bearer ${oldToken}`
-    ChatApi.defaults.headers.common.Authorization = `Bearer ${oldToken}`
-    return
+export const initToken = async () => {
+  const token = localStorage.getItem('api_token')
+  if (token) {
+    Api.defaults.headers.common.Authorization = `Bearer ${token}`
+    ChatApi.defaults.headers.common.Authorization = `Bearer ${token}`
   }
-  const response = await Api.post('/Token', {
-    username: 'NiccanetToken',
-    password: 'NiccanetPharmedApp'
-  })
-  
-  localStorage.setItem('api_token', response.data)
+}
 
-  if (response.status === 200) {
-    Api.defaults.headers.common.Authorization = `Bearer ${response.data}`
-    ChatApi.defaults.headers.common.Authorization = `Bearer ${response.data}`
-  }
+export const setToken = async (token) => {
+  localStorage.setItem('api_token', token)
+  Api.defaults.headers.common.Authorization = `Bearer ${token}`
+  ChatApi.defaults.headers.common.Authorization = `Bearer ${token}`
 }
 
 export const removeToken = () => {
@@ -34,6 +28,6 @@ export const removeToken = () => {
   ChatApi.defaults.headers.common.token = null
 }
 
-getToken()
+initToken()
 
 export default Api

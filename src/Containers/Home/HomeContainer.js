@@ -63,7 +63,7 @@ function HomeContainer(props) {
 
 const mapStateToProps = (state) => {
   return ({
-    userId: state.auth.userId,
+    userId: state.auth.user.PersonId,
   })
 }
 

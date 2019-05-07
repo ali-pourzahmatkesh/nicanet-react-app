@@ -6,7 +6,6 @@ import { RouteComponentProps } from 'react-router';
 import { ADD_CASE_STEP_ONE_ROUTE } from 'router/RouterConstants';
 import Heading from './Components/Heading';
 import { CaseApi } from 'Api/CaseApi';
-import { getPersonId } from 'utils/auth';
 
 const Container = styled.div`
   padding: 0 1rem;
@@ -15,8 +14,7 @@ const Container = styled.div`
 const AddCaseStepZero: React.FC<RouteComponentProps<{}>> = (props) => {
 
   const onSubmit = async (values: any) => {
-    const personId = getPersonId()
-    const { status, data } = await CaseApi.addNewCase({...values, PersonId: personId})
+    const { status, data } = await CaseApi.addNewCase(values)
     if (status !== 200) throw status
     const { CaseId, PatientId } = data
 

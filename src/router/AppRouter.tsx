@@ -40,6 +40,7 @@ interface AppRouterProps {
 class AppRouter extends React.Component<AppRouterProps & RouteComponentProps<{}>, any> {
   render () {
     const { location } = this.props
+
     if (!this.props.isLoggedIn && !location.pathname.startsWith(LOGIN_ROUTE)) {
       return <Redirect to={LOGIN_ROUTE} />
     }
@@ -68,7 +69,7 @@ class AppRouter extends React.Component<AppRouterProps & RouteComponentProps<{}>
 
 
 const mapStateToProps = (state: any) => ({
-  isLoggedIn: state.auth.userId !== null
+  isLoggedIn: state.auth.user !== null
 })
 
 

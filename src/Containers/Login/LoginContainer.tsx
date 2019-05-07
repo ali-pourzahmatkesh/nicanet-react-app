@@ -262,7 +262,7 @@ class LoginContainer extends React.Component<LoginContainerProps & RouteComponen
 }
 
 const mapStateToProps = (state: any) => ({
-  isLoggedIn: state.auth.userId !== null  
+  isLoggedIn: state.auth.user !== null  
 })
 
 const mapDispatchToProps = (dispatch: any) =>

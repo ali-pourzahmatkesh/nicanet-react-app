@@ -2,7 +2,7 @@ import Api from './Api'
 
 export const AuthApi = {
   login: ({ username, password }) =>
-    Api.post('/Login', {
+    Api.post('/Token', {
       UserName: username,
       Password: password
     }),
