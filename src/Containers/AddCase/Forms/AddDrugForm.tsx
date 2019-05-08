@@ -8,30 +8,67 @@ import Input from 'components/Input/InputComponent';
 import Textarea from 'components/Textarea/TextareaComponent';
 import Select from 'components/Select/SelectComponent';
 import ContinueButton from '../Components/ContinueButton';
-
-const Weights = new Array(200).fill(null).map((item, index) => {
-  const weight = 200 - index
-  return { value: weight.toString(), name: `${weight} KG` }
-}).slice(0, -1)
+import { ConfigApi } from 'Api/ConfigApi';
 
 type AddDrugFormProps = {
   form: any
+  onSubmit: (values: any) => void
 }
 
 type AddDrugFormState = {
   isOpen: boolean
+  frequencies: any[]
+  routes: any[]
 }
 
 class AddDrugForm extends Component<AddDrugFormProps, AddDrugFormState> {
   state = {
-    isOpen: false
+    isOpen: false,
+    frequencies: [],
+    routes: []
+  }
+
+  componentDidMount = () => {
+    this.getFrequencies()
+    this.getRoutes()
+  }
+
+  getFrequencies = async () => {
+    try {
+      const response = await ConfigApi.getConfig(90)
+      this.setState({
+        frequencies: response.data.map((item: any) => ({ name: item.ConfigName, value: item.ConfigId }))
+      })
+    } catch (_) {}
+  }
+
+  getRoutes = async () => {
+    try {
+      const response = await ConfigApi.getConfig(41)
+      this.setState({
+        routes: response.data.map((item: any) => ({ name: item.ConfigName, value: item.ConfigId }))
+      })
+    } catch (_) {}
   }
 
   render () {
-    const { isOpen } = this.state
+    const { isOpen, frequencies, routes } = this.state
     const {
-      getFieldDecorator
-    } = this.props.form;
+      form: {
+        getFieldDecorator,
+        validateFields,
+      },
+      onSubmit,
+    } = this.props;    
+
+    const submit = () => {
+      validateFields(async (error: any, values: any) => {
+        if (error !== null) return
+        try {
+          onSubmit(values)
+        } catch (_) {}
+      })
+    }
 
     return (
       <Fragment>
@@ -43,36 +80,36 @@ class AddDrugForm extends Component<AddDrugFormProps, AddDrugFormState> {
             )}
           </CaseFormItem>
           <CaseFormItem>
-            {getFieldDecorator('test')(
+            {getFieldDecorator('Manufacture')(
               <Input placeholder="Manufacturer" />
             )}
           </CaseFormItem>
           <CaseFormItem>
-            {getFieldDecorator('Frequency')(
-              <Select options={Weights} placeholder="Frequency" />
+            {getFieldDecorator('FrequencyId')(
+              <Select options={frequencies} placeholder="Frequency" />
             )}
           </CaseFormItem>
           <CaseFormItem>
-            {getFieldDecorator('Route')(
-              <Select options={Weights} placeholder="Route" />
+            {getFieldDecorator('RouteId')(
+              <Select options={routes} placeholder="Route" />
             )}
           </CaseFormItem>
           <CaseFormItem>
-            {getFieldDecorator('test')(
+            {getFieldDecorator('Indication')(
               <Input placeholder="Indication" />
             )}
           </CaseFormItem>
           <CaseFormItem>
-            {getFieldDecorator('test')(
+            {getFieldDecorator('BatchNo')(
               <Input placeholder="Batch Number" />
             )}
           </CaseFormItem>
           <CaseFormItem>
-            {getFieldDecorator('test')(
+            {getFieldDecorator('Description')(
               <Textarea placeholder="Description" />
             )}
           </CaseFormItem>
-          <ContinueButton onClick={() => console.log('hello')} title="Add Drug" />
+          <ContinueButton onClick={submit} title="Add Drug" />
         </Modal>
       </Fragment>
     );
@@ -80,4 +117,3 @@ class AddDrugForm extends Component<AddDrugFormProps, AddDrugFormState> {
 }
 
 export default createForm({ name: 'AddDrugForm' })(AddDrugForm);
-

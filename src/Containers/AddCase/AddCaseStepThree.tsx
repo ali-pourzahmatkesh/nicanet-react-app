@@ -6,6 +6,7 @@ import { RouteComponentProps } from 'react-router';
 import { ADD_CASE_STEP_TWO_ROUTE, ADD_CASE_STEP_FOUR_ROUTE } from 'router/RouterConstants';
 import Heading from './Components/Heading';
 import AddCaseStepThreeForm from './Forms/AddCaseStepThreeForm';
+import { CaseApi } from 'Api/CaseApi';
 
 const Container = styled.div`
   padding: 0 1rem;
@@ -13,7 +14,30 @@ const Container = styled.div`
 
 const AddCaseStepThree: React.FC<RouteComponentProps<{}>> = (props) => {
 
-  const onSubmit = () => {
+  const onSubmit = async (values: any) => {
+    const currentCaseRaw = localStorage.getItem('current_case')
+    if (currentCaseRaw === null) return
+    const { CaseId } = JSON.parse(currentCaseRaw)
+
+    const data = {
+      // CaseId,
+      // StatusId: 2,
+      // PastSurgicalHistory: values.PastSurgicalHistory,
+      // FamilyHistory: values.FamilyHistory,
+      // PastMedicalHistory: values.PastMedicalHistory,
+      // PastMedicalHistories: [],
+    }
+    
+    // Object.keys(values).filter(key => key.startsWith('disease')).forEach(disease => {
+    //   if (values[disease]) {
+    //     (data.PastMedicalHistories as any).push({
+    //       DiseaseId: Number(disease.split('_').pop()),
+    //     })
+    //   }
+    // })
+
+    const { status } = await CaseApi.updateCase(data)
+    if (status !== 204) throw status
     props.history.push(ADD_CASE_STEP_FOUR_ROUTE)
   }
 
@@ -29,8 +53,7 @@ const AddCaseStepThree: React.FC<RouteComponentProps<{}>> = (props) => {
     <Layout>
       <Container>
         <Heading title="Case Report" subtitle="3/6" onGoBack={goToStepOne} onGoForward={goToStepThree} />
-        <AddCaseStepThreeForm />
-        <ContinueButton onClick={onSubmit} />
+        <AddCaseStepThreeForm onSubmit={onSubmit} />
       </Container>
     </Layout>
   )

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { createForm } from 'rc-form';
 import CaseFormItem from './CaseFormItem';
 import Textarea from 'components/Textarea/TextareaComponent';
@@ -6,28 +6,48 @@ import { Title, PaddedWrapper } from '../Components/Styled';
 import CheckBox from 'components/CheckBox/CheckBoxComponent';
 import Input from 'components/Input/InputComponent';
 import AddDrugForm from './AddDrugForm';
+import ContinueButton from '../Components/ContinueButton';
 
 interface AddCaseStepThreeFormProps {
   form: any
+  onSubmit: (values: any) => Promise<any>
 }
 
 function AddCaseStepThreeForm(props: AddCaseStepThreeFormProps) {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [caseDrugs, setCaseDrugs] = useState<any[]>([])
 
   const {
-    getFieldDecorator
-  } = props.form;
+    form: {
+      getFieldDecorator,
+      validateFields,
+    },
+    onSubmit,
+  } = props;
+  
+  const submit = () => {
+    validateFields(async (error: any, values: any) => {
+      if (error !== null) return
+      try {
+        setIsSubmitting(true)
+        await onSubmit(values)
+      } catch (_) {
+        setIsSubmitting(false)
+      }
+    });
+  }
+
+  console.log('caseDrugs', caseDrugs)
 
   return (
     <div>
       <Title>Drug History (DH):</Title>
       <PaddedWrapper>
         <CaseFormItem>
-          {getFieldDecorator('adddrug1')(
-            <AddDrugForm />
-          )}
+          <AddDrugForm onSubmit={(drug: any) => setCaseDrugs({ ...drug, TypeId: 350 })} />
         </CaseFormItem>
         <CaseFormItem>
-          {getFieldDecorator('Note')(
+          {getFieldDecorator('DhDrugNote')(
             <Textarea placeholder="Note" />
           )}
         </CaseFormItem>
@@ -35,12 +55,10 @@ function AddCaseStepThreeForm(props: AddCaseStepThreeFormProps) {
       <Title>Over The Counter Drugs (OTC):</Title>
       <PaddedWrapper>
         <CaseFormItem>
-          {getFieldDecorator('adddrug2')(
-            <AddDrugForm />
-          )}
+          <AddDrugForm onSubmit={(drug: any) => setCaseDrugs({ ...drug, TypeId: 351 })} />
         </CaseFormItem>
         <CaseFormItem>
-          {getFieldDecorator('note2')(
+          {getFieldDecorator('OtcDrugNote')(
             <Textarea placeholder="Note" />
           )}
         </CaseFormItem>
@@ -158,6 +176,7 @@ function AddCaseStepThreeForm(props: AddCaseStepThreeFormProps) {
           <CheckBox name="Milk thistle (Khaar Maryam)" />
         )}
       </PaddedWrapper>
+      <ContinueButton isLoading={isSubmitting} onClick={submit} />
     </div>
   )
 }

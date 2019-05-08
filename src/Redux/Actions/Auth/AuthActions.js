@@ -23,7 +23,7 @@ export function login(loginData) {
       dispatch(push(HOME_ROUTE))
     } catch (err) {
       dispatch({ type: SET_IS_LOADING, payload: false })
-      console.log('failed to login', err)
+      console.safeError('failed to login', err)
     }
   }
 }

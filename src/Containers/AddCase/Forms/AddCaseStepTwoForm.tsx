@@ -14,7 +14,7 @@ interface AddCaseStepTwoFormProps {
 
 function AddCaseStepTwoForm(props: AddCaseStepTwoFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [pastMedicalHistories, setPastMedicalHistories] = useState(false)
+  const [pastMedicalHistories, setPastMedicalHistories] = useState<any[]>([])
   
   const {
     form: {
@@ -41,8 +41,7 @@ function AddCaseStepTwoForm(props: AddCaseStepTwoFormProps) {
       try {
         const response = await ConfigApi.getConfig(45)
         if (response.status !== 200) setTimeout(effect(), 3000)
-        console.log('response', response)
-        
+        setPastMedicalHistories(response.data.map((item: any) => ({ ConfigId: item.ConfigId, ConfigName: item.ConfigName })))
       } catch (_) {}
     }
     effect()
@@ -52,31 +51,30 @@ function AddCaseStepTwoForm(props: AddCaseStepTwoFormProps) {
     <div>
       <Title>Past Medical History (PMH):</Title>
       <PaddedWrapper>
-        {getFieldDecorator('test1')(
-          <CheckBox name="Diabetes" />
-        )}
-        {getFieldDecorator('test2')(
-          <CheckBox name="Cardiovascular Disease" />
-        )}
-        {getFieldDecorator('test3')(
-          <CheckBox name="Depression and Mood Disorders" />
-        )}
-        {getFieldDecorator('test4')(
-          <CheckBox name="Respiratory Disease" />
-        )}
-        {getFieldDecorator('test5')(
-          <CheckBox name="Liver Disease" />
-        )}
+        {
+          pastMedicalHistories.map((disease: any) =>
+            <div key={disease.ConfigName}>
+              {getFieldDecorator(`disease_${disease.ConfigId}`)(
+                <CheckBox name={disease.ConfigName} />
+              )}
+            </div>
+          )
+        }
+        <CaseFormItem>
+          {getFieldDecorator('PastMedicalHistory')(
+            <Textarea placeholder="Description" />
+          )}
+        </CaseFormItem>
       </PaddedWrapper>
       <Title>Past Surgical History (PSH):</Title>
       <CaseFormItem>
-        {getFieldDecorator('test1')(
+        {getFieldDecorator('PastSurgicalHistory')(
           <Textarea placeholder="Description" />
         )}
       </CaseFormItem>
       <Title>Family History (FH):</Title>
       <CaseFormItem>
-        {getFieldDecorator('test1')(
+        {getFieldDecorator('FamilyHistory')(
           <Textarea placeholder="Description" />
         )}
       </CaseFormItem>
