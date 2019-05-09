@@ -2,6 +2,7 @@ import React, { Fragment, Component } from 'react';
 import { createForm } from 'rc-form';
 import Modal from 'components/Modal/ModalComponent';
 import Picker from 'components/Picker/PickerComponent';
+import AsyncSelect from 'react-select/lib/Async';
 import DrugIcon from 'Assets/Drug.svg';
 import CaseFormItem from './CaseFormItem';
 import Input from 'components/Input/InputComponent';
@@ -9,6 +10,7 @@ import Textarea from 'components/Textarea/TextareaComponent';
 import Select from 'components/Select/SelectComponent';
 import ContinueButton from '../Components/ContinueButton';
 import { ConfigApi } from 'Api/ConfigApi';
+import { CaseApi } from 'Api/CaseApi';
 
 type AddDrugFormProps = {
   form: any
@@ -19,13 +21,17 @@ type AddDrugFormState = {
   isOpen: boolean
   frequencies: any[]
   routes: any[]
+  DrugId: number | null
+  DrugName: string
 }
 
 class AddDrugForm extends Component<AddDrugFormProps, AddDrugFormState> {
   state = {
     isOpen: false,
     frequencies: [],
-    routes: []
+    routes: [],
+    DrugId: null,
+    DrugName: '',
   }
 
   componentDidMount = () => {
@@ -51,6 +57,23 @@ class AddDrugForm extends Component<AddDrugFormProps, AddDrugFormState> {
     } catch (_) {}
   }
 
+  onSelectDrug = ({ value }: { value: any }) => {
+    this.setState({
+      DrugName: value.Name,
+      DrugId: value.DrugId
+    })
+  }
+  
+  loadDrugs = async (inputValue: string, callback: Function) => {
+    const response = await CaseApi.searchDrugs(inputValue)
+    if (response.status !== 200) return
+    const options = response.data.map((drug: any) => ({
+      value: drug,
+      label: drug.Name 
+    }))
+    callback(options)
+  };
+
   render () {
     const { isOpen, frequencies, routes } = this.state
     const {
@@ -63,9 +86,12 @@ class AddDrugForm extends Component<AddDrugFormProps, AddDrugFormState> {
 
     const submit = () => {
       validateFields(async (error: any, values: any) => {
+        const { DrugId, DrugName } = this.state
+        if (DrugId === null) return
         if (error !== null) return
         try {
-          onSubmit(values)
+          onSubmit({ ...values, DrugId, DrugName })
+          this.setState({ isOpen: false })
         } catch (_) {}
       })
     }
@@ -75,9 +101,13 @@ class AddDrugForm extends Component<AddDrugFormProps, AddDrugFormState> {
         <Picker title="Add a Drug" iconSource={DrugIcon} onClick={() => this.setState({ isOpen: true })} />
         <Modal isOpen={isOpen} title="Add a Drug" onClose={() => this.setState({ isOpen: false })}>
           <CaseFormItem>
-            {getFieldDecorator('test')(
-              <Input placeholder="Drug Name" />
-            )}
+            <AsyncSelect
+              placeholder="Select a drug"
+              onChange={(data: any) => this.onSelectDrug(data)}
+              cacheOptions
+              loadOptions={this.loadDrugs}
+              defaultOptions
+            />
           </CaseFormItem>
           <CaseFormItem>
             {getFieldDecorator('Manufacture')(

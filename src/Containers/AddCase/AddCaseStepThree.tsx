@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components';
 import Layout from 'components/Partials/Layout';
-import ContinueButton from './Components/ContinueButton';
 import { RouteComponentProps } from 'react-router';
 import { ADD_CASE_STEP_TWO_ROUTE, ADD_CASE_STEP_FOUR_ROUTE } from 'router/RouterConstants';
 import Heading from './Components/Heading';
@@ -20,21 +19,39 @@ const AddCaseStepThree: React.FC<RouteComponentProps<{}>> = (props) => {
     const { CaseId } = JSON.parse(currentCaseRaw)
 
     const data = {
-      // CaseId,
-      // StatusId: 2,
-      // PastSurgicalHistory: values.PastSurgicalHistory,
-      // FamilyHistory: values.FamilyHistory,
-      // PastMedicalHistory: values.PastMedicalHistory,
-      // PastMedicalHistories: [],
+      StatusId: 3,
+      CaseId,
+      CaseDrugs: values.CaseDrugs,
+      DhDrugNote: values.DhDrugNote,
+      OtcDrugNote: values.OtcDrugNote,
+      HabitualHistories: [],
+      HerbalHistories: []
     }
-    
-    // Object.keys(values).filter(key => key.startsWith('disease')).forEach(disease => {
-    //   if (values[disease]) {
-    //     (data.PastMedicalHistories as any).push({
-    //       DiseaseId: Number(disease.split('_').pop()),
-    //     })
-    //   }
-    // })
+
+    const keys = Object.keys(values)
+
+    keys.filter(key => key.startsWith('habitualHistory_check')).forEach(habitualHistoryKey => {
+      const habitualHistoryValue = values[habitualHistoryKey]
+      const habitualHistoryValueKeyId = habitualHistoryKey.split('_').pop()
+      const habitualHistoryUsageKey: string = `habitualHistory_usage_${habitualHistoryValueKeyId}`
+      const habitualHistoryDurationKey: string = `habitualHistory_duration_${habitualHistoryValueKeyId}`
+
+      if (habitualHistoryValue && values[habitualHistoryUsageKey] && values[habitualHistoryDurationKey]) {
+        (data.HabitualHistories as any).push({
+          HabitualTypeId: Number(habitualHistoryValueKeyId),
+          DailyUsage: values[habitualHistoryUsageKey],
+          Duration: values[habitualHistoryDurationKey],
+        })
+      }
+    })
+
+    keys.filter(key => key.startsWith('herbalHistory')).forEach(herbalHistoryKey => {
+      if (values[herbalHistoryKey]) {
+        (data.HerbalHistories as any).push({
+          HerbalId: Number(herbalHistoryKey.split('_').pop()),
+        })
+      }
+    })
 
     const { status } = await CaseApi.updateCase(data)
     if (status !== 204) throw status

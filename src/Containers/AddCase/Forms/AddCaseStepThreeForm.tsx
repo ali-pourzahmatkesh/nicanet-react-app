@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import { createForm } from 'rc-form';
 import CaseFormItem from './CaseFormItem';
 import Textarea from 'components/Textarea/TextareaComponent';
@@ -7,6 +7,8 @@ import CheckBox from 'components/CheckBox/CheckBoxComponent';
 import Input from 'components/Input/InputComponent';
 import AddDrugForm from './AddDrugForm';
 import ContinueButton from '../Components/ContinueButton';
+import Drug from '../Components/Drug';
+import { ConfigApi } from 'Api/ConfigApi';
 
 interface AddCaseStepThreeFormProps {
   form: any
@@ -16,6 +18,8 @@ interface AddCaseStepThreeFormProps {
 function AddCaseStepThreeForm(props: AddCaseStepThreeFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [caseDrugs, setCaseDrugs] = useState<any[]>([])
+  const [habitualHistories, setHabitualHistories] = useState<any[]>([])
+  const [herbalHistories, setHerbalHistories] = useState<any[]>([])
 
   const {
     form: {
@@ -30,22 +34,44 @@ function AddCaseStepThreeForm(props: AddCaseStepThreeFormProps) {
       if (error !== null) return
       try {
         setIsSubmitting(true)
-        await onSubmit(values)
+        await onSubmit({ ...values, CaseDrugs: caseDrugs.map(drug => ({ ...drug, DrugName: undefined }))})
       } catch (_) {
         setIsSubmitting(false)
       }
     });
   }
 
-  console.log('caseDrugs', caseDrugs)
+  useEffect(() => {
+    const effect = async () => {
+      const response = await ConfigApi.getConfig(98)
+      if (response.status !== 200) return
+      setHabitualHistories(response.data.map((habitualHistory: any) => ({ value: habitualHistory.ConfigId, name: habitualHistory.ConfigName })))
+    }
+    effect()
+  }, [])
+
+  useEffect(() => {
+    const effect = async () => {
+      const response = await ConfigApi.getConfig(357)
+      if (response.status !== 200) return
+      setHerbalHistories(response.data.map((herbalHistory: any) => ({ value: herbalHistory.ConfigId, name: herbalHistory.ConfigName })))
+    }
+    effect()
+  }, [])
+
+  const dhDrugs = caseDrugs.filter(drug => drug.TypeId === 350)
+  const otcDrugs = caseDrugs.filter(drug => drug.TypeId === 351)
 
   return (
     <div>
       <Title>Drug History (DH):</Title>
       <PaddedWrapper>
         <CaseFormItem>
-          <AddDrugForm onSubmit={(drug: any) => setCaseDrugs({ ...drug, TypeId: 350 })} />
+          <AddDrugForm onSubmit={(drug: any) => setCaseDrugs(prevDrugs => [...prevDrugs, { ...drug, TypeId: 350 }])} />
         </CaseFormItem>
+        {
+          dhDrugs.map(drug => <Drug key={drug.DrugName} title={drug.DrugName} subtitle={drug.Manufacture} />)
+        }
         <CaseFormItem>
           {getFieldDecorator('DhDrugNote')(
             <Textarea placeholder="Note" />
@@ -55,8 +81,11 @@ function AddCaseStepThreeForm(props: AddCaseStepThreeFormProps) {
       <Title>Over The Counter Drugs (OTC):</Title>
       <PaddedWrapper>
         <CaseFormItem>
-          <AddDrugForm onSubmit={(drug: any) => setCaseDrugs({ ...drug, TypeId: 351 })} />
+          <AddDrugForm onSubmit={(drug: any) => setCaseDrugs(prevDrugs => [...prevDrugs, { ...drug, TypeId: 351 }])} />
         </CaseFormItem>
+        {
+          otcDrugs.map(drug => <Drug key={drug.DrugName} title={drug.DrugName} subtitle={drug.Manufacture} />)
+        }
         <CaseFormItem>
           {getFieldDecorator('OtcDrugNote')(
             <Textarea placeholder="Note" />
@@ -66,115 +95,44 @@ function AddCaseStepThreeForm(props: AddCaseStepThreeFormProps) {
 
       <Title>Habitual History:</Title>
       <PaddedWrapper>
-        {/* ----------- one 1 ----------- */}
-        {getFieldDecorator('one-1')(
-          <CheckBox name="Cigarette & Nicotine Containing Substances" />
-        )}
-        <CaseFormItem>
-          {getFieldDecorator('one-2')(
-            <Input placeholder="Daily usege" />
-          )}
-        </CaseFormItem>
-        <CaseFormItem>
-          {getFieldDecorator('one-3')(
-            <Input placeholder="Duration" />
-          )}
-        </CaseFormItem>
-        {/* ----------- two 2 ----------- */}
-        {getFieldDecorator('two-1')(
-          <CheckBox name="Opium" />
-        )}
-        <CaseFormItem>
-          {getFieldDecorator('two-1')(
-            <Input placeholder="Daily usege" />
-          )}
-        </CaseFormItem>
-        <CaseFormItem>
-          {getFieldDecorator('two-1')(
-            <Input placeholder="Duration" />
-          )}
-        </CaseFormItem>
-
-        {/* ----------- three 3 ----------- */}
-        {getFieldDecorator('three-1')(
-          <CheckBox name="Alcohol" />
-        )}
-        <CaseFormItem>
-          {getFieldDecorator('three-2')(
-            <Input placeholder="Daily usege" />
-          )}
-        </CaseFormItem>
-        <CaseFormItem>
-          {getFieldDecorator('three-3')(
-            <Input placeholder="Duration" />
-          )}
-        </CaseFormItem>
-        {/* ----------- four 4 ----------- */}
-        {getFieldDecorator('four-1')(
-          <CheckBox name="Cannabinoids" />
-        )}
-        <CaseFormItem>
-          {getFieldDecorator('four-2')(
-            <Input placeholder="Daily usege" />
-          )}
-        </CaseFormItem>
-        <CaseFormItem>
-          {getFieldDecorator('four-3')(
-            <Input placeholder="Duration" />
-          )}
-        </CaseFormItem>
-        {/* ----------- five 5 ----------- */}
-        {getFieldDecorator('five-1')(
-          <CheckBox name="Ecstasy Pills" />
-        )}
-        <CaseFormItem>
-          {getFieldDecorator('five-2')(
-            <Input placeholder="Daily usege" />
-          )}
-        </CaseFormItem>
-        <CaseFormItem>
-          {getFieldDecorator('five-3')(
-            <Input placeholder="Duration" />
-          )}
-        </CaseFormItem>
-        {/* ----------- six 6 ----------- */}
-        {getFieldDecorator('six-1')(
-          <CheckBox name="Others" />
-        )}
-        <CaseFormItem>
-          {getFieldDecorator('six-2')(
-            <Textarea placeholder="Type of addiction and description" />
-          )}
-        </CaseFormItem>
-        <CaseFormItem>
-          {getFieldDecorator('six-3')(
-            <Input placeholder="Daily usege" />
-          )}
-        </CaseFormItem>
-        <CaseFormItem>
-          {getFieldDecorator('six-4')(
-            <Input placeholder="Duration" />
-          )}
-        </CaseFormItem>
+        {
+          habitualHistories.map((habitualHistory: any) => (
+            <Fragment key={habitualHistory.name}>
+              {getFieldDecorator(`habitualHistory_check_${habitualHistory.value}`)(
+                <CheckBox name={habitualHistory.name} />
+              )}
+              {
+                habitualHistory.name === 'Other' &&
+                <CaseFormItem>
+                  {getFieldDecorator('Other_HabitualTitle')(
+                    <Textarea placeholder="Type of addiction and description" /> // 
+                  )}
+                </CaseFormItem>
+              }
+              <CaseFormItem>
+                {getFieldDecorator(`habitualHistory_usage_${habitualHistory.value}`)(
+                  <Input placeholder="Daily usage" />
+                )}
+              </CaseFormItem>
+              <CaseFormItem>
+                {getFieldDecorator(`habitualHistory_duration_${habitualHistory.value}`)(
+                  <Input placeholder="Duration" />
+                )}
+              </CaseFormItem>
+            </Fragment>
+          ))
+        }
       </PaddedWrapper>
 
       <Title>Herbal History:</Title>
       <PaddedWrapper>
-        {getFieldDecorator('test1')(
-          <CheckBox name="Viper's-buglosses (Gole Gav Zaban)" />
-        )}
-        {getFieldDecorator('test2')(
-          <CheckBox name="Valerian (Sonbol-o-Tib)" />
-        )}
-        {getFieldDecorator('test3')(
-          <CheckBox name="Chicory (Kasni)" />
-        )}
-        {getFieldDecorator('test4')(
-          <CheckBox name="Alhagi (Khaar Shotor)" />
-        )}
-        {getFieldDecorator('test5')(
-          <CheckBox name="Milk thistle (Khaar Maryam)" />
-        )}
+        {
+          herbalHistories.map((herbalHistory: any) => (
+            getFieldDecorator(`herbalHistory_${herbalHistory.value}`)(
+              <CheckBox key={herbalHistory.name} name={herbalHistory.name} />
+            )
+          ))
+        }
       </PaddedWrapper>
       <ContinueButton isLoading={isSubmitting} onClick={submit} />
     </div>
