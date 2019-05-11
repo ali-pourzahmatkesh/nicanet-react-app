@@ -90,7 +90,7 @@ class AddDrugForm extends Component<AddDrugFormProps, AddDrugFormState> {
         if (DrugId === null) return
         if (error !== null) return
         try {
-          onSubmit({ ...values, DrugId, DrugName })
+          onSubmit({ ...values, FrequencyId: +values.FrequencyId, RouteId: +values.RouteId, DrugId, DrugName })
           this.setState({ isOpen: false })
         } catch (_) {}
       })

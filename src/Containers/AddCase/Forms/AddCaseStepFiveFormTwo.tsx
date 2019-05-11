@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { createForm } from 'rc-form';
 import Drawer from 'components/Drawer/DrawerComponent';
 import { PaddedWrapper, Title } from '../Components/Styled';
@@ -16,8 +16,15 @@ function AddCaseStepFiveFormTwo(props: AddCaseStepFiveFormTwoProps) {
   const {
     getFieldDecorator,
     getFieldsValue,
+    setFieldsValue,
   } = props.form;
   
+  useEffect(() => {
+    const oldValues = localStorage.getItem('AddCaseStepFiveFormTwo')
+    if (oldValues === null) return
+    setFieldsValue(JSON.parse(oldValues))
+  }, [])
+
   setTimeout(() => {
     localStorage.setItem('AddCaseStepFiveFormTwo', JSON.stringify(getFieldsValue()))
   }, 0)

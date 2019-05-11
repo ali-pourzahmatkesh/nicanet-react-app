@@ -21,8 +21,15 @@ function AddCaseStepFiveFormOne(props: AddCaseStepFiveFormOneProps) {
     form: {
       getFieldDecorator,
       getFieldsValue,
+      setFieldsValue,
     },
   } = props;
+
+  useEffect(() => {
+    const oldValues = localStorage.getItem('AddCaseStepFiveFormOne')
+    if (oldValues === null) return
+    setFieldsValue(JSON.parse(oldValues))
+  }, [])
 
   setTimeout(() => {
     localStorage.setItem('AddCaseStepFiveFormOne', JSON.stringify(getFieldsValue()))
