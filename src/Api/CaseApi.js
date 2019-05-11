@@ -5,6 +5,8 @@ export const CaseApi = {
   updateCase: data => Api.put('/Case', data),
   getSymptoms: () => Api.get('/Symptom'),
   searchDrugs: (text) => Api.get(`/Drug?drugName=${text}`),
+  getDiseases: () => Api.get('/Disease'),
+  getExaminationTypes: () => Api.get('/ExaminationType'),
   uploadCasePhoto: (bodyFormData) => Api({
     url: '/CaseImage',
     method: 'POST',

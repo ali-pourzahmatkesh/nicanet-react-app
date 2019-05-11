@@ -5,6 +5,7 @@ import { PaddedWrapper, Title } from '../Components/Styled';
 import Radio from 'components/Radio/RadioComponent';
 import Textarea from 'components/Textarea/TextareaComponent';
 import CaseFormItem from './CaseFormItem';
+import CasePhotoUploader from '../Components/CasePhotoUploader';
 
 interface AddCaseStepFiveFormTwoProps {
   form: any
@@ -13,58 +14,200 @@ interface AddCaseStepFiveFormTwoProps {
 function AddCaseStepFiveFormTwo(props: AddCaseStepFiveFormTwoProps) {
 
   const {
-    getFieldDecorator
+    getFieldDecorator,
+    getFieldsValue,
   } = props.form;
+  
+  setTimeout(() => {
+    localStorage.setItem('AddCaseStepFiveFormTwo', JSON.stringify(getFieldsValue()))
+  }, 0)
 
   return (
     <div>
 
       <Drawer title="X - Ray">
+      
         <PaddedWrapper>
-          <Title primary>Review of System (ROS):</Title>
+          <Title>Chest:</Title>
           <CaseFormItem>
-            {getFieldDecorator('Rashes')(
-              <Radio label="Rashes" options={[{ name: 'Yes', value: 0 }, { name: 'No', value: 1 }]} />
-            )}
+            <CasePhotoUploader presetName="X-RayChest" />
+          </CaseFormItem>
+
+          <Title>Abdomen:</Title>
+          <CaseFormItem>
+            <CasePhotoUploader presetName="X-RayAbdomen" />
+          </CaseFormItem>
+
+          <Title>Pelvic:</Title>
+          <CaseFormItem>
+            <CasePhotoUploader presetName="X-RayPelvic" />
+          </CaseFormItem>
+
+          <Title>Other X-Ray Images:</Title>
+          <CaseFormItem>
+            {
+              getFieldDecorator('DescriptionTypeId_397')(
+                <Textarea
+                  placeholder="Description"
+                />
+              )
+            }
           </CaseFormItem>
           <CaseFormItem>
-            {getFieldDecorator('Ulcers and Lesions')(
-              <Radio label="Ulcers and Lesions" options={[{ name: 'Yes', value: 0 }, { name: 'No', value: 1 }]} />
-            )}
-          </CaseFormItem>
-          <CaseFormItem>
-            {getFieldDecorator('Itching')(
-              <Radio label="Itching" options={[{ name: 'Yes', value: 0 }, { name: 'No', value: 1 }]} />
-            )}
-          </CaseFormItem>
-          <Title primary>Physical Examination (Ph/E):</Title>
-          <CaseFormItem>
-            {getFieldDecorator('Pallor')(
-              <Radio label="Pallor" options={[{ name: 'Yes', value: 0 }, { name: 'No', value: 1 }]} />
-            )}
-          </CaseFormItem>
-          <CaseFormItem>
-            {getFieldDecorator('Note')(
-              <Textarea placeholder="Note" />
-            )}
+            <CasePhotoUploader presetName="X-RayOtherX-RayImage" />
           </CaseFormItem>
         </PaddedWrapper>
       </Drawer>
 
       <Drawer title="Sonography">
-        hi there this is not connected to backend yet
+        <PaddedWrapper>
+            <Title>Abdomen:</Title>
+            <CaseFormItem>
+              <CasePhotoUploader presetName="SonographyAbdomen" />
+            </CaseFormItem>
+
+            <Title>Kidney, Bladder, Urether:</Title>
+            <CaseFormItem>
+              <CasePhotoUploader presetName="SonographyKidneyBladderUrether" />
+            </CaseFormItem>
+
+            <Title>Superficial Structures:</Title>
+            <CaseFormItem>
+              <CasePhotoUploader presetName="SonographySuperficialStructur" />
+            </CaseFormItem>
+
+            <Title>Other Sonography Images:</Title>
+            <CaseFormItem>
+              {
+                getFieldDecorator('DescriptionTypeId_398')(
+                  <Textarea
+                    placeholder="Description"
+                  />
+                )
+              }
+            </CaseFormItem>
+            <CaseFormItem>
+              <CasePhotoUploader presetName="SonographyOtherSonographyImage" />
+            </CaseFormItem>
+        </PaddedWrapper>
+
       </Drawer>
       
       <Drawer title="CT - Scan">
-        hi there this is not connected to backend yet
+        <PaddedWrapper>
+          <Title>Chest:</Title>
+          <CaseFormItem>
+            <CasePhotoUploader presetName="CTScanChest" />
+          </CaseFormItem>
+
+          <Title>Abdomen Pelvic:</Title>
+          <CaseFormItem>
+            <CasePhotoUploader presetName="CTScanAbdomenPelvic" />
+          </CaseFormItem>
+
+          <Title>Brain:</Title>
+          <CaseFormItem>
+            <CasePhotoUploader presetName="CTScanBrain" />
+          </CaseFormItem>
+
+          <Title>CT Angiography:</Title>
+          <CaseFormItem>
+            <CasePhotoUploader presetName="CTScanCTAngiography" />
+          </CaseFormItem>
+
+          <Title>Other CT Scan Images:</Title>
+          <CaseFormItem>
+            {
+              getFieldDecorator('DescriptionTypeId_399')(
+                <Textarea
+                  placeholder="Description"
+                />
+              )
+            }
+          </CaseFormItem>
+          <CaseFormItem>
+            <CasePhotoUploader presetName="CTScanOtherCTScanImage" />
+          </CaseFormItem>
+        </PaddedWrapper>
+
       </Drawer>
       
       <Drawer title="MRI">
-        hi there this is not connected to backend yet
+        <PaddedWrapper>
+          <Title>Brain:</Title>
+          <CaseFormItem>
+            <CasePhotoUploader presetName="MRIBrain" />
+          </CaseFormItem>
+
+          <Title>Spine:</Title>
+          <CaseFormItem>
+            <CasePhotoUploader presetName="MRISpine" />
+          </CaseFormItem>
+
+          <Title>Arm / Foot / Shoulder:</Title>
+          <CaseFormItem>
+            <CasePhotoUploader presetName="MRIArm-Foot-Shoulder" />
+          </CaseFormItem>
+
+          <Title>Neck:</Title>
+          <CaseFormItem>
+            <CasePhotoUploader presetName="MRINeck" />
+          </CaseFormItem>
+
+          <Title>Other MRI Images:</Title>
+          <CaseFormItem>
+            {
+              getFieldDecorator('DescriptionTypeId_401')(
+                <Textarea
+                  placeholder="Description"
+                />
+              )
+            }
+          </CaseFormItem>
+          <CaseFormItem>
+            <CasePhotoUploader presetName="MRIOtherMRIImage" />
+          </CaseFormItem>
+        </PaddedWrapper>
+
       </Drawer>
       
       <Drawer title="Others">
-        hi there this is not connected to backend yet
+        <PaddedWrapper>
+          <Title>Endoscopy:</Title>
+          <CaseFormItem>
+            <CasePhotoUploader presetName="OthersEndoscopy" />
+          </CaseFormItem>
+
+          <Title>Colonoscopy:</Title>
+          <CaseFormItem>
+            <CasePhotoUploader presetName="OthersColonoscopy" />
+          </CaseFormItem>
+
+          <Title>MRCP:</Title>
+          <CaseFormItem>
+            <CasePhotoUploader presetName="OthersMRCP" />
+          </CaseFormItem>
+
+          <Title>ERCP:</Title>
+          <CaseFormItem>
+            <CasePhotoUploader presetName="OthersERCP" />
+          </CaseFormItem>
+
+          <Title>Other Imagings:</Title>
+          <CaseFormItem>
+            {
+              getFieldDecorator('DescriptionTypeId_404')(
+                <Textarea
+                  placeholder="Description"
+                />
+              )
+            }
+          </CaseFormItem>
+          <CaseFormItem>
+            <CasePhotoUploader presetName="OthersOtherImaging" />
+          </CaseFormItem>
+        </PaddedWrapper>
+
       </Drawer>
     </div>
   )

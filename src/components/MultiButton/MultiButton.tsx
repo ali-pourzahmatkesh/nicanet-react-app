@@ -40,7 +40,7 @@ const MultiButton: React.FC<MultiButtonProps> = (props) => {
   return (
     <Container>
       {
-        items.map(item => <StyledItem active={item.name === activeItemName} onClick={item.onClick}>{item.name}</StyledItem>)
+        items.map(item => <StyledItem key={item.name} active={item.name === activeItemName} onClick={item.onClick}>{item.name}</StyledItem>)
       }
     </Container>
   )
