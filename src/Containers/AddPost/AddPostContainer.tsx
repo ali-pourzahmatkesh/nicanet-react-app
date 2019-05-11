@@ -103,12 +103,19 @@ function AddPostContainer(props: AddPostContainerProps) {
         
         Object.keys(values).forEach(key => bodyFormData.append(key, values[key]))
         
-        bodyFormData.append('WrittenById', getPersonId().toString())
-        bodyFormData.append('CategoryId', (2).toString())
-        bodyFormData.append('IsPin', 'false')
-        bodyFormData.append('TypeId', (104).toString())
-        
-        photos.forEach(photo => bodyFormData.append('file', photo.file))
+        // @ts-ignore
+        bodyFormData.append('CategoryId', 2)
+        // @ts-ignore
+        bodyFormData.append('IsPin', false)
+        // @ts-ignore
+        bodyFormData.append('TypeId', 104)
+
+        if (photos.length > 0 ) {
+          const image = new File([photos[0].file], photos[0].file.name, {type: photos[0].file.type});        
+          bodyFormData.append('file', image)
+        }
+
+        console.log(bodyFormData)
         
         const response = await UsersApi.addPost(bodyFormData)
         console.log('response', response);
@@ -140,7 +147,7 @@ function AddPostContainer(props: AddPostContainerProps) {
             <PhotoUploader
               photos={photos}
               Picker={(onClick) => <FooterIcon onClick={() => onClick()} src={GalleryIconSource} />} 
-              onAddPhoto={photo => setPhotos(prevPhotos => [...prevPhotos, photo])}
+              onAddPhoto={photo => setPhotos([photo])}
               onDeletePhoto={photoIndex => setPhotos([ ...photos ].filter((p, index) => index !== photoIndex))}
             />
           </div>
@@ -162,3 +169,5 @@ function AddPostContainer(props: AddPostContainerProps) {
 }
 
 export default createForm({ name: 'AddPostContainer' })(AddPostContainer);
+
+fetch("https://api.pointina.ir/api/Content", {"credentials":"include","headers":{"accept":"application/json, text/plain, */*","authorization":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiI3IiwibmJmIjoxNTU3NjA4ODM4LCJleHAiOjE1NjAyMDA4MzgsImlhdCI6MTU1NzYwODgzOH0.7PbPoG1yK8A4MrIANtb7YA0ANkNOYmNpJWXE_piFyUo","content-type":"multipart/form-data; boundary=----WebKitFormBoundary3VBWtt0XiZtFEi9x","sec-ch-ua":"Google Chrome 74","sec-fetch-dest":"empty","sec-fetch-mode":"cors","sec-fetch-site":"cross-site","sec-fetch-user":"?F"},"referrer":"http://localhost:3000/add-post","referrerPolicy":"no-referrer-when-downgrade","body":"------WebKitFormBoundary3VBWtt0XiZtFEi9x\r\nContent-Disposition: form-data; name=\"Subject\"\r\n\r\ntest\r\n------WebKitFormBoundary3VBWtt0XiZtFEi9x\r\nContent-Disposition: form-data; name=\"ContentText\"\r\n\r\nhi there\r\n------WebKitFormBoundary3VBWtt0XiZtFEi9x\r\nContent-Disposition: form-data; name=\"CategoryId\"\r\n\r\n2\r\n------WebKitFormBoundary3VBWtt0XiZtFEi9x\r\nContent-Disposition: form-data; name=\"IsPin\"\r\n\r\nfalse\r\n------WebKitFormBoundary3VBWtt0XiZtFEi9x\r\nContent-Disposition: form-data; name=\"TypeId\"\r\n\r\n104\r\n------WebKitFormBoundary3VBWtt0XiZtFEi9x--\r\n","method":"POST","mode":"cors"});

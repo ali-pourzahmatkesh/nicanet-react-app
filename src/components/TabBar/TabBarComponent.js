@@ -10,7 +10,7 @@ import homeIconActive from '../../Assets/homeActive.svg'
 import academyIconActive from '../../Assets/academyActive.svg'
 import chatIconActive from '../../Assets/chatActive.svg'
 import userIconActive from '../../Assets/userActive.svg'
-import { HOME_ROUTE, CHAT_ROUTE } from 'router/RouterConstants';
+import { HOME_ROUTE, CHAT_ROUTE, PROFILE_ROUTE } from 'router/RouterConstants';
 
 const Container = styled.div`
   display: flex;
@@ -79,8 +79,8 @@ function TabBar (props) {
             <Icon src={route.startsWith('/chat') ? chatIconActive : chatIcon} />
             <IconTitle>Chat</IconTitle>
           </IconWrapper>
-          <IconWrapper onClick={() => false && undefined}>
-            <Icon src={route === '/profile' ? userIconActive : userIcon} />
+          <IconWrapper onClick={() => props.history.push(PROFILE_ROUTE)}>
+            <Icon src={route.startsWith(PROFILE_ROUTE) ? userIconActive : userIcon} />
             <IconTitle>Profile</IconTitle>
           </IconWrapper>
         </LinksContainer>

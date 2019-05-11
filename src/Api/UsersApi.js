@@ -13,7 +13,7 @@ export const UsersApi = {
   }),
   addPost: (bodyFormData) => Api({
     url: '/Content',
-    method: 'post',
+    method: 'POST',
     data: bodyFormData,
     config: { headers: {'Content-Type': 'multipart/form-data' }}
   })

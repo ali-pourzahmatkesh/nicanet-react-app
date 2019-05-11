@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react'
+import React, { useEffect, useState, useCallback, useRef, Fragment } from 'react'
 import { IoIosArrowBack } from 'react-icons/io'
 import { RouteComponentProps } from 'react-router';
 import styled from 'styled-components';
@@ -40,7 +40,7 @@ const MessagesWrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0 0.5rem;
-  height: calc(100vh - 240px);
+  height: calc(100vh - 260px);
   overflow: hidden;
   overflow-y: scroll;
 `
@@ -128,7 +128,7 @@ function RoomContainer(props: RouteComponentProps<RoomContainerParams>) {
   }
 
   return (
-    <Layout>
+    <Fragment>
       {
         contact &&
         <ChatHeader>
@@ -139,11 +139,13 @@ function RoomContainer(props: RouteComponentProps<RoomContainerParams>) {
           <ContactImage src={`${API_FILES_BASE_URL}/${contact.ImageUrl}`} />
         </ChatHeader>
       }
-      <MessagesWrapper ref={messageContainerRef}>
-        {messages.map(message => <Message key={message._id} message={message} />)}
-      </MessagesWrapper>
-      <MessageInput onSend={sendMessage}  />
-    </Layout>
+      <Layout>
+        <MessagesWrapper ref={messageContainerRef}>
+          {messages.map(message => <Message key={message._id} message={message} />)}
+        </MessagesWrapper>
+        <MessageInput onSend={sendMessage}  />
+      </Layout>
+    </Fragment>
   )
 }
 

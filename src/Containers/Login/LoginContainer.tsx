@@ -2,7 +2,6 @@ import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { login } from '../../Redux/Actions/Auth/AuthActions'
-import Layout from '../../components/Partials/Layout'
 import {
   Container,
   LogoImage,
@@ -31,6 +30,7 @@ import { RouteComponentProps, Redirect } from 'react-router';
 import pointinaLogo from '../../Assets/logo.png'
 import mockupImage from '../../Assets/mockup.png'
 import { HOME_ROUTE } from 'router/RouterConstants';
+import AuthLayout from 'components/Partials/Layout/AuthLayout';
 
 interface LoginContainerProps {
   login: any
@@ -135,7 +135,7 @@ class LoginContainer extends React.Component<LoginContainerProps & RouteComponen
     const { register, personId, getUserInfo } = this.state
 
     return (
-      <Layout>
+      <AuthLayout>
         <Container>
           <GradientSectionContainer>
             <TopSectionContainer>
@@ -256,7 +256,7 @@ class LoginContainer extends React.Component<LoginContainerProps & RouteComponen
             </BottomSectionContainer> */}
           </GradientSectionContainer>
         </Container>
-      </Layout>
+      </AuthLayout>
     )
   }
 }

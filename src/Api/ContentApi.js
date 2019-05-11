@@ -1,6 +1,9 @@
 import Api from './Api'
 
 export const ContentApi = {
+  getPerson: (personId) => Api.get(`/Person/${personId}`),
+  getCurrentPersonContents: () => Api.get('/PersonalContent'),
+  getPersonPosts: (personId) => Api.get(`/PersonalContent/${personId}`),
   getAllContent: userId => Api.get(`/Content?personId=${userId}`),
   getContent: (userId, contentId) =>
     Api.get(`/Content?id=${contentId}&personId=${userId}&addVisit=true`),
