@@ -42,7 +42,7 @@ function HomeContainer(props) {
         content.map(content => (
           <Card
             onClick={() => {
-              // Router.pushRoute('post', { postId: content.ContentId })
+              props.history.push(`/post/${content.ContentId}`)
             }}
             key={content.ContentId}
             title={content.Subject}

@@ -16,6 +16,7 @@ import AddCaseStepFour from 'Containers/AddCase/AddCaseStepFour';
 import AddCaseStepFive from 'Containers/AddCase/AddCaseStepFive';
 import AddCaseStepSix from 'Containers/AddCase/AddCaseStepSix';
 import ProfileContainer from 'Containers/Profile/ProfileContainer';
+import PostContainer from 'Containers/Post/PostContainer';
 
 import {
   ROOT_ROUTE,
@@ -32,6 +33,7 @@ import {
   ADD_CASE_STEP_FIVE_ROUTE,
   ADD_CASE_STEP_SIX_ROUTE,
   PROFILE_ROUTE,
+  SHOW_POST_ROUTE,
 } from './RouterConstants'
 
 
@@ -57,6 +59,7 @@ class AppRouter extends React.Component<AppRouterProps & RouteComponentProps<{}>
         <Route path={CHAT_ROUTE} exact component={ChatContainer} />
         <Route path={CHAT_ROOM_ROUTE} exact component={RoomContainer} />
         <Route path={ADD_POST_ROUTE} exact component={AddPostContainer} />
+        <Route path={SHOW_POST_ROUTE} exact component={PostContainer} />
         <Route path={ADD_CASE_STEP_ZERO_ROUTE} exact component={AddCaseStepZero} />
         <Route path={ADD_CASE_STEP_ONE_ROUTE} exact component={AddCaseStepOne} />
         <Route path={ADD_CASE_STEP_TWO_ROUTE} exact component={AddCaseStepTwo} />

@@ -78,8 +78,6 @@ function ProfileContainer(props: ProfileContainerProps & RouteComponentProps) {
     effect()
   }, [])
 
-  console.log('user', user)
-
   return (
     <Layout>
 
