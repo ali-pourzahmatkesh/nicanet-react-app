@@ -82,8 +82,10 @@ export const getUserId = ctx => {
 
 
 export function getPersonId () {
-  const personId = +localStorage.getItem('user_id')
-  if (!personId) throw new Error('person id does not exists', personId)
+  const person = localStorage.getItem('user')
+  if (!person) throw new Error('person id does not exists', person)
+  
+  const { PersonId } = JSON.parse(person)
 
-  return personId
+  return PersonId
 }

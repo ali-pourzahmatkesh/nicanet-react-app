@@ -1,0 +1,2 @@
+declare module 'rc-form'
+

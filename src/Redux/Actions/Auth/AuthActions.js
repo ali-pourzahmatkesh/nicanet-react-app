@@ -2,33 +2,35 @@ import { push } from 'connected-react-router'
 
 import {
   SET_IS_LOADING,
-  SET_USER_ID,
+  SET_USER,
   CLEAN_AUTH,
 } from '../../Constants/AuthConstants'
 import { AuthApi } from '../../../Api/AuthApi'
 import { HOME_ROUTE } from '../../../router/RouterConstants';
+import { setToken } from 'Api/Api';
 
-export function login(data) {
+export function login(loginData) {
   return async dispatch => {
     try {
       dispatch({ type: SET_IS_LOADING, payload: true })
+      const { data } = await AuthApi.login(loginData)
+      
+      localStorage.setItem('user', JSON.stringify(data.Person))
+      setToken(data.Token)
 
-      const { data: userId } = await AuthApi.login(data)
       dispatch({ type: SET_IS_LOADING, payload: false })
-      dispatch({ type: SET_USER_ID, payload: userId })
-
+      dispatch({ type: SET_USER, payload: data.Person })
       dispatch(push(HOME_ROUTE))
-      localStorage.setItem('user_id', userId)
     } catch (err) {
       dispatch({ type: SET_IS_LOADING, payload: false })
-      console.log('failed to login', err)
+      console.safeError('failed to login', err)
     }
   }
 }
 
 export function logout() {
   return dispatch => {
-    localStorage.removeItem('user_id')
+    localStorage.removeItem('user')
     dispatch({ type: CLEAN_AUTH })
   }
 }

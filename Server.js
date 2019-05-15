@@ -1,10 +1,8 @@
 const express = require('express');
 const path = require('path');
-const cors = require('cors')
 
 const app = express();
 
-app.use(cors({credentials: true, origin: true}))
 
 app.use(express.static(path.join(__dirname, 'build')));
 

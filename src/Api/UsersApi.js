@@ -10,5 +10,11 @@ export const UsersApi = {
     sender: personId.toString(),
     receiver,
     content,
+  }),
+  addPost: (bodyFormData) => Api({
+    url: '/Content',
+    method: 'POST',
+    data: bodyFormData,
+    config: { headers: {'Content-Type': 'multipart/form-data' }}
   })
 }

@@ -1,10 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { toast } from 'react-toastify'
+import { BounceLoader } from 'react-spinners';
 
 import { ContentApi } from '../../Api/ContentApi'
-import { withAuthSync } from '../../utils/auth'
-import HeaderComponent from '../../components/Header/HeaderComponent'
 import Layout from '../../components/Partials/Layout'
 import PostActions from '../../components/PostActions/PostActionsComponent'
 import PostStatusBar from '../../components/PostStatusBar/PostStatusBarComponent'
@@ -86,6 +85,14 @@ const Title = styled.div`
   margin-bottom: 1rem;
 `
 
+const LoadingWrapprer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+`
+
 const Subtitle = styled.div`
   font-family: Roboto;
   font-size: 1rem;
@@ -104,9 +111,37 @@ const Interactions = styled.div`
   margin-top: 1rem;
 `
 
-function Post(props) {
-  const [post, setPost] = useState(props.post)
+function PostContainer(props) {
+  const [post, setPost] = useState(null)
   const [showComments, setShowComments] = useState(false)
+
+  useEffect(() => {
+    const effect = async () => {
+      const { postId } = props.match.params
+      const response = await ContentApi.getContent(postId)
+    
+      if (response.status === 200) {
+        console.log('response', response.data)
+        setPost(response.data)
+      }
+    }
+
+    effect()
+  }, [])
+
+  if (post === null) return (
+    <Layout>
+      <LoadingWrapprer>
+        <BounceLoader
+          sizeUnit="rem"
+          size={3}
+          color="#5498a9"
+          loading
+        />
+      </LoadingWrapprer>
+    </Layout>
+  )
+  
 
   const { userId } = props
   const {
@@ -167,8 +202,7 @@ function Post(props) {
   }
 
   return (
-    <Layout>
-      <HeaderComponent />
+    <Layout noPadding>
       <PostWrapper>
         {MultiMedias && MultiMedias.length > 0 && (
           <PostImage
@@ -201,17 +235,4 @@ function Post(props) {
   )
 }
 
-Post.getInitialProps = async ({ query }, userId) => {
-  const { postId } = query
-  const response = await ContentApi.getContent(userId, postId)
-
-  if (response.status !== 200) {
-    return { post: null }
-  }
-
-  return {
-    post: response.data
-  }
-}
-
-export default withAuthSync(Post)
+export default PostContainer;

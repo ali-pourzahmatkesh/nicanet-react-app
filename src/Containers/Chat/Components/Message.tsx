@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components';
 
 const Container: any = styled.div`
-  background-color: #eee;
+  background-color: ${props => (props as any).isFromCurrentUser ? '#a9cbd4' : '#eee'};
   display: inline-block;
   padding: 0.6rem;
   font-size: 0.8rem;
