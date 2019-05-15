@@ -158,7 +158,7 @@ function PostContainer(props) {
 
   const updatePost = async () => {
     try {
-      const response = await ContentApi.getContent(userId, ContentId)
+      const response = await ContentApi.getContent(ContentId)
 
       setPost(response.data)
     } catch (err) {}
