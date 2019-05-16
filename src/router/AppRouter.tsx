@@ -17,6 +17,8 @@ import AddCaseStepFive from 'Containers/AddCase/AddCaseStepFive';
 import AddCaseStepSix from 'Containers/AddCase/AddCaseStepSix';
 import ProfileContainer from 'Containers/Profile/ProfileContainer';
 import PostContainer from 'Containers/Post/PostContainer';
+import AddAdrStepZero from 'Containers/AddAdr/AddAdrStepZero';
+import AddAdrStepOne from 'Containers/AddAdr/AddAdrStepOne';
 
 import {
   ROOT_ROUTE,
@@ -34,6 +36,8 @@ import {
   ADD_CASE_STEP_SIX_ROUTE,
   PROFILE_ROUTE,
   SHOW_POST_ROUTE,
+  ADD_ADR_STEP_ZERO_ROUTE,
+  ADD_ADR_STEP_ONE_ROUTE,
 } from './RouterConstants'
 
 
@@ -67,6 +71,8 @@ class AppRouter extends React.Component<AppRouterProps & RouteComponentProps<{}>
         <Route path={ADD_CASE_STEP_FOUR_ROUTE} exact component={AddCaseStepFour} />
         <Route path={ADD_CASE_STEP_FIVE_ROUTE} exact component={AddCaseStepFive} />
         <Route path={ADD_CASE_STEP_SIX_ROUTE} exact component={AddCaseStepSix} />
+        <Route path={ADD_ADR_STEP_ZERO_ROUTE} exact component={AddAdrStepZero} />
+        <Route path={ADD_ADR_STEP_ONE_ROUTE} exact component={AddAdrStepOne} />
         <Route path={ROOT_ROUTE} component={LoginContainer} />
       </Switch>
     )
