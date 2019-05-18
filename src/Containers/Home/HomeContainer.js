@@ -38,7 +38,8 @@ function HomeContainer(props) {
     <Layout>
       <Logo src={logo} />
       <Navbar onSelectRoute={goToPage} />
-      {content.length > 0 &&
+      {content &&
+        content.length > 0 &&
         content.map(content => (
           <Card
             onClick={() => {

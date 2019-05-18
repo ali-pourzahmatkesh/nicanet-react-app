@@ -1,8 +1,8 @@
-import React from 'react'
-import ReactModal from 'react-modal';
-import styled from 'styled-components';
+import React from "react";
+import ReactModal from "react-modal";
+import styled from "styled-components";
 
-import CloseIconSvg from 'Assets/Close.svg'
+import CloseIconSvg from "Assets/Close.svg";
 
 const Title = styled.div`
   font-family: Roboto;
@@ -11,43 +11,53 @@ const Title = styled.div`
   text-align: center;
   color: #000000;
   position: relative;
-`
+  min-height: 2rem;
+`;
 
 const ChildrenWrapper = styled.div`
   padding: 1rem;
-`
+`;
 
 const CloseIcon = styled.img`
   position: absolute;
   right: 0;
   top: -1px;
   width: 1.5rem;
-`
+`;
 
 type ModalProps = {
-  title: string
-  isOpen: boolean
-  onClose: () => void
-}
+  title?: string;
+  isOpen: boolean;
+  onClose: () => void;
+  style?: any;
+  ChildrenWrapperStyle?: any;
+};
 
-const Modal: React.FC<ModalProps> = (props) => {
-  const { onClose, title, isOpen, children } = props
-
+const Modal: React.FC<ModalProps> = props => {
+  const {
+    onClose,
+    title,
+    isOpen,
+    children,
+    style,
+    ChildrenWrapperStyle
+  } = props;
   return (
     <ReactModal
       ariaHideApp={false}
-			isOpen={isOpen}
-			onRequestClose={onClose}
-		>
+      isOpen={isOpen}
+      onRequestClose={onClose}
+      style={{ content: style || {} }}
+    >
       <Title>
         {title}
         <CloseIcon onClick={onClose} src={CloseIconSvg} />
       </Title>
-      <ChildrenWrapper>
+      <ChildrenWrapper style={ChildrenWrapperStyle}>
         {children}
       </ChildrenWrapper>
-		</ReactModal>
-  )
-}
+    </ReactModal>
+  );
+};
 
-export default Modal
+export default Modal;

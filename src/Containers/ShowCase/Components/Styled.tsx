@@ -12,6 +12,14 @@ export const Value = styled.div`
   font-family: Roboto;
   font-size: 0.9rem;
   color: #212121;
+  margin-top: 0.5rem;
+`;
+
+export const StringValue = styled.div`
+  font-family: Roboto;
+  font-size: 1rem;
+  color: #212121;
+  margin-bottom: 1rem;
 `;
 
 // export const PaddedWrapper = styled.div`
