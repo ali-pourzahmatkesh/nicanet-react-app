@@ -14,3 +14,4 @@ export const ADD_CASE_STEP_SIX_ROUTE = "/add-case-step-six";
 export const ADD_POST_ROUTE = "/add-post";
 export const SHOW_POST_ROUTE = "/post/:postId";
 export const SHOW_CASE_STEP_ONE_ROUTE = "/show-case-step-one/:caseId";
+export const SHOW_CASE_STEP_TWO_ROUTE = "/show-case-step-two/:caseId";

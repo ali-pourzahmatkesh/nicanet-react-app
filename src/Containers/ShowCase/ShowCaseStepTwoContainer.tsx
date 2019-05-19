@@ -4,7 +4,7 @@ import Layout from "components/Partials/Layout";
 import { RouteComponentProps } from "react-router";
 import { HOME_ROUTE } from "router/RouterConstants";
 import Heading from "./Components/Heading";
-import ShowCaseStepOne from "./Content/ShowCaseStepOne";
+import ShowCaseStepTwo from "./Content/ShowCaseStepTwo";
 import CloseIcon from "Assets/Close.svg";
 
 const Container = styled.div`
@@ -20,11 +20,11 @@ const ShowCaseStepOneContainer: React.FC<
   const { caseId } = props.match.params;
 
   const goForward = () => {
-    props.history.push(`/show-case-step-two/${caseId}`);
+    props.history.push(`/show-case-step-one/${caseId}`);
   };
 
   const goBackward = () => {
-    props.history.push(HOME_ROUTE);
+    props.history.push(`/show-case-step-one/${caseId}`);
   };
 
   return (
@@ -36,7 +36,7 @@ const ShowCaseStepOneContainer: React.FC<
         LeftIconSvg={CloseIcon}
       />
       <Container>
-        <ShowCaseStepOne caseId={caseId} onSubmit={goForward} />
+        <ShowCaseStepTwo caseId={caseId} />
       </Container>
     </Layout>
   );

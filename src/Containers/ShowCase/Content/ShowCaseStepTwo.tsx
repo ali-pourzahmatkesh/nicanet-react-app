@@ -20,11 +20,10 @@ const LoadingWrapprer = styled.div`
 
 interface ShowCaseStepOneProps {
   caseId: string;
-  onSubmit: () => void;
 }
 
 function ShowCaseStepOne(props: ShowCaseStepOneProps) {
-  const { caseId, onSubmit } = props;
+  const { caseId } = props;
   const [caseInfo, setCase] = useState(null);
   const [chiefComplaintImages, setchiefComplaintImages] = useState<any[]>([]);
   const [presentIllness, setPresentIllness] = useState<any[]>([]);
@@ -213,7 +212,7 @@ function ShowCaseStepOne(props: ShowCaseStepOneProps) {
         </ShowCaseItem>
       )}
 
-      <ContinueButton onClick={() => onSubmit()} />
+      <ContinueButton onClick={() => console.log("yes")} />
     </div>
   );
 }
