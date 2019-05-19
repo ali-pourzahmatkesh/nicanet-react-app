@@ -3,8 +3,8 @@ import Slider from "react-slick";
 import styled from "styled-components";
 import "slick-carousel/slick/slick.css";
 import Modal from "../Modal/ModalComponent";
-import LeftIcon from 'Assets/Left.svg'
-import RightIcon from 'Assets/Right.svg'
+import LeftIcon from "Assets/Left.svg";
+import RightIcon from "Assets/Right.svg";
 
 const Container = styled.div``;
 
@@ -37,15 +37,15 @@ const NavIconBase = styled.img`
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
-  z-index: 1;
-`
+`;
 
 const NextArrow = styled(NavIconBase)`
   right: 0;
-`
+`;
 const PrevArrow = styled(NavIconBase)`
   left: 0;
-`
+  z-index: 1;
+`;
 type ImageSliderProps = {
   images: any[];
   showsButtons: boolean;
@@ -66,7 +66,9 @@ class ImageSlider extends React.Component<ImageSliderProps> {
           top: 0,
           left: 0,
           right: 0,
-          bottom: 0
+          bottom: 0,
+          zIndex: 99,
+          background: "#fff"
         }}
         ChildrenWrapperStyle={{ padding: 0 }}
       >

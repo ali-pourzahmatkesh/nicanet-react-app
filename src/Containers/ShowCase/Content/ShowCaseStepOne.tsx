@@ -8,6 +8,7 @@ import ShowCaseItem from "../Components/ShowCaseItem";
 import ShowCaseStringArray from "../Components/ShowCaseStringArray";
 import ImageSlider from "../../../components/ImageSlider/ImageSliderComponent";
 import DrugItem from "../Components/DrugItem";
+import ContinueButton from "../Components/ContinueButton";
 
 const LoadingWrapprer = styled.div`
   display: flex;
@@ -181,10 +182,10 @@ function ShowCaseStepOne(props: ShowCaseStepOneProps) {
 
       {(otcDrugs.length > 0 || OTCDrugNote) && (
         <ShowCaseItem title="Over The Counter Drugs (OTC):" hasLine>
-        {otcDrugs.length > 0 &&
-          otcDrugs.map(item => {
-            return <DrugItem key={item.CaseDrugId} drug={item} />;
-          })}
+          {otcDrugs.length > 0 &&
+            otcDrugs.map(item => {
+              return <DrugItem key={item.CaseDrugId} drug={item} />;
+            })}
           {OTCDrugNote && <Value>{OTCDrugNote}</Value>}
         </ShowCaseItem>
       )}
@@ -210,6 +211,8 @@ function ShowCaseStepOne(props: ShowCaseStepOneProps) {
           {HerbalHistory && <Value>{HerbalHistory}</Value>}
         </ShowCaseItem>
       )}
+
+      <ContinueButton onClick={() => console.log("yes")} />
     </div>
   );
 }

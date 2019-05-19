@@ -12,6 +12,7 @@ const Title = styled.div`
   color: #000000;
   position: relative;
   min-height: 2rem;
+  z-index: 10;
 `;
 
 const ChildrenWrapper = styled.div`
@@ -23,6 +24,8 @@ const CloseIcon = styled.img`
   right: 0;
   top: -1px;
   width: 1.5rem;
+  z-index: 9;
+  cursor: pointer;
 `;
 
 type ModalProps = {
@@ -53,9 +56,7 @@ const Modal: React.FC<ModalProps> = props => {
         {title}
         <CloseIcon onClick={onClose} src={CloseIconSvg} />
       </Title>
-      <ChildrenWrapper style={ChildrenWrapperStyle}>
-        {children}
-      </ChildrenWrapper>
+      <ChildrenWrapper style={ChildrenWrapperStyle}>{children}</ChildrenWrapper>
     </ReactModal>
   );
 };

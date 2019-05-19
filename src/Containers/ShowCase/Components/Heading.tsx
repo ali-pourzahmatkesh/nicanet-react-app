@@ -39,7 +39,7 @@ const BackIcon = styled(NavIconBase)`
 
 type HeadingProps = {
   title: string;
-  LeftIconSvg: string;
+  LeftIconSvg?: string;
   onGoBack?: () => void;
   onGoForward?: () => void;
 };
