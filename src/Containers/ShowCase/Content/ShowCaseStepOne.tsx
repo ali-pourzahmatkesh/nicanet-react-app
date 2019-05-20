@@ -3,21 +3,12 @@ import styled from "styled-components";
 import { BounceLoader } from "react-spinners";
 import { CaseApi } from "../../../Api/CaseApi";
 import Layout from "../../../components/Partials/Layout";
-import { Value, StringValue } from "../Components/Styled";
+import { Value, StringValue, LoadingWrapprer } from "../Components/Styled";
 import ShowCaseItem from "../Components/ShowCaseItem";
 import ShowCaseStringArray from "../Components/ShowCaseStringArray";
 import ImageSlider from "../../../components/ImageSlider/ImageSliderComponent";
 import DrugItem from "../Components/DrugItem";
 import ContinueButton from "../Components/ContinueButton";
-
-const LoadingWrapprer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 1rem;
-`;
-
 interface ShowCaseStepOneProps {
   caseId: string;
   onSubmit: () => void;
@@ -43,7 +34,6 @@ function ShowCaseStepOne(props: ShowCaseStepOneProps) {
         const data = response.data;
 
         setCase(data);
-        localStorage.setItem("caseInfo", JSON.stringify(data));
 
         setchiefComplaintImages(
           data.CaseImages.filter((item: any) => item.TypeId === 145)
@@ -121,9 +111,9 @@ function ShowCaseStepOne(props: ShowCaseStepOneProps) {
       )}
 
       {chiefComplaintImages.length > 0 && (
-        <div>
+        <ShowCaseItem title="Photos:">
           <ImageSlider showsButtons images={chiefComplaintImages} />
-        </div>
+        </ShowCaseItem>
       )}
 
       {(presentIllness.length > 0 || PiNote) && (
@@ -172,7 +162,7 @@ function ShowCaseStepOne(props: ShowCaseStepOneProps) {
       )}
 
       {(dhDrugs.length > 0 || DHDrugNote) && (
-        <ShowCaseItem title="Drug History (DH):" hasLine>
+        <ShowCaseItem title="Drug History (DH):">
           {dhDrugs.length > 0 &&
             dhDrugs.map(item => {
               return <DrugItem key={item.CaseDrugId} drug={item} />;
@@ -182,7 +172,7 @@ function ShowCaseStepOne(props: ShowCaseStepOneProps) {
       )}
 
       {(otcDrugs.length > 0 || OTCDrugNote) && (
-        <ShowCaseItem title="Over The Counter Drugs (OTC):" hasLine>
+        <ShowCaseItem title="Over The Counter Drugs (OTC):">
           {otcDrugs.length > 0 &&
             otcDrugs.map(item => {
               return <DrugItem key={item.CaseDrugId} drug={item} />;
@@ -203,7 +193,7 @@ function ShowCaseStepOne(props: ShowCaseStepOneProps) {
       )}
 
       {(herbalHistories.length > 0 || HerbalHistory) && (
-        <ShowCaseItem title="Herbal Histories:">
+        <ShowCaseItem title="Herbal Histories:" noLine>
           <ShowCaseStringArray
             stringArray={herbalHistories}
             title="HerbalTitle"

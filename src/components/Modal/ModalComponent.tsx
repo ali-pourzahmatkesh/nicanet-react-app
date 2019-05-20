@@ -50,7 +50,12 @@ const Modal: React.FC<ModalProps> = props => {
       ariaHideApp={false}
       isOpen={isOpen}
       onRequestClose={onClose}
-      style={{ content: style || {} }}
+      style={{
+        content: style || {},
+        overlay: {
+          backgroundColor: "rgba(0,0, 0, 0.4)"
+        }
+      }}
     >
       <Title>
         {title}

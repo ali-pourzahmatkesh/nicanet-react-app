@@ -8,11 +8,12 @@ export const Title = styled.div<{ primary?: boolean }>`
   margin-bottom: 1rem;
 `;
 
-export const Value = styled.div`
+export const Value = styled.div<{ noIndent?: boolean }>`
   font-family: Roboto;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   color: #212121;
   margin-top: 0.5rem;
+  padding: ${props => (props.noIndent ? "0" : "0 2rem")};
 `;
 
 export const StringValue = styled.div`
@@ -20,20 +21,29 @@ export const StringValue = styled.div`
   font-size: 1rem;
   color: #212121;
   margin-bottom: 1rem;
+  padding: 0 2rem;
 `;
 
-// export const PaddedWrapper = styled.div`
-//   padding: 0 2rem;
-// `
+export const PaddedWrapper = styled.div`
+  padding: 0.2rem 2rem 3rem;
+`;
 
-// export const FormRow = styled.div`
-//   display: flex;
-//   justify-content: space-between;
-//   padding: -1rem;
-// `
+export const Row = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
 
-// export const FromCol = styled.div`
-//   padding: 1rem;
-//   display: flex;
-//   flex: 1;
-// `
+export const Col = styled.div<{ color?: string }>`
+  font-family: Roboto;
+  font-size: 0.9rem;
+  color: ${props => props.color || "#212121"};
+  margin-bottom: 1rem;
+`;
+
+export const LoadingWrapprer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+`;

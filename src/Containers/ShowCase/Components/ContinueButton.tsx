@@ -10,6 +10,7 @@ const Button = styled.div`
   background-color: #263551;
   color: #fff;
   border-radius: 0.5rem;
+  margin-top: 3rem;
   cursor: pointer;
 `;
 
@@ -34,7 +35,7 @@ const ContinueButton: React.FC<ContinueButtonProps> = props => {
 };
 
 ContinueButton.defaultProps = {
-  title: "Continue"
+  title: "Next"
 };
 
 export default ContinueButton;

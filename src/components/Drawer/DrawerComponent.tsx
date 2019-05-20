@@ -9,7 +9,7 @@ const Title = styled.div`
   color: #000000;
   margin-bottom: 1rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid #424242;
   display: flex;
   flex: 1;
   align-items: center;

@@ -61,15 +61,8 @@ class ImageSlider extends React.Component<ImageSliderProps> {
     return (
       <Modal
         isOpen={this.state.isOpen}
+        title="View Image"
         onClose={() => this.setState({ isOpen: false })}
-        style={{
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          zIndex: 99,
-          background: "#fff"
-        }}
         ChildrenWrapperStyle={{ padding: 0 }}
       >
         <MainPhoto src={this.state.imageUri} />
