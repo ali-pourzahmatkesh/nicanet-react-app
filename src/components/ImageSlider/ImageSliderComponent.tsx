@@ -9,17 +9,23 @@ import RightIcon from "Assets/Right.svg";
 const Container = styled.div``;
 
 const PhotoWrapper = styled.div`
-  width: 100%;
   height: 300px;
-`;
-
-const Photo = styled.div<{ src?: string }>`
   max-width: 100%;
   width: 100%;
-  height: 300px;
   margin: 0 auto;
-  background: url(${props => props.src}) center center no-repeat;
-  background-size: cover;
+  position: relative;
+  ovelflow: hidden;
+`;
+
+const Photo = styled.img`
+  max-width: 100%;
+  margin: 0 auto;
+  width: 100%;
+  height: auto;
+  position: absolute;
+  left:0;
+  top:50%;
+  transform: translateY(-50%);
 `;
 
 const MainPhoto = styled.img`

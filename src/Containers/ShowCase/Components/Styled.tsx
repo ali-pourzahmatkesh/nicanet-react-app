@@ -13,7 +13,9 @@ export const Value = styled.div<{ noIndent?: boolean }>`
   font-size: 0.8rem;
   color: #212121;
   margin-top: 0.5rem;
-  padding: ${props => (props.noIndent ? "0" : "0 2rem")};
+  @media (min-width: 700px) {
+    padding: ${props => (props.noIndent ? "0" : "0 2rem")};
+  }
 `;
 
 export const StringValue = styled.div`
@@ -21,11 +23,16 @@ export const StringValue = styled.div`
   font-size: 1rem;
   color: #212121;
   margin-bottom: 1rem;
-  padding: 0 2rem;
+  @media (min-width: 700px) {
+    padding: 0 2rem;
+  }
 `;
 
 export const PaddedWrapper = styled.div`
-  padding: 0.2rem 2rem 3rem;
+  padding: 0.2rem 1.5rem 0.5rem;
+  @media (min-width: 700px) {
+    padding: 0.2rem 2rem 3rem;
+  }
 `;
 
 export const Row = styled.div`
@@ -46,4 +53,11 @@ export const LoadingWrapprer = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 1rem;
+`;
+
+export const Wrapper = styled.div`
+  padding: 0 1rem;
+  @media (min-width: 700px) {
+    padding: 0;
+  }
 `;

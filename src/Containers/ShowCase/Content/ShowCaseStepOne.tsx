@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
 import { BounceLoader } from "react-spinners";
 import { CaseApi } from "../../../Api/CaseApi";
 import Layout from "../../../components/Partials/Layout";
@@ -162,7 +161,7 @@ function ShowCaseStepOne(props: ShowCaseStepOneProps) {
       )}
 
       {(dhDrugs.length > 0 || DHDrugNote) && (
-        <ShowCaseItem title="Drug History (DH):">
+        <ShowCaseItem title="Drug History (DH):" theme={{ hasLine: true }}>
           {dhDrugs.length > 0 &&
             dhDrugs.map(item => {
               return <DrugItem key={item.CaseDrugId} drug={item} />;
@@ -172,7 +171,7 @@ function ShowCaseStepOne(props: ShowCaseStepOneProps) {
       )}
 
       {(otcDrugs.length > 0 || OTCDrugNote) && (
-        <ShowCaseItem title="Over The Counter Drugs (OTC):">
+        <ShowCaseItem title="Over The Counter Drugs (OTC):" theme={{ hasLine: true }}>
           {otcDrugs.length > 0 &&
             otcDrugs.map(item => {
               return <DrugItem key={item.CaseDrugId} drug={item} />;
@@ -193,7 +192,7 @@ function ShowCaseStepOne(props: ShowCaseStepOneProps) {
       )}
 
       {(herbalHistories.length > 0 || HerbalHistory) && (
-        <ShowCaseItem title="Herbal Histories:" noLine>
+        <ShowCaseItem title="Herbal Histories:" theme={{ noLine: true }}>
           <ShowCaseStringArray
             stringArray={herbalHistories}
             title="HerbalTitle"

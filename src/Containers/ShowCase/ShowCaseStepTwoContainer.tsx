@@ -9,20 +9,33 @@ import ContinueButton from "./Components/ContinueButton";
 import ShowCaseStepTwoAll from "./Content/ShowCaseStepTwoAll";
 import ShowCaseStepTwoPositive from "./Content/ShowCaseStepTwoPositive";
 import ShowCaseStepTwoNegative from "./Content/ShowCaseStepTwoNegative";
+import { Wrapper } from "./Components/Styled";
 
 const Container = styled.div`
-  padding: 2rem 1rem 0;
+  padding: 2rem 0 0;
+  margin: 0 -1rem;
+  @media (min-width: 700px) {
+    padding: 2rem 1rem 0;
+    margin: 0;
+  }
 `;
 
 const Content = styled.div`
   min-height: 12rem;
 `;
 
-interface ShowCaseStepOneContainerProps {
+const MultiButtonWrapper = styled.div`
+  padding: 0 2rem;
+  @media (min-width: 700px) {
+    padding: 0 3rem 2rem;
+  }
+`;
+
+interface ShowCaseStepTwoContainerProps {
   caseId: string;
 }
-const ShowCaseStepOneContainer: React.FC<
-  RouteComponentProps<ShowCaseStepOneContainerProps>
+const ShowCaseStepTwoContainer: React.FC<
+  RouteComponentProps<ShowCaseStepTwoContainerProps>
 > = props => {
   const { caseId } = props.match.params;
   const [activeTabName, setActiveTabName] = useState("All");
@@ -38,7 +51,7 @@ const ShowCaseStepOneContainer: React.FC<
       setSignSymptoms(response.data.SignSymptoms);
     };
     effect();
-  }, []);
+  }, [caseId]);
 
   useEffect(() => {
     const effect = async () => {
@@ -50,7 +63,7 @@ const ShowCaseStepOneContainer: React.FC<
   }, []);
 
   const goToStepThree = () => {
-    props.history.push(`/show-case-step-one/${caseId}`);
+    props.history.push(`/show-case-step-three/${caseId}`);
   };
 
   const goToStepOne = () => {
@@ -74,48 +87,52 @@ const ShowCaseStepOneContainer: React.FC<
   return (
     <Layout>
       <Heading
-        title="Case Report"
+        title="ROS and Ph/E"
         onGoBack={goToStepOne}
         onGoForward={goToStepThree}
       />
       <Container>
-        <MultiButton
-          activeItemName={activeTabName}
-          items={[
-            { name: "All", onClick: () => setActiveTabName("All") },
-            { name: "Positive", onClick: () => setActiveTabName("Positive") },
-            { name: "Negative", onClick: () => setActiveTabName("Negative") }
-          ]}
-        />
+        <MultiButtonWrapper>
+          <MultiButton
+            activeItemName={activeTabName}
+            items={[
+              { name: "All", onClick: () => setActiveTabName("All") },
+              { name: "Positive", onClick: () => setActiveTabName("Positive") },
+              { name: "Negative", onClick: () => setActiveTabName("Negative") }
+            ]}
+          />
+        </MultiButtonWrapper>
         <Content>
-        {activeTabName === "All" && (
-          <ShowCaseStepTwoAll
-            caseInfo={caseInfo}
-            diseaseArray={diseaseArray}
-            signSymptoms={signSymptoms}
-          />
-        )}
-        {activeTabName === "Positive" && (
-          <ShowCaseStepTwoPositive
-            diseaseArrayFiltred={diseaseArrayFiltred || []}
-            caseInfo={caseInfo}
-            signSymptoms={signSymptoms}
-          />
-        )}
-        {activeTabName === "Negative" && (
-          <ShowCaseStepTwoNegative
-            diseaseArrayFiltred={diseaseArrayFiltred || []}
-            caseInfo={caseInfo}
-            signSymptoms={signSymptoms}
-          />
-        )}
+          {activeTabName === "All" && (
+            <ShowCaseStepTwoAll
+              caseInfo={caseInfo}
+              diseaseArray={diseaseArray}
+              signSymptoms={signSymptoms}
+            />
+          )}
+          {activeTabName === "Positive" && (
+            <ShowCaseStepTwoPositive
+              diseaseArrayFiltred={diseaseArrayFiltred || []}
+              caseInfo={caseInfo}
+              signSymptoms={signSymptoms}
+            />
+          )}
+          {activeTabName === "Negative" && (
+            <ShowCaseStepTwoNegative
+              diseaseArrayFiltred={diseaseArrayFiltred || []}
+              caseInfo={caseInfo}
+              signSymptoms={signSymptoms}
+            />
+          )}
         </Content>
         {caseInfo !== null && diseaseArray.length > 0 && (
-          <ContinueButton onClick={goToStepThree} />
+          <Wrapper>
+            <ContinueButton onClick={goToStepThree} />
+          </Wrapper>
         )}
       </Container>
     </Layout>
   );
 };
 
-export default ShowCaseStepOneContainer;
+export default ShowCaseStepTwoContainer;

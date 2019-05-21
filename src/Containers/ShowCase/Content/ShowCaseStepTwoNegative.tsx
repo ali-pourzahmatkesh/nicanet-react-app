@@ -86,6 +86,8 @@ function ShowCaseStepTwoNegative(props: ShowCaseStepTwoAllProps) {
                       default:
                         return null;
                     }
+                  } else {
+                    return null;
                   }
                 })}
               </PaddedWrapper>

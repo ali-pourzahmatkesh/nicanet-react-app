@@ -6,7 +6,9 @@ export const StringValue = styled.div<{ size?: string }>`
   font-size: ${props => props.size};
   color: #212121;
   margin-bottom: 1rem;
-  padding: 0 2rem;
+  @media (min-width: 700px) {
+    padding: 0 2rem;
+  }
 `;
 
 interface ShowCaseStringArray {

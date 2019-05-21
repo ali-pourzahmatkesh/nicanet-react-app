@@ -7,6 +7,7 @@ export const CaseApi = {
   searchDrugs: text => Api.get(`/Drug?drugName=${text}`),
   getDiseases: () => Api.get("/Disease"),
   getExaminationTypes: () => Api.get("/ExaminationType"),
+  getExaminationByCaseId: caseId => Api.get(`/ExaminationType/${caseId}`),
   getTags: () => Api.get("/Tag"),
   uploadCasePhoto: bodyFormData =>
     Api({

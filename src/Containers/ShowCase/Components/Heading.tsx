@@ -9,17 +9,27 @@ const Container = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 0 2rem;
-  border-bottom: 1px solid #bdbdbd;
+  padding: 1rem;
+  margin: -1rem -1rem 0;
+  box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.1);
+  @media (min-width: 700px) {
+    margin: 0;
+    padding: 1rem 0 2rem;
+    border-bottom: 1px solid #bdbdbd;
+    box-shadow: none;
+  }
 `;
 
 const Title = styled.div`
+  font-size: 1.2rem;
   font-family: "Roboto", sans-serif;
-  font-size: 2rem;
   font-weight: bold;
   color: #000;
-  flex:1;
+  flex: 1;
   text-align: center;
+  @media (min-width: 700px) {
+    font-size: 2rem;
+  }
 `;
 
 const NavIconBase = styled.img`
@@ -47,9 +57,7 @@ const Heading: React.FC<HeadingProps> = props => {
 
   return (
     <Container>
-      {onGoBack && (
-        <BackIcon onClick={onGoBack} src={LeftIcon} />
-      )}
+      {onGoBack && <BackIcon onClick={onGoBack} src={LeftIcon} />}
       <Title>{title}</Title>
       {onGoForward && <ForwardIcon onClick={onGoForward} src={RightIcon} />}
     </Container>

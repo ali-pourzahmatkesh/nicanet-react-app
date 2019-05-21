@@ -7,9 +7,12 @@ import ShowCaseItem from "./ShowCaseItem";
 const DrugWrapper = styled.div`
   border-radius: 10px;
   padding: 1.5rem;
-  margin: 0 2rem 1.3rem;
+  margin: 0 0 1.3rem;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   background-color: #fff;
+  @media (min-width: 700px) {
+    margin: 0 2rem 1.3rem;
+  }
 `;
 
 const DrugTitle = styled.div`
@@ -24,14 +27,6 @@ const DrugDesc = styled.div`
   font-family: Roboto;
   font-size: 1rem;
   color: #212121;
-`;
-
-const ButtonWrapper = styled.div`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 1.5rem 1rem;
 `;
 
 type DrugItemProps = {
@@ -77,43 +72,43 @@ class DrugItem extends React.Component<DrugItemProps> {
         title="Drug Details"
       >
         {DrugFullName && (
-          <ShowCaseItem title="Drug Name:" noLine>
+          <ShowCaseItem title="Drug Name:" theme={{ noLine: true }}>
             <Value noIndent>{DrugFullName}</Value>
           </ShowCaseItem>
         )}
 
         {Manufacture && (
-          <ShowCaseItem title="Manufacturer:" noLine>
+          <ShowCaseItem title="Manufacturer:" theme={{ noLine: true }}>
             <Value noIndent>{Manufacture}</Value>
           </ShowCaseItem>
         )}
 
         {Frequency && (
-          <ShowCaseItem title="Frequency:" noLine>
+          <ShowCaseItem title="Frequency:" theme={{ noLine: true }}>
             <Value noIndent>{Frequency}</Value>
           </ShowCaseItem>
         )}
 
         {Route && (
-          <ShowCaseItem title="Route:" noLine>
+          <ShowCaseItem title="Route:" theme={{ noLine: true }}>
             <Value noIndent>{Route}</Value>
           </ShowCaseItem>
         )}
 
         {Indication && (
-          <ShowCaseItem title="Indication:" noLine>
+          <ShowCaseItem title="Indication:" theme={{ noLine: true }}>
             <Value noIndent>{Indication}</Value>
           </ShowCaseItem>
         )}
 
         {BatchNo && (
-          <ShowCaseItem title="Batch Number:" noLine>
+          <ShowCaseItem title="Batch Number:" theme={{ noLine: true }}>
             <Value noIndent>{BatchNo}</Value>
           </ShowCaseItem>
         )}
 
         {Description && (
-          <ShowCaseItem title="Description:" noLine>
+          <ShowCaseItem title="Description:" theme={{ noLine: true }}>
             <Value noIndent>{Description}</Value>
           </ShowCaseItem>
         )}
