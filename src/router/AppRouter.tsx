@@ -44,7 +44,9 @@ import {
   ADD_ADR_STEP_TWO_ROUTE,
   ADD_ADR_STEP_THREE_ROUTE,
   ADD_ADR_STEP_FOUR_ROUTE,
+  ADD_ADR_STEP_FIVE_ROUTE,
 } from './RouterConstants'
+import AddAdrStepFive from 'Containers/AddAdr/AddAdrStepFive';
 
 
 interface AppRouterProps {
@@ -82,7 +84,8 @@ class AppRouter extends React.Component<AppRouterProps & RouteComponentProps<{}>
         <Route path={ADD_ADR_STEP_TWO_ROUTE} exact component={AddAdrStepTwo} />
         <Route path={ADD_ADR_STEP_THREE_ROUTE} exact component={AddAdrStepThree} />
         <Route path={ADD_ADR_STEP_FOUR_ROUTE} exact component={AddAdrStepFour} />
-        
+        <Route path={ADD_ADR_STEP_FIVE_ROUTE} exact component={AddAdrStepFive} />
+
         <Route path={ROOT_ROUTE} component={LoginContainer} />
       </Switch>
     )

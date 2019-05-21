@@ -3,15 +3,14 @@ import { createForm } from 'rc-form';
 import AdrFormItem from './AdrFormItem';
 import { Title } from 'Containers/AddCase/Components/Styled';
 import ContinueButton from 'Containers/AddCase/Components/ContinueButton';
-import AddDrugForm from './AddDrugForm';
-import Drug from 'Containers/AddCase/Components/Drug';
+import Textarea from 'components/Textarea/TextareaComponent';
 
-interface AddAdrStepFourFormProps {
+interface AddAdrStepFiveFormProps {
   form: any
   onSubmit: (values: any) => Promise<any>
 }
 
-function AddAdrStepFourForm(props: AddAdrStepFourFormProps) {
+function AddAdrStepFiveForm(props: AddAdrStepFiveFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [adrDrugs, setadrDrugs] = useState<any[]>([])
 
@@ -37,17 +36,16 @@ function AddAdrStepFourForm(props: AddAdrStepFourFormProps) {
 
   return (
     <div>
-      <Title>Concomitant drug details (Minimom of one entry is required):</Title>
+      <Title>If necessary, enter the required explanation:</Title>
       <AdrFormItem>
-        <AddDrugForm placeholder="Concomitant Drug" onSubmit={(drug: any) => setadrDrugs(prevDrugs => [...prevDrugs, { ...drug, TypeId: 111 }])} />
+        {getFieldDecorator('Explanation')(
+          <Textarea placeholder="Write Description" />
+        )}
       </AdrFormItem>
-      {
-        adrDrugs.map(drug => <AdrFormItem><Drug key={drug.DrugName} title={drug.DrugName} subtitle={drug.Manufacture} /></AdrFormItem>)
-      }
-      <ContinueButton isLoading={isSubmitting} onClick={submit} />
+      <ContinueButton title="Add ADR" isLoading={isSubmitting} onClick={submit} />
     </div>
   )
 }
 
 
-export default createForm({ name: 'AddAdrStepFourForm' })(AddAdrStepFourForm);
+export default createForm({ name: 'AddAdrStepFiveForm' })(AddAdrStepFiveForm);
