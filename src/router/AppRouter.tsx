@@ -19,6 +19,9 @@ import ProfileContainer from 'Containers/Profile/ProfileContainer';
 import PostContainer from 'Containers/Post/PostContainer';
 import AddAdrStepZero from 'Containers/AddAdr/AddAdrStepZero';
 import AddAdrStepOne from 'Containers/AddAdr/AddAdrStepOne';
+import AddAdrStepTwo from 'Containers/AddAdr/AddAdrStepTwo';
+import AddAdrStepThree from 'Containers/AddAdr/AddAdrStepThree';
+import AddAdrStepFour from 'Containers/AddAdr/AddAdrStepFour';
 
 import {
   ROOT_ROUTE,
@@ -42,7 +45,6 @@ import {
   ADD_ADR_STEP_THREE_ROUTE,
   ADD_ADR_STEP_FOUR_ROUTE,
 } from './RouterConstants'
-import AddAdrStepTwo from 'Containers/AddAdr/AddAdrStepTwo';
 
 
 interface AppRouterProps {
@@ -78,8 +80,8 @@ class AppRouter extends React.Component<AppRouterProps & RouteComponentProps<{}>
         <Route path={ADD_ADR_STEP_ZERO_ROUTE} exact component={AddAdrStepZero} />
         <Route path={ADD_ADR_STEP_ONE_ROUTE} exact component={AddAdrStepOne} />
         <Route path={ADD_ADR_STEP_TWO_ROUTE} exact component={AddAdrStepTwo} />
-        {/* <Route path={ADD_ADR_STEP_THREE_ROUTE} exact component={AddAdrStepTwo} /> */}
-        {/* <Route path={ADD_ADR_STEP_FOUR_ROUTE} exact component={AddAdrStepTwo} /> */}
+        <Route path={ADD_ADR_STEP_THREE_ROUTE} exact component={AddAdrStepThree} />
+        <Route path={ADD_ADR_STEP_FOUR_ROUTE} exact component={AddAdrStepFour} />
         
         <Route path={ROOT_ROUTE} component={LoginContainer} />
       </Switch>

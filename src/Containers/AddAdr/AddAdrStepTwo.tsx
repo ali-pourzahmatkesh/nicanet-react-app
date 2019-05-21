@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Layout from 'components/Partials/Layout';
 import AddAdrStepTwoForm from './Forms/AddAdrStepTwoForm';
 import { RouteComponentProps } from 'react-router';
-import { ADD_ADR_STEP_TWO_ROUTE, ADD_ADR_STEP_ONE_ROUTE, ADD_ADR_STEP_THREE_ROUTE } from 'router/RouterConstants';
+import { ADD_ADR_STEP_ONE_ROUTE, ADD_ADR_STEP_THREE_ROUTE } from 'router/RouterConstants';
 import Heading from 'Containers/AddCase/Components/Heading';
 import { AdrApi } from 'Api/AdrApi';
 
@@ -14,7 +14,6 @@ const Container = styled.div`
 const AddAdrStepTwo: React.FC<RouteComponentProps<{}>> = (props) => {
 
   const onSubmit = async (values: any) => {
-    console.log('values', values)
     const adrDataRow = localStorage.getItem('current_adr')
     if (adrDataRow === null) return
     const { AdrId, PatientId } = JSON.parse(adrDataRow)
@@ -31,7 +30,7 @@ const AddAdrStepTwo: React.FC<RouteComponentProps<{}>> = (props) => {
     props.history.push(ADD_ADR_STEP_THREE_ROUTE)
   }
 
-  const goForward = () => props.history.push(ADD_ADR_STEP_TWO_ROUTE)
+  const goForward = () => props.history.push(ADD_ADR_STEP_THREE_ROUTE)
   const goBackward = () => props.history.push(ADD_ADR_STEP_ONE_ROUTE)
 
   return (

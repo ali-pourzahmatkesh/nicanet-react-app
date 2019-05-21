@@ -25,6 +25,7 @@ export const ADD_ADR_STEP_ONE_ROUTE = '/add-adr-step-one'
 export const ADD_ADR_STEP_TWO_ROUTE = '/add-adr-step-two'
 export const ADD_ADR_STEP_THREE_ROUTE = '/add-adr-step-three'
 export const ADD_ADR_STEP_FOUR_ROUTE = '/add-adr-step-four'
+export const ADD_ADR_STEP_FIVE_ROUTE = '/add-adr-step-five'
 
 // POST
 export const ADD_POST_ROUTE = '/add-post'
