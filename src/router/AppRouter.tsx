@@ -38,7 +38,11 @@ import {
   SHOW_POST_ROUTE,
   ADD_ADR_STEP_ZERO_ROUTE,
   ADD_ADR_STEP_ONE_ROUTE,
+  ADD_ADR_STEP_TWO_ROUTE,
+  ADD_ADR_STEP_THREE_ROUTE,
+  ADD_ADR_STEP_FOUR_ROUTE,
 } from './RouterConstants'
+import AddAdrStepTwo from 'Containers/AddAdr/AddAdrStepTwo';
 
 
 interface AppRouterProps {
@@ -73,6 +77,10 @@ class AppRouter extends React.Component<AppRouterProps & RouteComponentProps<{}>
         <Route path={ADD_CASE_STEP_SIX_ROUTE} exact component={AddCaseStepSix} />
         <Route path={ADD_ADR_STEP_ZERO_ROUTE} exact component={AddAdrStepZero} />
         <Route path={ADD_ADR_STEP_ONE_ROUTE} exact component={AddAdrStepOne} />
+        <Route path={ADD_ADR_STEP_TWO_ROUTE} exact component={AddAdrStepTwo} />
+        {/* <Route path={ADD_ADR_STEP_THREE_ROUTE} exact component={AddAdrStepTwo} /> */}
+        {/* <Route path={ADD_ADR_STEP_FOUR_ROUTE} exact component={AddAdrStepTwo} /> */}
+        
         <Route path={ROOT_ROUTE} component={LoginContainer} />
       </Switch>
     )

@@ -23,6 +23,8 @@ export const ADD_CASE_STEP_SIX_ROUTE = '/add-case-step-six'
 export const ADD_ADR_STEP_ZERO_ROUTE = '/add-adr-step-zero'
 export const ADD_ADR_STEP_ONE_ROUTE = '/add-adr-step-one'
 export const ADD_ADR_STEP_TWO_ROUTE = '/add-adr-step-two'
+export const ADD_ADR_STEP_THREE_ROUTE = '/add-adr-step-three'
+export const ADD_ADR_STEP_FOUR_ROUTE = '/add-adr-step-four'
 
 // POST
 export const ADD_POST_ROUTE = '/add-post'

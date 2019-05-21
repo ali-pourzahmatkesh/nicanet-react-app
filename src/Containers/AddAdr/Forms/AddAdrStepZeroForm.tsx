@@ -91,12 +91,12 @@ function AddAdrStepZeroForm(props: AddAdrStepZeroFormProps) {
       <WeightAndHeight>
         <AdrFormItem>
           {getFieldDecorator('Weight')(
-            <Select onChange={onSelect} options={Weights} placeholder="Weight" />
+            <Select options={Weights} placeholder="Weight" />
           )}
         </AdrFormItem>
         <AdrFormItem>
           {getFieldDecorator('Height')(
-            <Select onChange={onSelect} options={Heights} placeholder="Height" />
+            <Select options={Heights} placeholder="Height" />
           )}
         </AdrFormItem>
       </WeightAndHeight>

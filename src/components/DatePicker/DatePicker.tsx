@@ -29,11 +29,12 @@ type DatePickerProps = {
   id: string
   onChange?: (value: string | undefined | any) => void
   value?: any
+  placeholder?: string
 }
 
 
 const DatePicker: React.FC<DatePickerProps> = (props) => {
-  const { id, value, onChange } = props
+  const { id, value, onChange, placeholder = 'Date' } = props
   const [isFocused, setIsFocused] = useState<boolean>(false)
 
   useEffect(() => {
@@ -51,13 +52,13 @@ const DatePicker: React.FC<DatePickerProps> = (props) => {
         orientation="vertical"
         date={value}
         focused={isFocused}
-        placeholder="Date"
+        placeholder={placeholder}
         isOutsideRange={() => false}
-        withPortal={window.matchMedia("(max-width: 400px)").matches}
         onDateChange={(date) => onChange && onChange(date)}
+        renderDayContents={day => momentJalaali(day).format('jD')}
+        withPortal={window.matchMedia("(max-width: 400px)").matches}
         onFocusChange={({ focused }) => setIsFocused(Boolean(focused))}
         renderMonthText={month => momentJalaali(month).format('jMMMM jYYYY')}
-        renderDayContents={day => momentJalaali(day).format('jD')}
       />
     </Wrapper>
   )
