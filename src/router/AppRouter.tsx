@@ -1,5 +1,11 @@
-import React from 'react'
-import { Switch, Route, withRouter, RouteComponentProps, Redirect } from 'react-router-dom'
+import React from "react";
+import {
+  Switch,
+  Route,
+  withRouter,
+  RouteComponentProps,
+  Redirect
+} from "react-router-dom";
 
 import LoginContainer from 'Containers/Login/LoginContainer'
 import HomeContainer from 'Containers/Home/HomeContainer';
@@ -22,6 +28,10 @@ import AddAdrStepOne from 'Containers/AddAdr/AddAdrStepOne';
 import AddAdrStepTwo from 'Containers/AddAdr/AddAdrStepTwo';
 import AddAdrStepThree from 'Containers/AddAdr/AddAdrStepThree';
 import AddAdrStepFour from 'Containers/AddAdr/AddAdrStepFour';
+import ShowCaseStepOneContainer from "Containers/ShowCase/ShowCaseStepOneContainer";
+import ShowCaseStepTwoContainer from "Containers/ShowCase/ShowCaseStepTwoContainer";
+import ShowCaseStepThreeContainer from "Containers/ShowCase/ShowCaseStepThreeContainer";
+import AddAdrStepFive from 'Containers/AddAdr/AddAdrStepFive';
 
 import {
   ROOT_ROUTE,
@@ -45,27 +55,31 @@ import {
   ADD_ADR_STEP_THREE_ROUTE,
   ADD_ADR_STEP_FOUR_ROUTE,
   ADD_ADR_STEP_FIVE_ROUTE,
+  SHOW_CASE_STEP_ONE_ROUTE,
+  SHOW_CASE_STEP_TWO_ROUTE,
+  SHOW_CASE_STEP_THREE_ROUTE,
 } from './RouterConstants'
-import AddAdrStepFive from 'Containers/AddAdr/AddAdrStepFive';
-
 
 interface AppRouterProps {
-  isLoggedIn: boolean
+  isLoggedIn: boolean;
 }
 
-class AppRouter extends React.Component<AppRouterProps & RouteComponentProps<{}>, any> {
-  render () {
-    const { location } = this.props
+class AppRouter extends React.Component<
+  AppRouterProps & RouteComponentProps<{}>,
+  any
+> {
+  render() {
+    const { location } = this.props;
 
     if (!this.props.isLoggedIn && !location.pathname.startsWith(LOGIN_ROUTE)) {
-      return <Redirect to={LOGIN_ROUTE} />
+      return <Redirect to={LOGIN_ROUTE} />;
     }
 
-    chatMiddleWare.start()
+    chatMiddleWare.start();
 
     return (
       <Switch>
-        <Route path={LOGIN_ROUTE} exact component={LoginContainer}  />
+        <Route path={LOGIN_ROUTE} exact component={LoginContainer} />
         <Route path={HOME_ROUTE} exact component={HomeContainer} />
         <Route path={PROFILE_ROUTE} exact component={ProfileContainer} />
         <Route path={CHAT_ROUTE} exact component={ChatContainer} />
@@ -85,17 +99,16 @@ class AppRouter extends React.Component<AppRouterProps & RouteComponentProps<{}>
         <Route path={ADD_ADR_STEP_THREE_ROUTE} exact component={AddAdrStepThree} />
         <Route path={ADD_ADR_STEP_FOUR_ROUTE} exact component={AddAdrStepFour} />
         <Route path={ADD_ADR_STEP_FIVE_ROUTE} exact component={AddAdrStepFive} />
-
-        <Route path={ROOT_ROUTE} component={LoginContainer} />
+        <Route path={SHOW_CASE_STEP_ONE_ROUTE} exact component={ShowCaseStepOneContainer} />
+        <Route path={SHOW_CASE_STEP_TWO_ROUTE} exact component={ShowCaseStepTwoContainer} />
+        <Route path={SHOW_CASE_STEP_THREE_ROUTE} exact component={ShowCaseStepThreeContainer} />
       </Switch>
-    )
+    );
   }
 }
 
-
 const mapStateToProps = (state: any) => ({
   isLoggedIn: state.auth.user !== null
-})
+});
 
-
-export default connect(mapStateToProps)(withRouter(AppRouter))
+export default connect(mapStateToProps)(withRouter(AppRouter));

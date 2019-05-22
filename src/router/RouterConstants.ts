@@ -1,4 +1,3 @@
-// AUTH
 export const ROOT_ROUTE = '/'
 export const LOGIN_ROUTE = '/login'
 
@@ -30,3 +29,7 @@ export const ADD_ADR_STEP_FIVE_ROUTE = '/add-adr-step-five'
 // POST
 export const ADD_POST_ROUTE = '/add-post'
 export const SHOW_POST_ROUTE = '/post/:postId'
+
+export const SHOW_CASE_STEP_ONE_ROUTE = "/show-case-step-one/:caseId";
+export const SHOW_CASE_STEP_TWO_ROUTE = "/show-case-step-two/:caseId";
+export const SHOW_CASE_STEP_THREE_ROUTE = "/show-case-step-three/:caseId";
