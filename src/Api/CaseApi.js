@@ -17,5 +17,9 @@ export const CaseApi = {
       config: { headers: { "Content-Type": "multipart/form-data" } }
     }),
   getCase: (caseId, addVisit) =>
-    Api.get(`/Case?id=${caseId}&addVisit=${addVisit || false}`)
+    Api.get(`/Case?id=${caseId}&addVisit=${addVisit || false}`),
+  removeDXLikeOrDislike: data => Api.delete("/DxLike", { data }),
+  removeRXLikeOrDislike: data => Api.delete("/RxLike", { data }),
+  likeDX: data => Api.post("/DxLike", data),
+  likeRX: data => Api.post("/RxLike", data)
 };

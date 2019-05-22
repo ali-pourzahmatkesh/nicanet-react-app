@@ -8,10 +8,16 @@ import { Value, Row, Col } from "../Components/Styled";
 
 const CaptionWrapprer = styled.div`
   margin-top: 1rem;
+  @media (min-width: 700px) {
+    padding: 0 3.2rem;
+  }
 `;
 
 export const NoteWrapper = styled.div`
   margin: 1rem 0;
+  @media (min-width: 700px) {
+    padding: 0 3.2rem;
+  }
 `;
 
 interface ShowCaseStepTwoAllProps {

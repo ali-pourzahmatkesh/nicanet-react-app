@@ -14,6 +14,9 @@ const CaptionWrapprer = styled.div`
 
 export const NoteWrapper = styled.div`
   margin: 1rem 0;
+  @media (min-width: 700px) {
+    margin: 1rem 3.2rem;
+  }
 `;
 
 interface ShowCaseStepThreeLabTestProps {

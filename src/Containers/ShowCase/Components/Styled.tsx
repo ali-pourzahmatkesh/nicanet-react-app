@@ -29,15 +29,18 @@ export const StringValue = styled.div`
 `;
 
 export const PaddedWrapper = styled.div`
-  padding: 0.2rem 1.5rem 0.5rem;
+  padding: 1rem 1.5rem 0.5rem;
   @media (min-width: 700px) {
-    padding: 0.2rem 2rem 3rem;
+    padding: 1rem 0 3rem;
   }
 `;
 
 export const Row = styled.div`
   display: flex;
   justify-content: space-between;
+  @media (min-width: 700px) {
+    padding: 0 3.2rem;
+  }
 `;
 
 export const Col = styled.div<{ color?: string }>`

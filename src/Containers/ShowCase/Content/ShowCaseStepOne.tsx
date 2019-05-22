@@ -68,11 +68,11 @@ function ShowCaseStepOne(props: ShowCaseStepOneProps) {
 
   if (caseInfo === null)
     return (
-      <Layout>
+      <div>
         <LoadingWrapprer>
           <BounceLoader sizeUnit="rem" size={3} color="#5498a9" loading />
         </LoadingWrapprer>
-      </Layout>
+      </div>
     );
 
   const {

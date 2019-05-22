@@ -26,6 +26,7 @@ import PostContainer from "Containers/Post/PostContainer";
 import ShowCaseStepOneContainer from "Containers/ShowCase/ShowCaseStepOneContainer";
 import ShowCaseStepTwoContainer from "Containers/ShowCase/ShowCaseStepTwoContainer";
 import ShowCaseStepThreeContainer from "Containers/ShowCase/ShowCaseStepThreeContainer";
+import ShowCaseStepFourContainer from "Containers/ShowCase/ShowCaseStepFourContainer";
 
 import {
   ROOT_ROUTE,
@@ -45,7 +46,8 @@ import {
   SHOW_POST_ROUTE,
   SHOW_CASE_STEP_ONE_ROUTE,
   SHOW_CASE_STEP_TWO_ROUTE,
-  SHOW_CASE_STEP_THREE_ROUTE
+  SHOW_CASE_STEP_THREE_ROUTE,
+  SHOW_CASE_STEP_FOUR_ROUTE
 } from "./RouterConstants";
 
 interface AppRouterProps {
@@ -88,6 +90,11 @@ class AppRouter extends React.Component<
           path={SHOW_CASE_STEP_THREE_ROUTE}
           exact
           component={ShowCaseStepThreeContainer}
+        />
+        <Route
+          path={SHOW_CASE_STEP_FOUR_ROUTE}
+          exact
+          component={ShowCaseStepFourContainer}
         />
         <Route
           path={ADD_CASE_STEP_ZERO_ROUTE}
