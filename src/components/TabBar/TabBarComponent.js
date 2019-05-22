@@ -66,7 +66,7 @@ function TabBar (props) {
         <LinksContainer>
           <IconWrapper onClick={() => props.history.push(HOME_ROUTE)}>
             {
-              (route.startsWith('/home') || route.startsWith('/post') || route.startsWith('/add-case') || route.startsWith('/show-case')) ?
+              (route.startsWith('/home') || route.startsWith('/post') || route.startsWith('/add-adr') || route.startsWith('/add-case') || route.startsWith('/show-case')) ?
               <Icon src={homeIconActive} /> : <Icon src={homeIcon} />
             }
             <IconTitle>Home</IconTitle>

@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import 'react-dates/initialize';
+import 'react-dates/lib/css/_datepicker.css';
 
 (window.console as any).safeError = (...params: any) => {
   const now = new Date()
