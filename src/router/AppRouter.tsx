@@ -88,7 +88,23 @@ class AppRouter extends React.Component<
         <Route path={CHAT_ROOM_ROUTE} exact component={RoomContainer} />
         <Route path={ADD_POST_ROUTE} exact component={AddPostContainer} />
         <Route path={SHOW_POST_ROUTE} exact component={PostContainer} />
-        <Route path={ROOT_ROUTE} component={LoginContainer} />
+        <Route path={ADD_ADR_STEP_ONE_ROUTE} exact component={AddAdrStepOne} />
+        <Route path={ADD_ADR_STEP_TWO_ROUTE} exact component={AddAdrStepTwo} />
+        <Route
+          path={ADD_ADR_STEP_THREE_ROUTE}
+          exact
+          component={AddAdrStepThree}
+        />
+        <Route
+          path={ADD_ADR_STEP_FOUR_ROUTE}
+          exact
+          component={AddAdrStepFour}
+        />
+        <Route
+          path={ADD_ADR_STEP_FIVE_ROUTE}
+          exact
+          component={AddAdrStepFive}
+        />
         <Route
           path={ADD_CASE_STEP_ZERO_ROUTE}
           exact
@@ -129,23 +145,6 @@ class AppRouter extends React.Component<
           exact
           component={AddAdrStepZero}
         />
-        <Route path={ADD_ADR_STEP_ONE_ROUTE} exact component={AddAdrStepOne} />
-        <Route path={ADD_ADR_STEP_TWO_ROUTE} exact component={AddAdrStepTwo} />
-        <Route
-          path={ADD_ADR_STEP_THREE_ROUTE}
-          exact
-          component={AddAdrStepThree}
-        />
-        <Route
-          path={ADD_ADR_STEP_FOUR_ROUTE}
-          exact
-          component={AddAdrStepFour}
-        />
-        <Route
-          path={ADD_ADR_STEP_FIVE_ROUTE}
-          exact
-          component={AddAdrStepFive}
-        />
         <Route
           path={SHOW_CASE_STEP_ONE_ROUTE}
           exact
@@ -166,6 +165,7 @@ class AppRouter extends React.Component<
           exact
           component={ShowCaseStepFourContainer}
         />
+        <Route path={ROOT_ROUTE} component={LoginContainer} />
       </Switch>
     );
   }
