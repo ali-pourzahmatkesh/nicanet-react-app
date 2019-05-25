@@ -1,10 +1,10 @@
-import React, { useState, useEffect, Fragment } from "react";
-import { LoadingWrapprer } from "../Components/Styled";
-import { BounceLoader } from "react-spinners";
-import Layout from "../../../components/Partials/Layout";
-import styled from "styled-components";
-import { Wrapper } from "../Components/Styled";
-import DXRXItem from "../Components/DXRXItem";
+import React, { useState, useEffect } from 'react';
+import { LoadingWrapprer } from '../Components/Styled';
+import { BounceLoader } from 'react-spinners';
+import Layout from '../../../components/Partials/Layout';
+import styled from 'styled-components';
+import { Wrapper } from '../Components/Styled';
+import DXRXItem from '../Components/DXRXItem';
 
 export const NoteWrapper = styled.div`
   margin: 1rem 0;
@@ -56,8 +56,8 @@ function ShowCaseStepFourDX(props: ShowCaseStepFourDXProps) {
             <div key={id}>
               <DXRXItem
                 item={dr}
-                onLike={voted => onLike("DX", id, voted, true)}
-                onDisLike={voted => onLike("DX", id, voted, false)}
+                onLike={voted => onLike('DX', id, voted, true)}
+                onDisLike={voted => onLike('DX', id, voted, false)}
               />
             </div>
           );

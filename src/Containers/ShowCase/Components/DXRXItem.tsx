@@ -70,31 +70,27 @@ const DXRXItem: React.FC<DXRXItemProps> = props => {
     };
 
     effect();
-  }, []);
+  });
 
   const onVoting = async (isLike: boolean) => {
     try {
       if (voted) {
         await onDisLike(true);
-        console.log("deleted");
         if (like && !isLike) {
           setLike(false);
           setLikeCount(likeCount - 1);
           setDisLikeCount(disLikeCount + 1);
           await onDisLike(false);
-          console.log("dis like after delete");
         } else if (!like && isLike) {
           setLike(true);
           setLikeCount(likeCount + 1);
           setDisLikeCount(disLikeCount - 1);
           await onLike(false);
-          console.log("like after delete");
         } else {
           setVoted(false);
           setLike(false);
           setLikeCount(isLike ? likeCount - 1 : likeCount);
           setDisLikeCount(!isLike ? disLikeCount - 1 : disLikeCount);
-          console.log("only delete");
         }
       } else {
         setVoted(true);
@@ -102,12 +98,10 @@ const DXRXItem: React.FC<DXRXItemProps> = props => {
           setLike(true);
           setLikeCount(likeCount + 1);
           await onLike(false);
-          console.log("only like");
         } else {
           setLike(false);
           setDisLikeCount(disLikeCount + 1);
           await onDisLike(false);
-          console.log("only dis like");
         }
       }
     } catch (err) {}

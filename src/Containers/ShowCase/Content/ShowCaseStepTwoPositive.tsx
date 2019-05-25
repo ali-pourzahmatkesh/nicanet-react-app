@@ -1,10 +1,10 @@
-import React, { Fragment } from "react";
-import Drawer from "components/Drawer/DrawerComponent";
-import { PaddedWrapper, Title, LoadingWrapprer } from "../Components/Styled";
-import { BounceLoader } from "react-spinners";
-import Layout from "../../../components/Partials/Layout";
-import styled from "styled-components";
-import { Value, Row, Col } from "../Components/Styled";
+import React, { Fragment } from 'react';
+import Drawer from 'components/Drawer/DrawerComponent';
+import { PaddedWrapper, Title, LoadingWrapprer } from '../Components/Styled';
+import { BounceLoader } from 'react-spinners';
+import Layout from '../../../components/Partials/Layout';
+import styled from 'styled-components';
+import { Value, Row, Col } from '../Components/Styled';
 
 const CaptionWrapprer = styled.div`
   margin-top: 1rem;

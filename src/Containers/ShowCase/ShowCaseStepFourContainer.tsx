@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import Layout from "components/Partials/Layout";
-import { RouteComponentProps } from "react-router";
-import { CaseApi } from "Api/CaseApi";
-import Heading from "./Components/Heading";
-import { HOME_ROUTE } from "router/RouterConstants";
-import MultiButton from "components/MultiButton/MultiButton";
-import ShowCaseStepFourDX from "./Content/ShowCaseStepFourDX";
-import ShowCaseStepFourRX from "./Content/ShowCaseStepFourRX";
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import Layout from 'components/Partials/Layout';
+import { RouteComponentProps } from 'react-router';
+import { CaseApi } from 'Api/CaseApi';
+import Heading from './Components/Heading';
+import { HOME_ROUTE } from 'router/RouterConstants';
+import MultiButton from 'components/MultiButton/MultiButton';
+import ShowCaseStepFourDX from './Content/ShowCaseStepFourDX';
+import ShowCaseStepFourRX from './Content/ShowCaseStepFourRX';
 
 const Container = styled.div`
   padding: 2rem 0 0;
@@ -35,7 +35,7 @@ const ShowCaseStepFourContainer: React.FC<
   RouteComponentProps<ShowCaseStepFourContainerProps>
 > = props => {
   const { caseId } = props.match.params;
-  const [activeTabName, setActiveTabName] = useState("DX");
+  const [activeTabName, setActiveTabName] = useState('DX');
   const [caseInfo, setCaseInfo] = useState(null);
 
   useEffect(() => {
@@ -45,7 +45,7 @@ const ShowCaseStepFourContainer: React.FC<
       setCaseInfo(response.data);
     };
     effect();
-  }, []);
+  }, [caseId]);
 
   const updateCase = async () => {
     try {
@@ -58,19 +58,17 @@ const ShowCaseStepFourContainer: React.FC<
   const removeLikeOrDislike = async (type: string, paramsValue: string) => {
     try {
       let params = {};
-      if (type === "DX") {
+      if (type === 'DX') {
         params = {
           DiagnosisId: paramsValue
         };
-        console.log("dx params delete", params);
         await CaseApi.removeDXLikeOrDislike(params);
       }
 
-      if (type === "RX") {
+      if (type === 'RX') {
         params = {
           PrescriptionDrugId: paramsValue
         };
-        console.log("rx params delete", params);
         await CaseApi.removeRXLikeOrDislike(params);
       }
     } catch (err) {}
@@ -85,29 +83,26 @@ const ShowCaseStepFourContainer: React.FC<
     try {
       // 0: first we delete like/dislike
       if (voted) {
-        console.log("is voted");
         await removeLikeOrDislike(type, paramsValue);
       } else {
-        if (type === "DX") {
+        if (type === 'DX') {
           const params = {
             IsLike: isLike ? 1 : 0,
             DiagnosisId: paramsValue
           };
-          console.log("dx like params", params);
           await CaseApi.likeDX(params);
         }
 
-        if (type === "RX") {
+        if (type === 'RX') {
           const params = {
             IsLike: isLike ? 1 : 0,
             PrescriptionDrugId: paramsValue
           };
-          console.log("rx like params", params);
           await CaseApi.likeRX(params);
         }
       }
     } catch (err) {
-      console.log("voted has error");
+      console.log('voted has error');
     } finally {
       updateCase();
     }
@@ -133,13 +128,13 @@ const ShowCaseStepFourContainer: React.FC<
           <MultiButton
             activeItemName={activeTabName}
             items={[
-              { name: "DX", onClick: () => setActiveTabName("DX") },
-              { name: "RX", onClick: () => setActiveTabName("RX") }
+              { name: 'DX', onClick: () => setActiveTabName('DX') },
+              { name: 'RX', onClick: () => setActiveTabName('RX') }
             ]}
           />
         </MultiButtonWrapper>
         <Content>
-          {activeTabName === "DX" && (
+          {activeTabName === 'DX' && (
             <ShowCaseStepFourDX
               caseInfo={caseInfo}
               onLike={(
@@ -150,7 +145,7 @@ const ShowCaseStepFourContainer: React.FC<
               ) => onLike(type, paramsValue, voted, isLike)}
             />
           )}
-          {activeTabName === "RX" && (
+          {activeTabName === 'RX' && (
             <ShowCaseStepFourRX
               caseInfo={caseInfo}
               onLike={(

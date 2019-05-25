@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { LoadingWrapprer } from "../Components/Styled";
-import { BounceLoader } from "react-spinners";
-import Layout from "../../../components/Partials/Layout";
-import styled from "styled-components";
-import { Title, Wrapper } from "../Components/Styled";
-import ShowCaseItem from "../Components/ShowCaseItem";
-import DXRXItem from "../Components/DXRXItem";
-import DrugItem from "../Components/DrugItem";
+import React, { useState, useEffect } from 'react';
+import { LoadingWrapprer } from '../Components/Styled';
+import { BounceLoader } from 'react-spinners';
+import Layout from '../../../components/Partials/Layout';
+import styled from 'styled-components';
+import { Title, Wrapper } from '../Components/Styled';
+import ShowCaseItem from '../Components/ShowCaseItem';
+import DXRXItem from '../Components/DXRXItem';
+import DrugItem from '../Components/DrugItem';
 
 export const NoteWrapper = styled.div`
   margin: 1rem 0;
@@ -72,8 +72,8 @@ function ShowCaseStepFourRX(props: ShowCaseStepFourRXProps) {
               <div key={id}>
                 <DXRXItem
                   item={dr}
-                  onLike={voted => onLike("RX", id, voted, true)}
-                  onDisLike={voted => onLike("RX", id, voted, false)}
+                  onLike={voted => onLike('RX', id, voted, true)}
+                  onDisLike={voted => onLike('RX', id, voted, false)}
                 />
               </div>
             );

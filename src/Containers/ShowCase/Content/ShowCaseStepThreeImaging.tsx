@@ -1,13 +1,13 @@
-import React, { Fragment } from "react";
-import Drawer from "components/Drawer/DrawerComponent";
-import { PaddedWrapper, Title, LoadingWrapprer } from "../Components/Styled";
-import { BounceLoader } from "react-spinners";
-import Layout from "../../../components/Partials/Layout";
-import styled from "styled-components";
-import { Value, Row, Col } from "../Components/Styled";
-import ShowCaseItem from "../Components/ShowCaseItem";
-import ImageSlider from "../../../components/ImageSlider/ImageSliderComponent";
-import Imaging from "../MockData/ShowCaseStepThreeImaging.json";
+import React, { Fragment } from 'react';
+import Drawer from 'components/Drawer/DrawerComponent';
+import { PaddedWrapper, Title, LoadingWrapprer } from '../Components/Styled';
+import { BounceLoader } from 'react-spinners';
+import Layout from '../../../components/Partials/Layout';
+import styled from 'styled-components';
+import { Value } from '../Components/Styled';
+import ShowCaseItem from '../Components/ShowCaseItem';
+import ImageSlider from '../../../components/ImageSlider/ImageSliderComponent';
+import Imaging from '../MockData/ShowCaseStepThreeImaging.json';
 
 export const NoteWrapper = styled.div`
   margin: 1rem 0;

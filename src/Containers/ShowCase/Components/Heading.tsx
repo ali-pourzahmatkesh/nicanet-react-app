@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-import LeftIcon from "Assets/Left.svg";
-import RightIcon from "Assets/Right.svg";
+import LeftIcon from 'Assets/Left.svg';
+import RightIcon from 'Assets/Right.svg';
 
 const Container = styled.div`
   display: flex;
@@ -22,7 +22,7 @@ const Container = styled.div`
 
 const Title = styled.div`
   font-size: 1.2rem;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-weight: bold;
   color: #000;
   flex: 1;

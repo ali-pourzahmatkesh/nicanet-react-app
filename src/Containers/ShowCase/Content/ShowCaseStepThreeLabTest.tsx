@@ -1,12 +1,12 @@
-import React, { useState, useEffect, Fragment } from "react";
-import Drawer from "components/Drawer/DrawerComponent";
-import { PaddedWrapper, Title, LoadingWrapprer } from "../Components/Styled";
-import { BounceLoader } from "react-spinners";
-import Layout from "../../../components/Partials/Layout";
-import styled from "styled-components";
-import { Value, Row, Col } from "../Components/Styled";
-import ShowCaseItem from "../Components/ShowCaseItem";
-import ImageSlider from "../../../components/ImageSlider/ImageSliderComponent";
+import React, { useState, useEffect, Fragment } from 'react';
+import Drawer from 'components/Drawer/DrawerComponent';
+import { PaddedWrapper, Title, LoadingWrapprer } from '../Components/Styled';
+import { BounceLoader } from 'react-spinners';
+import Layout from '../../../components/Partials/Layout';
+import styled from 'styled-components';
+import { Value, Row, Col } from '../Components/Styled';
+import ShowCaseItem from '../Components/ShowCaseItem';
+import ImageSlider from '../../../components/ImageSlider/ImageSliderComponent';
 
 const CaptionWrapprer = styled.div`
   margin-top: 1rem;
@@ -73,35 +73,35 @@ function ShowCaseStepThreeLabTest(props: ShowCaseStepThreeLabTestProps) {
 
                 return (
                   <Fragment key={childNode.ExaminationTypeId.toString()}>
-                    {childNode.Level === "Caption" && (
+                    {childNode.Level === 'Caption' && (
                       <CaptionWrapprer>
                         <Title>{childNode.Title.trim()}</Title>
                       </CaptionWrapprer>
                     )}
 
-                    {childNode.Title.trim() === "Note" && examinationNote && (
+                    {childNode.Title.trim() === 'Note' && examinationNote && (
                       <NoteWrapper>
                         <Title>Note:</Title>
                         <Value noIndent>{examinationNote}</Value>
                       </NoteWrapper>
                     )}
 
-                    {childNode.Title.trim() !== "Note" &&
-                      childNode.Level !== "Caption" && (
+                    {childNode.Title.trim() !== 'Note' &&
+                      childNode.Level !== 'Caption' && (
                         <Row>
                           <Col>{childNode.Title.trim()}</Col>
                           <Col
                             color={
-                              examination !== undefined ? "#5498A9" : "#bdbdbd"
+                              examination !== undefined ? '#5498A9' : '#bdbdbd'
                             }
                           >
                             {examination !== undefined
                               ? `${examinationValue} ${
-                                  examinationUnitText !== "0"
+                                  examinationUnitText !== '0'
                                     ? examinationUnitText
-                                    : ""
+                                    : ''
                                 }`
-                              : "---"}
+                              : '---'}
                           </Col>
                         </Row>
                       )}

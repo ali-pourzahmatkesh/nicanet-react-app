@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import Modal from "../../../components/Modal/ModalComponent";
-import { Value } from "./Styled";
-import ShowCaseItem from "./ShowCaseItem";
+import React from 'react';
+import styled from 'styled-components';
+import Modal from '../../../components/Modal/ModalComponent';
+import { Value } from './Styled';
+import ShowCaseItem from './ShowCaseItem';
 
 const DrugWrapper = styled.div`
   border-radius: 10px;
@@ -54,19 +54,19 @@ class DrugItem extends React.Component<DrugItemProps> {
         isOpen={this.state.isOpen}
         onClose={() =>
           this.setState({ isOpen: false }, () => {
-            console.log("isopen", this.state.isOpen);
+            console.log('isopen', this.state.isOpen);
           })
         }
         ChildrenWrapperStyle={{
-          position: "absolute",
+          position: 'absolute',
           top: 0,
           left: 0,
           right: 0,
           bottom: 0,
-          paddingTop: "2rem",
-          paddingBottom: "7rem",
-          paddingLeft: "1rem",
-          paddingRight: "1rem",
+          paddingTop: '2rem',
+          paddingBottom: '7rem',
+          paddingLeft: '1rem',
+          paddingRight: '1rem',
           zIndex: 9
         }}
         title="Drug Details"
@@ -123,7 +123,7 @@ class DrugItem extends React.Component<DrugItemProps> {
         <DrugWrapper onClick={() => this.setState({ isOpen: true })}>
           {drug.DrugFullName && <DrugTitle>{drug.DrugFullName}</DrugTitle>}
           {(drug.Route || drug.Frequency) && (
-            <DrugDesc>{`${drug.Route.trim()} ${drug.Route ? "-" : ""} ${
+            <DrugDesc>{`${drug.Route.trim()} ${drug.Route ? '-' : ''} ${
               drug.Frequency
             }`}</DrugDesc>
           )}

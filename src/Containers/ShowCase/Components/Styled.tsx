@@ -1,10 +1,10 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Title = styled.div<{ primary?: boolean }>`
   font-family: Roboto;
   font-size: 1rem;
   font-weight: bold;
-  color: ${props => (props.primary ? "#5498a9" : "#212121")};
+  color: ${props => (props.primary ? '#5498a9' : '#212121')};
   margin-bottom: 1rem;
 `;
 
@@ -14,7 +14,7 @@ export const Value = styled.div<{ noIndent?: boolean }>`
   color: #212121;
   margin-top: 0.5rem;
   @media (min-width: 700px) {
-    padding: ${props => (props.noIndent ? "0" : "0 2rem")};
+    padding: ${props => (props.noIndent ? '0' : '0 2rem')};
   }
 `;
 
@@ -46,7 +46,7 @@ export const Row = styled.div`
 export const Col = styled.div<{ color?: string }>`
   font-family: Roboto;
   font-size: 0.9rem;
-  color: ${props => props.color || "#212121"};
+  color: ${props => props.color || '#212121'};
   margin-bottom: 1rem;
 `;
 
