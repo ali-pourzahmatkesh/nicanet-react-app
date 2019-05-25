@@ -40,7 +40,7 @@ function AddCaseStepTwoForm(props: AddCaseStepTwoFormProps) {
     const effect = async () => {
       try {
         const response = await ConfigApi.getConfig(45)
-        if (response.status !== 200) setTimeout(effect(), 3000)
+        if (response.status !== 200) setTimeout(() => effect(), 3000)
         setPastMedicalHistories(response.data.map((item: any) => ({ ConfigId: item.ConfigId, ConfigName: item.ConfigName })))
       } catch (_) {}
     }

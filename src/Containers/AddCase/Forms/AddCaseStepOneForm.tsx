@@ -43,7 +43,7 @@ function AddCaseStepOneForm(props: AddCaseStepOneFormProps) {
     const effect = async () => {
       try {
         const response = await CaseApi.getSymptoms()
-        if (response.status !== 200) setTimeout(effect(), 3000)
+        if (response.status !== 200) setTimeout(() => effect(), 3000)
         
         setPresentIllnesses(response.data.filter((symptom: any) => symptom.CategoryId === 122))
         setGeneralAppearances(response.data.filter((symptom: any) => symptom.CategoryId === 123))
