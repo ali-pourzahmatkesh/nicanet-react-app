@@ -1,27 +1,26 @@
-import React, { useState, useEffect } from 'react'
-import styled from 'styled-components'
-import { toast } from 'react-toastify'
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { toast } from 'react-toastify';
 import { BounceLoader } from 'react-spinners';
 
-import { ContentApi } from '../../Api/ContentApi'
-import Layout from '../../components/Partials/Layout'
-import PostActions from '../../components/PostActions/PostActionsComponent'
-import PostStatusBar from '../../components/PostStatusBar/PostStatusBarComponent'
-import Comments from '../../components/Comments/CommentsComponent'
+import { ContentApi } from '../../Api/ContentApi';
+import Layout from '../../components/Partials/Layout';
+import ContentActions from '../../components/ContentActions/ContentActionsComponent';
+import ContentStatusBar from '../../components/ContentStatusBar/ContentStatusBarComponent';
+import Comments from '../../components/Comments/CommentsComponent';
 
 const PostImage = styled.img`
   border: solid 3px solid #eee;
   width: 100%;
   height: auto;
   margin: 0 auto;
-`
+`;
 
 const PostWrapper = styled.div`
   width: 100%;
   overflow: hidden;
   text-align: center;
-  padding-bottom: 5rem;
-`
+`;
 
 const AuthorWrapper = styled.div`
   display: flex;
@@ -30,20 +29,20 @@ const AuthorWrapper = styled.div`
   padding-top: 0.5rem;
   justify-content: space-between;
   padding: 0 1rem;
-`
+`;
 
 const AuthorImage = styled.img`
   width: 3rem;
   height: 3rem;
   border-radius: 4rem;
   margin-right: 1rem;
-`
+`;
 
 const AuthorInfo = styled.div`
   width: auto;
   height: auto;
   float: left;
-`
+`;
 
 const AuthorTitle = styled.div`
   font-family: Roboto;
@@ -51,7 +50,7 @@ const AuthorTitle = styled.div`
   font-weight: bold;
   clear: both;
   color: #000000;
-`
+`;
 
 const PublishTime = styled.div`
   font-family: Roboto;
@@ -60,7 +59,7 @@ const PublishTime = styled.div`
   color: #757575;
   text-align: left;
   clear: both;
-`
+`;
 
 const SubscribeBtn = styled.div`
   font-family: Roboto;
@@ -73,7 +72,7 @@ const SubscribeBtn = styled.div`
   height: 20px;
   padding: 2px;
   border-radius: 0.3rem;
-`
+`;
 
 const Title = styled.div`
   font-family: Roboto;
@@ -83,7 +82,7 @@ const Title = styled.div`
   padding: 0 1rem;
   font-weight: bold;
   margin-bottom: 1rem;
-`
+`;
 
 const LoadingWrapprer = styled.div`
   display: flex;
@@ -91,7 +90,7 @@ const LoadingWrapprer = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 1rem;
-`
+`;
 
 const Subtitle = styled.div`
   font-family: Roboto;
@@ -100,50 +99,44 @@ const Subtitle = styled.div`
   text-align: left;
   padding: 0 1rem;
   line-height: 2rem;
-`
+`;
 
 const AuthorLeftCol = styled.div`
   display: flex;
   align-items: center;
-`
+`;
 
 const Interactions = styled.div`
   margin-top: 1rem;
-`
+`;
 
 function PostContainer(props) {
-  const [post, setPost] = useState(null)
-  const [showComments, setShowComments] = useState(false)
+  const [post, setPost] = useState(null);
+  const [showComments, setShowComments] = useState(false);
 
   useEffect(() => {
     const effect = async () => {
-      const { postId } = props.match.params
-      const response = await ContentApi.getContent(postId)
-    
+      const { postId } = props.match.params;
+      const response = await ContentApi.getContent(postId);
+
       if (response.status === 200) {
-        console.log('response', response.data)
-        setPost(response.data)
+        console.log('response', response.data);
+        setPost(response.data);
       }
-    }
+    };
 
-    effect()
-  }, [])
+    effect();
+  }, [props.match.params]);
 
-  if (post === null) return (
-    <Layout>
-      <LoadingWrapprer>
-        <BounceLoader
-          sizeUnit="rem"
-          size={3}
-          color="#5498a9"
-          loading
-        />
-      </LoadingWrapprer>
-    </Layout>
-  )
-  
+  if (post === null)
+    return (
+      <Layout>
+        <LoadingWrapprer>
+          <BounceLoader sizeUnit="rem" size={3} color="#5498a9" loading />
+        </LoadingWrapprer>
+      </Layout>
+    );
 
-  const { userId } = props
   const {
     ContentId,
     Subject,
@@ -154,51 +147,51 @@ function PostContainer(props) {
     TimeElapsed,
     PersonVoted,
     PersonVote
-  } = post
+  } = post;
 
   const updatePost = async () => {
     try {
-      const response = await ContentApi.getContent(ContentId)
+      const response = await ContentApi.getContent(ContentId);
 
-      setPost(response.data)
+      setPost(response.data);
     } catch (err) {}
-  }
+  };
 
   const removeLikeOrDislike = async () => {
     try {
-      await ContentApi.removeLikeOrDislike(ContentId, 0, +userId)
+      await ContentApi.removeLikeOrDislike(ContentId, 0);
     } catch (err) {}
-  }
+  };
 
   const onLike = async isLike => {
     try {
       // 0: first we delete like/dislike
-      await removeLikeOrDislike(isLike)
+      await removeLikeOrDislike(isLike);
 
       if (
         PersonVoted === true &&
         ((isLike && PersonVote === true) || (!isLike && PersonVote === false))
       ) {
-        return
+        return;
       }
 
       // 1: then we like or dislike
-      await ContentApi.likeContent(ContentId, 0, +userId, isLike)
+      await ContentApi.likeContent(ContentId, 0, isLike);
 
       toast.success(`Post ${isLike ? 'liked' : 'disliked'}`, {
         position: toast.POSITION.TOP_CENTER
-      })
+      });
     } catch (err) {
       toast.error(`Failed to ${isLike ? 'like' : 'dislike'}`, {
         position: toast.POSITION.TOP_CENTER
-      })
+      });
     } finally {
-      updatePost()
+      updatePost();
     }
-  }
+  };
 
   if (showComments) {
-    return <Comments onClose={() => setShowComments(false)} post={post} />
+    return <Comments onClose={() => setShowComments(false)} content={post} />;
   }
 
   return (
@@ -224,15 +217,27 @@ function PostContainer(props) {
         {Subject && <Title>{Subject}</Title>}
         {ContentText && <Subtitle>{ContentText}</Subtitle>}
         <Interactions>
-          <PostActions onLike={() => onLike(1)} onDisLike={() => onLike(0)} />
-          <PostStatusBar
-            onOpenComments={() => setShowComments(true)}
-            post={post}
+          <ContentActions
+            onLike={() => onLike(1)}
+            onDisLike={() => onLike(0)}
+            content={post}
+          />
+          <ContentStatusBar
+            // onOpenComments={() => setShowComments(true)}
+            commentCount={post.CommentCount || 0}
+            content={post}
+          />
+          <Comments
+            onClose={() => setShowComments(false)}
+            content={post}
+            source="post"
+            updateContent={() => updatePost()}
+            comments={post.Comments || []}
           />
         </Interactions>
       </PostWrapper>
     </Layout>
-  )
+  );
 }
 
 export default PostContainer;

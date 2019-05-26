@@ -1,13 +1,13 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-import { ContentApi } from "../../Api/ContentApi";
-import Layout from "../../components/Partials/Layout";
-import Card from "../../components/Card/CardComponent";
-import logo from "../../Assets/logo.svg";
-import { connect } from "react-redux";
-import { useEffect, useState } from "react";
-import Navbar from "components/Navbar/Navbar";
+import { ContentApi } from '../../Api/ContentApi';
+import Layout from '../../components/Partials/Layout';
+import Card from '../../components/Card/CardComponent';
+import logo from '../../Assets/logo.svg';
+import { connect } from 'react-redux';
+import { useEffect, useState } from 'react';
+import Navbar from 'components/Navbar/Navbar';
 
 const Logo = styled.img`
   margin: 0 auto;

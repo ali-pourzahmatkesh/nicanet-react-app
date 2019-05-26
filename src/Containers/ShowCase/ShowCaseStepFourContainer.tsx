@@ -8,14 +8,12 @@ import { HOME_ROUTE } from 'router/RouterConstants';
 import MultiButton from 'components/MultiButton/MultiButton';
 import ShowCaseStepFourDX from './Content/ShowCaseStepFourDX';
 import ShowCaseStepFourRX from './Content/ShowCaseStepFourRX';
+import { ContentApi } from '../../Api/ContentApi';
+import { toast } from 'react-toastify';
 
 const Container = styled.div`
   padding: 2rem 0 0;
   margin: 0 -1rem;
-  @media (min-width: 700px) {
-    padding: 2rem 1rem 0;
-    margin: 0;
-  }
 `;
 
 const Content = styled.div`
@@ -37,12 +35,20 @@ const ShowCaseStepFourContainer: React.FC<
   const { caseId } = props.match.params;
   const [activeTabName, setActiveTabName] = useState('DX');
   const [caseInfo, setCaseInfo] = useState(null);
+  const [contentId, setContentId] = useState(null);
+  const [personVoted, setPersonVoted] = useState<boolean>(false);
+  const [personVote, setPersonVote] = useState<boolean>(false);
 
   useEffect(() => {
     const effect = async () => {
       const response = await CaseApi.getCase(caseId, false);
       if (response.status !== 200) return;
-      setCaseInfo(response.data);
+      const CaseInfo = response.data;
+      console.log('CaseInfo', CaseInfo);
+      setCaseInfo(CaseInfo);
+      setContentId(CaseInfo.ContentId);
+      setPersonVoted(CaseInfo.PersonVoted);
+      setPersonVote(CaseInfo.PersonVote);
     };
     effect();
   }, [caseId]);
@@ -51,7 +57,11 @@ const ShowCaseStepFourContainer: React.FC<
     try {
       const response = await CaseApi.getCase(caseId, false);
       if (response.status !== 200) return;
-      setCaseInfo(response.data);
+      const CaseInfo = response.data;
+      setCaseInfo(CaseInfo);
+      setContentId(CaseInfo.ContentId);
+      setPersonVoted(CaseInfo.PersonVoted);
+      setPersonVote(CaseInfo.PersonVote);
     } catch (err) {}
   };
 
@@ -81,7 +91,7 @@ const ShowCaseStepFourContainer: React.FC<
     isLike: boolean
   ) => {
     try {
-      // 0: first we delete like/dislike
+      // false: first we delete like/dislike
       if (voted) {
         await removeLikeOrDislike(type, paramsValue);
       } else {
@@ -103,6 +113,37 @@ const ShowCaseStepFourContainer: React.FC<
       }
     } catch (err) {
       console.log('voted has error');
+    }
+  };
+
+  const removeContentLikeOrDislike = async () => {
+    try {
+      await ContentApi.removeLikeOrDislike(contentId, 0);
+    } catch (err) {}
+  };
+
+  const onContentLike = async (isLike: boolean) => {
+    try {
+      // false: first we delete like/dislike
+      await removeContentLikeOrDislike();
+
+      if (
+        personVoted === true &&
+        ((isLike && personVote === true) || (!isLike && personVote === false))
+      ) {
+        return;
+      }
+
+      // true: then we like or dislike
+      await ContentApi.likeContent(contentId, 0, isLike);
+
+      toast.success(`Case ${isLike ? 'liked' : 'disliked'}`, {
+        position: toast.POSITION.TOP_CENTER
+      });
+    } catch (err) {
+      toast.error(`Failed to ${isLike ? 'like' : 'dislike'}`, {
+        position: toast.POSITION.TOP_CENTER
+      });
     } finally {
       updateCase();
     }
@@ -137,6 +178,8 @@ const ShowCaseStepFourContainer: React.FC<
           {activeTabName === 'DX' && (
             <ShowCaseStepFourDX
               caseInfo={caseInfo}
+              onContentLike={(isLike: boolean) => onContentLike(isLike)}
+              updateCase={() => updateCase()}
               onLike={(
                 type: string,
                 paramsValue: string,
@@ -148,6 +191,8 @@ const ShowCaseStepFourContainer: React.FC<
           {activeTabName === 'RX' && (
             <ShowCaseStepFourRX
               caseInfo={caseInfo}
+              onContentLike={(isLike: boolean) => onContentLike(isLike)}
+              updateCase={() => updateCase()}
               onLike={(
                 type: string,
                 paramsValue: string,

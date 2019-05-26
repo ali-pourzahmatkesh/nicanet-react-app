@@ -3,20 +3,40 @@ import { LoadingWrapprer } from '../Components/Styled';
 import { BounceLoader } from 'react-spinners';
 import Layout from '../../../components/Partials/Layout';
 import styled from 'styled-components';
-import { Title, Wrapper } from '../Components/Styled';
+import { Title } from '../Components/Styled';
 import ShowCaseItem from '../Components/ShowCaseItem';
 import DXRXItem from '../Components/DXRXItem';
 import DrugItem from '../Components/DrugItem';
+import ContentActions from '../../../components/ContentActions/ContentActionsComponent';
+import ContentStatusBar from '../../../components/ContentStatusBar/ContentStatusBarComponent';
+import Comments from '../../../components/Comments/CommentsComponent';
 
-export const NoteWrapper = styled.div`
-  margin: 1rem 0;
+export const Wrapper = styled.div`
+  padding: 0 1rem;
   @media (min-width: 700px) {
-    margin: 1rem 3.2rem;
+    padding: 1rem 7rem;
   }
+`;
+
+const Interactions = styled.div`
+  margin-top: 1rem;
+`;
+
+export const ContentActionsWrapper = styled.div`
+  margin-top: 5rem;
+  @media (min-width: 700px) {
+    padding: 0 3.2rem;
+  }
+`;
+
+export const Drugs = styled.div`
+  min-height: 4rem;
 `;
 
 interface ShowCaseStepFourRXProps {
   caseInfo: any;
+  onContentLike: (isLike: boolean) => void;
+  updateCase: () => void;
   onLike: (
     type: string,
     paramsValue: string,
@@ -26,7 +46,7 @@ interface ShowCaseStepFourRXProps {
 }
 
 function ShowCaseStepFourRX(props: ShowCaseStepFourRXProps) {
-  const { caseInfo, onLike } = props;
+  const { caseInfo, onLike, onContentLike, updateCase } = props;
   const [orders, setOrders] = useState<any[]>([]);
   const [drugs, setDrugs] = useState<any[]>([]);
 
@@ -58,37 +78,57 @@ function ShowCaseStepFourRX(props: ShowCaseStepFourRXProps) {
         </LoadingWrapprer>
       </Layout>
     );
-
   // console.log("caseInfo", caseInfo);
 
   return (
-    <Wrapper>
-      {orders.length > 0 && (
-        <ShowCaseItem theme={{ hasLine: true }}>
-          <Title>Orders :</Title>
-          {orders.map(dr => {
-            const id = dr.PrescriptionDrugId;
-            return (
-              <div key={id}>
-                <DXRXItem
-                  item={dr}
-                  onLike={voted => onLike('RX', id, voted, true)}
-                  onDisLike={voted => onLike('RX', id, voted, false)}
-                />
-              </div>
-            );
-          })}
-        </ShowCaseItem>
-      )}
+    <div>
+      <Wrapper>
+        <Drugs>
+          {orders.length > 0 && (
+            <ShowCaseItem theme={{ hasLine: true }}>
+              <Title>Orders :</Title>
+              {orders.map(dr => {
+                const id = dr.PrescriptionDrugId;
+                return (
+                  <div key={id}>
+                    <DXRXItem
+                      item={dr}
+                      onLike={voted => onLike('RX', id, voted, true)}
+                      onDisLike={voted => onLike('RX', id, voted, false)}
+                    />
+                  </div>
+                );
+              })}
+            </ShowCaseItem>
+          )}
 
-      {drugs.length > 0 && (
-        <ShowCaseItem title="Drugs:" theme={{ noLine: true }}>
-          {drugs.map((item: any) => {
-            return <DrugItem key={item.PrescriptionDrugId} drug={item} />;
-          })}
-        </ShowCaseItem>
-      )}
-    </Wrapper>
+          {drugs.length > 0 && (
+            <ShowCaseItem title="Drugs:" theme={{ noLine: true }}>
+              {drugs.map((item: any) => {
+                return <DrugItem key={item.PrescriptionDrugId} drug={item} />;
+              })}
+            </ShowCaseItem>
+          )}
+        </Drugs>
+
+        <ContentActionsWrapper>
+          <ContentActions
+            content={caseInfo}
+            onLike={() => onContentLike(true)}
+            onDisLike={() => onContentLike(false)}
+          />
+        </ContentActionsWrapper>
+      </Wrapper>
+      <Interactions>
+        <ContentStatusBar content={caseInfo} commentCount={caseInfo.RxCommentCount || 0}/>
+        <Comments
+          content={caseInfo}
+          source="RX"
+          updateContent={() => updateCase()}
+          comments={caseInfo.RxComment || []}
+        />
+      </Interactions>
+    </div>
   );
 }
 

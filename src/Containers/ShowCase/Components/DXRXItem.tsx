@@ -107,7 +107,7 @@ const DXRXItem: React.FC<DXRXItemProps> = props => {
     } catch (err) {}
   };
 
-  console.log("item", item);
+  // console.log("item", item);
   return (
     <ItemWrapper>
       <Description>{item.Description}</Description>
