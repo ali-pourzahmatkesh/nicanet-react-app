@@ -61,7 +61,6 @@ function TabBar (props) {
 
   return (
     <Fragment>
-      <Spacer></Spacer>
       <Container>
         <LinksContainer>
           <IconWrapper onClick={() => props.history.push(HOME_ROUTE)}>

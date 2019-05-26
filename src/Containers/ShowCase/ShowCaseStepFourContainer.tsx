@@ -13,7 +13,7 @@ import { toast } from 'react-toastify';
 
 const Container = styled.div`
   padding: 2rem 0 0;
-  margin: 0 -1rem;
+  margin: 0 -1rem -1rem;
 `;
 
 const Content = styled.div`

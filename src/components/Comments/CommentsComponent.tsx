@@ -73,13 +73,7 @@ type CommentsProps = {
 };
 
 const Comments: React.FC<CommentsProps> = props => {
-  const {
-    onClose,
-    content,
-    source,
-    updateContent,
-    comments
-  } = props;
+  const { onClose, content, source, updateContent, comments } = props;
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [commentText, setCommentText] = useState('');
   const [parentId, setParentId] = useState(1);
@@ -115,7 +109,7 @@ const Comments: React.FC<CommentsProps> = props => {
       params = {
         ParentId: parentId,
         commentText,
-        CaseId: content && content.CaseId,
+        CaseId: content && content.CaseId
       };
     }
 
@@ -181,7 +175,7 @@ const Comments: React.FC<CommentsProps> = props => {
   };
 
   return (
-    <Layout noPadding>
+    <div>
       {/* <Close>
         <IoIosClose onClick={onClose} size={50} />
       </Close> */}
@@ -206,7 +200,7 @@ const Comments: React.FC<CommentsProps> = props => {
           <MdSend color="#444" size={30} />
         </SendButton>
       </CommentForm>
-    </Layout>
+    </div>
   );
 };
 
