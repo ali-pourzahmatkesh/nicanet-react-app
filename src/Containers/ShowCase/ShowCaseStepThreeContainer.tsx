@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import Layout from "components/Partials/Layout";
-import { RouteComponentProps } from "react-router";
-import { CaseApi } from "Api/CaseApi";
-import Heading from "./Components/Heading";
-import MultiButton from "components/MultiButton/MultiButton";
-import ContinueButton from "./Components/ContinueButton";
-import ShowCaseStepThreeLabTest from "./Content/ShowCaseStepThreeLabTest";
-import ShowCaseStepThreeImaging from "./Content/ShowCaseStepThreeImaging";
-import { Wrapper } from "./Components/Styled";
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import Layout from 'components/Partials/Layout';
+import { RouteComponentProps } from 'react-router';
+import { CaseApi } from 'Api/CaseApi';
+import Heading from './Components/Heading';
+import MultiButton from 'components/MultiButton/MultiButton';
+import ContinueButton from './Components/ContinueButton';
+import ShowCaseStepThreeLabTest from './Content/ShowCaseStepThreeLabTest';
+import ShowCaseStepThreeImaging from './Content/ShowCaseStepThreeImaging';
+import { Wrapper } from './Components/Styled';
 
 const Container = styled.div`
   padding: 2rem 0 0;
@@ -25,7 +25,7 @@ const Content = styled.div`
 const MultiButtonWrapper = styled.div`
   padding: 0 2rem;
   @media (min-width: 700px) {
-    padding: 0 3rem 2rem;
+    padding: 0 10rem 2rem;
   }
 `;
 
@@ -36,7 +36,7 @@ const ShowCaseStepThreeContainer: React.FC<
   RouteComponentProps<ShowCaseStepThreeContainerProps>
 > = props => {
   const { caseId } = props.match.params;
-  const [activeTabName, setActiveTabName] = useState("Lab Test");
+  const [activeTabName, setActiveTabName] = useState('Lab Test');
   const [caseInfo, setCaseInfo] = useState(null);
   const [examinationArray, setExaminationArray] = useState<any[]>([]);
   const [caseExaminations, setCaseExaminations] = useState<any[]>([]);
@@ -59,10 +59,10 @@ const ShowCaseStepThreeContainer: React.FC<
       setExaminationArray(response.data);
     };
     effect();
-  }, []);
+  }, [caseId]);
 
   const goToStepFour = () => {
-    props.history.push(`/show-case-step-two/${caseId}`);
+    props.history.push(`/show-case-step-four/${caseId}`);
   };
 
   const goToStepTwo = () => {
@@ -81,20 +81,20 @@ const ShowCaseStepThreeContainer: React.FC<
           <MultiButton
             activeItemName={activeTabName}
             items={[
-              { name: "Lab Test", onClick: () => setActiveTabName("Lab Test") },
-              { name: "Imaging", onClick: () => setActiveTabName("Imaging") }
+              { name: 'Lab Test', onClick: () => setActiveTabName('Lab Test') },
+              { name: 'Imaging', onClick: () => setActiveTabName('Imaging') }
             ]}
           />
         </MultiButtonWrapper>
         <Content>
-          {activeTabName === "Lab Test" && (
+          {activeTabName === 'Lab Test' && (
             <ShowCaseStepThreeLabTest
               caseInfo={caseInfo}
               examinationArray={examinationArray}
               caseExaminations={caseExaminations}
             />
           )}
-          {activeTabName === "Imaging" && (
+          {activeTabName === 'Imaging' && (
             <ShowCaseStepThreeImaging caseInfo={caseInfo} />
           )}
         </Content>

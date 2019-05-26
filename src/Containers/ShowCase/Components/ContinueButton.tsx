@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { PulseLoader } from "react-spinners";
+import React from 'react';
+import styled from 'styled-components';
+import { PulseLoader } from 'react-spinners';
 
 const Button = styled.div`
   flex: 1;
@@ -35,7 +35,7 @@ const ContinueButton: React.FC<ContinueButtonProps> = props => {
 };
 
 ContinueButton.defaultProps = {
-  title: "Next"
+  title: 'Next'
 };
 
 export default ContinueButton;

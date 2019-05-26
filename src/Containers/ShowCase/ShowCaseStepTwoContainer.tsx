@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import Layout from "components/Partials/Layout";
-import { RouteComponentProps } from "react-router";
-import { CaseApi } from "Api/CaseApi";
-import Heading from "./Components/Heading";
-import MultiButton from "components/MultiButton/MultiButton";
-import ContinueButton from "./Components/ContinueButton";
-import ShowCaseStepTwoAll from "./Content/ShowCaseStepTwoAll";
-import ShowCaseStepTwoPositive from "./Content/ShowCaseStepTwoPositive";
-import ShowCaseStepTwoNegative from "./Content/ShowCaseStepTwoNegative";
-import { Wrapper } from "./Components/Styled";
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import Layout from 'components/Partials/Layout';
+import { RouteComponentProps } from 'react-router';
+import { CaseApi } from 'Api/CaseApi';
+import Heading from './Components/Heading';
+import MultiButton from 'components/MultiButton/MultiButton';
+import ContinueButton from './Components/ContinueButton';
+import ShowCaseStepTwoAll from './Content/ShowCaseStepTwoAll';
+import ShowCaseStepTwoPositive from './Content/ShowCaseStepTwoPositive';
+import ShowCaseStepTwoNegative from './Content/ShowCaseStepTwoNegative';
+import { Wrapper } from './Components/Styled';
 
 const Container = styled.div`
   padding: 2rem 0 0;
@@ -38,7 +38,7 @@ const ShowCaseStepTwoContainer: React.FC<
   RouteComponentProps<ShowCaseStepTwoContainerProps>
 > = props => {
   const { caseId } = props.match.params;
-  const [activeTabName, setActiveTabName] = useState("All");
+  const [activeTabName, setActiveTabName] = useState('All');
   const [caseInfo, setCaseInfo] = useState(null);
   const [diseaseArray, setDiseaseArray] = useState<any[]>([]);
   const [signSymptoms, setSignSymptoms] = useState<any[]>([]);
@@ -96,28 +96,28 @@ const ShowCaseStepTwoContainer: React.FC<
           <MultiButton
             activeItemName={activeTabName}
             items={[
-              { name: "All", onClick: () => setActiveTabName("All") },
-              { name: "Positive", onClick: () => setActiveTabName("Positive") },
-              { name: "Negative", onClick: () => setActiveTabName("Negative") }
+              { name: 'All', onClick: () => setActiveTabName('All') },
+              { name: 'Positive', onClick: () => setActiveTabName('Positive') },
+              { name: 'Negative', onClick: () => setActiveTabName('Negative') }
             ]}
           />
         </MultiButtonWrapper>
         <Content>
-          {activeTabName === "All" && (
+          {activeTabName === 'All' && (
             <ShowCaseStepTwoAll
               caseInfo={caseInfo}
               diseaseArray={diseaseArray}
               signSymptoms={signSymptoms}
             />
           )}
-          {activeTabName === "Positive" && (
+          {activeTabName === 'Positive' && (
             <ShowCaseStepTwoPositive
               diseaseArrayFiltred={diseaseArrayFiltred || []}
               caseInfo={caseInfo}
               signSymptoms={signSymptoms}
             />
           )}
-          {activeTabName === "Negative" && (
+          {activeTabName === 'Negative' && (
             <ShowCaseStepTwoNegative
               diseaseArrayFiltred={diseaseArrayFiltred || []}
               caseInfo={caseInfo}

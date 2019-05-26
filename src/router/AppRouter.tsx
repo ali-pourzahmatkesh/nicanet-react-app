@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react';
 import {
   Switch,
   Route,
   withRouter,
   RouteComponentProps,
   Redirect
-} from "react-router-dom";
+} from 'react-router-dom';
 
-import LoginContainer from 'Containers/Login/LoginContainer'
+import LoginContainer from 'Containers/Login/LoginContainer';
 import HomeContainer from 'Containers/Home/HomeContainer';
 import ChatContainer from 'Containers/Chat/ChatContainer';
 import RoomContainer from 'Containers/Chat/RoomContainer';
@@ -28,9 +28,10 @@ import AddAdrStepOne from 'Containers/AddAdr/AddAdrStepOne';
 import AddAdrStepTwo from 'Containers/AddAdr/AddAdrStepTwo';
 import AddAdrStepThree from 'Containers/AddAdr/AddAdrStepThree';
 import AddAdrStepFour from 'Containers/AddAdr/AddAdrStepFour';
-import ShowCaseStepOneContainer from "Containers/ShowCase/ShowCaseStepOneContainer";
-import ShowCaseStepTwoContainer from "Containers/ShowCase/ShowCaseStepTwoContainer";
-import ShowCaseStepThreeContainer from "Containers/ShowCase/ShowCaseStepThreeContainer";
+import ShowCaseStepOneContainer from 'Containers/ShowCase/ShowCaseStepOneContainer';
+import ShowCaseStepTwoContainer from 'Containers/ShowCase/ShowCaseStepTwoContainer';
+import ShowCaseStepThreeContainer from 'Containers/ShowCase/ShowCaseStepThreeContainer';
+import ShowCaseStepFourContainer from 'Containers/ShowCase/ShowCaseStepFourContainer';
 import AddAdrStepFive from 'Containers/AddAdr/AddAdrStepFive';
 
 import {
@@ -58,7 +59,8 @@ import {
   SHOW_CASE_STEP_ONE_ROUTE,
   SHOW_CASE_STEP_TWO_ROUTE,
   SHOW_CASE_STEP_THREE_ROUTE,
-} from './RouterConstants'
+  SHOW_CASE_STEP_FOUR_ROUTE
+} from './RouterConstants';
 
 interface AppRouterProps {
   isLoggedIn: boolean;
@@ -86,22 +88,84 @@ class AppRouter extends React.Component<
         <Route path={CHAT_ROOM_ROUTE} exact component={RoomContainer} />
         <Route path={ADD_POST_ROUTE} exact component={AddPostContainer} />
         <Route path={SHOW_POST_ROUTE} exact component={PostContainer} />
-        <Route path={ADD_CASE_STEP_ZERO_ROUTE} exact component={AddCaseStepZero} />
-        <Route path={ADD_CASE_STEP_ONE_ROUTE} exact component={AddCaseStepOne} />
-        <Route path={ADD_CASE_STEP_TWO_ROUTE} exact component={AddCaseStepTwo} />
-        <Route path={ADD_CASE_STEP_THREE_ROUTE} exact component={AddCaseStepThree} />
-        <Route path={ADD_CASE_STEP_FOUR_ROUTE} exact component={AddCaseStepFour} />
-        <Route path={ADD_CASE_STEP_FIVE_ROUTE} exact component={AddCaseStepFive} />
-        <Route path={ADD_CASE_STEP_SIX_ROUTE} exact component={AddCaseStepSix} />
-        <Route path={ADD_ADR_STEP_ZERO_ROUTE} exact component={AddAdrStepZero} />
         <Route path={ADD_ADR_STEP_ONE_ROUTE} exact component={AddAdrStepOne} />
         <Route path={ADD_ADR_STEP_TWO_ROUTE} exact component={AddAdrStepTwo} />
-        <Route path={ADD_ADR_STEP_THREE_ROUTE} exact component={AddAdrStepThree} />
-        <Route path={ADD_ADR_STEP_FOUR_ROUTE} exact component={AddAdrStepFour} />
-        <Route path={ADD_ADR_STEP_FIVE_ROUTE} exact component={AddAdrStepFive} />
-        <Route path={SHOW_CASE_STEP_ONE_ROUTE} exact component={ShowCaseStepOneContainer} />
-        <Route path={SHOW_CASE_STEP_TWO_ROUTE} exact component={ShowCaseStepTwoContainer} />
-        <Route path={SHOW_CASE_STEP_THREE_ROUTE} exact component={ShowCaseStepThreeContainer} />
+        <Route
+          path={ADD_ADR_STEP_THREE_ROUTE}
+          exact
+          component={AddAdrStepThree}
+        />
+        <Route
+          path={ADD_ADR_STEP_FOUR_ROUTE}
+          exact
+          component={AddAdrStepFour}
+        />
+        <Route
+          path={ADD_ADR_STEP_FIVE_ROUTE}
+          exact
+          component={AddAdrStepFive}
+        />
+        <Route
+          path={ADD_CASE_STEP_ZERO_ROUTE}
+          exact
+          component={AddCaseStepZero}
+        />
+        <Route
+          path={ADD_CASE_STEP_ONE_ROUTE}
+          exact
+          component={AddCaseStepOne}
+        />
+        <Route
+          path={ADD_CASE_STEP_TWO_ROUTE}
+          exact
+          component={AddCaseStepTwo}
+        />
+        <Route
+          path={ADD_CASE_STEP_THREE_ROUTE}
+          exact
+          component={AddCaseStepThree}
+        />
+        <Route
+          path={ADD_CASE_STEP_FOUR_ROUTE}
+          exact
+          component={AddCaseStepFour}
+        />
+        <Route
+          path={ADD_CASE_STEP_FIVE_ROUTE}
+          exact
+          component={AddCaseStepFive}
+        />
+        <Route
+          path={ADD_CASE_STEP_SIX_ROUTE}
+          exact
+          component={AddCaseStepSix}
+        />
+        <Route
+          path={ADD_ADR_STEP_ZERO_ROUTE}
+          exact
+          component={AddAdrStepZero}
+        />
+        <Route
+          path={SHOW_CASE_STEP_ONE_ROUTE}
+          exact
+          component={ShowCaseStepOneContainer}
+        />
+        <Route
+          path={SHOW_CASE_STEP_TWO_ROUTE}
+          exact
+          component={ShowCaseStepTwoContainer}
+        />
+        <Route
+          path={SHOW_CASE_STEP_THREE_ROUTE}
+          exact
+          component={ShowCaseStepThreeContainer}
+        />
+        <Route
+          path={SHOW_CASE_STEP_FOUR_ROUTE}
+          exact
+          component={ShowCaseStepFourContainer}
+        />
+        <Route path={ROOT_ROUTE} component={LoginContainer} />
       </Switch>
     );
   }

@@ -1,10 +1,10 @@
-import React from "react";
-import styled from "styled-components";
-import Layout from "components/Partials/Layout";
-import { RouteComponentProps } from "react-router";
-import { HOME_ROUTE } from "router/RouterConstants";
-import Heading from "./Components/Heading";
-import ShowCaseStepOne from "./Content/ShowCaseStepOne";
+import React from 'react';
+import styled from 'styled-components';
+import Layout from 'components/Partials/Layout';
+import { RouteComponentProps } from 'react-router';
+import { HOME_ROUTE } from 'router/RouterConstants';
+import Heading from './Components/Heading';
+import ShowCaseStepOne from './Content/ShowCaseStepOne';
 
 const Container = styled.div`
   padding: 0;

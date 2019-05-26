@@ -1,19 +1,25 @@
-import React, { useState, useEffect, Fragment } from "react";
-import Drawer from "components/Drawer/DrawerComponent";
-import { PaddedWrapper, Title, LoadingWrapprer } from "../Components/Styled";
-import { BounceLoader } from "react-spinners";
-import Layout from "../../../components/Partials/Layout";
-import styled from "styled-components";
-import { Value, Row, Col, Wrapper } from "../Components/Styled";
-import ShowCaseItem from "../Components/ShowCaseItem";
-import ImageSlider from "../../../components/ImageSlider/ImageSliderComponent";
+import React, { useState, useEffect, Fragment } from 'react';
+import Drawer from 'components/Drawer/DrawerComponent';
+import { PaddedWrapper, Title, LoadingWrapprer } from '../Components/Styled';
+import { BounceLoader } from 'react-spinners';
+import Layout from '../../../components/Partials/Layout';
+import styled from 'styled-components';
+import { Value, Row, Col, Wrapper } from '../Components/Styled';
+import ShowCaseItem from '../Components/ShowCaseItem';
+import ImageSlider from '../../../components/ImageSlider/ImageSliderComponent';
 
 const CaptionWrapprer = styled.div`
   margin-top: 1rem;
+  @media (min-width: 700px) {
+    padding: 0 3.2rem;
+  }
 `;
 
 export const NoteWrapper = styled.div`
   margin: 1rem 0;
+  @media (min-width: 700px) {
+    padding: 0 3.2rem;
+  }
 `;
 
 interface ShowCaseStepTwoAllProps {
@@ -81,16 +87,16 @@ function ShowCaseStepTwoAll(props: ShowCaseStepTwoAllProps) {
                             color={
                               signSymptomValue !== undefined
                                 ? signSymptomValue
-                                  ? "#5498A9"
-                                  : "#f5a623"
-                                : "#bdbdbd"
+                                  ? '#5498A9'
+                                  : '#f5a623'
+                                : '#bdbdbd'
                             }
                           >
                             {signSymptomValue !== undefined
                               ? signSymptomValue
-                                ? "Yes"
-                                : "No"
-                              : "unknown"}
+                                ? 'Yes'
+                                : 'No'
+                              : 'unknown'}
                           </Col>
                         </Row>
                       </Fragment>

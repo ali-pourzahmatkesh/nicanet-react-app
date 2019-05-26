@@ -23,7 +23,7 @@ const Container = styled.div`
   right: 0;
   padding: 0.3rem 1rem;
   border-top: 1px solid #979797;
-  height: 50px;
+  height: 60px;
 `
 
 const LinksContainer = styled.div`
@@ -53,7 +53,7 @@ const IconWrapper = styled.div`
 `
 
 const Spacer = styled.div`
-  height: 120px;
+  height: 30px;
 `
 
 function TabBar (props) {
@@ -61,7 +61,6 @@ function TabBar (props) {
 
   return (
     <Fragment>
-      <Spacer></Spacer>
       <Container>
         <LinksContainer>
           <IconWrapper onClick={() => props.history.push(HOME_ROUTE)}>

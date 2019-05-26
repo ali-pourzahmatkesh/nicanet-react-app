@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { BounceLoader } from "react-spinners";
-import { CaseApi } from "../../../Api/CaseApi";
-import Layout from "../../../components/Partials/Layout";
-import { Value, StringValue, LoadingWrapprer } from "../Components/Styled";
-import ShowCaseItem from "../Components/ShowCaseItem";
-import ShowCaseStringArray from "../Components/ShowCaseStringArray";
-import ImageSlider from "../../../components/ImageSlider/ImageSliderComponent";
-import DrugItem from "../Components/DrugItem";
-import ContinueButton from "../Components/ContinueButton";
+import React, { useState, useEffect } from 'react';
+import { BounceLoader } from 'react-spinners';
+import { CaseApi } from '../../../Api/CaseApi';
+import { Value, StringValue, LoadingWrapprer } from '../Components/Styled';
+import ShowCaseItem from '../Components/ShowCaseItem';
+import ShowCaseStringArray from '../Components/ShowCaseStringArray';
+import ImageSlider from '../../../components/ImageSlider/ImageSliderComponent';
+import DrugItem from '../Components/DrugItem';
+import ContinueButton from '../Components/ContinueButton';
 interface ShowCaseStepOneProps {
   caseId: string;
   onSubmit: () => void;
@@ -28,7 +27,7 @@ function ShowCaseStepOne(props: ShowCaseStepOneProps) {
   useEffect(() => {
     const effect = async () => {
       const response = await CaseApi.getCase(caseId, true);
-      console.log("response", response);
+      console.log('response', response);
       if (response.status === 200) {
         const data = response.data;
 
@@ -40,13 +39,13 @@ function ShowCaseStepOne(props: ShowCaseStepOneProps) {
 
         setPresentIllness(
           data.PatientSigns.filter(
-            (item: any) => item.TypeId === 122 && item.ResultValue === "Yes"
+            (item: any) => item.TypeId === 122 && item.ResultValue === 'Yes'
           )
         );
 
         setGeneralAppearance(
           data.PatientSigns.filter(
-            (item: any) => item.TypeId === 123 && item.ResultValue === "Yes"
+            (item: any) => item.TypeId === 123 && item.ResultValue === 'Yes'
           )
         );
 
@@ -68,11 +67,11 @@ function ShowCaseStepOne(props: ShowCaseStepOneProps) {
 
   if (caseInfo === null)
     return (
-      <Layout>
+      <div>
         <LoadingWrapprer>
           <BounceLoader sizeUnit="rem" size={3} color="#5498a9" loading />
         </LoadingWrapprer>
-      </Layout>
+      </div>
     );
 
   const {
@@ -131,10 +130,14 @@ function ShowCaseStepOne(props: ShowCaseStepOneProps) {
 
       {(BloodPressure || PulseRate || RespiratoryRate || Temprature > 0) && (
         <ShowCaseItem title="Vital Sign (VS):">
-          <StringValue>{`BP: ${BloodPressure}`}</StringValue>
-          <StringValue>{`PR: ${PulseRate}`}</StringValue>
-          <StringValue>{`RR: ${RespiratoryRate}`}</StringValue>
-          <StringValue>{`Tempreture: ${Temprature}`}</StringValue>
+          {BloodPressure && <StringValue>{`BP: ${BloodPressure}`}</StringValue>}
+          {PulseRate && <StringValue>{`PR: ${PulseRate}`}</StringValue>}
+          {RespiratoryRate && (
+            <StringValue>{`RR: ${RespiratoryRate}`}</StringValue>
+          )}
+          {+Temprature > 0 && (
+            <StringValue>{`Tempreture: ${Temprature}`}</StringValue>
+          )}
         </ShowCaseItem>
       )}
 
@@ -171,7 +174,10 @@ function ShowCaseStepOne(props: ShowCaseStepOneProps) {
       )}
 
       {(otcDrugs.length > 0 || OTCDrugNote) && (
-        <ShowCaseItem title="Over The Counter Drugs (OTC):" theme={{ hasLine: true }}>
+        <ShowCaseItem
+          title="Over The Counter Drugs (OTC):"
+          theme={{ hasLine: true }}
+        >
           {otcDrugs.length > 0 &&
             otcDrugs.map(item => {
               return <DrugItem key={item.CaseDrugId} drug={item} />;
@@ -185,8 +191,8 @@ function ShowCaseStepOne(props: ShowCaseStepOneProps) {
           {habitualHistories.map((item, index) => (
             <Value key={index.toString()}>{`${
               item.HabitualTitle
-            } ${item.DailyUsage && "-"} ${item.DailyUsage} ${item.Duration &&
-              "-"} ${item.Duration}`}</Value>
+            } ${item.DailyUsage && '-'} ${item.DailyUsage} ${item.Duration &&
+              '-'} ${item.Duration}`}</Value>
           ))}
         </ShowCaseItem>
       )}

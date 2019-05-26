@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import styled from 'styled-components';
 import Layout from 'components/Partials/Layout';
 import { RouteComponentProps } from 'react-router';
@@ -9,44 +9,53 @@ import { CaseApi } from 'Api/CaseApi';
 
 const Container = styled.div`
   padding: 0 1rem;
-`
+`;
 
-const AddCaseStepOne: React.FC<RouteComponentProps<{}>> = (props) => {
-
+const AddCaseStepOne: React.FC<RouteComponentProps<{}>> = props => {
   const onSubmit = async (values: any) => {
-    const currentCaseRaw = localStorage.getItem('current_case')
-    if (currentCaseRaw === null) return
-    const { CaseId } = JSON.parse(currentCaseRaw)
+    const currentCaseRaw = localStorage.getItem('current_case');
+    if (currentCaseRaw === null) return;
+    const { CaseId } = JSON.parse(currentCaseRaw);
 
     const data = {
       CaseId,
-      StatusId:1,
+      StatusId: 1,
       ChiefComplaint: values.ChiefComplaint,
-      BloodPressure: `${values.BloodPressureOne}/${values.BloodPressureTwo}`,
+      BloodPressure: values.BloodPressureOne
+        ? `${values.BloodPressureOne}${values.BloodPressureTwo ? '/' : ''}${
+            values.BloodPressureTwo
+          }`
+        : '',
       PulseRate: values.PulseRate,
       RespiratoryRate: values.RespiratoryRate,
-      Temprature: `${values.TempratureOne}/${values.TempratureTwo}`,
+      Temprature: values.TempratureOne
+        ? `${values.TempratureOne}${values.TempratureTwo ? '.' : ''}${
+            values.TempratureTwo
+          }`
+        : 0,
       PiNote: values.PiNote,
       GaNote: values.GaNote,
-      PatientSigns: [],
-    }
-    
-    Object.keys(values).filter(key => key.startsWith('SymptomId')).forEach(SymptomId => {
-      if (values[SymptomId]) {
-        (data.PatientSigns as any).push({
-          SymptomId: SymptomId.split('_').pop(),
-          ResultValue: values[SymptomId],
-        })
-      }
-    })
-    const { status } = await CaseApi.updateCase(data)
-    if (status !== 204) throw status
-    props.history.push(ADD_CASE_STEP_TWO_ROUTE)
-  }
+      PatientSigns: []
+    };
+
+    Object.keys(values)
+      .filter(key => key.startsWith('SymptomId'))
+      .forEach(SymptomId => {
+        if (values[SymptomId]) {
+          (data.PatientSigns as any).push({
+            SymptomId: SymptomId.split('_').pop(),
+            ResultValue: values[SymptomId]
+          });
+        }
+      });
+    const { status } = await CaseApi.updateCase(data);
+    if (status !== 204) throw status;
+    props.history.push(ADD_CASE_STEP_TWO_ROUTE);
+  };
 
   const goToStepTwo = () => {
-    props.history.push(ADD_CASE_STEP_TWO_ROUTE)    
-  }
+    props.history.push(ADD_CASE_STEP_TWO_ROUTE);
+  };
 
   return (
     <Layout>
@@ -55,7 +64,7 @@ const AddCaseStepOne: React.FC<RouteComponentProps<{}>> = (props) => {
         <AddCaseStepOneForm onSubmit={onSubmit} />
       </Container>
     </Layout>
-  )
-}
+  );
+};
 
-export default AddCaseStepOne
+export default AddCaseStepOne;
