@@ -8,7 +8,7 @@ const ItemWrapper = styled.div`
   margin: 0 0 1.3rem;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   background-color: #fff;
-  @media (min-width: 700px) {
+  @media (min-width: 720px) {
     margin: 0 3.2rem 1.3rem;
   }
 `;

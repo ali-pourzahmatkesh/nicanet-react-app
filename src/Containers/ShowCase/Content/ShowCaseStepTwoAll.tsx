@@ -10,14 +10,14 @@ import ImageSlider from '../../../components/ImageSlider/ImageSliderComponent';
 
 const CaptionWrapprer = styled.div`
   margin-top: 1rem;
-  @media (min-width: 700px) {
+  @media (min-width: 720px) {
     padding: 0 3.2rem;
   }
 `;
 
 export const NoteWrapper = styled.div`
   margin: 1rem 0;
-  @media (min-width: 700px) {
+  @media (min-width: 720px) {
     padding: 0 3.2rem;
   }
 `;

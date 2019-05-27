@@ -21,7 +21,7 @@ const Content = styled.div`
 `;
 const MultiButtonWrapper = styled.div`
   padding: 0 2rem;
-  @media (min-width: 700px) {
+  @media (min-width: 720px) {
     padding: 0 10rem 2rem;
   }
 `;

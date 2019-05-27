@@ -13,7 +13,7 @@ import { Wrapper } from './Components/Styled';
 const Container = styled.div`
   padding: 2rem 0 0;
   margin: 0 -1rem;
-  @media (min-width: 700px) {
+  @media (min-width: 720px) {
     padding: 2rem 1rem 0;
     margin: 0;
   }
@@ -24,7 +24,7 @@ const Content = styled.div`
 `;
 const MultiButtonWrapper = styled.div`
   padding: 0 2rem;
-  @media (min-width: 700px) {
+  @media (min-width: 720px) {
     padding: 0 10rem 2rem;
   }
 `;

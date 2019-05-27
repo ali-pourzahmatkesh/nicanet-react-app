@@ -14,14 +14,14 @@ const Interactions = styled.div`
 
 export const Wrapper = styled.div`
   padding: 0 1rem;
-  @media (min-width: 700px) {
+  @media (min-width: 720px) {
     padding: 1rem 7rem;
   }
 `;
 
 export const ContentActionsWrapper = styled.div`
   margin-top: 5rem;
-  @media (min-width: 700px) {
+  @media (min-width: 720px) {
     padding: 0 3.2rem;
   }
 `;
@@ -57,11 +57,9 @@ function ShowCaseStepFourDX(props: ShowCaseStepFourDXProps) {
 
   if (caseInfo === null)
     return (
-      <Layout>
-        <LoadingWrapprer>
-          <BounceLoader sizeUnit="rem" size={3} color="#5498a9" loading />
-        </LoadingWrapprer>
-      </Layout>
+      <LoadingWrapprer>
+        <BounceLoader sizeUnit="rem" size={3} color="#5498a9" loading />
+      </LoadingWrapprer>
     );
 
   return (

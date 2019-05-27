@@ -8,7 +8,7 @@ const Container = styled.div<{ theme?: any }>`
   border-bottom-color: ${props => (props.theme.hasLine ? '#bdbdbd' : '#fff')};
   border-bottom-width: ${props => (props.theme.hasLine ? '1px' : '0')};
   border-bottom-style: solid;
-  @media (min-width: 700px) {
+  @media (min-width: 720px) {
     margin: 1rem 0;
     padding-bottom: ${props => (props.theme.noLine ? '0' : '1rem')};
     border-bottom-color: ${props => (props.theme.noLine ? '#fff' : '#bdbdbd')};

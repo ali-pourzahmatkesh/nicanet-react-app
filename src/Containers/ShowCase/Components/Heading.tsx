@@ -12,7 +12,7 @@ const Container = styled.div`
   padding: 1rem;
   margin: -1rem -1rem 0;
   box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.1);
-  @media (min-width: 700px) {
+  @media (min-width: 720px) {
     margin: 0;
     padding: 1rem 0 2rem;
     border-bottom: 1px solid #bdbdbd;
@@ -27,7 +27,7 @@ const Title = styled.div`
   color: #000;
   flex: 1;
   text-align: center;
-  @media (min-width: 700px) {
+  @media (min-width: 720px) {
     font-size: 2rem;
   }
 `;

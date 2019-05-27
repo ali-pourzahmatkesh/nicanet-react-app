@@ -14,7 +14,7 @@ const CaptionWrapprer = styled.div`
 
 export const NoteWrapper = styled.div`
   margin: 1rem 0;
-  @media (min-width: 700px) {
+  @media (min-width: 720px) {
     margin: 1rem 3.2rem;
   }
 `;

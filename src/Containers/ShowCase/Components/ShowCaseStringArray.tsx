@@ -6,7 +6,7 @@ export const StringValue = styled.div<{ size?: string }>`
   font-size: ${props => props.size};
   color: #212121;
   margin-bottom: 1rem;
-  @media (min-width: 700px) {
+  @media (min-width: 720px) {
     padding: 0 2rem;
   }
 `;

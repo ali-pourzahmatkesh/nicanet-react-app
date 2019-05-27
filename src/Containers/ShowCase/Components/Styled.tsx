@@ -13,7 +13,7 @@ export const Value = styled.div<{ noIndent?: boolean }>`
   font-size: 0.8rem;
   color: #212121;
   margin-top: 0.5rem;
-  @media (min-width: 700px) {
+  @media (min-width: 720px) {
     padding: ${props => (props.noIndent ? '0' : '0 2rem')};
   }
 `;
@@ -23,14 +23,14 @@ export const StringValue = styled.div`
   font-size: 1rem;
   color: #212121;
   margin-bottom: 1rem;
-  @media (min-width: 700px) {
+  @media (min-width: 720px) {
     padding: 0 2rem;
   }
 `;
 
 export const PaddedWrapper = styled.div`
   padding: 1rem 1.5rem 0.5rem;
-  @media (min-width: 700px) {
+  @media (min-width: 720px) {
     padding: 1rem 0 3rem;
   }
 `;
@@ -38,7 +38,7 @@ export const PaddedWrapper = styled.div`
 export const Row = styled.div`
   display: flex;
   justify-content: space-between;
-  @media (min-width: 700px) {
+  @media (min-width: 720px) {
     padding: 0 3.2rem;
   }
 `;
@@ -60,7 +60,7 @@ export const LoadingWrapprer = styled.div`
 
 export const Wrapper = styled.div`
   padding: 0 1rem;
-  @media (min-width: 700px) {
+  @media (min-width: 720px) {
     padding: 0;
   }
 `;

@@ -54,7 +54,7 @@ const Action = styled.div`
   align-items: center;
   width: 2.7rem;
   margin-right: 0.2rem;
-  @media (min-width: 700px) {
+  @media (min-width: 720px) {
     margin-right: 0.8rem;
     width: 3rem;
   }
@@ -72,7 +72,7 @@ const Text = styled.div`
   font-family: Roboto;
   font-size: 0.8rem;
   margin-left: 0.2rem;
-  @media (min-width: 700px) {
+  @media (min-width: 720px) {
     margin-left: 0.4rem;
   }
 `;
@@ -81,7 +81,7 @@ const Reply = styled.div`
   color: #bdbdbd;
   width: 0.5rem;
   text-align: center;
-  @media (min-width: 700px) {
+  @media (min-width: 720px) {
     margin-right: 0.5rem;
   }
 `;
@@ -93,7 +93,7 @@ const TimeAgo = styled.div`
   width: 6rem;
   text-align: right;
   margin-left: 0.3rem;
-  @media (min-width: 700px) {
+  @media (min-width: 720px) {
     width: 7rem;
     margin-left: 0.5rem;
   }
