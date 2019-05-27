@@ -19,7 +19,8 @@ import {
   SiteTitle,
   SiteSlogan,
   MockupImageWrapper,
-  FormWrapper
+  FormWrapper,
+  Text
 } from './styled';
 import TextInput from '../../components/TextInput';
 import // SibAppBadge,
@@ -179,7 +180,7 @@ class LoginContainer extends React.Component<
                     />
                     <LoginButton onClick={this.handleLogin}>Log In</LoginButton>
                     <RegisterText>
-                      Don't have an account?{' '}
+                      <Text>Don't have an account?{' '}</Text>
                       <RegisterLink
                         onClick={() => this.setState({ register: true })}
                       >

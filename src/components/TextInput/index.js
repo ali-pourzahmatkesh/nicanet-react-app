@@ -11,7 +11,7 @@ export default styled.input`
   border-bottom-style: solid;
   border-bottom-width: 1px;
   padding: 0.5rem 0;
-  margin: 0 0 2rem 0;
+  margin: 0 0 1.5rem 0;
 
   ::placeholder {
     color: ${PLACEHOLDER};
