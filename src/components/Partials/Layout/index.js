@@ -57,6 +57,6 @@ const ContentContainer = styled.div`
 
 const ContentWrapper = styled.div`
   padding-bottom: 60px;
-  width: 720px;
+  max-width: 720px;
   margin: 0 auto;
 `;
