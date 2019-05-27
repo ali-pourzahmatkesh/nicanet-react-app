@@ -2,6 +2,8 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { login } from '../../Redux/Actions/Auth/AuthActions';
+import { setToken } from '../../Api/Api';
+import ContinueButton from './ContinueButton';
 import {
   Container,
   LogoImage,
@@ -20,7 +22,9 @@ import {
   SiteSlogan,
   MockupImageWrapper,
   FormWrapper,
-  Text
+  Text,
+  ErrorMsg,
+  TextInputWrapper
 } from './styled';
 import TextInput from '../../components/TextInput';
 import // SibAppBadge,
@@ -39,6 +43,7 @@ import AuthLayout from 'components/Partials/Layout/AuthLayout';
 interface LoginContainerProps {
   login: any;
   isLoggedIn: boolean;
+  isLoading: boolean;
 }
 
 class LoginContainer extends React.Component<
@@ -55,19 +60,45 @@ class LoginContainer extends React.Component<
     firstName: '',
     lastName: '',
     email: '',
-    passwordRepeat: ''
+    passwordRepeat: '',
+    phoneNumberError: '',
+    isLoading: false
   };
 
   handleLogin = async (event: any) => {
     event && event.preventDefault();
-
     const { phoneNumber, password } = this.state;
+    if (phoneNumber.length !== 11) {
+      this.setState({
+        phoneNumberError: 'Incorrect phone number'
+      });
+      return;
+    }
+    this.setState({
+      phoneNumberError: '',
+      isLoading: true
+    });
 
-    this.props.login({ username: phoneNumber, password });
+    await this.props.login({ username: phoneNumber, password });
+    this.setState({
+      isLoading: false
+    });
+    //TODO
+    console.log('isLoggedIn', this.props.isLoggedIn);
   };
 
   handleGetCode = async () => {
     const { phoneNumber } = this.state;
+    if (phoneNumber.length !== 11) {
+      this.setState({
+        phoneNumberError: 'Incorrect phone number'
+      });
+      return;
+    }
+    this.setState({
+      phoneNumberError: '',
+      isLoading: true
+    });
 
     try {
       const response = await AuthApi.register(phoneNumber);
@@ -76,8 +107,11 @@ class LoginContainer extends React.Component<
         throw response;
       }
 
-      this.setState({ personId: response.data });
+      // setToken(response.data.Token, false);
+
+      this.setState({ personId: response.data, isLoading: false });
     } catch (error) {
+      this.setState({ isLoading: false });
       console.log('error in requesting code', error);
       alert('Failed to request code, please try again');
     }
@@ -139,6 +173,8 @@ class LoginContainer extends React.Component<
       return <Redirect to={HOME_ROUTE} />;
     }
 
+    console.log('loading', this.props.isLoading);
+
     const { register, personId, getUserInfo } = this.state;
 
     return (
@@ -163,26 +199,43 @@ class LoginContainer extends React.Component<
                 <FormWrapper>
                   <FormContainer>
                     <FormTitle>Enter your information for login</FormTitle>
-                    <TextInput
-                      placeholder="Phone Number"
-                      value={this.state.phoneNumber}
-                      onChange={e =>
-                        this.setState({ phoneNumber: e.target.value })
-                      }
+                    <TextInputWrapper>
+                      <TextInput
+                        placeholder="Phone Number"
+                        value={this.state.phoneNumber}
+                        onChange={e =>
+                          this.setState({
+                            phoneNumber: e.target.value,
+                            phoneNumberError: ''
+                          })
+                        }
+                      />
+                      <ErrorMsg>{this.state.phoneNumberError}</ErrorMsg>
+                    </TextInputWrapper>
+                    <TextInputWrapper hasMargin>
+                      <TextInput
+                        type="password"
+                        placeholder="Password"
+                        value={this.state.password}
+                        onChange={e =>
+                          this.setState({ password: e.target.value })
+                        }
+                      />
+                    </TextInputWrapper>
+                    <ContinueButton
+                      onClick={this.handleLogin}
+                      title="Log In"
+                      isLoading={this.state.isLoading}
                     />
-                    <TextInput
-                      type="password"
-                      placeholder="Password"
-                      value={this.state.password}
-                      onChange={e =>
-                        this.setState({ password: e.target.value })
-                      }
-                    />
-                    <LoginButton onClick={this.handleLogin}>Log In</LoginButton>
                     <RegisterText>
-                      <Text>Don't have an account?{' '}</Text>
+                      <Text>Don't have an account? </Text>
                       <RegisterLink
-                        onClick={() => this.setState({ register: true })}
+                        onClick={() =>
+                          this.setState({
+                            register: true,
+                            phoneNumberError: ''
+                          })
+                        }
                       >
                         Register Now
                       </RegisterLink>
@@ -194,16 +247,25 @@ class LoginContainer extends React.Component<
                 <FormWrapper>
                   <FormContainer>
                     <FormTitle>Enter your phone number</FormTitle>
-                    <TextInput
-                      placeholder="Phone Number"
-                      value={this.state.phoneNumber}
-                      onChange={e =>
-                        this.setState({ phoneNumber: e.target.value })
-                      }
+                    <TextInputWrapper>
+                      <TextInput
+                        placeholder="Phone Number"
+                        value={this.state.phoneNumber}
+                        onChange={e =>
+                          this.setState({
+                            phoneNumber: e.target.value,
+                            phoneNumberError: ''
+                          })
+                        }
+                      />
+                      <ErrorMsg>{this.state.phoneNumberError}</ErrorMsg>
+                    </TextInputWrapper>
+                    <ContinueButton
+                      onClick={this.handleGetCode}
+                      title="Get Verification Code"
+                      isLoading={this.state.isLoading}
                     />
-                    <LoginButton onClick={this.handleGetCode}>
-                      Get Verification Code
-                    </LoginButton>
+
                     <RegisterText>
                       Have an account?{' '}
                       <RegisterLink

@@ -5,49 +5,53 @@ import { GRADIENT_START, GRADIENT_END } from '../../constants/colors';
 import { AppBadge } from '../../components/Badges';
 
 export const Container = styled.div`
-  @media (min-width: 440px) {
-    height: 100vh;
-    overflow: hidden;
+  @media (min-width: 960px) {
+    margin-bottom: 8rem;
   }
 `;
 
 export const LogoImage = styled.img`
   height: auto;
-  max-width: 100%;
+  max-width: 50%;
   display: block;
   margin: 0 auto 1.5rem;
   @media (min-width: 440px) {
+    width: 40%;
+    max-width: 280px;
     margin: 0 auto 2rem;
+  }
+  @media (min-width: 960px) {
+    max-width: 350px;
   }
 `;
 
 export const GradientSectionContainer = styled.div`
-  height: 42rem;
   padding: 0 1rem;
-  height: 60vh;
+  height: 75vh;
   background-image: linear-gradient(64deg, ${GRADIENT_START}, ${GRADIENT_END});
   @media (min-width: 960px) {
-    height: 70vh;
-  }
-  @media (min-width: 1440px) {
-    height: 57vh;
+    height: auto;
   }
 `;
 
 export const TopSectionContainer = styled.div`
   padding: 2rem 0 0;
+  @media (min-width: 1440px) {
+    padding: 4rem 0 0;
+  }
 `;
 
 export const MiddleSectionContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 0 2rem;
-  margin: 0 auto;
+  margin: 0 auto 2rem;
   @media (min-width: 960px) {
     flex-direction: row;
-    padding: 0 4rem 2rem;
+    padding: 0 4rem;
+    marin-bottom: 0;
     max-width: 980px;
+    min-height: 345px;
   }
 `;
 
@@ -59,7 +63,14 @@ export const SiteTitle = styled.h1`
   font-size: 2rem;
   margin-bottom: 1rem;
   @media (min-width: 440px) {
+    padding: 0 2rem;
+  }
+  @media (min-width: 980px) {
     font-size: 2.5rem;
+    padding: 0;
+  }
+  @media (min-width: 1440px) {
+    margin: 3rem 0 2rem;
   }
 `;
 
@@ -72,6 +83,9 @@ export const SiteSlogan = styled.h2`
   @media (min-width: 440px) {
     width: 400px;
     margin: 0 auto 2rem;
+  }
+  @media (min-width: 960px) {
+    margin-bottom: -1rem;
   }
 `;
 
@@ -88,8 +102,10 @@ export const MockupImageWrapper = styled.div`
 export const MockupImage = styled.img`
   @media (min-width: 960px) {
     margin: 0 auto;
+    position: relative;
     height: auto;
     max-width: 100%;
+    bottom: -24%;
   }
 `;
 
@@ -100,6 +116,7 @@ export const FormWrapper = styled.div`
   }
   @media (min-width: 960px) {
     flex: 0.45;
+    position: relative;
     padding: 0;
   }
 `;
@@ -119,10 +136,12 @@ export const FormContainer = styled.div`
   }
   @media (min-width: 440px) {
     padding: 2rem;
-    max-width: 90%;
+    max-width: 420px;
   }
   @media (min-width: 960px) {
+    position: absolute;
     margin: 1rem 0 0 3rem;
+    bottom: -25%;
     max-width: 100%;
   }
 `;
@@ -137,6 +156,7 @@ export const FormTitle = styled.p`
 
 export const LoginButton = styled(ActionButton).attrs({ fullWidth: true })`
   margin-top: 1rem;
+  cursor: pointer;
 `;
 
 export const BottomSectionContainer = styled.div`
@@ -170,6 +190,7 @@ export const RegisterLink = styled.div`
   color: #369eb3;
   flex: 0.4;
   text-align: right;
+  cursor: pointer;
   @media (min-width: 440px) {
     flex: 0.3;
   }
@@ -180,4 +201,15 @@ export const Text = styled.div`
   @media (min-width: 440px) {
     flex: 0.7;
   }
+`;
+
+export const ErrorMsg = styled.div`
+  font-size: 0.7rem;
+  color: #d0021b;
+  height: 1.5rem;
+  padding-top: 0.2rem;
+`;
+
+export const TextInputWrapper = styled.div<{ hasMargin?: boolean }>`
+  margin-bottom: ${props => (props.hasMargin ? '1.5rem' : '0')};
 `;

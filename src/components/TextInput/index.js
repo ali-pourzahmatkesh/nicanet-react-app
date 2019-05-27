@@ -1,6 +1,6 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
-import { PLACEHOLDER, BORDER, PRIMARY } from '../../constants/colors'
+import { PLACEHOLDER, BORDER, PRIMARY } from '../../constants/colors';
 
 export default styled.input`
   border: none;
@@ -11,7 +11,7 @@ export default styled.input`
   border-bottom-style: solid;
   border-bottom-width: 1px;
   padding: 0.5rem 0;
-  margin: 0 0 1.5rem 0;
+  width: 100%;
 
   ::placeholder {
     color: ${PLACEHOLDER};
@@ -20,4 +20,4 @@ export default styled.input`
   :focus {
     border-bottom-color: ${PRIMARY};
   }
-`
+`;
