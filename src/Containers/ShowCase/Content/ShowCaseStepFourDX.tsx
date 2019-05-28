@@ -12,21 +12,21 @@ const Interactions = styled.div`
   margin-top: 1rem;
 `;
 
-export const Wrapper = styled.div`
+const Wrapper = styled.div`
   padding: 0 1rem;
   @media (min-width: 720px) {
     padding: 1rem 7rem;
   }
 `;
 
-export const ContentActionsWrapper = styled.div`
+const ContentActionsWrapper = styled.div`
   margin-top: 5rem;
   @media (min-width: 720px) {
     padding: 0 3.2rem;
   }
 `;
 
-export const Drugs = styled.div`
+const Drugs = styled.div`
   min-height: 4rem;
 `;
 

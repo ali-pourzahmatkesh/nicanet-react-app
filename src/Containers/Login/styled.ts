@@ -149,6 +149,7 @@ export const FormContainer = styled.div`
 export const FormTitle = styled.p`
   margin-bottom: 1rem;
   margin-top: 0;
+  text-align: center;
   @media (min-width: 440px) {
     margin-bottom: 2rem;
   }
@@ -212,4 +213,16 @@ export const ErrorMsg = styled.div`
 
 export const TextInputWrapper = styled.div<{ hasMargin?: boolean }>`
   margin-bottom: ${props => (props.hasMargin ? '1.5rem' : '0')};
+`;
+
+export const Timer = styled.div`
+  margin: 1rem 0;
+  text-align: center;
+`;
+
+export const Resend = styled.div<{ isActive?: boolean }>`
+  margin: 1rem 0;
+  text-align: center;
+  color: ${props => (props.isActive ? '#317c92' : '#ddd')};
+  color: ${props => props.isActive && 'pointer'};
 `;

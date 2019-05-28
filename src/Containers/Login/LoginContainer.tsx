@@ -14,8 +14,8 @@ import {
   FormContainer,
   FormTitle,
   LoginButton,
-  // BottomSectionContainer,
-  // AppBadgesContainer,
+  BottomSectionContainer,
+  AppBadgesContainer,
   RegisterLink,
   RegisterText,
   SiteTitle,
@@ -24,14 +24,17 @@ import {
   FormWrapper,
   Text,
   ErrorMsg,
-  TextInputWrapper
+  TextInputWrapper,
+  Timer,
+  Resend
 } from './styled';
 import TextInput from '../../components/TextInput';
-import // SibAppBadge,
-// DirectLinkBadge,
-// GooglePlayBadge,
-// CafeBazaarBadge
-'../../components/Badges';
+// import {
+//   SibAppBadge,
+//   DirectLinkBadge,
+//   GooglePlayBadge,
+//   CafeBazaarBadge
+// } from '../../components/Badges';
 import { AuthApi } from '../../Api/AuthApi';
 import { RouteComponentProps, Redirect } from 'react-router';
 
@@ -39,6 +42,7 @@ import pointinaLogo from '../../Assets/logo.png';
 import mockupImage from '../../Assets/macbookpro.png';
 import { HOME_ROUTE } from 'router/RouterConstants';
 import AuthLayout from 'components/Partials/Layout/AuthLayout';
+import { englishNumber } from '../../utils/utils';
 
 interface LoginContainerProps {
   login: any;
@@ -56,26 +60,76 @@ class LoginContainer extends React.Component<
     password: '',
     code: '',
     getUserInfo: false,
+    person: null,
     personId: null,
+    token: '',
     firstName: '',
     lastName: '',
     email: '',
     passwordRepeat: '',
+    timeRemaining: 120,
     phoneNumberError: '',
-    isLoading: false
+    formError: '',
+    isLoading: false,
+    showTimer: true,
+    timer: ''
   };
+
+  componentDidMount() {
+    this.timerCountDown();
+  }
+
+  timerCountDown() {
+    const countdown = setInterval(() => {
+      if (this.state.timeRemaining > 0) {
+        const remaning = this.state.timeRemaining - 1;
+        this.setState({ timeRemaining: remaning });
+
+        let minutes = 0;
+        let seconds = 0;
+        if (remaning > 60) {
+          minutes = Math.floor(remaning / 60);
+          seconds = Math.floor(remaning % 60);
+        } else {
+          seconds = remaning;
+        }
+        const minutesStr = minutes > 9 ? minutes : `0${minutes}`;
+        const secondsStr = seconds > 9 ? seconds : `0${seconds}`;
+        this.setState({ timer: `${minutesStr} : ${secondsStr}` });
+      } else {
+        this.setState({
+          showTimer: false,
+          code: '',
+          formError: ''
+        });
+
+        if (countdown) {
+          clearInterval(countdown);
+        }
+      }
+    }, 1000);
+  }
 
   handleLogin = async (event: any) => {
     event && event.preventDefault();
     const { phoneNumber, password } = this.state;
-    if (phoneNumber.length !== 11) {
+    this.setState({
+      phoneNumberError: '',
+      formError: ''
+    });
+    if (!phoneNumber) {
+      this.setState({
+        phoneNumberError: 'Phone number is required.'
+      });
+      return;
+    } else if (phoneNumber.length !== 11) {
       this.setState({
         phoneNumberError: 'Incorrect phone number'
       });
       return;
     }
+
     this.setState({
-      phoneNumberError: '',
       isLoading: true
     });
 
@@ -83,20 +137,33 @@ class LoginContainer extends React.Component<
     this.setState({
       isLoading: false
     });
-    //TODO
-    console.log('isLoggedIn', this.props.isLoggedIn);
+    if (!this.props.isLoggedIn) {
+      this.setState({
+        formError: 'Username or password is incorrect'
+      });
+    }
   };
 
-  handleGetCode = async () => {
+  handleGetCode = async (resendCode = false) => {
     const { phoneNumber } = this.state;
-    if (phoneNumber.length !== 11) {
+
+    this.setState({
+      formError: ''
+    });
+
+    if (!phoneNumber) {
       this.setState({
-        phoneNumberError: 'Incorrect phone number'
+        formError: 'Phone number is required.'
+      });
+      return;
+    } else if (phoneNumber.length !== 11) {
+      this.setState({
+        formError: 'Incorrect phone number'
       });
       return;
     }
+
     this.setState({
-      phoneNumberError: '',
       isLoading: true
     });
 
@@ -107,18 +174,50 @@ class LoginContainer extends React.Component<
         throw response;
       }
 
-      // setToken(response.data.Token, false);
+      await setToken(response.data.Token, false);
 
-      this.setState({ personId: response.data, isLoading: false });
+      this.setState(
+        {
+          person: response.data.Person,
+          personId: response.data.Person.PersonId,
+          token: response.data.Token,
+          isLoading: false,
+          timeRemaining: 120,
+          showTimer: true
+        },
+        () => {
+          this.timerCountDown();
+        }
+      );
     } catch (error) {
-      this.setState({ isLoading: false });
+      console.log('resendCode', resendCode);
+      this.setState({
+        isLoading: false,
+        formError: resendCode
+          ? "You can 't request more than three times a day!"
+          : 'This phone number has been registered!'
+      });
       console.log('error in requesting code', error);
-      alert('Failed to request code, please try again');
+      // alert('Failed to request code, please try again');
     }
   };
 
   handleVerify = async () => {
     const { phoneNumber, code } = this.state;
+    this.setState({
+      formError: ''
+    });
+
+    if (!code) {
+      this.setState({
+        formError: 'Code number is required.'
+      });
+      return;
+    }
+
+    this.setState({
+      isLoading: true
+    });
 
     try {
       const response = await AuthApi.verifyCode(phoneNumber, code);
@@ -127,16 +226,20 @@ class LoginContainer extends React.Component<
         throw response;
       }
 
-      this.setState({ getUserInfo: true });
+      this.setState({ getUserInfo: true, isLoading: false });
     } catch (error) {
+      this.setState({
+        isLoading: false,
+        formError: 'Verification code is not True!'
+      });
       console.log('error in requesting code', error);
-      alert('Failed to request code, please try again');
+      // alert('Failed to request code, please try again');
     }
   };
 
   submitUserInfo = async () => {
     const {
-      personId,
+      phoneNumber,
       firstName,
       lastName,
       email,
@@ -150,7 +253,6 @@ class LoginContainer extends React.Component<
 
     try {
       const response = await AuthApi.updateUser(
-        personId,
         firstName,
         lastName,
         email,
@@ -160,22 +262,31 @@ class LoginContainer extends React.Component<
       if (response.status !== 204) {
         throw response;
       }
-
-      login({ userId: personId });
+      await this.props.login({ username: phoneNumber, password });
     } catch (error) {
       console.log('error in updating user', error);
-      alert('Failed to set info, please try again');
+      // alert('Failed to set info, please try again');
     }
+  };
+
+  resendActiveCodeToUser = () => {
+    this.setState({
+      isLoading: true,
+      timer: '',
+      code: '',
+      formError: '',
+      showTimer: false
+    });
+    this.handleGetCode(true);
   };
 
   render() {
     if (this.props.isLoggedIn) {
       return <Redirect to={HOME_ROUTE} />;
     }
-
-    console.log('loading', this.props.isLoading);
-
     const { register, personId, getUserInfo } = this.state;
+    const registerr = true;
+    const login = false;
 
     return (
       <AuthLayout>
@@ -195,32 +306,38 @@ class LoginContainer extends React.Component<
                 <MockupImage src={mockupImage} />
               </MockupImageWrapper>
 
-              {!register && !getUserInfo && (
+              {!register && !getUserInfo && login &&(
                 <FormWrapper>
                   <FormContainer>
                     <FormTitle>Enter your information for login</FormTitle>
                     <TextInputWrapper>
                       <TextInput
+                        type="number"
                         placeholder="Phone Number"
                         value={this.state.phoneNumber}
                         onChange={e =>
                           this.setState({
-                            phoneNumber: e.target.value,
-                            phoneNumberError: ''
+                            phoneNumber: englishNumber(e.target.value),
+                            phoneNumberError: '',
+                            formError: ''
                           })
                         }
                       />
                       <ErrorMsg>{this.state.phoneNumberError}</ErrorMsg>
                     </TextInputWrapper>
-                    <TextInputWrapper hasMargin>
+                    <TextInputWrapper>
                       <TextInput
                         type="password"
                         placeholder="Password"
                         value={this.state.password}
                         onChange={e =>
-                          this.setState({ password: e.target.value })
+                          this.setState({
+                            password: e.target.value,
+                            formError: ''
+                          })
                         }
                       />
+                      <ErrorMsg>{this.state.formError}</ErrorMsg>
                     </TextInputWrapper>
                     <ContinueButton
                       onClick={this.handleLogin}
@@ -253,15 +370,15 @@ class LoginContainer extends React.Component<
                         value={this.state.phoneNumber}
                         onChange={e =>
                           this.setState({
-                            phoneNumber: e.target.value,
-                            phoneNumberError: ''
+                            phoneNumber: englishNumber(e.target.value),
+                            formError: ''
                           })
                         }
                       />
-                      <ErrorMsg>{this.state.phoneNumberError}</ErrorMsg>
+                      <ErrorMsg>{this.state.formError}</ErrorMsg>
                     </TextInputWrapper>
                     <ContinueButton
-                      onClick={this.handleGetCode}
+                      onClick={() => this.handleGetCode()}
                       title="Get Verification Code"
                       isLoading={this.state.isLoading}
                     />
@@ -282,20 +399,39 @@ class LoginContainer extends React.Component<
                   <FormContainer>
                     <FormTitle>
                       A verification code has been sent to your phone number.
-                      Enter the code
+                      <br /> Enter the code
                     </FormTitle>
-                    <TextInput
-                      placeholder="Phone Number"
-                      value={this.state.code}
-                      onChange={e => this.setState({ code: e.target.value })}
+                    <TextInputWrapper>
+                      <TextInput
+                        placeholder="Verification Code"
+                        value={this.state.code}
+                        onChange={e =>
+                          this.setState({
+                            formError: '',
+                            code: englishNumber(e.target.value)
+                          })
+                        }
+                      />
+                      <ErrorMsg>{this.state.formError}</ErrorMsg>
+                    </TextInputWrapper>
+                    <Timer>{this.state.timer}</Timer>
+                    <Resend
+                      isActive={!this.state.showTimer}
+                      onClick={() => {
+                        !this.state.showTimer && this.resendActiveCodeToUser();
+                      }}
+                    >
+                      Resend
+                    </Resend>
+                    <ContinueButton
+                      onClick={this.handleVerify}
+                      title="Verify"
+                      isLoading={this.state.isLoading}
                     />
-                    <LoginButton onClick={this.handleVerify}>
-                      Verify
-                    </LoginButton>
                   </FormContainer>
                 </FormWrapper>
               )}
-              {getUserInfo && (
+              {(getUserInfo || registerr) && (
                 <FormWrapper>
                   <FormContainer>
                     <FormTitle>Enter your information</FormTitle>

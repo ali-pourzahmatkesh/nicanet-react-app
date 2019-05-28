@@ -15,7 +15,7 @@ const CaptionWrapprer = styled.div`
   }
 `;
 
-export const NoteWrapper = styled.div`
+const NoteWrapper = styled.div`
   margin: 1rem 0;
   @media (min-width: 720px) {
     padding: 0 3.2rem;

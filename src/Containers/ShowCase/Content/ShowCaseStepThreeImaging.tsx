@@ -9,7 +9,7 @@ import ShowCaseItem from '../Components/ShowCaseItem';
 import ImageSlider from '../../../components/ImageSlider/ImageSliderComponent';
 import Imaging from '../MockData/ShowCaseStepThreeImaging.json';
 
-export const NoteWrapper = styled.div`
+const NoteWrapper = styled.div`
   margin: 1rem 0;
   @media (min-width: 720px) {
     margin: 1rem 3.2rem;
