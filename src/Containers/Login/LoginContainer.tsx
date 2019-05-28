@@ -43,6 +43,7 @@ import mockupImage from '../../Assets/macbookpro.png';
 import { HOME_ROUTE } from 'router/RouterConstants';
 import AuthLayout from 'components/Partials/Layout/AuthLayout';
 import { englishNumber } from '../../utils/utils';
+import { emailValidation, passwordValidation } from '../../utils/validation';
 
 interface LoginContainerProps {
   login: any;
@@ -72,7 +73,12 @@ class LoginContainer extends React.Component<
     formError: '',
     isLoading: false,
     showTimer: true,
-    timer: ''
+    timer: '',
+    errorFirstName: '',
+    errorLastName: '',
+    errorEmail: '',
+    errorPassword: '',
+    errorConfirmPass: ''
   };
 
   componentDidMount() {
@@ -190,7 +196,6 @@ class LoginContainer extends React.Component<
         }
       );
     } catch (error) {
-      console.log('resendCode', resendCode);
       this.setState({
         isLoading: false,
         formError: resendCode
@@ -238,18 +243,15 @@ class LoginContainer extends React.Component<
   };
 
   submitUserInfo = async () => {
-    const {
-      phoneNumber,
-      firstName,
-      lastName,
-      email,
-      password,
-      passwordRepeat
-    } = this.state;
-
-    if (passwordRepeat !== password) {
-      return alert('Passwords do not match');
+    if (!this.isRegisterValid()) {
+      return;
     }
+
+    this.setState({
+      isLoading: true
+    });
+
+    const { phoneNumber, firstName, lastName, email, password } = this.state;
 
     try {
       const response = await AuthApi.updateUser(
@@ -263,10 +265,66 @@ class LoginContainer extends React.Component<
         throw response;
       }
       await this.props.login({ username: phoneNumber, password });
+      this.setState({
+        isLoading: false
+      });
     } catch (error) {
       console.log('error in updating user', error);
+      this.setState({
+        errorConfirmPass: 'The information has been full!',
+        isLoading: false
+      });
       // alert('Failed to set info, please try again');
     }
+  };
+
+  isRegisterValid = () => {
+    let hasError = false;
+
+    this.setState({
+      errorFirstName: '',
+      errorLastName: '',
+      errorEmail: '',
+      errorPassword: '',
+      errorConfirmPass: ''
+    });
+
+    const { firstName, lastName, email, password, passwordRepeat } = this.state;
+
+    if (!firstName) {
+      this.setState({ errorFirstName: 'First Name is required!' });
+      hasError = true;
+    }
+
+    if (!lastName) {
+      this.setState({ errorLastName: 'Last Name is required!' });
+      hasError = true;
+    }
+
+    if (email && !emailValidation(email)) {
+      this.setState({
+        errorEmail: 'Email address.(e.g: pointina@example.com)'
+      });
+      hasError = true;
+    }
+
+    if (!passwordValidation(password)) {
+      this.setState({ errorPassword: 'At least 6 characters.' });
+      hasError = true;
+    }
+
+    if (password && password !== passwordRepeat) {
+      this.setState({
+        errorConfirmPass: "Password and confirm password don't match"
+      });
+      hasError = true;
+    }
+
+    if (!hasError) {
+      return true;
+    }
+
+    return false;
   };
 
   resendActiveCodeToUser = () => {
@@ -286,7 +344,6 @@ class LoginContainer extends React.Component<
     }
     const { register, personId, getUserInfo } = this.state;
     const registerr = true;
-    const login = false;
 
     return (
       <AuthLayout>
@@ -306,7 +363,7 @@ class LoginContainer extends React.Component<
                 <MockupImage src={mockupImage} />
               </MockupImageWrapper>
 
-              {!register && !getUserInfo && login &&(
+              {!register && !getUserInfo && (
                 <FormWrapper>
                   <FormContainer>
                     <FormTitle>Enter your information for login</FormTitle>
@@ -431,48 +488,82 @@ class LoginContainer extends React.Component<
                   </FormContainer>
                 </FormWrapper>
               )}
-              {(getUserInfo || registerr) && (
+              {getUserInfo && (
                 <FormWrapper>
                   <FormContainer>
                     <FormTitle>Enter your information</FormTitle>
-                    <TextInput
-                      placeholder="First Name"
-                      value={this.state.firstName}
-                      onChange={e =>
-                        this.setState({ firstName: e.target.value })
-                      }
+                    <TextInputWrapper>
+                      <TextInput
+                        placeholder="First Name"
+                        value={this.state.firstName}
+                        onChange={e =>
+                          this.setState({
+                            firstName: e.target.value,
+                            errorFirstName: ''
+                          })
+                        }
+                      />
+                      <ErrorMsg>{this.state.errorFirstName}</ErrorMsg>
+                    </TextInputWrapper>
+                    <TextInputWrapper>
+                      <TextInput
+                        placeholder="Last Name"
+                        value={this.state.lastName}
+                        onChange={e =>
+                          this.setState({
+                            lastName: e.target.value,
+                            errorLastName: ''
+                          })
+                        }
+                      />
+                      <ErrorMsg>{this.state.errorLastName}</ErrorMsg>
+                    </TextInputWrapper>
+                    <TextInputWrapper>
+                      <TextInput
+                        placeholder="Email"
+                        value={this.state.email}
+                        onChange={e =>
+                          this.setState({
+                            email: e.target.value,
+                            errorEmail: ''
+                          })
+                        }
+                      />
+                      <ErrorMsg>{this.state.errorEmail}</ErrorMsg>
+                    </TextInputWrapper>
+                    <TextInputWrapper>
+                      <TextInput
+                        type="password"
+                        placeholder="Passsword"
+                        value={this.state.password}
+                        onChange={e =>
+                          this.setState({
+                            password: e.target.value,
+                            errorPassword: ''
+                          })
+                        }
+                      />
+                      <ErrorMsg>{this.state.errorPassword}</ErrorMsg>
+                    </TextInputWrapper>
+                    <TextInputWrapper>
+                      <TextInput
+                        type="password"
+                        placeholder="Confirm password"
+                        value={this.state.passwordRepeat}
+                        onChange={e =>
+                          this.setState({
+                            passwordRepeat: e.target.value,
+                            errorConfirmPass: ''
+                          })
+                        }
+                      />
+                      <ErrorMsg>{this.state.errorConfirmPass}</ErrorMsg>
+                    </TextInputWrapper>
+                    <ContinueButton
+                      onClick={this.submitUserInfo}
+                      title="Continue"
+                      isLoading={this.state.isLoading}
                     />
-                    <TextInput
-                      placeholder="Last Name"
-                      value={this.state.lastName}
-                      onChange={e =>
-                        this.setState({ lastName: e.target.value })
-                      }
-                    />
-                    <TextInput
-                      placeholder="Email"
-                      value={this.state.email}
-                      onChange={e => this.setState({ email: e.target.value })}
-                    />
-                    <TextInput
-                      type="password"
-                      placeholder="Passsword"
-                      value={this.state.password}
-                      onChange={e =>
-                        this.setState({ password: e.target.value })
-                      }
-                    />
-                    <TextInput
-                      type="password"
-                      placeholder="Confirm password"
-                      value={this.state.passwordRepeat}
-                      onChange={e =>
-                        this.setState({ passwordRepeat: e.target.value })
-                      }
-                    />
-                    <LoginButton onClick={this.submitUserInfo}>
-                      Continue
-                    </LoginButton>
                   </FormContainer>
                 </FormWrapper>
               )}
