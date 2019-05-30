@@ -14,7 +14,7 @@ const Title = styled.div`
   flex: 1;
   align-items: center;
   cursor: pointer;
-  @media (min-width: 700px) {
+  @media (min-width: 720px) {
     border-bottom-color: #424242;
     background-color: #fff;
   }

@@ -7,7 +7,8 @@ import { connect } from 'react-redux';
 import { ContentApi } from 'Api/ContentApi';
 import Card from 'components/Card/CardComponent';
 import { API_FILES_BASE_URL } from 'constants/ApiConstants';
-import PenIconSvg from 'Assets/Pen.svg'
+import PenIconSvg from 'Assets/Pen.svg';
+import avatarPhoto from '../../Assets/avatar.jpg';
 
 const Avatar = styled.img`
   width: 60px;
@@ -82,7 +83,7 @@ function ProfileContainer(props: ProfileContainerProps & RouteComponentProps) {
     <Layout>
 
       <UserInfoWrapper>
-        <Avatar src={`${API_FILES_BASE_URL}/${user.ImageUrl}`} />
+        <Avatar src={user.ImageUrl ? `${API_FILES_BASE_URL}/${user.ImageUrl}` : avatarPhoto} />
         <Title>{user.FullName}</Title>
         <Subtitle>{user.Expertise} hi there 11</Subtitle>
         <PrimaryText>{user.Email}</PrimaryText>

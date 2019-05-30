@@ -73,6 +73,12 @@ class AppRouter extends React.Component<
   render() {
     const { location } = this.props;
 
+    console.log('this.props.isLoggedIn', this.props.isLoggedIn);
+    console.log(
+      'location.pathname.startsWith(LOGIN_ROUTE)',
+      location.pathname.startsWith(LOGIN_ROUTE)
+    );
+
     if (!this.props.isLoggedIn && !location.pathname.startsWith(LOGIN_ROUTE)) {
       return <Redirect to={LOGIN_ROUTE} />;
     }

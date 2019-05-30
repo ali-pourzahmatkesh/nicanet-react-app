@@ -50,4 +50,6 @@ const ContentContainer = styled.div`
 
 const ContentWrapper = styled.div`
   padding-bottom: 60px;
+  max-width: 720px;
+  margin: 0 auto;
 `;

@@ -1,5 +1,6 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
+import avatarPhoto from '../../Assets/avatar.jpg';
 
 const Container = styled.div`
   border-radius: 5px;
@@ -90,9 +91,13 @@ function Card(props) {
       <Main>
         {Object.keys(author).length > 0 && (
           <AuthorWrapper>
-            {authorImage && (
-              <AuthorImage src={`https://api.pointina.ir/${authorImage}`} />
-            )}
+            <AuthorImage
+              src={
+                authorImage
+                  ? `https://api.pointina.ir/${authorImage}`
+                  : avatarPhoto
+              }
+            />
             <AuthorInfo>
               {authorTitle && <AuthorTitle>{authorTitle}</AuthorTitle>}
               {authorSubtitle && (

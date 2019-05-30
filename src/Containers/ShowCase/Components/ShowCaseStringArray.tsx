@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export const StringValue = styled.div<{ size?: string }>`
+const StringValue = styled.div<{ size?: string }>`
   font-family: Roboto;
   font-size: ${props => props.size};
   color: #212121;
   margin-bottom: 1rem;
-  @media (min-width: 700px) {
+  @media (min-width: 720px) {
     padding: 0 2rem;
   }
 `;
