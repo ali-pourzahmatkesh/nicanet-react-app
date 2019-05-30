@@ -192,7 +192,7 @@ const Comments: React.FC<CommentsProps> = props => {
         <StyledInput
           ref={element => setInputText(element)}
           type="text"
-          placeholder="Job Title"
+          placeholder="Write a Comment"
           value={commentText}
           onChange={event => setCommentText(event.target.value)}
         />

@@ -44,7 +44,7 @@ const ShowCaseStepFourContainer: React.FC<
       const response = await CaseApi.getCase(caseId, false);
       if (response.status !== 200) return;
       const CaseInfo = response.data;
-      console.log('CaseInfo', CaseInfo);
+      // console.log('CaseInfo', CaseInfo);
       setCaseInfo(CaseInfo);
       setContentId(CaseInfo.ContentId);
       setPersonVoted(CaseInfo.PersonVoted);

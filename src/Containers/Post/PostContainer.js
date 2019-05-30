@@ -8,6 +8,7 @@ import Layout from '../../components/Partials/Layout';
 import ContentActions from '../../components/ContentActions/ContentActionsComponent';
 import ContentStatusBar from '../../components/ContentStatusBar/ContentStatusBarComponent';
 import Comments from '../../components/Comments/CommentsComponent';
+import avatarPhoto from '../../Assets/avatar.jpg';
 
 const PostImage = styled.img`
   border: solid 3px solid #eee;
@@ -204,9 +205,13 @@ function PostContainer(props) {
         )}
         <AuthorWrapper>
           <AuthorLeftCol>
-            {WriterImage && (
-              <AuthorImage src={`https://api.pointina.ir/${WriterImage}`} />
-            )}
+            <AuthorImage
+              src={
+                WriterImage
+                  ? `https://api.pointina.ir/${WriterImage}`
+                  : avatarPhoto
+              }
+            />
             <AuthorInfo>
               {WriterFullName && <AuthorTitle>{WriterFullName}</AuthorTitle>}
               {TimeElapsed && <PublishTime>{TimeElapsed}</PublishTime>}
