@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
-import styled from 'styled-components'
+import styled from 'styled-components';
 
-import Layout from '../../components/Partials/Layout'
+import Layout from '../../components/Partials/Layout';
 import { connect } from 'react-redux';
 import { ContentApi } from 'Api/ContentApi';
 import Card from 'components/Card/CardComponent';
@@ -15,7 +15,7 @@ const Avatar = styled.img`
   height: 60px;
   border-radius: 60px;
   border: solid 1px #eeeeee;
-`
+`;
 
 const UserInfoWrapper = styled.div`
   border-radius: 5px;
@@ -23,14 +23,15 @@ const UserInfoWrapper = styled.div`
   background-color: #ffffff;
   padding: 1rem;
   position: relative;
-`
+  margin-bottom: 1rem;
+`;
 
 const PenIcon = styled.img`
   position: absolute;
   top: 1rem;
   right: 1rem;
   cursor: pointer;
-`
+`;
 
 const Title = styled.div`
   font-family: Roboto;
@@ -38,64 +39,69 @@ const Title = styled.div`
   font-weight: bold;
   color: #000000;
   margin-bottom: 0.5rem;
-`
+`;
 
 const Subtitle = styled.div`
   font-family: Roboto;
   font-size: 0.9rem;
   color: #000000;
   margin-bottom: 0.5rem;
-`
+`;
 
 const PrimaryText = styled.div`
   font-family: Roboto;
   font-size: 0.9rem;
   color: #5498a9;
   margin-bottom: 0.5rem;
-`
+`;
 
 const Paragraph = styled.div`
   font-family: Roboto;
   font-size: 0.9rem;
   color: #282828;
   margin-bottom: 0.5rem;
-`
+`;
 
 interface ProfileContainerProps {
-  user: any
-} 
+  user: any;
+}
 
 function ProfileContainer(props: ProfileContainerProps & RouteComponentProps) {
-  const { user } = props
-  const [content, setContent] = useState([])
-  
+  const { user } = props;
+  const [content, setContent] = useState([]);
+
   useEffect(() => {
     const effect = async () => {
       try {
-        const response = await ContentApi.getCurrentPersonContents()    
-        setContent(response.data.filter((post: any) => post.CaseId === 0))
+        const response = await ContentApi.getCurrentPersonContents();
+        setContent(response.data.filter((post: any) => post.CaseId === 0));
       } catch (_) {}
-    }
-    effect()
-  }, [])
+    };
+    effect();
+  }, []);
 
   return (
     <Layout>
-
       <UserInfoWrapper>
-        <Avatar src={user.ImageUrl ? `${API_FILES_BASE_URL}/${user.ImageUrl}` : avatarPhoto} />
+        <Avatar
+          src={
+            user.ImageUrl
+              ? `${API_FILES_BASE_URL}/${user.ImageUrl}`
+              : avatarPhoto
+          }
+        />
         <Title>{user.FullName}</Title>
         <Subtitle>{user.Expertise} hi there 11</Subtitle>
         <PrimaryText>{user.Email}</PrimaryText>
         <Paragraph>{user.Bio} hi there 22</Paragraph>
-        <PenIcon src={PenIconSvg} />
+        {/* <PenIcon src={PenIconSvg} /> */}
       </UserInfoWrapper>
 
-       {content.length > 0 &&
+      {content.length > 0 &&
         content.map((content: any) => (
           <Card
             onClick={() => {
-              props.history.push(`/post/${content.ContentId}`)
+              props.history.push(`/post/${content.ContentId}`);
             }}
             key={content.ContentId}
             title={content.Subject}
@@ -109,15 +115,15 @@ function ProfileContainer(props: ProfileContainerProps & RouteComponentProps) {
               publishTime: content.TimeElapsed
             }}
           />
-      ))}
+        ))}
     </Layout>
-  )
+  );
 }
 
 const mapStateToProps = (state: any) => {
-  return ({
-    user: state.auth.user,
-  })
-}
+  return {
+    user: state.auth.user
+  };
+};
 
-export default connect(mapStateToProps)(ProfileContainer)
+export default connect(mapStateToProps)(ProfileContainer);

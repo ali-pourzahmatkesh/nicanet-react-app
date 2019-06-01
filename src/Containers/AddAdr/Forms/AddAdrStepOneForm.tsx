@@ -40,6 +40,7 @@ function AddAdrStepOneForm(props: AddAdrStepOneFormProps) {
     form: {
       getFieldDecorator,
       validateFields,
+      getFieldValue
     },
     onSubmit
   } = props;
@@ -86,6 +87,10 @@ function AddAdrStepOneForm(props: AddAdrStepOneFormProps) {
               {getFieldDecorator(`habitualHistory_check_${habitualHistory.value}`)(
                 <CheckBox name={habitualHistory.name} />
               )}
+              {getFieldValue(
+                `habitualHistory_check_${habitualHistory.value}`
+              ) && (
+                  <div>
               {
                 habitualHistory.name === 'Other' &&
                 <AdrFormItem>
@@ -104,6 +109,8 @@ function AddAdrStepOneForm(props: AddAdrStepOneFormProps) {
                   <Input placeholder="Duration" />
                 )}
               </AdrFormItem>
+                  </div>
+                )}
             </Fragment>
           ))
         }

@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import { createForm } from 'rc-form';
 import styled, { css } from 'styled-components';
 import Select from 'components/Select/SelectComponent';
 import AdrFormItem from './AdrFormItem';
 import Radio, { RadioComponents as RC } from 'components/Radio/RadioComponent';
 import Input from 'components/Input/InputComponent';
-import { Title, PaddedWrapper } from 'Containers/AddCase/Components/Styled';
+import {
+  Title,
+  PaddedWrapper,
+  ErrorMesseage
+} from 'Containers/AddCase/Components/Styled';
 import ContinueButton from 'Containers/AddCase/Components/ContinueButton';
 import { ConfigApi } from 'Api/ConfigApi';
 import Textarea from 'components/Textarea/TextareaComponent';
@@ -25,7 +29,7 @@ const Row = styled.div`
       padding-bottom: 0.5rem;
     }
   }
-`
+`;
 
 const RadioDynamicOptionsActiveStyle = css`
   &:before {
@@ -38,9 +42,9 @@ const RadioDynamicOptionsActiveStyle = css`
     content: '';
     cursor: not-allowed;
   }
-`
+`;
 
-const RadioDynamicOptions = styled.div<{ isActive?: boolean  }>`
+const RadioDynamicOptions = styled.div<{ isActive?: boolean }>`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -55,72 +59,96 @@ const RadioDynamicOptions = styled.div<{ isActive?: boolean  }>`
     left: 0.5rem;
     top: 1rem;
   }
-  ${ props => props.isActive === false && RadioDynamicOptionsActiveStyle };
-`
+  ${props => props.isActive === false && RadioDynamicOptionsActiveStyle};
+`;
+
+const RadioErrorMesseage = styled.div`
+  color: red;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+`;
 
 const Separtor = styled.div`
   width: 100%;
   height: 1px;
   background-color: #666;
   margin-bottom: 1.5rem;
-`
+`;
 
 interface AddAdrStepOneFormProps {
-  form: any
-  onSubmit: (values: any) => Promise<any>
+  form: any;
+  onSubmit: (values: any) => Promise<any>;
 }
 
 function AddAdrStepOneForm(props: AddAdrStepOneFormProps) {
   const {
-    form: {
-      getFieldDecorator,
-      validateFields,
-    },
+    form: { getFieldDecorator, validateFields, getFieldError, getFieldsValue },
     onSubmit
   } = props;
 
-  const durations = useApiConfig(60)
-  const outComes = useApiConfig(74)
-  
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [OccurrencedPlaceId, setOccurrencedPlaceId] = useState<number | undefined>(undefined)
-  const [HospitalizationStatusId, setHospitalizationStatusId] = useState<number | undefined>(undefined)
-  const [CutEffectId, setCutEffectId] = useState<number | undefined>(undefined)
-  const [ReuseEffectId, setReuseEffectId] = useState<number | undefined>(undefined)
-  const [TreatmentDone, setTreatmentDone] = useState<boolean | undefined>(undefined)
+  const durations = useApiConfig(60);
+  const outComes = useApiConfig(74);
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [OccurrencedPlaceId, setOccurrencedPlaceId] = useState<
+    number | undefined
+  >(undefined);
+  const [HospitalizationStatusId, setHospitalizationStatusId] = useState<
+    number | undefined
+  >(undefined);
+  const [CutEffectId, setCutEffectId] = useState<number | undefined>(undefined);
+  const [CutEffectIdError, setCutEffectIdError] = useState<string>('');
+  const [ReuseEffectId, setReuseEffectId] = useState<number | undefined>(
+    undefined
+  );
+  const [ReuseEffectIdError, setReuseEffectIdError] = useState<string>('');
+  const [TreatmentDone, setTreatmentDone] = useState<boolean | undefined>(
+    undefined
+  );
+  const [TreatmentDoneError, setTreatmentDoneError] = useState<string>('');
 
   const submit = () => {
     validateFields(async (error: any, values: any) => {
-      if (error !== null) return
+      if (!CutEffectId) setCutEffectIdError('please select');
+      if (!ReuseEffectId) setReuseEffectIdError('please select');
+      if (TreatmentDone !== true && TreatmentDone !== false) setTreatmentDoneError('please select');
+
+      if (error !== null || !CutEffectId || !ReuseEffectId || (TreatmentDone !== true && TreatmentDone !== false))
+        return;
       try {
-        setIsSubmitting(true)
+        setIsSubmitting(true);
         await onSubmit({
           ...values,
           OccurrencedPlaceId,
           HospitalizationStatusId,
           CutEffectId,
           ReuseEffectId,
-          TreatmentDone,
-        })
+          TreatmentDone
+        });
       } catch (_) {
-        setIsSubmitting(false)
+        setIsSubmitting(false);
       }
     });
-  }
+  };
+
+  const formValues = getFieldsValue();
 
   return (
     <div>
       <Title>The Adverse Drug Reaction:</Title>
       <AdrFormItem>
-        {getFieldDecorator('DateOnset')(
-          <DatePicker placeholder="Date of Onset" id="AddAdrStepOneForm" />
+        {getFieldDecorator('DateOnset', {
+          rules: [
+            { required: true, message: 'The Adverse Drug Reaction is required' }
+          ]
+        })(<DatePicker placeholder="Date of Onset" id="AddAdrStepOneForm" />)}
+        {getFieldError('DateOnset') && (
+          <ErrorMesseage>{getFieldError('DateOnset').join(', ')}</ErrorMesseage>
         )}
       </AdrFormItem>
       <Row>
         <AdrFormItem>
-          {getFieldDecorator('Duration')(
-            <Input placeholder="Duration" />
-          )}
+          {getFieldDecorator('Duration')(<Input placeholder="Duration" />)}
         </AdrFormItem>
         <AdrFormItem>
           {getFieldDecorator('DurationUnitId')(
@@ -130,12 +158,15 @@ function AddAdrStepOneForm(props: AddAdrStepOneFormProps) {
       </Row>
 
       <Title>Severity and patient management when ADR occurred:</Title>
-      
+
       <AdrFormItem>
         {getFieldDecorator('LifeThreatening')(
           <Radio
             label="Life Threatening:"
-            options={[{ name: 'No', value: false }, { name: 'Yes', value: true }]} 
+            options={[
+              { name: 'No', value: false },
+              { name: 'Yes', value: true }
+            ]}
           />
         )}
       </AdrFormItem>
@@ -151,20 +182,20 @@ function AddAdrStepOneForm(props: AddAdrStepOneFormProps) {
 
           <RadioDynamicOptions isActive={OccurrencedPlaceId === 70}>
             <AdrFormItem>
-                <RC.Option onClick={() => setHospitalizationStatusId(72)}>
-                  <RC.OptionCircleWrapper>
-                    <RC.OptionCircle isChecked={HospitalizationStatusId === 72} />
-                  </RC.OptionCircleWrapper>
-                  <RC.OptionLabel>Hospitalisation not required</RC.OptionLabel>
-                </RC.Option>
+              <RC.Option onClick={() => setHospitalizationStatusId(72)}>
+                <RC.OptionCircleWrapper>
+                  <RC.OptionCircle isChecked={HospitalizationStatusId === 72} />
+                </RC.OptionCircleWrapper>
+                <RC.OptionLabel>Hospitalisation not required</RC.OptionLabel>
+              </RC.Option>
             </AdrFormItem>
 
-              <RC.Option onClick={() => setHospitalizationStatusId(73)}>
-                <RC.OptionCircleWrapper>
-                  <RC.OptionCircle isChecked={HospitalizationStatusId === 73} />
-                </RC.OptionCircleWrapper>
-                <RC.OptionLabel>Hospitalisation</RC.OptionLabel>
-              </RC.Option>
+            <RC.Option onClick={() => setHospitalizationStatusId(73)}>
+              <RC.OptionCircleWrapper>
+                <RC.OptionCircle isChecked={HospitalizationStatusId === 73} />
+              </RC.OptionCircleWrapper>
+              <RC.OptionLabel>Hospitalisation</RC.OptionLabel>
+            </RC.Option>
           </RadioDynamicOptions>
 
           <AdrFormItem>
@@ -186,7 +217,7 @@ function AddAdrStepOneForm(props: AddAdrStepOneFormProps) {
       </PaddedWrapper>
 
       <Separtor />
-      
+
       <PaddedWrapper>
         <AdrFormItem>
           {getFieldDecorator('OutcomeId')(
@@ -195,24 +226,44 @@ function AddAdrStepOneForm(props: AddAdrStepOneFormProps) {
         </AdrFormItem>
       </PaddedWrapper>
 
-      <Title>If fatal, indicate the Date of Death:</Title>
-      <PaddedWrapper>
-        <AdrFormItem>
-          {getFieldDecorator('DateDeath')(
-            <DatePicker placeholder="Date of Death" id="AddAdrStepOneForm-DateDeath" />
-          )}
-        </AdrFormItem>
-      </PaddedWrapper>
+      {formValues.OutcomeId === '75' ||
+      formValues.OutcomeId === '76' ||
+      formValues.OutcomeId === '78' ||
+      formValues.OutcomeId === '166' ||
+      formValues.OutcomeId === '169' ? (
+        <div>
+          <Title>If fatal, indicate the Date of Death:</Title>
+          <PaddedWrapper>
+            <AdrFormItem>
+              {getFieldDecorator('DateDeath')(
+                <DatePicker
+                  placeholder="Date of Death"
+                  id="AddAdrStepOneForm-DateDeath"
+                />
+              )}
+            </AdrFormItem>
+          </PaddedWrapper>
+        </div>
+      ) : null}
 
-      <Title>If recovered, indicate the Date of Recovery:</Title>
-      <PaddedWrapper>
-        <AdrFormItem>
-          {getFieldDecorator('RecoveryDate')(
-            <DatePicker placeholder="Date of Recovery" id="AddAdrStepOneForm-RecoveryDate" />
-          )}
-        </AdrFormItem>
-      </PaddedWrapper>
-      
+      {formValues.OutcomeId === '168' ||
+      formValues.OutcomeId === '166' ||
+      formValues.OutcomeId === '169' ? (
+        <div>
+          <Title>If recovered, indicate the Date of Recovery:</Title>
+          <PaddedWrapper>
+            <AdrFormItem>
+              {getFieldDecorator('RecoveryDate')(
+                <DatePicker
+                  placeholder="Date of Recovery"
+                  id="AddAdrStepOneForm-RecoveryDate"
+                />
+              )}
+            </AdrFormItem>
+          </PaddedWrapper>
+        </div>
+      ) : null}
+
       <Title>Description of ADR:</Title>
       <PaddedWrapper>
         <AdrFormItem>
@@ -221,91 +272,141 @@ function AddAdrStepOneForm(props: AddAdrStepOneFormProps) {
           )}
         </AdrFormItem>
       </PaddedWrapper>
-      
+
       <Title>Upload relevant images (if its available):</Title>
       <PaddedWrapper>
         <AdrFormItem>
           <AdrPhotoUploader presetName="Relevant" />
         </AdrFormItem>
       </PaddedWrapper>
-      
+
       <Separtor />
       <Title>Does it decrease by stop using medicine?</Title>
       <PaddedWrapper>
         <AdrFormItem>
-            <RC.Option onClick={() => setCutEffectId(81)}>
-              <RC.OptionCircleWrapper>
-                <RC.OptionCircle isChecked={CutEffectId === 81} />
-              </RC.OptionCircleWrapper>
-              <RC.OptionLabel>Yes</RC.OptionLabel>
-            </RC.Option>
+          <RC.Option
+            onClick={() => {
+              setCutEffectId(81);
+              setCutEffectIdError('');
+            }}
+          >
+            <RC.OptionCircleWrapper>
+              <RC.OptionCircle isChecked={CutEffectId === 81} />
+            </RC.OptionCircleWrapper>
+            <RC.OptionLabel>Yes</RC.OptionLabel>
+          </RC.Option>
         </AdrFormItem>
         <AdrFormItem>
-            <RC.Option onClick={() => setCutEffectId(82)}>
-              <RC.OptionCircleWrapper>
-                <RC.OptionCircle isChecked={CutEffectId === 82} />
-              </RC.OptionCircleWrapper>
-              <RC.OptionLabel>No</RC.OptionLabel>
-            </RC.Option>
+          <RC.Option
+            onClick={() => {
+              setCutEffectId(82);
+              setCutEffectIdError('');
+            }}
+          >
+            <RC.OptionCircleWrapper>
+              <RC.OptionCircle isChecked={CutEffectId === 82} />
+            </RC.OptionCircleWrapper>
+            <RC.OptionLabel>No</RC.OptionLabel>
+          </RC.Option>
         </AdrFormItem>
         <AdrFormItem>
-            <RC.Option onClick={() => setCutEffectId(83)}>
-              <RC.OptionCircleWrapper>
-                <RC.OptionCircle isChecked={CutEffectId === 83} />
-              </RC.OptionCircleWrapper>
-              <RC.OptionLabel>Not stopped</RC.OptionLabel>
-            </RC.Option>
+          <RC.Option
+            onClick={() => {
+              setCutEffectId(83);
+              setCutEffectIdError('');
+            }}
+          >
+            <RC.OptionCircleWrapper>
+              <RC.OptionCircle isChecked={CutEffectId === 83} />
+            </RC.OptionCircleWrapper>
+            <RC.OptionLabel>Not stopped</RC.OptionLabel>
+          </RC.Option>
         </AdrFormItem>
+        {CutEffectIdError && (
+          <RadioErrorMesseage>{CutEffectIdError}</RadioErrorMesseage>
+        )}
       </PaddedWrapper>
-      
+
       <Separtor />
       <Title>Does it reappear after using it again?</Title>
       <PaddedWrapper>
         <AdrFormItem>
-            <RC.Option onClick={() => setReuseEffectId(85)}>
-              <RC.OptionCircleWrapper>
-                <RC.OptionCircle isChecked={ReuseEffectId === 85} />
-              </RC.OptionCircleWrapper>
-              <RC.OptionLabel>Yes</RC.OptionLabel>
-            </RC.Option>
+          <RC.Option
+            onClick={() => {
+              setReuseEffectId(85);
+              setReuseEffectIdError('');
+            }}
+          >
+            <RC.OptionCircleWrapper>
+              <RC.OptionCircle isChecked={ReuseEffectId === 85} />
+            </RC.OptionCircleWrapper>
+            <RC.OptionLabel>Yes</RC.OptionLabel>
+          </RC.Option>
         </AdrFormItem>
         <AdrFormItem>
-            <RC.Option onClick={() => setReuseEffectId(86)}>
-              <RC.OptionCircleWrapper>
-                <RC.OptionCircle isChecked={ReuseEffectId === 86} />
-              </RC.OptionCircleWrapper>
-              <RC.OptionLabel>No</RC.OptionLabel>
-            </RC.Option>
+          <RC.Option
+            onClick={() => {
+              setReuseEffectId(86);
+              setReuseEffectIdError('');
+            }}
+          >
+            <RC.OptionCircleWrapper>
+              <RC.OptionCircle isChecked={ReuseEffectId === 86} />
+            </RC.OptionCircleWrapper>
+            <RC.OptionLabel>No</RC.OptionLabel>
+          </RC.Option>
         </AdrFormItem>
         <AdrFormItem>
-            <RC.Option onClick={() => setReuseEffectId(88)}>
-              <RC.OptionCircleWrapper>
-                <RC.OptionCircle isChecked={ReuseEffectId === 88} />
-              </RC.OptionCircleWrapper>
-              <RC.OptionLabel>Did not use again</RC.OptionLabel>
-            </RC.Option>
+          <RC.Option
+            onClick={() => {
+              setReuseEffectId(88);
+              setReuseEffectIdError('');
+            }}
+          >
+            <RC.OptionCircleWrapper>
+              <RC.OptionCircle isChecked={ReuseEffectId === 88} />
+            </RC.OptionCircleWrapper>
+            <RC.OptionLabel>Did not use again</RC.OptionLabel>
+          </RC.Option>
         </AdrFormItem>
+        {ReuseEffectIdError && (
+          <RadioErrorMesseage>{ReuseEffectIdError}</RadioErrorMesseage>
+        )}
       </PaddedWrapper>
-      
+
       <Separtor />
       <Title>Treatment for ADR:</Title>
       <PaddedWrapper>
         <AdrFormItem>
-            <RC.Option onClick={() => setTreatmentDone(true)}>
-              <RC.OptionCircleWrapper>
-                <RC.OptionCircle isChecked={TreatmentDone === true} />
-              </RC.OptionCircleWrapper>
-              <RC.OptionLabel>Yes</RC.OptionLabel>
-            </RC.Option>
+          <RC.Option
+            onClick={() => {
+              setTreatmentDone(true);
+              setTreatmentDoneError('');
+            }}
+          >
+            <RC.OptionCircleWrapper>
+              <RC.OptionCircle isChecked={TreatmentDone === true} />
+            </RC.OptionCircleWrapper>
+            <RC.OptionLabel>Yes</RC.OptionLabel>
+          </RC.Option>
         </AdrFormItem>
         <AdrFormItem>
-            <RC.Option onClick={() => setTreatmentDone(false)}>
-              <RC.OptionCircleWrapper>
-                <RC.OptionCircle isChecked={TreatmentDone === false} />
-              </RC.OptionCircleWrapper>
-              <RC.OptionLabel>No</RC.OptionLabel>
-            </RC.Option>
-        </AdrFormItem>        
+          <RC.Option
+            onClick={() => {
+              setTreatmentDone(false);
+              setTreatmentDoneError('');
+            }}
+          >
+            <RC.OptionCircleWrapper>
+              <RC.OptionCircle isChecked={TreatmentDone === false} />
+            </RC.OptionCircleWrapper>
+            <RC.OptionLabel>No</RC.OptionLabel>
+          </RC.Option>
+        </AdrFormItem>
+        {TreatmentDoneError && (
+          <RadioErrorMesseage>{TreatmentDoneError}</RadioErrorMesseage>
+        )}
+
         <AdrFormItem>
           {getFieldDecorator('TreatmentDescription')(
             <Textarea placeholder="Details (including dosage, frequency, route, duration)" />
@@ -315,8 +416,7 @@ function AddAdrStepOneForm(props: AddAdrStepOneFormProps) {
 
       <ContinueButton isLoading={isSubmitting} onClick={submit} />
     </div>
-  )
+  );
 }
-
 
 export default createForm({ name: 'AddAdrStepOneForm' })(AddAdrStepOneForm);
