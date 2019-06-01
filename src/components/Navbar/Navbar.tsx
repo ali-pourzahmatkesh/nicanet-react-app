@@ -13,10 +13,13 @@ const Container = styled.div`
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 0.8rem 1.5rem;
+  padding: 0.8rem;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.3);
   align-items: center;
   border-radius: 5px;
+  @media (min-width: 480px) {
+    padding: 0.8rem 1.5rem;
+  }
 `
 
 const Col = styled.div`

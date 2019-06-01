@@ -5,7 +5,7 @@ const Api = axios.create({
 });
 
 export const ChatApi = axios.create({
-  baseURL: 'http://app.pointina.ir:8080'
+  baseURL: 'http://pointina.ir:8080'
 });
 
 export const initToken = async () => {

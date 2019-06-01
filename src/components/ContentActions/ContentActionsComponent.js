@@ -5,15 +5,19 @@ import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 
 const Container = styled.div`
   display: flex;
-  justify-content: space-between;
+  // justify-content: space-between;
   align-items: flex-end;
   padding: 0 1rem;
+  justify-content: center;
 `;
 
 const Action = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  
+  margin: 0 2rem;
 `;
 
 const LikeCircle = styled.div`
@@ -78,7 +82,7 @@ function ContentActions(props) {
             : 'Vote Down'}
         </Title>
       </Action>
-      <Action>
+      {/* <Action>
         <Circle>
           <IoIosShareAlt color="#fff" size={28} />
         </Circle>
@@ -89,7 +93,7 @@ function ContentActions(props) {
           <IoIosSend color="#fff" size={28} />
         </Circle>
         <Title>Send</Title>
-      </Action>
+      </Action> */}
     </Container>
   );
 }
