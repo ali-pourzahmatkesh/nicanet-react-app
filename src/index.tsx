@@ -2,6 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import 'react-dates/initialize';
+import 'react-dates/lib/css/_datepicker.css';
+
+(window.console as any).safeError = (...params: any) => {
+  const now = new Date()
+  const time = now.toTimeString().split(' ')[0]
+  console.log(`%c 🚧 (${time}) SAFE ERROR: ${params.join(' ')}`, 'color: #bada55');
+} 
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

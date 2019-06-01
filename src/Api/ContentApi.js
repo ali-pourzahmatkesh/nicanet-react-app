@@ -1,18 +1,21 @@
-import Api from './Api'
+import Api from './Api';
 
 export const ContentApi = {
-  getAllContent: userId => Api.get(`/Content?personId=${userId}`),
-  getContent: (userId, contentId) =>
-    Api.get(`/Content?id=${contentId}&personId=${userId}&addVisit=true`),
-  likeContent: (ContentId, CommentId, PersonId, IsLike) =>
+  getPerson: personId => Api.get(`/Person/${personId}`),
+  getCurrentPersonContents: () => Api.get('/PersonalContent'),
+  getPersonPosts: personId => Api.get(`/PersonalContent/${personId}`),
+  getAllContent: userId => Api.get('/Content'),
+  getContent: contentId => Api.get(`/Content?id=${contentId}&addVisit=true`),
+  getTags: () => Api.get('/Tag'),
+  likeContent: (ContentId, CommentId, IsLike) =>
     Api.post('/Like', {
       ContentId,
       CommentId,
-      PersonId,
       IsLike
     }),
-  removeLikeOrDislike: (ContentId, CommentId, PersonId) =>
+  removeLikeOrDislike: (ContentId, CommentId) =>
     Api.delete('/Like', {
-      data: { ContentId, CommentId, PersonId }
-    })
-}
+      data: { ContentId, CommentId }
+    }),
+  sendComment: (url, data) => Api.post(`/${url}`, data)
+};

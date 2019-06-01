@@ -1,11 +1,10 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react'
+import React, { useEffect, useState, useCallback, useRef, Fragment } from 'react'
 import { IoIosArrowBack } from 'react-icons/io'
 import { RouteComponentProps } from 'react-router';
 import styled from 'styled-components';
 import { BounceLoader } from 'react-spinners';
 
 import Layout from 'components/Partials/Layout';
-import HeaderComponent from 'components/Header/HeaderComponent';
 import MessageInput from './Components/MessageInput';
 import { CHAT_ROUTE } from 'router/RouterConstants';
 import { UsersApi } from 'Api/UsersApi';
@@ -13,6 +12,7 @@ import { API_FILES_BASE_URL } from 'constants/ApiConstants';
 import { getPersonId } from 'utils/auth';
 import { chatMiddleWare } from '../../Redux/MiddlesWares/ChatMiddleWare';
 import Message from './Components/Message';
+import avatarPhoto from '../../Assets/avatar.jpg';
 
 const ChatHeader = styled.div`
   display: flex;
@@ -41,7 +41,7 @@ const MessagesWrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0 0.5rem;
-  height: calc(100vh - 240px);
+  height: calc(100vh - 260px);
   overflow: hidden;
   overflow-y: scroll;
 `
@@ -116,7 +116,6 @@ function RoomContainer(props: RouteComponentProps<RoomContainerParams>) {
   if (isLoading) {
     return (
       <Layout>
-        <HeaderComponent />
         <LoadingWrapprer>
           <BounceLoader
             sizeUnit="rem"
@@ -130,8 +129,7 @@ function RoomContainer(props: RouteComponentProps<RoomContainerParams>) {
   }
 
   return (
-    <Layout>
-      <HeaderComponent />
+    <Fragment>
       {
         contact &&
         <ChatHeader>
@@ -139,14 +137,16 @@ function RoomContainer(props: RouteComponentProps<RoomContainerParams>) {
             <IoIosArrowBack style={{ color: '#555' }} onClick={() => props.history.push(CHAT_ROUTE)} size={30} />
           </BackButton>
           <ContactName>{contact.FullName}</ContactName>
-          <ContactImage src={`${API_FILES_BASE_URL}/${contact.ImageUrl}`} />
+          <ContactImage src={contact.ImageUrl ? `${API_FILES_BASE_URL}/${contact.ImageUrl}` : avatarPhoto} />
         </ChatHeader>
       }
-      <MessagesWrapper ref={messageContainerRef}>
-        {messages.map(message => <Message key={message._id} message={message} />)}
-      </MessagesWrapper>
-      <MessageInput onSend={sendMessage}  />
-    </Layout>
+      <Layout>
+        <MessagesWrapper ref={messageContainerRef}>
+          {messages.map(message => <Message key={message._id} message={message} />)}
+        </MessagesWrapper>
+        <MessageInput onSend={sendMessage}  />
+      </Layout>
+    </Fragment>
   )
 }
 

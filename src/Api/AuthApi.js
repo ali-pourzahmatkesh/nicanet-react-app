@@ -2,7 +2,7 @@ import Api from './Api'
 
 export const AuthApi = {
   login: ({ username, password }) =>
-    Api.post('/Login', {
+    Api.post('/Token', {
       UserName: username,
       Password: password
     }),
@@ -12,9 +12,8 @@ export const AuthApi = {
       Number: phoneNumber,
       Code: code
     }),
-  updateUser: (personId, firstName, lastName, email, password) =>
+  updateUser: (firstName, lastName, email, password) =>
     Api.put('/Register', {
-      personId,
       firstName,
       lastName,
       email,

@@ -3,6 +3,7 @@ import { API_CHAT_URL } from 'constants/ApiConstants';
 import { store } from '../ConfigureStore';
 import { UPDATE_CONVERSATIONS, SET_IS_LOADING_CONVERSATIONS } from 'Redux/Constants/ChatConstants';
 import { UsersApi } from 'Api/UsersApi';
+import { getPersonId } from 'utils/auth';
 
 const EventMap = {};
 
@@ -14,12 +15,6 @@ const unSubscribe = userId => {
   EventMap[userId] = undefined;
 };
 
-function getPersonId () {
-  const personId = +localStorage.getItem('user_id')
-  if (!personId) throw new Error('person id does not exists', personId)
-
-  return personId
-}
 
 function initSocket () {
   try {
@@ -44,7 +39,7 @@ function initSocket () {
       }
     });
   } catch (err) {
-    console.log('error in intializing socket connection', err)
+    console.safeError('error in intializing socket connection', err)
   }
 };
 
@@ -68,7 +63,7 @@ async function fetchConversations () {
     store.dispatch({ type: SET_IS_LOADING_CONVERSATIONS, payload: false })
     store.dispatch({ type: UPDATE_CONVERSATIONS, payload: conversations })
   } catch (err) {
-    console.log('error in fetching user conversations', err)
+    console.safeError('error in fetching user conversations', err)
   }
 }
 
