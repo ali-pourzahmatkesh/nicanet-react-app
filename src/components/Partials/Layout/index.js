@@ -45,11 +45,13 @@ const ContentContainer = styled.div`
   margin: 0 auto;
   background-color: #fff;
   padding: ${props => (props.noPadding ? 0 : '1rem')};
-  max-width: 1200px;
+  // max-width: 1200px;
 `;
 
 const ContentWrapper = styled.div`
   padding-bottom: 60px;
   max-width: 720px;
   margin: 0 auto;
+  border-left: 1px solid #eee;
+  border-right: 1px solid #eee;
 `;

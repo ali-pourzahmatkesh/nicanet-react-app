@@ -33,11 +33,9 @@ function ShowCaseStepTwoPositive(props: ShowCaseStepTwoAllProps) {
 
   if (caseInfo === null)
     return (
-      <Layout>
-        <LoadingWrapprer>
-          <BounceLoader sizeUnit="rem" size={3} color="#5498a9" loading />
-        </LoadingWrapprer>
-      </Layout>
+      <LoadingWrapprer>
+        <BounceLoader sizeUnit="rem" size={3} color="#5498a9" loading />
+      </LoadingWrapprer>
     );
 
   const signSymptomsPositive = signSymptoms.filter(ss => ss.Value === true);

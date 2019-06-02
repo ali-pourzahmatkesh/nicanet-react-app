@@ -33,11 +33,9 @@ function ShowCaseStepTwoNegative(props: ShowCaseStepTwoAllProps) {
 
   if (caseInfo === null)
     return (
-      <Layout>
-        <LoadingWrapprer>
-          <BounceLoader sizeUnit="rem" size={3} color="#5498a9" loading />
-        </LoadingWrapprer>
-      </Layout>
+      <LoadingWrapprer>
+        <BounceLoader sizeUnit="rem" size={3} color="#5498a9" loading />
+      </LoadingWrapprer>
     );
 
   const signSymptomsNegative = signSymptoms.filter(ss => ss.Value === false);

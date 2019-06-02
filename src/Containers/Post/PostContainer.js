@@ -111,6 +111,11 @@ const Interactions = styled.div`
   margin-top: 1rem;
 `;
 
+const ContentWrapper = styled.div`
+  padding-top: 1rem;
+  min-height: calc(100vh - 251px);
+`;
+
 function PostContainer(props) {
   const [post, setPost] = useState(null);
   const [showComments, setShowComments] = useState(false);
@@ -203,24 +208,26 @@ function PostContainer(props) {
             src={`https://api.pointina.ir/${MultiMedias[0].FileUrl}`}
           />
         )}
-        <AuthorWrapper>
-          <AuthorLeftCol>
-            <AuthorImage
-              src={
-                WriterImage
-                  ? `https://api.pointina.ir/${WriterImage}`
-                  : avatarPhoto
-              }
-            />
-            <AuthorInfo>
-              {WriterFullName && <AuthorTitle>{WriterFullName}</AuthorTitle>}
-              {TimeElapsed && <PublishTime>{TimeElapsed}</PublishTime>}
-            </AuthorInfo>
-          </AuthorLeftCol>
-          {/* <SubscribeBtn>Subscribe</SubscribeBtn> */}
-        </AuthorWrapper>
-        {Subject && <Title>{Subject}</Title>}
-        {ContentText && <Subtitle>{ContentText}</Subtitle>}
+        <ContentWrapper>
+          <AuthorWrapper>
+            <AuthorLeftCol>
+              <AuthorImage
+                src={
+                  WriterImage
+                    ? `https://api.pointina.ir/${WriterImage}`
+                    : avatarPhoto
+                }
+              />
+              <AuthorInfo>
+                {WriterFullName && <AuthorTitle>{WriterFullName}</AuthorTitle>}
+                {TimeElapsed && <PublishTime>{TimeElapsed}</PublishTime>}
+              </AuthorInfo>
+            </AuthorLeftCol>
+            {/* <SubscribeBtn>Subscribe</SubscribeBtn> */}
+          </AuthorWrapper>
+          {Subject && <Title>{Subject}</Title>}
+          {ContentText && <Subtitle>{ContentText}</Subtitle>}
+        </ContentWrapper>
         <Interactions>
           <ContentActions
             onLike={() => onLike(1)}

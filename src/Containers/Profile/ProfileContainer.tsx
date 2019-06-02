@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
+import { BounceLoader } from 'react-spinners';
 import styled from 'styled-components';
 
 import Layout from '../../components/Partials/Layout';
@@ -62,12 +63,21 @@ const Paragraph = styled.div`
   margin-bottom: 0.5rem;
 `;
 
+export const LoadingWrapprer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+`;
+
 interface ProfileContainerProps {
   user: any;
 }
 
 function ProfileContainer(props: ProfileContainerProps & RouteComponentProps) {
   const { user } = props;
+  console.log('user', user);
   const [content, setContent] = useState([]);
 
   useEffect(() => {
@@ -80,6 +90,15 @@ function ProfileContainer(props: ProfileContainerProps & RouteComponentProps) {
     effect();
   }, []);
 
+  if (content.length === 0)
+    return (
+      <Layout>
+        <LoadingWrapprer>
+          <BounceLoader sizeUnit="rem" size={3} color="#5498a9" loading />
+        </LoadingWrapprer>
+      </Layout>
+    );
+
   return (
     <Layout>
       <UserInfoWrapper>
@@ -91,9 +110,9 @@ function ProfileContainer(props: ProfileContainerProps & RouteComponentProps) {
           }
         />
         <Title>{user.FullName}</Title>
-        <Subtitle>{user.Expertise} hi there 11</Subtitle>
+        <Subtitle>{user.Expertise}</Subtitle>
         <PrimaryText>{user.Email}</PrimaryText>
-        <Paragraph>{user.Bio} hi there 22</Paragraph>
+        <Paragraph>{user.Bio}</Paragraph>
         {/* <PenIcon src={PenIconSvg} /> */}
       </UserInfoWrapper>
 

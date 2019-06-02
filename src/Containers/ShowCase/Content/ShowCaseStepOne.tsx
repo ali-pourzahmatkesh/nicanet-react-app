@@ -27,7 +27,7 @@ function ShowCaseStepOne(props: ShowCaseStepOneProps) {
   useEffect(() => {
     const effect = async () => {
       const response = await CaseApi.getCase(caseId, true);
-      console.log('response', response);
+      // console.log('response', response);
       if (response.status === 200) {
         const data = response.data;
 

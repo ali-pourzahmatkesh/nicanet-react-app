@@ -30,7 +30,10 @@ const ContentActionsWrapper = styled.div`
 `;
 
 const Drugs = styled.div`
-  min-height: 4rem;
+  min-height: calc(100vh - 476px);
+  @media (min-width: 720px) {
+    min-height: calc(100vh - 599px);
+  }
 `;
 
 interface ShowCaseStepFourRXProps {
@@ -72,11 +75,9 @@ function ShowCaseStepFourRX(props: ShowCaseStepFourRXProps) {
 
   if (caseInfo === null)
     return (
-      <Layout>
-        <LoadingWrapprer>
-          <BounceLoader sizeUnit="rem" size={3} color="#5498a9" loading />
-        </LoadingWrapprer>
-      </Layout>
+      <LoadingWrapprer>
+        <BounceLoader sizeUnit="rem" size={3} color="#5498a9" loading />
+      </LoadingWrapprer>
     );
   // console.log("caseInfo", caseInfo);
 
@@ -120,7 +121,10 @@ function ShowCaseStepFourRX(props: ShowCaseStepFourRXProps) {
         </ContentActionsWrapper>
       </Wrapper>
       <Interactions>
-        <ContentStatusBar content={caseInfo} commentCount={caseInfo.RxCommentCount || 0}/>
+        <ContentStatusBar
+          content={caseInfo}
+          commentCount={caseInfo.RxCommentCount || 0}
+        />
         <Comments
           content={caseInfo}
           source="RX"

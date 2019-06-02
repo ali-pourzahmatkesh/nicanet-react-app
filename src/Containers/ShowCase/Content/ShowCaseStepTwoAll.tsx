@@ -46,11 +46,9 @@ function ShowCaseStepTwoAll(props: ShowCaseStepTwoAllProps) {
 
   if (caseInfo === null || diseaseArray.length === 0)
     return (
-      <Layout>
-        <LoadingWrapprer>
-          <BounceLoader sizeUnit="rem" size={3} color="#5498a9" loading />
-        </LoadingWrapprer>
-      </Layout>
+      <LoadingWrapprer>
+        <BounceLoader sizeUnit="rem" size={3} color="#5498a9" loading />
+      </LoadingWrapprer>
     );
 
   // console.log("diseaseArray", diseaseArray);

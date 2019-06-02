@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Layout from 'components/Partials/Layout';
 import AddAdrStepFourForm from './Forms/AddAdrStepFourForm';
 import { RouteComponentProps } from 'react-router';
-import { ADD_ADR_STEP_FOUR_ROUTE, ADD_ADR_STEP_FIVE_ROUTE } from 'router/RouterConstants';
+import { ADD_ADR_STEP_THREE_ROUTE, ADD_ADR_STEP_FIVE_ROUTE } from 'router/RouterConstants';
 import Heading from 'Containers/AddCase/Components/Heading';
 import { AdrApi } from 'Api/AdrApi';
 
@@ -31,7 +31,7 @@ const AddAdrStepFour: React.FC<RouteComponentProps<{}>> = (props) => {
   }
 
   const goForward = () => props.history.push(ADD_ADR_STEP_FIVE_ROUTE)
-  const goBackward = () => props.history.push(ADD_ADR_STEP_FOUR_ROUTE)
+  const goBackward = () => props.history.push(ADD_ADR_STEP_THREE_ROUTE)
 
   return (
     <Layout>
