@@ -34,6 +34,8 @@ function HomeContainer(props) {
     props.history.push(route);
   };
 
+  console.log(content);
+
   return (
     <Layout>
       <Logo src={logo} />
