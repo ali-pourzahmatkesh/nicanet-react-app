@@ -9,21 +9,29 @@ import Input from 'components/Input/InputComponent';
 import Textarea from 'components/Textarea/TextareaComponent';
 import Select from 'components/Select/SelectComponent';
 import ContinueButton from '../Components/ContinueButton';
+import styled from 'styled-components';
 import { ConfigApi } from 'Api/ConfigApi';
 import { CaseApi } from 'Api/CaseApi';
 
 type AddDrugFormProps = {
-  form: any
-  onSubmit: (values: any) => void
-}
+  form: any;
+  onSubmit: (values: any) => void;
+};
 
 type AddDrugFormState = {
-  isOpen: boolean
-  frequencies: any[]
-  routes: any[]
-  DrugId: number | null
-  DrugName: string
-}
+  isOpen: boolean;
+  frequencies: any[];
+  routes: any[];
+  DrugId: number | null;
+  DrugName: string;
+  drugNameError: string;
+};
+
+const ErrorMesseage = styled.div`
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 0.2rem;
+`;
 
 class AddDrugForm extends Component<AddDrugFormProps, AddDrugFormState> {
   state = {
@@ -32,74 +40,105 @@ class AddDrugForm extends Component<AddDrugFormProps, AddDrugFormState> {
     routes: [],
     DrugId: null,
     DrugName: '',
-  }
+    drugNameError: ''
+  };
 
   componentDidMount = () => {
-    this.getFrequencies()
-    this.getRoutes()
-  }
+    this.getFrequencies();
+    this.getRoutes();
+  };
 
   getFrequencies = async () => {
     try {
-      const response = await ConfigApi.getConfig(90)
+      const response = await ConfigApi.getConfig(90);
       this.setState({
-        frequencies: response.data.map((item: any) => ({ name: item.ConfigName, value: item.ConfigId }))
-      })
+        frequencies: response.data.map((item: any) => ({
+          name: item.ConfigName,
+          value: item.ConfigId
+        }))
+      });
     } catch (_) {}
-  }
+  };
 
   getRoutes = async () => {
     try {
-      const response = await ConfigApi.getConfig(41)
+      const response = await ConfigApi.getConfig(41);
       this.setState({
-        routes: response.data.map((item: any) => ({ name: item.ConfigName, value: item.ConfigId }))
-      })
+        routes: response.data.map((item: any) => ({
+          name: item.ConfigName,
+          value: item.ConfigId
+        }))
+      });
     } catch (_) {}
-  }
+  };
 
   onSelectDrug = ({ value }: { value: any }) => {
     this.setState({
       DrugName: value.Name,
-      DrugId: value.DrugId
-    })
-  }
-  
-  loadDrugs = async (inputValue: string, callback: Function) => {
-    const response = await CaseApi.searchDrugs(inputValue)
-    if (response.status !== 200) return
-    const options = response.data.map((drug: any) => ({
-      value: drug,
-      label: drug.Name 
-    }))
-    callback(options)
+      DrugId: value.DrugId,
+      drugNameError: ''
+    });
   };
 
-  render () {
-    const { isOpen, frequencies, routes } = this.state
+  loadDrugs = async (inputValue: string, callback: Function) => {
+    const response = await CaseApi.searchDrugs(inputValue);
+    if (response.status !== 200) return;
+    const options = response.data.map((drug: any) => ({
+      value: drug,
+      label: drug.Name
+    }));
+    callback(options);
+  };
+
+  render() {
+    const { isOpen, frequencies, routes } = this.state;
     const {
-      form: {
-        getFieldDecorator,
-        validateFields,
-      },
-      onSubmit,
-    } = this.props;    
+      form: { getFieldDecorator, validateFields, resetFields },
+      onSubmit
+    } = this.props;
 
     const submit = () => {
       validateFields(async (error: any, values: any) => {
-        const { DrugId, DrugName } = this.state
-        if (DrugId === null) return
-        if (error !== null) return
+        const { DrugId, DrugName } = this.state;
+        if (DrugId === null) {
+          this.setState({ drugNameError: 'Drug Name is required' });
+        }
+        if (error !== null || DrugId === null) return;
         try {
-          onSubmit({ ...values, FrequencyId: +values.FrequencyId, RouteId: +values.RouteId, DrugId, DrugName })
-          this.setState({ isOpen: false })
+          onSubmit({
+            ...values,
+            FrequencyId: +values.FrequencyId,
+            RouteId: +values.RouteId,
+            DrugId,
+            DrugName
+          });
+          resetFields();
+          
+          this.setState({
+            frequencies: [],
+            routes: [],
+            DrugId: null,
+            DrugName: '',
+            drugNameError: '' },
+            () => {
+              this.setState({ isOpen: false });
+            });
         } catch (_) {}
-      })
-    }
+      });
+    };
 
     return (
       <Fragment>
-        <Picker title="Add a Drug" iconSource={DrugIcon} onClick={() => this.setState({ isOpen: true })} />
-        <Modal isOpen={isOpen} title="Add a Drug" onClose={() => this.setState({ isOpen: false })}>
+        <Picker
+          title="Add a Drug"
+          iconSource={DrugIcon}
+          onClick={() => this.setState({ isOpen: true })}
+        />
+        <Modal
+          isOpen={isOpen}
+          title="Add a Drug"
+          onClose={() => this.setState({ isOpen: false })}
+        >
           <CaseFormItem>
             <AsyncSelect
               placeholder="Select a drug"
@@ -108,34 +147,35 @@ class AddDrugForm extends Component<AddDrugFormProps, AddDrugFormState> {
               loadOptions={this.loadDrugs}
               defaultOptions
             />
+            {this.state.drugNameError && (
+              <ErrorMesseage>{this.state.drugNameError}</ErrorMesseage>
+            )}
           </CaseFormItem>
           <CaseFormItem>
-            {getFieldDecorator('Manufacture')(
+            {getFieldDecorator('Manufacture', { initialValue: '' })(
               <Input placeholder="Manufacturer" />
             )}
           </CaseFormItem>
           <CaseFormItem>
-            {getFieldDecorator('FrequencyId')(
+            {getFieldDecorator('FrequencyId', { initialValue: '' })(
               <Select options={frequencies} placeholder="Frequency" />
             )}
           </CaseFormItem>
           <CaseFormItem>
-            {getFieldDecorator('RouteId')(
+            {getFieldDecorator('RouteId', { initialValue: '' })(
               <Select options={routes} placeholder="Route" />
             )}
           </CaseFormItem>
           <CaseFormItem>
-            {getFieldDecorator('Indication')(
+            {getFieldDecorator('Indication', { initialValue: '' })(
               <Input placeholder="Indication" />
             )}
           </CaseFormItem>
           <CaseFormItem>
-            {getFieldDecorator('BatchNo')(
-              <Input placeholder="Batch Number" />
-            )}
+            {getFieldDecorator('BatchNo', { initialValue: '' })(<Input placeholder="Batch Number" />)}
           </CaseFormItem>
           <CaseFormItem>
-            {getFieldDecorator('Description')(
+            {getFieldDecorator('Description', { initialValue: '' } )(
               <Textarea placeholder="Description" />
             )}
           </CaseFormItem>

@@ -12,6 +12,7 @@ import { API_FILES_BASE_URL } from 'constants/ApiConstants';
 import { getPersonId } from 'utils/auth';
 import { chatMiddleWare } from '../../Redux/MiddlesWares/ChatMiddleWare';
 import Message from './Components/Message';
+import avatarPhoto from '../../Assets/avatar.jpg';
 
 const ChatHeader = styled.div`
   display: flex;
@@ -136,7 +137,7 @@ function RoomContainer(props: RouteComponentProps<RoomContainerParams>) {
             <IoIosArrowBack style={{ color: '#555' }} onClick={() => props.history.push(CHAT_ROUTE)} size={30} />
           </BackButton>
           <ContactName>{contact.FullName}</ContactName>
-          <ContactImage src={`${API_FILES_BASE_URL}/${contact.ImageUrl}`} />
+          <ContactImage src={contact.ImageUrl ? `${API_FILES_BASE_URL}/${contact.ImageUrl}` : avatarPhoto} />
         </ChatHeader>
       }
       <Layout>

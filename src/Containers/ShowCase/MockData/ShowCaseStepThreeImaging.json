@@ -1,0 +1,50 @@
+[
+  {
+    "title": "X-Ray",
+    "children": [
+      { "title": "Chest", "titleFa": "قفسه سینه", "imageTypeId": 158 },
+      { "title": "Abdomen", "titleFa": "شکم", "imageTypeId": 159 },
+      { "title": "Pelvic", "titleFa": "لگن", "imageTypeId": 160 },
+      { "title": "Other X-Ray Image", "imageTypeId": 161, "Note": " ", "DescriptionTypeId": 397 }
+    ]
+  },
+  {
+    "title": "Sonography",
+    "children": [
+      { "title": "Abdomen", "titleFa": "شکم", "imageTypeId": 375 },
+      { "title": "Kidney, Bladder, Urether","titleFa": "کلیه ، مثانه و مجاری ادراری", "imageTypeId": 376 },
+      { "title": "Superficial Structur", "titleFa": "بافت های سطحی", "imageTypeId": 377 },
+      { "title": "Other Sonography Image", "imageTypeId": 378, "Note": " ", "DescriptionTypeId": 398 }
+    ]
+  },
+  {
+    "title": "CT Scan",
+    "children": [
+      { "title": "Chest", "titleFa": "قفسه سینه", "imageTypeId": 379 },
+      { "title": "Abdomen Pelvic","titleFa": "شکم و لگن", "imageTypeId": 380 },
+      { "title": "Brain", "titleFa":  "مغز", "imageTypeId": 381 },
+      { "title": "CT Angiography", "titleFa": "سی تی آنژیوگرافی", "imageTypeId": 382 },
+      { "title": "Other CT Scan Image", "imageTypeId": 383, "Note": " ", "DescriptionTypeId": 399 }
+    ]
+  },
+  {
+    "title": "MRI",
+    "children": [
+      { "title": "Brain", "titleFa": "مغز", "imageTypeId": 385 },
+      { "title": "Spine", "titleFa": "نخاع", "imageTypeId": 387 },
+      { "title": "Arm/Foot/Shoulder", "titleFa": "دست ، پا و شانه", "imageTypeId": 388 },
+      { "title": "Neck", "titleFa": "گردن", "imageTypeId": 389 },
+      { "title": "Other MRI Image", "imageTypeId": 390, "Note": " ", "DescriptionTypeId": 401 }
+    ]
+  },
+  {
+    "title": "Others",
+    "children": [
+      { "title": "Endoscopy", "titleFa": "آندوسکوپی", "imageTypeId": 391 },
+      { "title": "Colonoscopy", "titleFa": "کلونوسکوپی", "imageTypeId": 392 },
+      { "title": "MRCP", "imageTypeId": 393 },
+      { "title": "ERCP", "imageTypeId": 349 },
+      { "title": "Other Imaging", "imageTypeId": 395, "Note": " ", "DescriptionTypeId": 404}
+    ]
+  }
+]

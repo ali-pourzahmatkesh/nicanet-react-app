@@ -60,6 +60,15 @@ const OptionLabel = styled.div`
   margin-right: 0.3rem;
 `
 
+export const RadioComponents = { 
+  Label,
+  OptionsWrapper,
+  Option,
+  OptionCircleWrapper,
+  OptionCircle,
+  OptionLabel,
+}
+
 interface RadioOption {
   name: string
   value: any

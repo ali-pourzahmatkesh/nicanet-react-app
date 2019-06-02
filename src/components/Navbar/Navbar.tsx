@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components';
 
 import NavBarAdd from '../../Assets/NavBarAdd.svg'
-import { ADD_CASE_STEP_ZERO_ROUTE, ADD_POST_ROUTE } from 'router/RouterConstants';
+import { ADD_CASE_STEP_ZERO_ROUTE, ADD_POST_ROUTE, ADD_ADR_STEP_ZERO_ROUTE } from 'router/RouterConstants';
 
 const Container = styled.div`
   margin-bottom: 1rem;
@@ -13,12 +13,14 @@ const Container = styled.div`
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 0.8rem 1.5rem;
+  padding: 0.8rem;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.3);
   align-items: center;
   border-radius: 5px;
+  @media (min-width: 480px) {
+    padding: 0.8rem 1.5rem;
+  }
 `
-
 
 const Col = styled.div`
   display: flex;
@@ -71,7 +73,7 @@ function Navbar(props: NavbarProps) {
         <Col>
           <NavBarText onClick={() => onSelectRoute(ADD_POST_ROUTE)}>Post</NavBarText>
           <CenterNavBarText onClick={() => onSelectRoute(ADD_CASE_STEP_ZERO_ROUTE)}>Case Report</CenterNavBarText>
-          <NavBarText>ADR Report</NavBarText>
+          <NavBarText onClick={() => onSelectRoute(ADD_ADR_STEP_ZERO_ROUTE)}>ADR Report</NavBarText>
         </Col>
       </Wrapper>
     </Container>
