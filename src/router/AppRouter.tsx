@@ -88,7 +88,7 @@ class AppRouter extends React.Component<
     return (
       <Switch>
         <Route path={LOGIN_ROUTE} exact component={LoginContainer} />
-        <Route path={HOME_ROUTE} exact component={HomeContainer} />
+        <Route path={HOME_ROUTE} component={HomeContainer} />
         <Route path={PROFILE_ROUTE} exact component={ProfileContainer} />
         <Route path={CHAT_ROUTE} exact component={ChatContainer} />
         <Route path={CHAT_ROOM_ROUTE} exact component={RoomContainer} />

@@ -87,14 +87,14 @@ function Card(props) {
 
   return (
     <Container onClick={onClick}>
-      {image && <Image src={`https://api.pointina.ir/${image}`} />}
+      {image && <Image src={`https://api.pointina.ir${image}`} />}
       <Main>
         {Object.keys(author).length > 0 && (
           <AuthorWrapper>
             <AuthorImage
               src={
                 authorImage
-                  ? `https://api.pointina.ir/${authorImage}`
+                  ? `https://api.pointina.ir${authorImage}`
                   : avatarPhoto
               }
             />
