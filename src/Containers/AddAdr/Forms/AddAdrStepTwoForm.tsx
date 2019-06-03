@@ -148,7 +148,7 @@ function AddAdrStepOneForm(props: AddAdrStepOneFormProps) {
       </AdrFormItem>
       <Row>
         <AdrFormItem>
-          {getFieldDecorator('Duration')(<Input placeholder="Duration" />)}
+          {getFieldDecorator('Duration')(<Input placeholder="Duration" type="number" />)}
         </AdrFormItem>
         <AdrFormItem>
           {getFieldDecorator('DurationUnitId')(

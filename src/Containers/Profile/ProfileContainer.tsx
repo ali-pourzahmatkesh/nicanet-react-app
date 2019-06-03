@@ -75,22 +75,64 @@ interface ProfileContainerProps {
   user: any;
 }
 
-function ProfileContainer(props: ProfileContainerProps & RouteComponentProps) {
-  const { user } = props;
-  console.log('user', user);
+function ProfileContainer(
+  props: ProfileContainerProps & RouteComponentProps<{ userId: '' }>
+) {
+  const { match } = props;
+  const { params } = match;
+  const { userId } = params;
+
   const [content, setContent] = useState([]);
+  const [contentIsFetching, setContentIsFetching] = useState(true);
+  const [isOwn, setIsOwn] = useState(false);
+  const [user, setUser] = useState(null);
+
+  // console.log('isOwn', isOwn);
 
   useEffect(() => {
     const effect = async () => {
       try {
-        const response = await ContentApi.getCurrentPersonContents();
-        setContent(response.data.filter((post: any) => post.CaseId === 0));
+        setIsOwn(userId ? +props.user.PersonId === +userId : true);
+      } catch (error) {
+        console.log('error in detect profile type');
+      }
+    };
+    effect();
+  }, [props.user.PersonId, userId]);
+
+  useEffect(() => {
+    const effect = async () => {
+      try {
+        if (isOwn) {
+          setUser(props.user);
+        } else {
+          const response = await ContentApi.getPerson(userId);
+          if (response.status === 200) {
+            const data = response.data;
+            setUser(data);
+          }
+        }
       } catch (_) {}
     };
     effect();
-  }, []);
+  }, [isOwn, props.user, userId]);
 
-  if (content.length === 0)
+  useEffect(() => {
+    const effect = async () => {
+      try {
+        const response = isOwn
+          ? await ContentApi.getCurrentPersonContents()
+          : await ContentApi.getPersonPosts(userId);
+        setContent(response.data);
+      } catch (_) {
+      } finally {
+        setContentIsFetching(false);
+      }
+    };
+    effect();
+  }, [isOwn, userId]);
+
+  if (user === null)
     return (
       <Layout>
         <LoadingWrapprer>
@@ -99,22 +141,26 @@ function ProfileContainer(props: ProfileContainerProps & RouteComponentProps) {
       </Layout>
     );
 
+  const { ImageUrl, FullName, Expertise, Email, Bio } = user;
+
   return (
     <Layout>
       <UserInfoWrapper>
         <Avatar
-          src={
-            user.ImageUrl
-              ? `${API_FILES_BASE_URL}/${user.ImageUrl}`
-              : avatarPhoto
-          }
+          src={ImageUrl ? `${API_FILES_BASE_URL}/${ImageUrl}` : avatarPhoto}
         />
-        <Title>{user.FullName}</Title>
-        <Subtitle>{user.Expertise}</Subtitle>
-        <PrimaryText>{user.Email}</PrimaryText>
-        <Paragraph>{user.Bio}</Paragraph>
+        <Title>{FullName}</Title>
+        <Subtitle>{Expertise}</Subtitle>
+        <PrimaryText>{Email}</PrimaryText>
+        <Paragraph>{Bio}</Paragraph>
         {/* <PenIcon src={PenIconSvg} /> */}
       </UserInfoWrapper>
+
+      {contentIsFetching && (
+        <LoadingWrapprer>
+          <BounceLoader sizeUnit="rem" size={3} color="#5498a9" loading />
+        </LoadingWrapprer>
+      )}
 
       {content.length > 0 &&
         content.map((content: any) => (

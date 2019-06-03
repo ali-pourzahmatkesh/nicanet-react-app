@@ -52,6 +52,9 @@ const ContentWrapper = styled.div`
   padding-bottom: 60px;
   max-width: 720px;
   margin: 0 auto;
-  border-left: 1px solid #eee;
-  border-right: 1px solid #eee;
+  @media (min-width: 720px) {
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
+    min-height: calc(100vh - 60px);
+  }
 `;

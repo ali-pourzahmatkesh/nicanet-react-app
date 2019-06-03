@@ -105,6 +105,7 @@ const Subtitle = styled.div`
 const AuthorLeftCol = styled.div`
   display: flex;
   align-items: center;
+  cursor: pointer;
 `;
 
 const Interactions = styled.div`
@@ -152,7 +153,8 @@ function PostContainer(props) {
     WriterImage,
     TimeElapsed,
     PersonVoted,
-    PersonVote
+    PersonVote,
+    WrittenById
   } = post;
 
   const updatePost = async () => {
@@ -210,7 +212,11 @@ function PostContainer(props) {
         )}
         <ContentWrapper>
           <AuthorWrapper>
-            <AuthorLeftCol>
+            <AuthorLeftCol
+              onClick={() => {
+                props.history.push(`/profile/${WrittenById}`);
+              }}
+            >
               <AuthorImage
                 src={
                   WriterImage
