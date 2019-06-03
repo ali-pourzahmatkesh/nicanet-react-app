@@ -162,7 +162,7 @@ function AddAdrStepZeroForm(props: AddAdrStepZeroFormProps) {
       <AdrFormItem>
         {getFieldDecorator('PhoneNumber', {
           rules: [{ required: true, message: 'Phone Number' }]
-        })(<Input placeholder="Phone Number" />)}
+        })(<Input placeholder="Phone Number" type="number" />)}
         {getFieldError('PhoneNumber') && (
           <ErrorMesseage>
             {getFieldError('PhoneNumber').join(', ')}

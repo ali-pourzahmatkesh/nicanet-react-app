@@ -6,7 +6,7 @@ export const HOME_ROUTE = '/home';
 
 // CHAT
 export const CHAT_ROUTE = '/chat';
-export const PROFILE_ROUTE = '/profile';
+export const PROFILE_ROUTE = '/profile/:userId?';
 export const CHAT_ROOM_ROUTE = '/chat/:contactId';
 
 // CASE
