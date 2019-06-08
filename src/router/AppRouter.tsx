@@ -33,6 +33,7 @@ import ShowCaseStepTwoContainer from 'Containers/ShowCase/ShowCaseStepTwoContain
 import ShowCaseStepThreeContainer from 'Containers/ShowCase/ShowCaseStepThreeContainer';
 import ShowCaseStepFourContainer from 'Containers/ShowCase/ShowCaseStepFourContainer';
 import AddAdrStepFive from 'Containers/AddAdr/AddAdrStepFive';
+import EditProfile from 'Containers/EditProfile/EditProfileContainer';
 
 import {
   ROOT_ROUTE,
@@ -59,7 +60,8 @@ import {
   SHOW_CASE_STEP_ONE_ROUTE,
   SHOW_CASE_STEP_TWO_ROUTE,
   SHOW_CASE_STEP_THREE_ROUTE,
-  SHOW_CASE_STEP_FOUR_ROUTE
+  SHOW_CASE_STEP_FOUR_ROUTE,
+  EDIT_PROFILE_ROUTE
 } from './RouterConstants';
 
 interface AppRouterProps {
@@ -171,6 +173,7 @@ class AppRouter extends React.Component<
           exact
           component={ShowCaseStepFourContainer}
         />
+        <Route path={EDIT_PROFILE_ROUTE} exact component={EditProfile} />
         <Route path={ROOT_ROUTE} component={LoginContainer} />
       </Switch>
     );

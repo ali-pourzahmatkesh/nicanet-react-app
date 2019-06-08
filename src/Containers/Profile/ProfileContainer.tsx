@@ -141,7 +141,7 @@ function ProfileContainer(
       </Layout>
     );
 
-  const { ImageUrl, FullName, Expertise, Email, Bio } = user;
+  const { ImageUrl, FullName, Expertise, Email, Bio, PersonId } = user;
 
   return (
     <Layout>
@@ -153,7 +153,14 @@ function ProfileContainer(
         <Subtitle>{Expertise}</Subtitle>
         <PrimaryText>{Email}</PrimaryText>
         <Paragraph>{Bio}</Paragraph>
-        {/* <PenIcon src={PenIconSvg} /> */}
+        {isOwn && (
+          <PenIcon
+            src={PenIconSvg}
+            onClick={() => {
+              props.history.push('/edit-profile');
+            }}
+          />
+        )}
       </UserInfoWrapper>
 
       {contentIsFetching && (
