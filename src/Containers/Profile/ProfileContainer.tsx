@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { BounceLoader } from 'react-spinners';
 import styled from 'styled-components';
-
+import { UsersApi } from 'Api/UsersApi';
 import Layout from '../../components/Partials/Layout';
 import { connect } from 'react-redux';
 import { ContentApi } from 'Api/ContentApi';
@@ -104,8 +104,12 @@ function ProfileContainer(
     const effect = async () => {
       try {
         if (isOwn) {
-          setUser(props.user);
-        } else {
+          const response = await UsersApi.getCurrentUser();
+          if (response.status === 200) {
+            const data = response.data;
+            setUser(data);
+          }
+        } else if (userId) {
           const response = await ContentApi.getPerson(userId);
           if (response.status === 200) {
             const data = response.data;
@@ -122,8 +126,8 @@ function ProfileContainer(
       try {
         const response = isOwn
           ? await ContentApi.getCurrentPersonContents()
-          : await ContentApi.getPersonPosts(userId);
-        setContent(response.data);
+          : userId && (await ContentApi.getPersonPosts(userId));
+        response && setContent(response.data);
       } catch (_) {
       } finally {
         setContentIsFetching(false);

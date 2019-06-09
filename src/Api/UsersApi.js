@@ -28,5 +28,12 @@ export const UsersApi = {
       method: 'POST',
       data: bodyFormData,
       config: { headers: { 'Content-Type': 'multipart/form-data' } }
-    })
+    }),
+  uploadUserPhoto: bodyFormData =>
+    Api({
+      url: '/personimage',
+      method: 'PUT',
+      data: bodyFormData,
+      config: { headers: { 'Content-Type': 'multipart/form-data' } }
+    }),
 };

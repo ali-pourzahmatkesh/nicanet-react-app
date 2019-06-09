@@ -12,12 +12,24 @@ import Layout from 'components/Partials/Layout';
 import { ConfigApi } from 'Api/ConfigApi';
 import { UsersApi } from 'Api/UsersApi';
 import { RouteComponentProps } from 'react-router';
+import { passwordValidation } from '../../utils/validation';
+import avatarPhoto from '../../Assets/avatar.jpg';
+import { API_FILES_BASE_URL } from 'constants/ApiConstants';
+import PhotoUploader, {
+  Photo
+} from 'components/PhotoUploader/PhotoUploaderComponent';
 
 const ProfileFormItem = styled.div`
   margin: 1.8rem 0;
 `;
 
-export const LoadingWrapprer = styled.div`
+const ProfileFormImageItem = styled.div`
+  margin: 1.8rem 0;
+  text-align: center;
+  min-height: 180px;
+`;
+
+const LoadingWrapprer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -25,7 +37,14 @@ export const LoadingWrapprer = styled.div`
   margin-top: 1rem;
 `;
 
-export const Title = styled.div<{ primary?: boolean }>`
+const Avatar = styled.img`
+  width: 120px;
+  height: 120px;
+  border-radius: 90px;
+  border: solid 1px #eeeeee;
+`;
+
+const Title = styled.div<{ primary?: boolean }>`
   font-family: Roboto;
   font-size: 1rem;
   font-weight: bold;
@@ -49,17 +68,35 @@ const ErrorMesseage = styled.div`
   margin-top: 0.2rem;
 `;
 
+const UploadPhoto = styled.div`
+  color: #5498a9;
+  margin-top: 0.5rem;
+  display: inline-block;
+  cursor: pointer;
+`;
+
 type EditProfileContainerProps = {
   form: any;
 };
 
-const EditProfileContainer: React.FC<EditProfileContainerProps & RouteComponentProps> = props => {
+const EditProfileContainer: React.FC<
+  EditProfileContainerProps & RouteComponentProps
+> = props => {
   const [major, setMajor] = useState([]);
-  console.log('props', props);
   const [university, setUniversity] = useState({ UniversityId: '' });
   const [user, setUser] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { getFieldError, getFieldDecorator, setFieldsInitialValue } = props.form;
+  const [currentPasswordError, setCurrentPasswordError] = useState('');
+  const [newPasswordError, setNewPasswordError] = useState('');
+  const [passwordRepeatError, setPasswordRepeatError] = useState('');
+  const [photos, setPhotos] = useState<Photo[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const {
+    getFieldError,
+    getFieldDecorator,
+    setFieldsInitialValue
+  } = props.form;
 
   useEffect(() => {
     const effect = async () => {
@@ -84,12 +121,12 @@ const EditProfileContainer: React.FC<EditProfileContainerProps & RouteComponentP
           const data = response.data;
           setUser(data);
           setUniversity({ UniversityId: data.UniversityId });
-          setFieldsInitialValue({ GroupId: data.GroupId});
+          // setFieldsInitialValue({ GroupId: data.GroupId.toString() });
         }
       } catch (_) {}
     };
     effect();
-  }, []);
+  }, [setFieldsInitialValue]);
 
   if (major.length === 0 || user === null)
     return (
@@ -114,9 +151,12 @@ const EditProfileContainer: React.FC<EditProfileContainerProps & RouteComponentP
     callback(options);
   };
 
-  const onSubmit = (selectedUniversity: any) => {
+  const onSubmit = (selectedUniversity: any, GroupId: null) => {
     props.form.validateFields(async (error: any, values: any) => {
       if (error !== null) return;
+      if (!isValid(values)) {
+        return;
+      }
       try {
         setIsSubmitting(true);
         const UniversityId =
@@ -127,32 +167,126 @@ const EditProfileContainer: React.FC<EditProfileContainerProps & RouteComponentP
         console.log('values', values);
         const params = {
           UniversityId,
-          ...values
+          ...values,
+          GroupId: values.GroupId || GroupId
         };
 
+        console.log('params', params);
+
         const { status } = await UsersApi.editUser(params);
-        if (status !== 200) throw status;
-        // toast.success('Profile Updated Successfully', {
-        //   position: toast.POSITION.TOP_CENTER
-        // });
+        if (status !== 204) throw status;
+        toast.success('Profile Updated Successfully', {
+          position: toast.POSITION.TOP_CENTER
+        });
         setTimeout(() => {
           setIsSubmitting(false);
-          console.log('props', props);
           props.history.push('/profile');
         }, 4000);
       } catch (_) {
+        setCurrentPasswordError('Current Password is not true!!');
         setIsSubmitting(false);
       }
     });
   };
 
-  console.log('user', user);
-  const { FirstName, LastName, Group, UniversityNameEn, Bio } = user;
-  const { ConfigName } = Group;
-  console.log('ConfigName', ConfigName);
+  const isValid = (values: any) => {
+    let hasError = false;
 
+    setNewPasswordError('');
+    setPasswordRepeatError('');
+    setCurrentPasswordError('');
+
+    const { PassKey, passwordRepeat, VerificationCode } = values;
+
+    if (PassKey && !passwordValidation(PassKey)) {
+      setNewPasswordError('At least 6 characters.');
+      hasError = true;
+    } else if (PassKey && PassKey !== passwordRepeat) {
+      setPasswordRepeatError("Password and confirm password don't match");
+      hasError = true;
+    } else if (
+      PassKey &&
+      passwordRepeat &&
+      passwordRepeat === PassKey &&
+      !VerificationCode
+    ) {
+      setCurrentPasswordError('Please full current password');
+      hasError = true;
+    }
+
+    if (!hasError) {
+      return true;
+    }
+
+    return false;
+  };
+
+  const uploadPhoto = async (photo: Photo) => {
+    try {
+      setIsLoading(true);
+      console.log('photo', photo);
+      const bodyFormData = new FormData();
+
+      const image = new File([photo.file], photo.file.name, {
+        type: photo.file.type
+      });
+      bodyFormData.append('file', image);
+
+      const reponse = await UsersApi.uploadUserPhoto(bodyFormData);
+      console.log('reponse', reponse);
+      if (reponse.status === 204) setPhotos([photo]);
+    } catch (_) {
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const {
+    FirstName,
+    LastName,
+    Group,
+    UniversityNameEn,
+    Bio,
+    GroupId,
+    ImageUrl
+  } = user;
+  const { ConfigName } = Group;
+  console.log('photos', photos);
   return (
     <Layout>
+      <ProfileFormImageItem>
+        {photos.length > 0 ? (
+          <div>
+            {photos.map((photo, index) => {
+              if (photo.previewUrl === null) return null;
+
+              return (
+                <Avatar
+                  key={photo.previewUrl.toString()}
+                  src={photo.previewUrl.toString()}
+                />
+              );
+            })}{' '}
+          </div>
+        ) : (
+          <Avatar
+            src={ImageUrl ? `${API_FILES_BASE_URL}/${ImageUrl}` : avatarPhoto}
+          />
+        )}
+        <PhotoUploader
+          isLoading={isLoading}
+          photos={photos}
+          Picker={onClick => (
+            <UploadPhoto onClick={() => onClick()}>Edit Photo</UploadPhoto>
+          )}
+          onAddPhoto={photo => uploadPhoto(photo)}
+          onDeletePhoto={photoIndex =>
+            setPhotos([...photos].filter((p, index) => index !== photoIndex))
+          }
+          preview={false}
+        />
+      </ProfileFormImageItem>
+
       <ProfileFormItem>
         {getFieldDecorator('FirstName', {
           rules: [{ required: true, message: 'First Name is required' }],
@@ -194,21 +328,46 @@ const EditProfileContainer: React.FC<EditProfileContainerProps & RouteComponentP
       <Title>Change Password</Title>
       <ProfileFormItem>
         {getFieldDecorator('VerificationCode')(
-          <Input placeholder="Current Password" type="password" />
+          <Input
+            placeholder="Current Password"
+            type="password"
+            onChange={() => {
+              setCurrentPasswordError('');
+            }}
+          />
+        )}
+        {currentPasswordError && (
+          <ErrorMesseage>{currentPasswordError}</ErrorMesseage>
         )}
       </ProfileFormItem>
       <ProfileFormItem>
         {getFieldDecorator('PassKey')(
-          <Input placeholder="New Password" type="password" />
+          <Input
+            placeholder="New Password"
+            type="password"
+            onChange={() => {
+              setNewPasswordError('');
+            }}
+          />
         )}
+        {newPasswordError && <ErrorMesseage>{newPasswordError}</ErrorMesseage>}
       </ProfileFormItem>
       <ProfileFormItem>
         {getFieldDecorator('passwordRepeat')(
-          <Input placeholder="Confirm New Password" type="password" />
+          <Input
+            placeholder="Confirm New Password"
+            type="password"
+            onChange={() => {
+              setPasswordRepeatError('');
+            }}
+          />
+        )}
+        {passwordRepeatError && (
+          <ErrorMesseage>{passwordRepeatError}</ErrorMesseage>
         )}
       </ProfileFormItem>
 
-      <Button onClick={() => onSubmit(university)}>
+      <Button onClick={() => onSubmit(university, GroupId)}>
         {isSubmitting ? (
           <PulseLoader sizeUnit="rem" size={0.5} color="#fff" />
         ) : (
