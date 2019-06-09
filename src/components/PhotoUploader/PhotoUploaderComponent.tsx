@@ -1,20 +1,20 @@
-import React, { useRef } from 'react'
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 // import { IoIosClose } from 'react-icons/io'
 import { PulseLoader } from 'react-spinners';
 
 const FileInput = styled.input`
   display: none;
-`
+`;
 
 const Container = styled.div`
   margin-bottom: 1.5rem;
-`
+`;
 
 const PhotoWrapper = styled.div`
-  margin:5px;
+  margin: 5px;
   position: relative;
-`
+`;
 
 const LoadedPhotosContainer = styled.div`
   display: flex;
@@ -22,12 +22,12 @@ const LoadedPhotosContainer = styled.div`
   padding: -5px;
   margin-top: 0.5rem;
   flex-wrap: wrap;
-`
+`;
 
 const Photo = styled.img`
   width: 4rem;
   height: 4rem;
-`
+`;
 
 const CloseIconWrapper = styled.div`
   position: absolute;
@@ -41,48 +41,49 @@ const CloseIconWrapper = styled.div`
   align-items: center;
   justify-content: center;
   transform: translateY(-50%) translateX(-50%);
-`
+`;
 
 export interface Photo {
-  file: File
-  previewUrl: string | ArrayBuffer | null
+  file: File;
+  previewUrl: string | ArrayBuffer | null;
 }
 
 interface PhotoUploaderProps {
-  photos?: Photo[]
+  photos?: Photo[];
   Picker: (onClick: Function) => React.ReactNode;
-  onAddPhoto: (photo: Photo) => void
-  isLoading?: boolean
-  onDeletePhoto: (photoIndex: number) => void
+  onAddPhoto: (photo: Photo) => void;
+  isLoading?: boolean;
+  onDeletePhoto: (photoIndex: number) => void;
+  preview?: boolean;
 }
 
-const PhotoUploader: React.FC<PhotoUploaderProps> = (props) => {
+const PhotoUploader: React.FC<PhotoUploaderProps> = props => {
   const fileInputRef: any = useRef(HTMLInputElement);
-  const { photos = [], Picker, isLoading } = props
+  const { photos = [], Picker, isLoading, preview = true } = props;
 
   const handleImageChange = (e: any) => {
     e.preventDefault();
     for (const selectedFile of e.target.files) {
       const reader = new FileReader();
-  
+
       reader.onloadend = () => {
         props.onAddPhoto({
           file: selectedFile,
           previewUrl: reader.result
-        })
-      }
-  
-      reader.readAsDataURL(selectedFile)
+        });
+      };
+
+      reader.readAsDataURL(selectedFile);
     }
-  }
+  };
 
   const onRemovePhoto = (photoIndex: number) => {
-    props.onDeletePhoto(photoIndex)
-  }
+    props.onDeletePhoto(photoIndex);
+  };
 
   const openFilePicker = () => {
-    fileInputRef.current.click() 
-  }
+    fileInputRef.current.click();
+  };
 
   return (
     <Container>
@@ -90,46 +91,38 @@ const PhotoUploader: React.FC<PhotoUploaderProps> = (props) => {
         multiple
         accept=".jpg,.jpeg,.png"
         ref={fileInputRef}
-        className="fileInput" 
-        type="file" 
-        onChange={(e)=> handleImageChange(e)}
+        className="fileInput"
+        type="file"
+        onChange={e => handleImageChange(e)}
       />
       {Picker(openFilePicker)}
-      {
-        isLoading &&
-        <PulseLoader
-          sizeUnit="rem"
-          size={0.5}
-          color="#5498a9"
-        />
-      } 
-      <LoadedPhotosContainer>
-        {
-          photos.map((photo, index) => {
-              if (photo.previewUrl === null) return null
+      {isLoading && <PulseLoader sizeUnit="rem" size={0.5} color="#5498a9" />}
+      {preview && (
+        <LoadedPhotosContainer>
+          {photos.map((photo, index) => {
+            if (photo.previewUrl === null) return null;
 
-              return (
-                <PhotoWrapper key={photo.previewUrl.toString()}>
-                  {/* <CloseIconWrapper>
+            return (
+              <PhotoWrapper key={photo.previewUrl.toString()}>
+                {/* <CloseIconWrapper>
                     <IoIosClose color="#ff0000" onClick={() => onRemovePhoto(index)} size={30} />
                   </CloseIconWrapper> */}
-                  <Photo src={photo.previewUrl.toString()} />
-                </PhotoWrapper>
-              )
-            }
-          )
-        }
-      </LoadedPhotosContainer>
+                <Photo src={photo.previewUrl.toString()} />
+              </PhotoWrapper>
+            );
+          })}
+        </LoadedPhotosContainer>
+      )}
     </Container>
-  )
-}
+  );
+};
 
 PhotoUploader.defaultProps = {
-  photos: []
-}
+  photos: [],
+  preview: true
+};
 
-export default PhotoUploader
-
+export default PhotoUploader;
 
 // import React from 'react'
 
@@ -161,9 +154,9 @@ export default PhotoUploader
 
 //   return (
 //     <div className="previewComponent">
-//         <input 
-//           className="fileInput" 
-//           type="file" 
+//         <input
+//           className="fileInput"
+//           type="file"
 //           onChange={(e)=> handleImageChange(e)}
 //         />
 //       <div className="imgPreview">

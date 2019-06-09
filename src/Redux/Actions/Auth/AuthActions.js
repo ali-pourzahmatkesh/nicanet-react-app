@@ -28,6 +28,17 @@ export function login(loginData) {
   };
 }
 
+export function setUserInfo(data) {
+  console.log('in action', data);
+  return async dispatch => {
+    try {
+      await localStorage.setItem('user', JSON.stringify(data));
+    } catch (err) {
+      console.safeError('failed to set user', err);
+    }
+  };
+}
+
 export function logout() {
   return dispatch => {
     localStorage.removeItem('user');

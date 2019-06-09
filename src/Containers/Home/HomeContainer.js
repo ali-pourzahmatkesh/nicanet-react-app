@@ -36,6 +36,7 @@ function HomeContainer(props) {
           setContent([]);
         }
         setContent(response.data);
+        console.log('response.data', response.data);
       } catch (_) {
       } finally {
         setContentIsFetching(false);
