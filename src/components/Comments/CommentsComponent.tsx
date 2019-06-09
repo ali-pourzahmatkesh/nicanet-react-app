@@ -32,7 +32,7 @@ const CommentForm = styled.div`
   display: flex;
   felx-direction: row;
   align-items: center;
-  background: #eee;
+  background: #f5f5f5;
   padding: 0.3rem 1rem;
   border-top: 1px solid #ddd;
 `;

@@ -164,14 +164,11 @@ const EditProfileContainer: React.FC<
             ? selectedUniversity.UniversityId
             : '';
 
-        console.log('values', values);
         const params = {
           UniversityId,
           ...values,
           GroupId: values.GroupId || GroupId
         };
-
-        console.log('params', params);
 
         const { status } = await UsersApi.editUser(params);
         if (status !== 204) throw status;
@@ -224,7 +221,6 @@ const EditProfileContainer: React.FC<
   const uploadPhoto = async (photo: Photo) => {
     try {
       setIsLoading(true);
-      console.log('photo', photo);
       const bodyFormData = new FormData();
 
       const image = new File([photo.file], photo.file.name, {
@@ -233,7 +229,6 @@ const EditProfileContainer: React.FC<
       bodyFormData.append('file', image);
 
       const reponse = await UsersApi.uploadUserPhoto(bodyFormData);
-      console.log('reponse', reponse);
       if (reponse.status === 204) setPhotos([photo]);
     } catch (_) {
     } finally {
@@ -251,7 +246,6 @@ const EditProfileContainer: React.FC<
     ImageUrl
   } = user;
   const { ConfigName } = Group;
-  console.log('photos', photos);
   return (
     <Layout>
       <ProfileFormImageItem>

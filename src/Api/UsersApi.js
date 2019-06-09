@@ -6,6 +6,11 @@ export const UsersApi = {
   getUser: userId => Api.get(`Person/${userId}`),
   getCurrentUser: () => Api.get('Person'),
   editUser: data => Api.put('/Person', data),
+  subscribe: FollowedId => Api.post('/Subscribe', { FollowedId }),
+  unSubscribe: FollowedId =>
+    Api.delete('/Subscribe', {
+      data: { FollowedId }
+    }),
   getUserMessages: (userId, contactId) =>
     ChatApi.get(`/messages?id=${userId}&from=${contactId}`),
   sendMessage: ({
@@ -35,5 +40,5 @@ export const UsersApi = {
       method: 'PUT',
       data: bodyFormData,
       config: { headers: { 'Content-Type': 'multipart/form-data' } }
-    }),
+    })
 };

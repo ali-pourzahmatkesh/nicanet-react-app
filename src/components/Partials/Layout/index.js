@@ -12,7 +12,7 @@ const GlobalStyle = createGlobalStyle`
     font-size: 16px;
   }
   body {
-    background-color: #fff;
+    background-color: #eee;
     margin: 0;
     padding: 0;
     font-family: 'Roboto', sans-serif;
@@ -52,6 +52,7 @@ const ContentWrapper = styled.div`
   padding-bottom: 60px;
   max-width: 720px;
   margin: 0 auto;
+  background-color: #fff;
   @media (min-width: 720px) {
     border-left: 1px solid #eee;
     border-right: 1px solid #eee;

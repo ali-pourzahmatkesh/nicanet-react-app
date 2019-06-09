@@ -10,6 +10,7 @@ import Card from 'components/Card/CardComponent';
 import { API_FILES_BASE_URL } from 'constants/ApiConstants';
 import PenIconSvg from 'Assets/Pen.svg';
 import avatarPhoto from '../../Assets/avatar.jpg';
+import Navbar from 'components/Navbar/Navbar';
 
 const Avatar = styled.img`
   width: 60px;
@@ -27,6 +28,12 @@ const UserInfoWrapper = styled.div`
   margin-bottom: 1rem;
 `;
 
+const NavbarWrapper = styled.div`
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: solid 1px #979797;
+`;
+
 const PenIcon = styled.img`
   position: absolute;
   top: 1rem;
@@ -34,9 +41,23 @@ const PenIcon = styled.img`
   cursor: pointer;
 `;
 
+const SubscribeButton = styled.div<{ isSubscribe?: boolean }>`
+  width: 120px;
+  text-align: center;
+  padding: 0.4rem;
+  background-color: ${props => (props.isSubscribe ? '#7ED321' : '#5498A9')};
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  cursor: pointer;
+  border-radius: 20px;
+  color: #fff;
+  font-size: 0.9rem;
+`;
+
 const Title = styled.div`
   font-family: Roboto;
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: bold;
   color: #000000;
   margin-bottom: 0.5rem;
@@ -85,9 +106,9 @@ function ProfileContainer(
   const [content, setContent] = useState([]);
   const [contentIsFetching, setContentIsFetching] = useState(true);
   const [isOwn, setIsOwn] = useState(false);
+  const [isSubscribe, setIsSubscribe] = useState(false);
   const [user, setUser] = useState(null);
-
-  // console.log('isOwn', isOwn);
+  const [subscriberCount, setSubscriberCount] = useState(0);
 
   useEffect(() => {
     const effect = async () => {
@@ -114,6 +135,8 @@ function ProfileContainer(
           if (response.status === 200) {
             const data = response.data;
             setUser(data);
+            setIsSubscribe(data.IsSubscribe);
+            setSubscriberCount(data.SubscriberCount);
           }
         }
       } catch (_) {}
@@ -145,7 +168,27 @@ function ProfileContainer(
       </Layout>
     );
 
-  const { ImageUrl, FullName, Expertise, Email, Bio, PersonId } = user;
+  const onSubscribeButton = async (PersonId: any) => {
+    try {
+      if (isSubscribe) {
+        const { status } = await UsersApi.unSubscribe(PersonId);
+        if (status !== 204) throw new Error(status.toString());
+        setIsSubscribe(false);
+        setSubscriberCount(subscriberCount - 1);
+      } else {
+        const { status } = await UsersApi.subscribe(PersonId);
+        if (status !== 204) throw new Error(status.toString());
+        setIsSubscribe(true);
+        setSubscriberCount(subscriberCount + 1);
+      }
+    } catch (_) {}
+  };
+
+  const { ImageUrl, FullName, Group, Bio, PersonId } = user;
+  const { ConfigName } = Group;
+  const goToPage = (route: any) => {
+    props.history.push(route);
+  };
 
   return (
     <Layout>
@@ -154,18 +197,31 @@ function ProfileContainer(
           src={ImageUrl ? `${API_FILES_BASE_URL}/${ImageUrl}` : avatarPhoto}
         />
         <Title>{FullName}</Title>
-        <Subtitle>{Expertise}</Subtitle>
-        <PrimaryText>{Email}</PrimaryText>
+        <Subtitle>{ConfigName}</Subtitle>
+        {subscriberCount !== 0 && (
+          <PrimaryText>{`${subscriberCount} Subscribers`}</PrimaryText>
+        )}
         <Paragraph>{Bio}</Paragraph>
-        {isOwn && (
+        {isOwn ? (
           <PenIcon
             src={PenIconSvg}
             onClick={() => {
               props.history.push('/edit-profile');
             }}
           />
+        ) : (
+          <SubscribeButton
+            isSubscribe={isSubscribe}
+            onClick={() => onSubscribeButton(PersonId)}
+          >
+            {isSubscribe ? 'Subscribed' : 'Subscribe'}
+          </SubscribeButton>
         )}
       </UserInfoWrapper>
+
+      <NavbarWrapper>
+        <Navbar onSelectRoute={goToPage} />
+      </NavbarWrapper>
 
       {contentIsFetching && (
         <LoadingWrapprer>
