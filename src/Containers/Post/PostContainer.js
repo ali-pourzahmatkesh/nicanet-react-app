@@ -105,6 +105,7 @@ const Subtitle = styled.div`
 const AuthorLeftCol = styled.div`
   display: flex;
   align-items: center;
+  cursor: pointer;
 `;
 
 const Interactions = styled.div`
@@ -114,6 +115,9 @@ const Interactions = styled.div`
 const ContentWrapper = styled.div`
   padding-top: 1rem;
   min-height: calc(100vh - 251px);
+  @media (min-width: 720px) {
+    min-height: calc(100vh - 291px);
+  }
 `;
 
 function PostContainer(props) {
@@ -152,7 +156,8 @@ function PostContainer(props) {
     WriterImage,
     TimeElapsed,
     PersonVoted,
-    PersonVote
+    PersonVote,
+    WrittenById
   } = post;
 
   const updatePost = async () => {
@@ -210,7 +215,11 @@ function PostContainer(props) {
         )}
         <ContentWrapper>
           <AuthorWrapper>
-            <AuthorLeftCol>
+            <AuthorLeftCol
+              onClick={() => {
+                props.history.push(`/profile/${WrittenById}`);
+              }}
+            >
               <AuthorImage
                 src={
                   WriterImage

@@ -20,7 +20,6 @@ const CasePhotoUploader: React.FC<CasePhotoUploaderProps> = props => {
   const uploadPhoto = async (photo: Photo) => {
     try {
       setIsLoading(true);
-      console.log('photo', photo);
       const currentCaseRaw = localStorage.getItem('current_case');
       if (currentCaseRaw === null) return;
       const { CaseId } = JSON.parse(currentCaseRaw);
@@ -28,7 +27,6 @@ const CasePhotoUploader: React.FC<CasePhotoUploaderProps> = props => {
       const image = new File([photo.file], `${presetName}&${photo.file.name}`, {
         type: photo.file.type
       });
-      console.log('imageeee', image);
       bodyFormData.append('CaseId', CaseId);
       bodyFormData.append('file', image);
       const reponse = await CaseApi.uploadCasePhoto(bodyFormData);

@@ -15,6 +15,7 @@ const initialState = {
 }
 
 function setUser(state, action) {
+  console.log('in reducer', action);
   return {
     ...state,
     user: action.payload,

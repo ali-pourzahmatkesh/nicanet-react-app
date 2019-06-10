@@ -20,7 +20,7 @@ const AddAdrStepFour: React.FC<RouteComponentProps<{}>> = (props) => {
 
     const { adrDrugs } = values
 
-    if (adrDrugs.length === 0) throw new Error('no drugs specifed')
+    // if (adrDrugs.length === 0) throw new Error('no drugs specifed')
     
     const addDrugQueue = adrDrugs.map(async (drug: any) => {
       await AdrApi.addDrug({ ...drug, AdrId })

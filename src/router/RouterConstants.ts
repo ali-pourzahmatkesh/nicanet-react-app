@@ -6,7 +6,6 @@ export const HOME_ROUTE = '/home';
 
 // CHAT
 export const CHAT_ROUTE = '/chat';
-export const PROFILE_ROUTE = '/profile';
 export const CHAT_ROOM_ROUTE = '/chat/:contactId';
 
 // CASE
@@ -30,7 +29,12 @@ export const ADD_ADR_STEP_FIVE_ROUTE = '/add-adr-step-five';
 export const ADD_POST_ROUTE = '/add-post';
 export const SHOW_POST_ROUTE = '/post/:postId';
 
+// SHOWCAE
 export const SHOW_CASE_STEP_ONE_ROUTE = '/show-case-step-one/:caseId';
 export const SHOW_CASE_STEP_TWO_ROUTE = '/show-case-step-two/:caseId';
 export const SHOW_CASE_STEP_THREE_ROUTE = '/show-case-step-three/:caseId';
 export const SHOW_CASE_STEP_FOUR_ROUTE = '/show-case-step-four/:caseId';
+
+// PROFILE
+export const PROFILE_ROUTE = '/profile/:userId?';
+export const EDIT_PROFILE_ROUTE = '/edit-profile';

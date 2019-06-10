@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import { BounceLoader } from 'react-spinners';
 import { ContentApi } from '../../Api/ContentApi';
 import Layout from '../../components/Partials/Layout';
 import Card from '../../components/Card/CardComponent';
@@ -12,20 +12,38 @@ import Navbar from 'components/Navbar/Navbar';
 const Logo = styled.img`
   margin: 0 auto;
   display: block;
+  @media (min-width: 720px) {
+    display: none;
+  }
+`;
+
+const LoadingWrapprer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
 `;
 
 function HomeContainer(props) {
   const { userId } = props;
   const [content, setContent] = useState(null);
+  const [contentIsFetching, setContentIsFetching] = useState(true);
 
   useEffect(() => {
     const effect = async () => {
-      const response = await ContentApi.getAllContent(userId);
+      try {
+        const response = await ContentApi.getAllContent(userId);
 
-      if (response.status !== 200) {
-        setContent([]);
+        if (response.status !== 200) {
+          setContent([]);
+        }
+        setContent(response.data);
+        // console.log('response.data', response.data);
+      } catch (_) {
+      } finally {
+        setContentIsFetching(false);
       }
-      setContent(response.data);
     };
     effect();
   }, [userId]);
@@ -34,17 +52,23 @@ function HomeContainer(props) {
     props.history.push(route);
   };
 
-  console.log(content);
-
   return (
     <Layout>
       <Logo src={logo} />
       <Navbar onSelectRoute={goToPage} />
+
+      {contentIsFetching && (
+        <LoadingWrapprer>
+          <BounceLoader sizeUnit="rem" size={3} color="#5498a9" loading />
+        </LoadingWrapprer>
+      )}
+
       {content &&
         content.length > 0 &&
         content.map(content => (
           <Card
             onClick={() => {
+              if (content.TypeId === 118) return;
               if (content.CaseId === 0) {
                 props.history.push(`/post/${content.ContentId}`);
               } else {
@@ -57,6 +81,7 @@ function HomeContainer(props) {
             image={
               content.MultiMedias.length > 0 && content.MultiMedias[0].FileUrl
             }
+            typeId={content.TypeId}
             author={{
               image: content.WriterImage,
               title: content.WriterFullName,

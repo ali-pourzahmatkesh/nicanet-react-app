@@ -154,16 +154,16 @@ function AddPostContainer(props: AddPostContainerProps & RouteComponentProps) {
 
         const { status } = await UsersApi.addPost(bodyFormData);
         if (status !== 204) throw new Error(status.toString());
-        await toast.success('Post has been successfully published', {
+        toast.success('Post has been successfully published', {
           position: toast.POSITION.TOP_CENTER
         });
+        setTimeout(() => {
+          setIsSubmitting(false);
+          props.history.push(HOME_ROUTE);
+        }, 4000);
         // console.log('response', response);
       } catch (_) {
-      } finally {
-        setIsSubmitting(false);
-        setTimeout(() => {
-          props.history.push(HOME_ROUTE);
-        }, 0);
+         setIsSubmitting(false);
       }
     });
   };

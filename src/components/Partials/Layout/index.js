@@ -3,6 +3,7 @@ import styled, { createGlobalStyle } from 'styled-components';
 import { ToastContainer } from 'react-toastify';
 
 import TabBar from 'components/TabBar/TabBarComponent';
+import Header from 'components/Header/HeaderComponent';
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -12,7 +13,7 @@ const GlobalStyle = createGlobalStyle`
     font-size: 16px;
   }
   body {
-    background-color: #fff;
+    background-color: #eee;
     margin: 0;
     padding: 0;
     font-family: 'Roboto', sans-serif;
@@ -33,6 +34,7 @@ export default function Layout({
     <Fragment>
       <ToastContainer />
       <GlobalStyle />
+      <Header />
       <ContentWrapper>
         <ContentContainer noPadding={noPadding}>{children}</ContentContainer>
       </ContentWrapper>
@@ -50,8 +52,14 @@ const ContentContainer = styled.div`
 
 const ContentWrapper = styled.div`
   padding-bottom: 60px;
-  max-width: 720px;
+  max-width: 560px;
   margin: 0 auto;
-  border-left: 1px solid #eee;
-  border-right: 1px solid #eee;
+  background-color: #fff;
+  min-height: 100vh;
+  @media (min-width: 720px) {
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
+    padding-top: 100px;
+    padding-bottom: 0;
+  }
 `;
