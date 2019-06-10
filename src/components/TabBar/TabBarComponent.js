@@ -24,6 +24,9 @@ const Container = styled.div`
   padding: 0.3rem 1rem;
   border-top: 1px solid #979797;
   height: 60px;
+  @media (min-width: 720px) {
+    display: none;
+  }
 `;
 
 const LinksContainer = styled.div`
@@ -64,7 +67,7 @@ function TabBar(props) {
     <Fragment>
       <Container>
         <LinksContainer>
-          <IconWrapper onClick={() => false && undefined}></IconWrapper>
+          <IconWrapper onClick={() => false && undefined} />
           <IconWrapper onClick={() => props.history.push(HOME_ROUTE)}>
             {route.startsWith('/home') ||
             route.startsWith('/post') ||
@@ -93,7 +96,7 @@ function TabBar(props) {
             />
             <IconTitle>Profile</IconTitle>
           </IconWrapper>
-          <IconWrapper onClick={() => false && undefined}></IconWrapper>
+          <IconWrapper onClick={() => false && undefined} />
         </LinksContainer>
       </Container>
     </Fragment>

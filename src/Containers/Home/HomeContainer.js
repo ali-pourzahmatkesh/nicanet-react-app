@@ -12,6 +12,9 @@ import Navbar from 'components/Navbar/Navbar';
 const Logo = styled.img`
   margin: 0 auto;
   display: block;
+  @media (min-width: 720px) {
+    display: none;
+  }
 `;
 
 const LoadingWrapprer = styled.div`
@@ -36,7 +39,7 @@ function HomeContainer(props) {
           setContent([]);
         }
         setContent(response.data);
-        console.log('response.data', response.data);
+        // console.log('response.data', response.data);
       } catch (_) {
       } finally {
         setContentIsFetching(false);
@@ -59,12 +62,13 @@ function HomeContainer(props) {
           <BounceLoader sizeUnit="rem" size={3} color="#5498a9" loading />
         </LoadingWrapprer>
       )}
-      
+
       {content &&
         content.length > 0 &&
         content.map(content => (
           <Card
             onClick={() => {
+              if (content.TypeId === 118) return;
               if (content.CaseId === 0) {
                 props.history.push(`/post/${content.ContentId}`);
               } else {
@@ -77,6 +81,7 @@ function HomeContainer(props) {
             image={
               content.MultiMedias.length > 0 && content.MultiMedias[0].FileUrl
             }
+            typeId={content.TypeId}
             author={{
               image: content.WriterImage,
               title: content.WriterFullName,
