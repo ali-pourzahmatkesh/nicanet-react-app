@@ -24,6 +24,9 @@ const Container = styled.div`
   padding: 0.3rem 1rem;
   border-top: 1px solid #979797;
   height: 60px;
+  @media (min-width: 720px) {
+    display: none;
+  }
 `;
 
 const LinksContainer = styled.div`
@@ -64,6 +67,7 @@ function TabBar(props) {
     <Fragment>
       <Container>
         <LinksContainer>
+          <IconWrapper onClick={() => false && undefined} />
           <IconWrapper onClick={() => props.history.push(HOME_ROUTE)}>
             {route.startsWith('/home') ||
             route.startsWith('/post') ||
@@ -76,7 +80,7 @@ function TabBar(props) {
             )}
             <IconTitle>Home</IconTitle>
           </IconWrapper>
-          <IconWrapper onClick={() => false && undefined}>
+          {/* <IconWrapper onClick={() => false && undefined}>
             <Icon
               src={route === '/academy' ? academyIconActive : academyIcon}
             />
@@ -85,13 +89,14 @@ function TabBar(props) {
           <IconWrapper onClick={() => props.history.push(CHAT_ROUTE)}>
             <Icon src={route.startsWith('/chat') ? chatIconActive : chatIcon} />
             <IconTitle>Chat</IconTitle>
-          </IconWrapper>
+          </IconWrapper> */}
           <IconWrapper onClick={() => props.history.push('/profile')}>
             <Icon
               src={route.endsWith('/profile') ? userIconActive : userIcon}
             />
             <IconTitle>Profile</IconTitle>
           </IconWrapper>
+          <IconWrapper onClick={() => false && undefined} />
         </LinksContainer>
       </Container>
     </Fragment>

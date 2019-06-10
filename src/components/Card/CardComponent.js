@@ -82,34 +82,37 @@ function Card(props) {
     },
     title,
     subtitle,
-    onClick
+    onClick,
+    typeId
   } = props;
 
   return (
     <Container onClick={onClick}>
       {image && <Image src={`https://api.pointina.ir${image}`} />}
-      <Main>
-        {Object.keys(author).length > 0 && (
-          <AuthorWrapper>
-            <AuthorImage
-              src={
-                authorImage
-                  ? `https://api.pointina.ir${authorImage}`
-                  : avatarPhoto
-              }
-            />
-            <AuthorInfo>
-              {authorTitle && <AuthorTitle>{authorTitle}</AuthorTitle>}
-              {authorSubtitle && (
-                <AuthorSubtitle>{authorSubtitle}</AuthorSubtitle>
-              )}
-              {publishTime && <PublishTime>{publishTime}</PublishTime>}
-            </AuthorInfo>
-          </AuthorWrapper>
-        )}
-        {title && <Title>{title}</Title>}
-        {subtitle && <Subtitle>{subtitle}</Subtitle>}
-      </Main>
+      {typeId !== 118 && (
+        <Main>
+          {Object.keys(author).length > 0 && (
+            <AuthorWrapper>
+              <AuthorImage
+                src={
+                  authorImage
+                    ? `https://api.pointina.ir${authorImage}`
+                    : avatarPhoto
+                }
+              />
+              <AuthorInfo>
+                {authorTitle && <AuthorTitle>{authorTitle}</AuthorTitle>}
+                {authorSubtitle && (
+                  <AuthorSubtitle>{authorSubtitle}</AuthorSubtitle>
+                )}
+                {publishTime && <PublishTime>{publishTime}</PublishTime>}
+              </AuthorInfo>
+            </AuthorWrapper>
+          )}
+          {title && <Title>{title}</Title>}
+          {subtitle && <Subtitle>{subtitle}</Subtitle>}
+        </Main>
+      )}
     </Container>
   );
 }

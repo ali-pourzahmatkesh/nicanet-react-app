@@ -233,6 +233,7 @@ function ProfileContainer(
         content.map((content: any) => (
           <Card
             onClick={() => {
+              if (content.TypeId === 118) return;
               props.history.push(`/post/${content.ContentId}`);
             }}
             key={content.ContentId}
@@ -241,6 +242,7 @@ function ProfileContainer(
             image={
               content.MultiMedias.length > 0 && content.MultiMedias[0].FileUrl
             }
+            typeId={content.TypeId}
             author={{
               image: content.WriterImage,
               title: content.WriterFullName,
