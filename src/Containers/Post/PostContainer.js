@@ -96,14 +96,14 @@ const AuthorLeftCol = styled.div`
 `;
 
 const Interactions = styled.div`
-  margin-top: 1rem;
+  margin-top: 3.5rem;
 `;
 
 const ContentWrapper = styled.div`
   padding-top: 1rem;
-  min-height: calc(100vh - 251px);
+  min-height: calc(100vh - 301px);
   @media (min-width: 720px) {
-    min-height: calc(100vh - 291px);
+    min-height: calc(100vh - 331px);
   }
 `;
 
@@ -117,7 +117,7 @@ function PostContainer(props) {
       const response = await ContentApi.getContent(postId);
 
       if (response.status === 200) {
-        console.log('response', response.data);
+        // console.log('response', response.data);
         setPost(response.data);
       }
     };
@@ -195,12 +195,13 @@ function PostContainer(props) {
   return (
     <Layout noPadding>
       <PostWrapper>
-        {MultiMedias && MultiMedias.length > 0 && (
-          <PostImage
-            src={`https://api.pointina.ir/${MultiMedias[0].FileUrl}`}
-          />
-        )}
         <ContentWrapper>
+          {MultiMedias && MultiMedias.length > 0 && (
+            <PostImage
+              src={`https://api.pointina.ir${MultiMedias[0].FileUrl}`}
+            />
+          )}
+
           <AuthorWrapper>
             <AuthorLeftCol
               onClick={() => {
@@ -210,7 +211,7 @@ function PostContainer(props) {
               <AuthorImage
                 src={
                   WriterImage
-                    ? `https://api.pointina.ir/${WriterImage}`
+                    ? `https://api.pointina.ir${WriterImage}`
                     : avatarPhoto
                 }
               />
@@ -241,6 +242,9 @@ function PostContainer(props) {
             source="post"
             updateContent={() => updatePost()}
             comments={post.Comments || []}
+            goToProfile={CommentWrittenId => {
+              props.history.push(`/profile/${CommentWrittenId}`);
+            }}
           />
         </Interactions>
       </PostWrapper>

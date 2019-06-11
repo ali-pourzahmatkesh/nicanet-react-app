@@ -140,7 +140,7 @@ const AddCaseStepFive: React.FC<RouteComponentProps<{}>> = props => {
   };
 
   return (
-    <Layout>
+    <Layout noHeader>
       <Container>
         <Heading
           title="Lab Test and Imaging"

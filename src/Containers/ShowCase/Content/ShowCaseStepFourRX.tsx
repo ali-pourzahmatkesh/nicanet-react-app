@@ -29,7 +29,7 @@ const ContentActionsWrapper = styled.div`
 `;
 
 const Drugs = styled.div`
-  min-height: calc(100vh - 476px);
+  min-height: calc(100vh - 486px);
   @media (min-width: 720px) {
     min-height: calc(100vh - 639px);
   }

@@ -67,10 +67,11 @@ type CommentsProps = {
   content: any;
   source: string;
   comments: any[];
+  goToProfile?: (WriteById: number) => void;
 };
 
 const Comments: React.FC<CommentsProps> = props => {
-  const { content, source, updateContent, comments } = props;
+  const { content, source, updateContent, comments, goToProfile } = props;
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [commentText, setCommentText] = useState('');
   const [parentId, setParentId] = useState(1);
@@ -164,6 +165,9 @@ const Comments: React.FC<CommentsProps> = props => {
           }
           cm={cm}
           level={level}
+          goToProfile={CommentWrittenId =>
+            goToProfile && goToProfile(CommentWrittenId)
+          }
           onReply={(parentId: number) => onReply(parentId)}
         />
         {cm.ReplyComment.map((cm: any) => buildCommentTree(cm, level + 1))}

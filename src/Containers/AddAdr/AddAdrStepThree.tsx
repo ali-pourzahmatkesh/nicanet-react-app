@@ -36,7 +36,7 @@ const AddAdrStepThree: React.FC<RouteComponentProps<{}>> = props => {
   const goBackward = () => props.history.push(ADD_ADR_STEP_TWO_ROUTE);
 
   return (
-    <Layout>
+    <Layout noHeader>
       <Container>
         <Heading
           title="ADR"

@@ -7,12 +7,21 @@ import userIcon from '../../Assets/user.svg';
 import homeIconActive from '../../Assets/homeActive.svg';
 import userIconActive from '../../Assets/userActive.svg';
 import { HOME_ROUTE } from 'router/RouterConstants';
+import LeftIcon from 'Assets/Left.svg';
 
 const Logo = styled.img`
   display: block;
   max-width: 100%;
   height: auto;
   cursor: pointer;
+  max-height: 100%;
+  width: auto;
+  margin: 0 auto;
+  flex: 1;
+  @media (min-width: 720px) {
+    margin: 0;
+    flex: 0;
+  }
 `;
 
 const Container = styled.div`
@@ -22,19 +31,27 @@ const Container = styled.div`
   top: 0;
   left: 0;
   right: 0;
-  height: 100px;
+  height: 60px;
   z-index: 2;
-  display: none;
+  display: ${props => (props.noHeader ? 'none' : 'flex')};
   @media (min-width: 720px) {
+    height: 100px;
     display: flex;
   }
 `;
 
 const Wrapper = styled.div`
-  width: 720px;
+  width: 560px;
   margin: 0 auto;
   display: flex;
   align-items: center;
+  padding: 0.3rem 0;
+  justify-content: center;
+  @media (min-width: 720px) {
+    width: 720px;
+    padding: 0;
+    justify-content: flex-start;
+  }
 `;
 
 const SearchBox = styled.div`
@@ -43,6 +60,10 @@ const SearchBox = styled.div`
 
 const MiddleEelements = styled.div`
   width: 560px;
+  display: none;
+  @media (min-width: 720px) {
+    display: block;
+  }
 `;
 
 const LinksContainer = styled.div`
@@ -76,15 +97,37 @@ const IconWrapper = styled.div`
 const Right = styled.div`
   border-left: solid 1px #979797;
   padding: 0.5rem 0 0.5rem 2.5rem;
+  display: none;
+  @media (min-width: 720px) {
+    display: block;
+  }
+`;
+
+const GoBack = styled.div`
+  margin: 0 auto 0 0;
+  flex: 0;
+  @media (min-width: 720px) {
+    display: none;
+  }
+`;
+
+const BackIcon = styled.img`
+  width: 1.8rem;
+  height: 1.8rem;
+  cursor: pointer;
 `;
 
 function Header(props) {
   const { pathname: route } = props.location;
+  const noHeader = props.noHeader || false;
 
   return (
     <Fragment>
-      <Container>
+      <Container noHeader={noHeader}>
         <Wrapper>
+          <GoBack>
+            <BackIcon onClick={() => props.history.goBack()} src={LeftIcon} />
+          </GoBack>
           <Logo src={logo} onClick={() => props.history.push(HOME_ROUTE)} />
           <MiddleEelements>
             <SearchBox />

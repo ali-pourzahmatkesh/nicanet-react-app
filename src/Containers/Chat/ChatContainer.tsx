@@ -43,7 +43,7 @@ function ChatContainer(props: ChatContainerProps & RouteComponentProps) {
     setIsSearchingUsers(true);
     try {
       const response = await UsersApi.getUsers(searchValue);
-      console.log(response.data);
+      // console.log(response.data);
       setIsSearchingUsers(false);
       setResultUsers(response.data);
     } catch (_) {}

@@ -70,7 +70,7 @@ const ShowCaseStepThreeContainer: React.FC<
   };
 
   return (
-    <Layout>
+    <Layout noHeader>
       <Heading
         title="Case Report"
         onGoBack={goToStepTwo}

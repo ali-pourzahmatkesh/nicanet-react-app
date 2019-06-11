@@ -16,9 +16,9 @@ const Container = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 0.3rem 1rem;
+  padding: 0 1rem;
   border-top: 1px solid #979797;
-  height: 60px;
+  height: 70px;
   @media (min-width: 720px) {
     display: none;
   }
@@ -28,7 +28,9 @@ const LinksContainer = styled.div`
   flex: 1;
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
   max-width: 720px;
+  padding-top: 0.5rem;
   // max-width: 1200px;
   margin: 0 auto;
 `;
