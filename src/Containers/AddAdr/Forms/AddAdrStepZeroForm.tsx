@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { createForm } from 'rc-form';
 import styled from 'styled-components';
 import Select from 'components/Select/SelectComponent';
@@ -47,7 +47,6 @@ interface AddAdrStepZeroFormProps {
 
 function AddAdrStepZeroForm(props: AddAdrStepZeroFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const onSelect = console.log;
   const {
     form: { getFieldDecorator, validateFields, getFieldError, getFieldsValue },
     onSubmit

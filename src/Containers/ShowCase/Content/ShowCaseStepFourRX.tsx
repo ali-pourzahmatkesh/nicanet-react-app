@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { LoadingWrapprer } from '../Components/Styled';
 import { BounceLoader } from 'react-spinners';
-import Layout from '../../../components/Partials/Layout';
 import styled from 'styled-components';
 import { Title } from '../Components/Styled';
 import ShowCaseItem from '../Components/ShowCaseItem';

@@ -62,19 +62,6 @@ const PublishTime = styled.div`
   clear: both;
 `;
 
-const SubscribeBtn = styled.div`
-  font-family: Roboto;
-  font-size: 0.8rem;
-  background-color: #5498a9;
-  color: #fff;
-  float: right;
-  text-align: center;
-  width: 80px;
-  height: 20px;
-  padding: 2px;
-  border-radius: 0.3rem;
-`;
-
 const Title = styled.div`
   font-family: Roboto;
   font-size: 1.2rem;

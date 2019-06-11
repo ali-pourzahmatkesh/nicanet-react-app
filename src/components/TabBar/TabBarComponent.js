@@ -1,16 +1,11 @@
 import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router';
-
 import homeIcon from '../../Assets/home.svg';
-import academyIcon from '../../Assets/academy.svg';
-import chatIcon from '../../Assets/chat.svg';
 import userIcon from '../../Assets/user.svg';
 import homeIconActive from '../../Assets/homeActive.svg';
-import academyIconActive from '../../Assets/academyActive.svg';
-import chatIconActive from '../../Assets/chatActive.svg';
 import userIconActive from '../../Assets/userActive.svg';
-import { HOME_ROUTE, CHAT_ROUTE } from 'router/RouterConstants';
+import { HOME_ROUTE } from 'router/RouterConstants';
 
 const Container = styled.div`
   display: flex;
@@ -54,10 +49,6 @@ const IconWrapper = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-`;
-
-const Spacer = styled.div`
-  height: 30px;
 `;
 
 function TabBar(props) {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { createForm } from 'rc-form';
 import AdrFormItem from './AdrFormItem';
 import { Title } from 'Containers/AddCase/Components/Styled';
@@ -12,7 +12,7 @@ interface AddAdrStepFiveFormProps {
 
 function AddAdrStepFiveForm(props: AddAdrStepFiveFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [adrDrugs, setadrDrugs] = useState<any[]>([])
+  const [adrDrugs] = useState<any[]>([])
 
   const {
     form: {
