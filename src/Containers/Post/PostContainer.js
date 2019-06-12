@@ -9,6 +9,7 @@ import ContentActions from '../../components/ContentActions/ContentActionsCompon
 import ContentStatusBar from '../../components/ContentStatusBar/ContentStatusBarComponent';
 import Comments from '../../components/Comments/CommentsComponent';
 import avatarPhoto from '../../Assets/avatar.jpg';
+import { urlify  } from '../../utils/utils';
 
 const PostImage = styled.img`
   border: solid 3px solid #eee;
@@ -223,7 +224,7 @@ function PostContainer(props) {
             {/* <SubscribeBtn>Subscribe</SubscribeBtn> */}
           </AuthorWrapper>
           {Subject && <Title>{Subject}</Title>}
-          {ContentText && <Subtitle>{ContentText}</Subtitle>}
+          {ContentText && <Subtitle dangerouslySetInnerHTML={{ __html: urlify(ContentText) }} />}
         </ContentWrapper>
         <Interactions>
           <ContentActions

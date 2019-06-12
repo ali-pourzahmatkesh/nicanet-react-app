@@ -20,7 +20,7 @@ const WeightAndHeight = styled.div`
 const YearsofBirth = new Array(100)
   .fill(null)
   .map((item: any, index: number) => {
-    const year = (1397 - index).toString();
+    const year = (1398 - index).toString();
     return { value: year, name: year };
   });
 
