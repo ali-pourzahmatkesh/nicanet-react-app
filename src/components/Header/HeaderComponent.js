@@ -8,7 +8,7 @@ import homeIconActive from '../../Assets/homeActive.svg';
 import userIconActive from '../../Assets/userActive.svg';
 import { HOME_ROUTE } from 'router/RouterConstants';
 import LeftIcon from 'Assets/Left.svg';
-import { FaSearch } from 'react-icons/fa';
+// import { FaSearch } from 'react-icons/fa';
 
 const Logo = styled.img`
   display: block;
@@ -87,12 +87,12 @@ const LinksContainer = styled.div`
   margin: 0 auto;
 `;
 
-const IconContainer = styled.div`
-  width: 1.7rem;
-  height: 1.7rem;
-  display: flex;
-  align-items: center;
-`;
+// const IconContainer = styled.div`
+//   width: 1.7rem;
+//   height: 1.7rem;
+//   display: flex;
+//   align-items: center;
+// `;
 
 const Icon = styled.img`
   width: 1.7rem;
@@ -169,7 +169,7 @@ function Header(props) {
                 )}
                 <IconTitle>Home</IconTitle>
               </IconWrapper>
-              <IconWrapper onClick={() => props.history.push('/search')} hasMargin>
+              {/* <IconWrapper onClick={() => props.history.push('/search')} hasMargin>
                 <IconContainer>
                   <FaSearch
                     color={route.endsWith('/search') ? '#5498A9' : '#757575'}
@@ -178,7 +178,7 @@ function Header(props) {
                 </IconContainer>
 
                 <IconTitle>Search</IconTitle>
-              </IconWrapper>
+              </IconWrapper> */}
             </LinksContainer>
             
           </MiddleEelements>

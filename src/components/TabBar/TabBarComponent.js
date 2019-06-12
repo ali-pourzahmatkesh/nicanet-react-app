@@ -6,7 +6,7 @@ import userIcon from '../../Assets/user.svg';
 import homeIconActive from '../../Assets/homeActive.svg';
 import userIconActive from '../../Assets/userActive.svg';
 import { HOME_ROUTE } from 'router/RouterConstants';
-import { FaSearch } from 'react-icons/fa';
+// import { FaSearch } from 'react-icons/fa';
 
 const Container = styled.div`
   display: flex;
@@ -36,12 +36,12 @@ const LinksContainer = styled.div`
   margin: 0 auto;
 `;
 
-const IconContainer = styled.div`
-  width: 1.7rem;
-  height: 1.7rem;
-  display: flex;
-  align-items: center;
-`;
+// const IconContainer = styled.div`
+//   width: 1.7rem;
+//   height: 1.7rem;
+//   display: flex;
+//   align-items: center;
+// `;
 
 const Icon = styled.img`
   width: 1.7rem;
@@ -81,7 +81,7 @@ function TabBar(props) {
             )}
             <IconTitle>Home</IconTitle>
           </IconWrapper>
-          <IconWrapper onClick={() => props.history.push('/search')}>
+          {/* <IconWrapper onClick={() => props.history.push('/search')}>
             <IconContainer>
               <FaSearch
                 color={route.endsWith('/search') ? '#5498A9' : '#757575'}
@@ -90,7 +90,7 @@ function TabBar(props) {
             </IconContainer>
 
             <IconTitle>Search</IconTitle>
-          </IconWrapper>
+          </IconWrapper> */}
           {/* <IconWrapper onClick={() => false && undefined}>
             <Icon
               src={route === '/academy' ? academyIconActive : academyIcon}

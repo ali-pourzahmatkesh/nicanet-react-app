@@ -27,9 +27,12 @@ const UserListContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  margin-bottom: 1rem;
-  padding-bottom: 1rem;
+  margin: 0 -1rem 1rem;
+  padding: 1rem;
   border-bottom: solid 1px #979797;
+  @media (min-width: 720px) {
+    padding: 0 1rem 1rem;
+  }
 `;
 
 const Users = styled.div`
@@ -94,20 +97,12 @@ function HomeContainer(props) {
   return (
     <Layout noHeader>
       <Logo src={logo} />
-      <Navbar onSelectRoute={goToPage} />
-
       <UserListContainer>
         <SearchInput
           isLoading={isSearchingUsers}
           onChangeText={onSearchUsersDebounced}
         />
       </UserListContainer>
-
-      {contentIsFetching && (
-        <LoadingWrapprer>
-          <BounceLoader sizeUnit="rem" size={3} color="#5498a9" loading />
-        </LoadingWrapprer>
-      )}
 
       {resultUsers.length > 0 || searchUserValue ? (
         <Users>
@@ -127,6 +122,14 @@ function HomeContainer(props) {
         </Users>
       ) : (
         <div>
+          <Navbar onSelectRoute={goToPage} />
+
+          {contentIsFetching && (
+            <LoadingWrapprer>
+              <BounceLoader sizeUnit="rem" size={3} color="#5498a9" loading />
+            </LoadingWrapprer>
+          )}
+
           {content &&
             content.length > 0 &&
             content.map(content => (
