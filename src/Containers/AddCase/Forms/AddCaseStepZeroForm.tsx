@@ -88,7 +88,7 @@ function AddCaseStepZeroForm(props: AddCaseStepZeroFormProps) {
     <div>
       <CaseFormItem>
         {getFieldDecorator('YearofBirth', {
-          rules: [{ required: true, message: 'Year of Birth is required' }]
+          rules: [{ required: true, message: 'Year of Birth is required' }],
         })(<Select options={YearsofBirth} placeholder="Year of Birth" />)}
         {getFieldError('YearofBirth') && (
           <ErrorMesseage>
@@ -169,15 +169,17 @@ function AddCaseStepZeroForm(props: AddCaseStepZeroFormProps) {
         {getFieldDecorator('JobTitle')(<Input placeholder="Job Title" />)}
       </CaseFormItem>
       <CaseFormItem>
+        {getFieldDecorator('Nationality')(<Input placeholder="Nationality" />)}
+      </CaseFormItem>
+      <CaseFormItem>
         {getFieldDecorator('CurrentResidence')(
           <Input placeholder="Resident in" />
         )}
       </CaseFormItem>
       <CaseFormItem>
-        {getFieldDecorator('Nationality')(<Input placeholder="Nationality" />)}
-      </CaseFormItem>
-      <CaseFormItem>
-        {getFieldDecorator('Originaly')(<Input placeholder="Originally" />)}
+        {getFieldDecorator('Originaly')(
+          <Input placeholder="Originally from" />
+        )}
       </CaseFormItem>
       <ContinueButton isLoading={isSubmitting} onClick={submit} />
     </div>

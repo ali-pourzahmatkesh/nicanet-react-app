@@ -71,7 +71,7 @@ function HomeContainer(props) {
       }
     };
     effect();
-  }, []);
+  }, [userId]);
 
   const onSearchUsers = async searchValue => {
     setIsSearchingUsers(true);

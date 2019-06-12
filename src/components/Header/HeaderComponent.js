@@ -37,12 +37,13 @@ const Container = styled.div`
   top: 0;
   left: 50%;
   height: 50px;
-  z-index: 2;
+  // z-index: 2;
   width: 560px;
   margin-left: -280px;
   display: ${props => (props.noHeader ? 'none' : 'flex')};
   box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.1);
   @media (min-width: 720px) {
+    position: static;
     border-bottom: 1px solid #bdbdbd;
     box-shadow: none;
     height: 100px;

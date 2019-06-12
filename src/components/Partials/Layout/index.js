@@ -49,12 +49,12 @@ const ContentWrapper = styled.div`
   max-width: 560px;
   margin: 0 auto;
   background-color: #fff;
-  min-height: 100vh;
+  min-height: calc(100vh - 100px);
   padding-top: ${props => (props.noHeader ? '0' : '60px')};
   @media (min-width: 720px) {
     border-left: 1px solid #eee;
     border-right: 1px solid #eee;
-    padding-top: 100px;
+    padding-top: 0;
     padding-bottom: 0;
   }
 `;

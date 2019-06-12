@@ -137,8 +137,6 @@ class AddDrugForm extends Component<AddDrugFormProps, AddDrugFormState> {
 
           this.setState(
             {
-              frequencies: [],
-              routes: [],
               DrugId: null,
               DrugName: '',
               dosages: []
