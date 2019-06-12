@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import Layout from 'components/Partials/Layout';
 import { RouteComponentProps } from 'react-router';
-import { HOME_ROUTE } from 'router/RouterConstants';
 import Heading from './Components/Heading';
 import ShowCaseStepOne from './Content/ShowCaseStepOne';
 
@@ -23,11 +22,11 @@ const ShowCaseStepOneContainer: React.FC<
   };
 
   const goBackward = () => {
-    props.history.push(HOME_ROUTE);
+    props.history.goBack();
   };
 
   return (
-    <Layout>
+    <Layout noHeader>
       <Heading
         title="Case Report"
         onGoBack={goBackward}

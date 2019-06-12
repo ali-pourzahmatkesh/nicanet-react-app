@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { createForm } from 'rc-form';
 import styled from 'styled-components';
 import Select from 'components/Select/SelectComponent';
@@ -20,7 +20,7 @@ const WeightAndHeight = styled.div`
 const YearsofBirth = new Array(100)
   .fill(null)
   .map((item: any, index: number) => {
-    const year = (1397 - index).toString();
+    const year = (1398 - index).toString();
     return { value: year, name: year };
   });
 
@@ -47,7 +47,6 @@ interface AddAdrStepZeroFormProps {
 
 function AddAdrStepZeroForm(props: AddAdrStepZeroFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const onSelect = console.log;
   const {
     form: { getFieldDecorator, validateFields, getFieldError, getFieldsValue },
     onSubmit

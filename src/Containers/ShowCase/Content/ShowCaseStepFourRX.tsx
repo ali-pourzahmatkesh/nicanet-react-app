@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { LoadingWrapprer } from '../Components/Styled';
 import { BounceLoader } from 'react-spinners';
-import Layout from '../../../components/Partials/Layout';
 import styled from 'styled-components';
 import { Title } from '../Components/Styled';
 import ShowCaseItem from '../Components/ShowCaseItem';
@@ -30,7 +29,7 @@ const ContentActionsWrapper = styled.div`
 `;
 
 const Drugs = styled.div`
-  min-height: calc(100vh - 476px);
+  min-height: calc(100vh - 486px);
   @media (min-width: 720px) {
     min-height: calc(100vh - 639px);
   }

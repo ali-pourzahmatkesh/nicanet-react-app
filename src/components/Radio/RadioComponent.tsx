@@ -97,8 +97,6 @@ class Radio extends React.Component<RadioProps> {
         <Label>{label}</Label>
         <OptionsWrapper>
           {options.map(option => {
-            console.log('option', option);
-            console.log('value', value);
             return (
               <Option
                 key={option.name}

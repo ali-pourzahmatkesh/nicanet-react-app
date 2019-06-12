@@ -15,7 +15,6 @@ import PhotoUploader, {
 } from 'components/PhotoUploader/PhotoUploaderComponent';
 import { UsersApi } from 'Api/UsersApi';
 import { ContentApi } from 'Api/ContentApi';
-import { getPersonId } from 'utils/auth';
 
 const PencilIcon = styled.img``;
 
@@ -131,6 +130,7 @@ function AddPostContainer(props: AddPostContainerProps & RouteComponentProps) {
           .filter(key => key !== 'Tags')
           .map(key => {
             bodyFormData.append(key, formValues[key]);
+            return key;
           });
 
         const selectedPostTags = await selectedTags

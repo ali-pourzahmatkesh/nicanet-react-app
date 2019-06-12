@@ -9,6 +9,7 @@ import ContentActions from '../../components/ContentActions/ContentActionsCompon
 import ContentStatusBar from '../../components/ContentStatusBar/ContentStatusBarComponent';
 import Comments from '../../components/Comments/CommentsComponent';
 import avatarPhoto from '../../Assets/avatar.jpg';
+import { urlify  } from '../../utils/utils';
 
 const PostImage = styled.img`
   border: solid 3px solid #eee;
@@ -62,19 +63,6 @@ const PublishTime = styled.div`
   clear: both;
 `;
 
-const SubscribeBtn = styled.div`
-  font-family: Roboto;
-  font-size: 0.8rem;
-  background-color: #5498a9;
-  color: #fff;
-  float: right;
-  text-align: center;
-  width: 80px;
-  height: 20px;
-  padding: 2px;
-  border-radius: 0.3rem;
-`;
-
 const Title = styled.div`
   font-family: Roboto;
   font-size: 1.2rem;
@@ -109,14 +97,14 @@ const AuthorLeftCol = styled.div`
 `;
 
 const Interactions = styled.div`
-  margin-top: 1rem;
+  margin-top: 3.5rem;
 `;
 
 const ContentWrapper = styled.div`
   padding-top: 1rem;
-  min-height: calc(100vh - 251px);
+  min-height: calc(100vh - 361px);
   @media (min-width: 720px) {
-    min-height: calc(100vh - 291px);
+    min-height: calc(100vh - 331px);
   }
 `;
 
@@ -130,7 +118,7 @@ function PostContainer(props) {
       const response = await ContentApi.getContent(postId);
 
       if (response.status === 200) {
-        console.log('response', response.data);
+        // console.log('response', response.data);
         setPost(response.data);
       }
     };
@@ -208,12 +196,13 @@ function PostContainer(props) {
   return (
     <Layout noPadding>
       <PostWrapper>
-        {MultiMedias && MultiMedias.length > 0 && (
-          <PostImage
-            src={`https://api.pointina.ir/${MultiMedias[0].FileUrl}`}
-          />
-        )}
         <ContentWrapper>
+          {MultiMedias && MultiMedias.length > 0 && (
+            <PostImage
+              src={`https://api.pointina.ir${MultiMedias[0].FileUrl}`}
+            />
+          )}
+
           <AuthorWrapper>
             <AuthorLeftCol
               onClick={() => {
@@ -223,7 +212,7 @@ function PostContainer(props) {
               <AuthorImage
                 src={
                   WriterImage
-                    ? `https://api.pointina.ir/${WriterImage}`
+                    ? `https://api.pointina.ir${WriterImage}`
                     : avatarPhoto
                 }
               />
@@ -235,7 +224,7 @@ function PostContainer(props) {
             {/* <SubscribeBtn>Subscribe</SubscribeBtn> */}
           </AuthorWrapper>
           {Subject && <Title>{Subject}</Title>}
-          {ContentText && <Subtitle>{ContentText}</Subtitle>}
+          {ContentText && <Subtitle dangerouslySetInnerHTML={{ __html: urlify(ContentText) }} />}
         </ContentWrapper>
         <Interactions>
           <ContentActions
@@ -254,6 +243,9 @@ function PostContainer(props) {
             source="post"
             updateContent={() => updatePost()}
             comments={post.Comments || []}
+            goToProfile={CommentWrittenId => {
+              props.history.push(`/profile/${CommentWrittenId}`);
+            }}
           />
         </Interactions>
       </PostWrapper>

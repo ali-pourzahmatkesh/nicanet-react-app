@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { IoIosShareAlt, IoIosSend } from 'react-icons/io';
 import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 
 const Container = styled.div`
@@ -33,17 +32,6 @@ const LikeCircle = styled.div`
 
 const DisLikeCircle = styled.div`
   background-color: ${props => (props.isDisLike ? '#f5a623' : '#757575')};
-  width: 2.5rem;
-  height: 2.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 2.5rem;
-  cursor: pointer;
-`;
-
-const Circle = styled.div`
-  background-color: #757575;
   width: 2.5rem;
   height: 2.5rem;
   display: flex;

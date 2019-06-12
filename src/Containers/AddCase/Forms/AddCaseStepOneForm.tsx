@@ -112,8 +112,8 @@ const TempratureOne = new Array(50).fill(null).map((item, index) => {
 const TempratureTwo = new Array(10).fill(null).map((item, index) => {
   const rate = Math.abs(index - 9);
   return {
-    value: index === 9 ? 'pluse' : rate.toString(),
-    name: index === 9 ? 'pluse' : rate.toString()
+    value: rate.toString(),
+    name: rate.toString()
   };
 });
 
@@ -238,12 +238,12 @@ function AddCaseStepOneForm(props: AddCaseStepOneFormProps) {
         </FromCol>
         <FormRow>
           <FromCol>
-            {getFieldDecorator('BloodPressureOne')(
+            {getFieldDecorator('BloodPressureOne', {initialValue: '120' })(
               <Select options={BloodPressureRates} />
             )}
           </FromCol>
           <FromCol>
-            {getFieldDecorator('BloodPressureTwo')(
+            {getFieldDecorator('BloodPressureTwo', { initialValue: '80' })(
               <Select options={BloodPressureRates} />
             )}
           </FromCol>
@@ -256,12 +256,12 @@ function AddCaseStepOneForm(props: AddCaseStepOneFormProps) {
         </FromCol>
         <FormRow>
           <FromCol>
-            {getFieldDecorator('TempratureOne')(
+            {getFieldDecorator('TempratureOne',{ initialValue: '37' })(
               <Select options={TempratureOne} />
             )}
           </FromCol>
           <FromCol>
-            {getFieldDecorator('TempratureTwo')(
+            {getFieldDecorator('TempratureTwo', { initialValue: '0' })(
               <Select options={TempratureTwo} />
             )}
           </FromCol>
@@ -275,7 +275,7 @@ function AddCaseStepOneForm(props: AddCaseStepOneFormProps) {
 
         <FormRow>
           <FromCol>
-            {getFieldDecorator('PulseRate')(
+            {getFieldDecorator('PulseRate', { initialValue: '75' })(
               <Select options={pulseRateValues} />
             )}
           </FromCol>
@@ -288,7 +288,7 @@ function AddCaseStepOneForm(props: AddCaseStepOneFormProps) {
         </FromCol>
         <FormRow>
           <FromCol>
-            {getFieldDecorator('RespiratoryRate')(
+            {getFieldDecorator('RespiratoryRate', { initialValue: '12' })(
               <Select options={respiratoryRates} />
             )}
           </FromCol>

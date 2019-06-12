@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { createForm } from 'rc-form';
 import AdrFormItem from './AdrFormItem';
 import { Title, ErrorMesseage } from 'Containers/AddCase/Components/Styled';
@@ -17,7 +17,7 @@ function AddAdrStepThreeForm(props: AddAdrStepThreeFormProps) {
   const [adrDrugsError, setAdrDrugsError] = useState('');
 
   const {
-    form: { getFieldDecorator, validateFields },
+    form: { validateFields },
     onSubmit
   } = props;
 

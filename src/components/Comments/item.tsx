@@ -10,6 +10,7 @@ const AuthorImage = styled.img<{ level?: number }>`
   border-radius: 2rem;
   margin: 0.2rem 0.5rem 0 0;
   margin-top: ${props => props.level === 1 && 0};
+  cursor:pointer;
 `;
 
 const Col = styled.div`
@@ -37,6 +38,7 @@ const WriterName = styled.div`
   color: #5498a9;
   flex: 1;
   font-family: Roboto;
+  cursor:pointer;
 `;
 
 const Line = styled.div`
@@ -104,9 +106,10 @@ type CommentItemProps = {
   cm: any;
   level: number;
   onReply: (parentId: number) => void;
+  goToProfile?: (parentId: number) => void;
 };
 const CommentItem: React.FC<CommentItemProps> = props => {
-  const { cm, level, onReply, handleLike } = props;
+  const { cm, level, onReply, handleLike, goToProfile } = props;
   const [voted, setVoted] = useState(false);
   const [like, setLike] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
@@ -158,10 +161,13 @@ const CommentItem: React.FC<CommentItemProps> = props => {
     }
   };
 
+  if (cm === null) return null;
+  const { WriteById } = cm;
   return (
     <Wrapper>
       {level !== 1 ? <Line /> : null}
       <AuthorImage
+        onClick={() => goToProfile && goToProfile(WriteById)}
         src={
           cm.WriterImage
             ? `https://api.pointina.ir/${cm.WriterImage}`
@@ -170,7 +176,9 @@ const CommentItem: React.FC<CommentItemProps> = props => {
         level={level}
       />
       <Col>
-        <WriterName>{cm.WriterFullName}</WriterName>
+        <WriterName onClick={() => goToProfile && goToProfile(WriteById)}>
+          {cm.WriterFullName}
+        </WriterName>
         <CommentText>{cm.CommentText}</CommentText>
         <CommentActions>
           <Action onClick={() => onVoting(true)}>

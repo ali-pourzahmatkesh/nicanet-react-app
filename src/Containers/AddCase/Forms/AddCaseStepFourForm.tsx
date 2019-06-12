@@ -26,7 +26,7 @@ function AddCaseStepFourForm(props: AddCaseStepFourFormProps) {
   const [formTree, setFormTree] = useState<any>();
   const [isLoading, setIsLoading] = useState(true);
   const {
-    form: { getFieldDecorator, validateFields, getFieldsValue },
+    form: { getFieldDecorator, validateFields },
     onSubmit
   } = props;
 

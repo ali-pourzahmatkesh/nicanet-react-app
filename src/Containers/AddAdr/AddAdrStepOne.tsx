@@ -74,7 +74,7 @@ const AddAdrStepOne: React.FC<RouteComponentProps<{}>> = (props) => {
   const goForward = () => props.history.push(ADD_ADR_STEP_TWO_ROUTE)
 
   return (
-    <Layout>
+    <Layout noHeader>
       <Container>
         <Heading title="ADR" subtitle="1/4" onGoForward={goForward} />
         <AddAdrStepOneForm onSubmit={onSubmit} />

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 
 const ItemWrapper = styled.div`
   border-radius: 10px;
@@ -70,7 +70,7 @@ const DXRXItem: React.FC<DXRXItemProps> = props => {
     };
 
     effect();
-  });
+  }, [item]);
 
   const onVoting = async (isLike: boolean) => {
     try {
@@ -115,13 +115,13 @@ const DXRXItem: React.FC<DXRXItemProps> = props => {
         <TimeAgo>{item.Date}</TimeAgo>
         <Action onClick={() => onVoting(false)}>
           <FaThumbsDown
-            color={voted && !like ? "#f5a623" : "#bdbdbd"}
+            color={voted && !like ? '#f5a623' : '#bdbdbd'}
             size={14}
           />
           <NumberOFVotes>{disLikeCount}</NumberOFVotes>
         </Action>
         <Action onClick={() => onVoting(true)}>
-          <FaThumbsUp color={voted && like ? "#5498A9" : "#bdbdbd"} size={14} />
+          <FaThumbsUp color={voted && like ? '#5498A9' : '#bdbdbd'} size={14} />
           <NumberOFVotes>{likeCount}</NumberOFVotes>
         </Action>
       </Actions>

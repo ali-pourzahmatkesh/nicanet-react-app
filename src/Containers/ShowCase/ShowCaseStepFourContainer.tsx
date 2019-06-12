@@ -158,7 +158,7 @@ const ShowCaseStepFourContainer: React.FC<
   };
 
   return (
-    <Layout>
+    <Layout noHeader>
       <Heading
         title="Case Report"
         onGoBack={goToStepThree}

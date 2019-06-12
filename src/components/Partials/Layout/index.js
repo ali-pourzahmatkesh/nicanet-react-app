@@ -28,14 +28,15 @@ const GlobalStyle = createGlobalStyle`
 export default function Layout({
   children,
   noPadding = false,
+  noHeader = false,
   title = 'Pointina'
 }) {
   return (
     <Fragment>
       <ToastContainer />
       <GlobalStyle />
-      <Header />
-      <ContentWrapper>
+      <Header noHeader={noHeader} />
+      <ContentWrapper noHeader={noHeader}>
         <ContentContainer noPadding={noPadding}>{children}</ContentContainer>
       </ContentWrapper>
       <TabBar />
@@ -43,23 +44,24 @@ export default function Layout({
   );
 }
 
+const ContentWrapper = styled.div`
+  padding-bottom: 70px;
+  max-width: 560px;
+  margin: 0 auto;
+  background-color: #fff;
+  min-height: calc(100vh - 100px);
+  padding-top: ${props => (props.noHeader ? '0' : '60px')};
+  @media (min-width: 720px) {
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+`;
+
 const ContentContainer = styled.div`
   margin: 0 auto;
   background-color: #fff;
   padding: ${props => (props.noPadding ? 0 : '1rem')};
   // max-width: 1200px;
-`;
-
-const ContentWrapper = styled.div`
-  padding-bottom: 60px;
-  max-width: 560px;
-  margin: 0 auto;
-  background-color: #fff;
-  min-height: 100vh;
-  @media (min-width: 720px) {
-    border-left: 1px solid #eee;
-    border-right: 1px solid #eee;
-    padding-top: 100px;
-    padding-bottom: 0;
-  }
 `;

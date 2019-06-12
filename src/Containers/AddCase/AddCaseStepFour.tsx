@@ -58,7 +58,7 @@ const AddCaseStepFour: React.FC<RouteComponentProps<{}>> = (props) => {
   }
 
   return (
-    <Layout>
+    <Layout noHeader>
       <Container>
         <Heading title="ROS and Ph/E" subtitle="4/6" onGoBack={goToStepThree} onGoForward={goToStepFive} />
         <AddCaseStepFourForm onSubmit={onSubmit} />

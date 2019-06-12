@@ -13,9 +13,6 @@ import {
   MockupImage,
   FormContainer,
   FormTitle,
-  LoginButton,
-  BottomSectionContainer,
-  AppBadgesContainer,
   RegisterLink,
   RegisterText,
   SiteTitle,
@@ -343,7 +340,6 @@ class LoginContainer extends React.Component<
       return <Redirect to={HOME_ROUTE} />;
     }
     const { register, personId, getUserInfo } = this.state;
-    const registerr = true;
 
     return (
       <AuthLayout>

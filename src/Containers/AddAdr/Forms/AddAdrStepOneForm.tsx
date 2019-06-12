@@ -1,7 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { createForm } from 'rc-form';
 import styled from 'styled-components';
-import Select from 'components/Select/SelectComponent';
 import AdrFormItem from './AdrFormItem';
 import Radio from 'components/Radio/RadioComponent';
 import Input from 'components/Input/InputComponent';

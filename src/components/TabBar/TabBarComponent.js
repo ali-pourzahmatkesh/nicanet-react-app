@@ -1,16 +1,12 @@
 import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router';
-
 import homeIcon from '../../Assets/home.svg';
-import academyIcon from '../../Assets/academy.svg';
-import chatIcon from '../../Assets/chat.svg';
 import userIcon from '../../Assets/user.svg';
 import homeIconActive from '../../Assets/homeActive.svg';
-import academyIconActive from '../../Assets/academyActive.svg';
-import chatIconActive from '../../Assets/chatActive.svg';
 import userIconActive from '../../Assets/userActive.svg';
-import { HOME_ROUTE, CHAT_ROUTE } from 'router/RouterConstants';
+import { HOME_ROUTE } from 'router/RouterConstants';
+// import { FaSearch } from 'react-icons/fa';
 
 const Container = styled.div`
   display: flex;
@@ -21,9 +17,9 @@ const Container = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 0.3rem 1rem;
+  padding: 0 1rem;
   border-top: 1px solid #979797;
-  height: 60px;
+  height: 70px;
   @media (min-width: 720px) {
     display: none;
   }
@@ -33,10 +29,19 @@ const LinksContainer = styled.div`
   flex: 1;
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
   max-width: 720px;
+  padding-top: 0.5rem;
   // max-width: 1200px;
   margin: 0 auto;
 `;
+
+// const IconContainer = styled.div`
+//   width: 1.7rem;
+//   height: 1.7rem;
+//   display: flex;
+//   align-items: center;
+// `;
 
 const Icon = styled.img`
   width: 1.7rem;
@@ -54,10 +59,6 @@ const IconWrapper = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-`;
-
-const Spacer = styled.div`
-  height: 30px;
 `;
 
 function TabBar(props) {
@@ -80,6 +81,16 @@ function TabBar(props) {
             )}
             <IconTitle>Home</IconTitle>
           </IconWrapper>
+          {/* <IconWrapper onClick={() => props.history.push('/search')}>
+            <IconContainer>
+              <FaSearch
+                color={route.endsWith('/search') ? '#5498A9' : '#757575'}
+                size={22}
+              />
+            </IconContainer>
+
+            <IconTitle>Search</IconTitle>
+          </IconWrapper> */}
           {/* <IconWrapper onClick={() => false && undefined}>
             <Icon
               src={route === '/academy' ? academyIconActive : academyIcon}

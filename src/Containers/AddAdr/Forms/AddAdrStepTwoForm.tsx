@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { createForm } from 'rc-form';
 import styled, { css } from 'styled-components';
 import Select from 'components/Select/SelectComponent';
@@ -11,7 +11,6 @@ import {
   ErrorMesseage
 } from 'Containers/AddCase/Components/Styled';
 import ContinueButton from 'Containers/AddCase/Components/ContinueButton';
-import { ConfigApi } from 'Api/ConfigApi';
 import Textarea from 'components/Textarea/TextareaComponent';
 import DatePicker from 'components/DatePicker/DatePicker';
 import AdrPhotoUploader from '../Components/AdrPhotoUploader';
