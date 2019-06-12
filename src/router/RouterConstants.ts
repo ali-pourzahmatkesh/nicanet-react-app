@@ -4,6 +4,9 @@ export const LOGIN_ROUTE = '/';
 // HOME
 export const HOME_ROUTE = '/home';
 
+// SEARCH
+export const SEARCH_ROUTE = '/search';
+
 // CHAT
 export const CHAT_ROUTE = '/chat';
 export const CHAT_ROOM_ROUTE = '/chat/:contactId';

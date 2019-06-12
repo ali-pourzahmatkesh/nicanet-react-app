@@ -6,6 +6,7 @@ import userIcon from '../../Assets/user.svg';
 import homeIconActive from '../../Assets/homeActive.svg';
 import userIconActive from '../../Assets/userActive.svg';
 import { HOME_ROUTE } from 'router/RouterConstants';
+import { FaSearch } from 'react-icons/fa';
 
 const Container = styled.div`
   display: flex;
@@ -33,6 +34,13 @@ const LinksContainer = styled.div`
   padding-top: 0.5rem;
   // max-width: 1200px;
   margin: 0 auto;
+`;
+
+const IconContainer = styled.div`
+  width: 1.7rem;
+  height: 1.7rem;
+  display: flex;
+  align-items: center;
 `;
 
 const Icon = styled.img`
@@ -72,6 +80,16 @@ function TabBar(props) {
               <Icon src={homeIcon} />
             )}
             <IconTitle>Home</IconTitle>
+          </IconWrapper>
+          <IconWrapper onClick={() => props.history.push('/search')}>
+            <IconContainer>
+              <FaSearch
+                color={route.endsWith('/search') ? '#5498A9' : '#757575'}
+                size={22}
+              />
+            </IconContainer>
+
+            <IconTitle>Search</IconTitle>
           </IconWrapper>
           {/* <IconWrapper onClick={() => false && undefined}>
             <Icon

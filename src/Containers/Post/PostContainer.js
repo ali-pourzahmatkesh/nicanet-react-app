@@ -101,7 +101,7 @@ const Interactions = styled.div`
 
 const ContentWrapper = styled.div`
   padding-top: 1rem;
-  min-height: calc(100vh - 301px);
+  min-height: calc(100vh - 361px);
   @media (min-width: 720px) {
     min-height: calc(100vh - 331px);
   }
