@@ -95,6 +95,7 @@ class Select extends React.Component<SelectProps> {
               <option
                 key={`${option.name}-${option.value}`}
                 value={option.value}
+                selected={option.value===value}
               >
                 {option.name}
               </option>

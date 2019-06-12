@@ -34,7 +34,7 @@ const AddAdrStepTwo: React.FC<RouteComponentProps<{}>> = (props) => {
   const goBackward = () => props.history.push(ADD_ADR_STEP_ONE_ROUTE)
 
   return (
-    <Layout>
+    <Layout noHeader>
       <Container>
         <Heading title="ADR" subtitle="2/4" onGoBack={goBackward} onGoForward={goForward} />
         <AddAdrStepTwoForm onSubmit={onSubmit} />

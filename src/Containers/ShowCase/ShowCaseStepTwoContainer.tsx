@@ -85,7 +85,7 @@ const ShowCaseStepTwoContainer: React.FC<
   });
 
   return (
-    <Layout>
+    <Layout noHeader>
       <Heading
         title="ROS and Ph/E"
         onGoBack={goToStepOne}

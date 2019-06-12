@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 import { englishNumber } from './utils';
 
 export function emailValidation(value) {

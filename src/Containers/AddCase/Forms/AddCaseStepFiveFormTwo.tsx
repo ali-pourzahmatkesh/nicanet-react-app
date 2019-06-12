@@ -1,39 +1,34 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import { createForm } from 'rc-form';
 import Drawer from 'components/Drawer/DrawerComponent';
 import { PaddedWrapper, Title } from '../Components/Styled';
-import Radio from 'components/Radio/RadioComponent';
 import Textarea from 'components/Textarea/TextareaComponent';
 import CaseFormItem from './CaseFormItem';
 import CasePhotoUploader from '../Components/CasePhotoUploader';
 
 interface AddCaseStepFiveFormTwoProps {
-  form: any
+  form: any;
 }
 
 function AddCaseStepFiveFormTwo(props: AddCaseStepFiveFormTwoProps) {
+  const { getFieldDecorator, getFieldsValue, setFieldsValue } = props.form;
 
-  const {
-    getFieldDecorator,
-    getFieldsValue,
-    setFieldsValue,
-  } = props.form;
-  
   useEffect(() => {
-    const oldValues = localStorage.getItem('AddCaseStepFiveFormTwo')
-    if (oldValues === null) return
-    setFieldsValue(JSON.parse(oldValues))
-  }, [])
+    const oldValues = localStorage.getItem('AddCaseStepFiveFormTwo');
+    if (oldValues === null) return;
+    setFieldsValue(JSON.parse(oldValues));
+  }, [setFieldsValue]);
 
   setTimeout(() => {
-    localStorage.setItem('AddCaseStepFiveFormTwo', JSON.stringify(getFieldsValue()))
-  }, 0)
+    localStorage.setItem(
+      'AddCaseStepFiveFormTwo',
+      JSON.stringify(getFieldsValue())
+    );
+  }, 0);
 
   return (
     <div>
-
       <Drawer title="X - Ray">
-      
         <PaddedWrapper>
           <Title>Chest:</Title>
           <CaseFormItem>
@@ -52,13 +47,9 @@ function AddCaseStepFiveFormTwo(props: AddCaseStepFiveFormTwoProps) {
 
           <Title>Other X-Ray Images:</Title>
           <CaseFormItem>
-            {
-              getFieldDecorator('DescriptionTypeId_397')(
-                <Textarea
-                  placeholder="Description"
-                />
-              )
-            }
+            {getFieldDecorator('DescriptionTypeId_397')(
+              <Textarea placeholder="Description" />
+            )}
           </CaseFormItem>
           <CaseFormItem>
             <CasePhotoUploader presetName="X-RayOtherX-RayImage" />
@@ -68,38 +59,33 @@ function AddCaseStepFiveFormTwo(props: AddCaseStepFiveFormTwoProps) {
 
       <Drawer title="Sonography">
         <PaddedWrapper>
-            <Title>Abdomen:</Title>
-            <CaseFormItem>
-              <CasePhotoUploader presetName="SonographyAbdomen" />
-            </CaseFormItem>
+          <Title>Abdomen:</Title>
+          <CaseFormItem>
+            <CasePhotoUploader presetName="SonographyAbdomen" />
+          </CaseFormItem>
 
-            <Title>Kidney, Bladder, Urether:</Title>
-            <CaseFormItem>
-              <CasePhotoUploader presetName="SonographyKidneyBladderUrether" />
-            </CaseFormItem>
+          <Title>Kidney, Bladder, Urether:</Title>
+          <CaseFormItem>
+            <CasePhotoUploader presetName="SonographyKidneyBladderUrether" />
+          </CaseFormItem>
 
-            <Title>Superficial Structures:</Title>
-            <CaseFormItem>
-              <CasePhotoUploader presetName="SonographySuperficialStructur" />
-            </CaseFormItem>
+          <Title>Superficial Structures:</Title>
+          <CaseFormItem>
+            <CasePhotoUploader presetName="SonographySuperficialStructur" />
+          </CaseFormItem>
 
-            <Title>Other Sonography Images:</Title>
-            <CaseFormItem>
-              {
-                getFieldDecorator('DescriptionTypeId_398')(
-                  <Textarea
-                    placeholder="Description"
-                  />
-                )
-              }
-            </CaseFormItem>
-            <CaseFormItem>
-              <CasePhotoUploader presetName="SonographyOtherSonographyImage" />
-            </CaseFormItem>
+          <Title>Other Sonography Images:</Title>
+          <CaseFormItem>
+            {getFieldDecorator('DescriptionTypeId_398')(
+              <Textarea placeholder="Description" />
+            )}
+          </CaseFormItem>
+          <CaseFormItem>
+            <CasePhotoUploader presetName="SonographyOtherSonographyImage" />
+          </CaseFormItem>
         </PaddedWrapper>
-
       </Drawer>
-      
+
       <Drawer title="CT - Scan">
         <PaddedWrapper>
           <Title>Chest:</Title>
@@ -124,21 +110,16 @@ function AddCaseStepFiveFormTwo(props: AddCaseStepFiveFormTwoProps) {
 
           <Title>Other CT Scan Images:</Title>
           <CaseFormItem>
-            {
-              getFieldDecorator('DescriptionTypeId_399')(
-                <Textarea
-                  placeholder="Description"
-                />
-              )
-            }
+            {getFieldDecorator('DescriptionTypeId_399')(
+              <Textarea placeholder="Description" />
+            )}
           </CaseFormItem>
           <CaseFormItem>
             <CasePhotoUploader presetName="CTScanOtherCTScanImage" />
           </CaseFormItem>
         </PaddedWrapper>
-
       </Drawer>
-      
+
       <Drawer title="MRI">
         <PaddedWrapper>
           <Title>Brain:</Title>
@@ -163,21 +144,16 @@ function AddCaseStepFiveFormTwo(props: AddCaseStepFiveFormTwoProps) {
 
           <Title>Other MRI Images:</Title>
           <CaseFormItem>
-            {
-              getFieldDecorator('DescriptionTypeId_401')(
-                <Textarea
-                  placeholder="Description"
-                />
-              )
-            }
+            {getFieldDecorator('DescriptionTypeId_401')(
+              <Textarea placeholder="Description" />
+            )}
           </CaseFormItem>
           <CaseFormItem>
             <CasePhotoUploader presetName="MRIOtherMRIImage" />
           </CaseFormItem>
         </PaddedWrapper>
-
       </Drawer>
-      
+
       <Drawer title="Others">
         <PaddedWrapper>
           <Title>Endoscopy:</Title>
@@ -202,23 +178,19 @@ function AddCaseStepFiveFormTwo(props: AddCaseStepFiveFormTwoProps) {
 
           <Title>Other Imagings:</Title>
           <CaseFormItem>
-            {
-              getFieldDecorator('DescriptionTypeId_404')(
-                <Textarea
-                  placeholder="Description"
-                />
-              )
-            }
+            {getFieldDecorator('DescriptionTypeId_404')(
+              <Textarea placeholder="Description" />
+            )}
           </CaseFormItem>
           <CaseFormItem>
             <CasePhotoUploader presetName="OthersOtherImaging" />
           </CaseFormItem>
         </PaddedWrapper>
-
       </Drawer>
     </div>
-  )
+  );
 }
 
-
-export default createForm({ name: 'AddCaseStepFiveFormTwo' })(AddCaseStepFiveFormTwo);
+export default createForm({ name: 'AddCaseStepFiveFormTwo' })(
+  AddCaseStepFiveFormTwo
+);

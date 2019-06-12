@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react';
 import { createForm } from 'rc-form';
 import AdrFormItem from './AdrFormItem';
 import { Title } from 'Containers/AddCase/Components/Styled';
@@ -7,47 +7,56 @@ import AddDrugForm from './AddDrugForm';
 import Drug from 'Containers/AddCase/Components/Drug';
 
 interface AddAdrStepFourFormProps {
-  form: any
-  onSubmit: (values: any) => Promise<any>
+  form: any;
+  onSubmit: (values: any) => Promise<any>;
 }
 
 function AddAdrStepFourForm(props: AddAdrStepFourFormProps) {
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [adrDrugs, setadrDrugs] = useState<any[]>([])
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [adrDrugs, setadrDrugs] = useState<any[]>([]);
 
   const {
-    form: {
-      getFieldDecorator,
-      validateFields,
-    },
+    form: { validateFields },
     onSubmit
   } = props;
 
   const submit = () => {
     validateFields(async (error: any, values: any) => {
-      if (error !== null) return
+      if (error !== null) return;
       try {
-        setIsSubmitting(true)
-        await onSubmit({ adrDrugs })
+        setIsSubmitting(true);
+        await onSubmit({ adrDrugs });
       } catch (_) {
-        setIsSubmitting(false)
+        setIsSubmitting(false);
       }
     });
-  }
+  };
 
   return (
     <div>
-      <Title>Concomitant drug details (Minimom of one entry is required):</Title>
+      <Title>
+        Concomitant drug details (Minimom of one entry is required):
+      </Title>
       <AdrFormItem>
-        <AddDrugForm placeholder="Concomitant Drug" onSubmit={(drug: any) => setadrDrugs(prevDrugs => [...prevDrugs, { ...drug, TypeId: 111 }])} />
+        <AddDrugForm
+          placeholder="Concomitant Drug"
+          onSubmit={(drug: any) =>
+            setadrDrugs(prevDrugs => [...prevDrugs, { ...drug, TypeId: 111 }])
+          }
+        />
       </AdrFormItem>
-      {
-        adrDrugs.map(drug => <AdrFormItem><Drug key={drug.DrugName} title={drug.DrugName} subtitle={drug.Manufacture} /></AdrFormItem>)
-      }
+      {adrDrugs.map(drug => (
+        <AdrFormItem>
+          <Drug
+            key={drug.DrugName}
+            title={drug.DrugName}
+            subtitle={drug.Manufacture}
+          />
+        </AdrFormItem>
+      ))}
       <ContinueButton isLoading={isSubmitting} onClick={submit} />
     </div>
-  )
+  );
 }
-
 
 export default createForm({ name: 'AddAdrStepFourForm' })(AddAdrStepFourForm);

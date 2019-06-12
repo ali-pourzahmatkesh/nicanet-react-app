@@ -49,7 +49,7 @@ const AddCaseStepTwo: React.FC<RouteComponentProps<{}>> = (props) => {
   }
 
   return (
-    <Layout>
+    <Layout noHeader>
       <Container>
         <Heading title="Case Report" subtitle="2/6" onGoBack={goToStepOne} onGoForward={goToStepTwo} />
         <AddCaseStepTwoForm onSubmit={onSubmit} />

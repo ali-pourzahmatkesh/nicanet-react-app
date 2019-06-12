@@ -1,64 +1,64 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
 export const login = async ({ userId }) => {
   // cookie.set('userId', userId, { expires: 1 })
   // Router.push('/home')
-}
+};
 
 export const logout = () => {
   // cookie.remove('userId')
   // to support logging out from all windows
-  window.localStorage.setItem('logout', Date.now())
+  window.localStorage.setItem('logout', Date.now());
   // Router.push('/login')
-}
+};
 
 // Gets the display name of a JSX component for dev tools
 const getDisplayName = Component =>
-  Component.displayName || Component.name || 'Component'
+  Component.displayName || Component.name || 'Component';
 
 export const withAuthSync = WrappedComponent =>
   class extends Component {
-    static displayName = `withAuthSync(${getDisplayName(WrappedComponent)})`
+    static displayName = `withAuthSync(${getDisplayName(WrappedComponent)})`;
 
     static async getInitialProps(ctx) {
-      const userId = getUserId(ctx)
+      const userId = getUserId(ctx);
 
       const componentProps =
         WrappedComponent.getInitialProps &&
-        (await WrappedComponent.getInitialProps(ctx, userId))
+        (await WrappedComponent.getInitialProps(ctx, userId));
 
-      return { ...componentProps, userId }
+      return { ...componentProps, userId };
     }
 
     constructor(props) {
-      super(props)
+      super(props);
 
-      this.syncLogout = this.syncLogout.bind(this)
+      this.syncLogout = this.syncLogout.bind(this);
     }
 
     componentDidMount() {
-      window.addEventListener('storage', this.syncLogout)
+      window.addEventListener('storage', this.syncLogout);
     }
 
     componentWillUnmount() {
-      window.removeEventListener('storage', this.syncLogout)
-      window.localStorage.removeItem('logout')
+      window.removeEventListener('storage', this.syncLogout);
+      window.localStorage.removeItem('logout');
     }
 
     syncLogout(event) {
       if (event.key === 'logout') {
-        console.log('logged out from storage!')
+        console.log('logged out from storage!');
         // Router.push('/login')
       }
     }
 
     render() {
-      return <WrappedComponent {...this.props} />
+      return <WrappedComponent {...this.props} />;
     }
-  }
+  };
 
 export const getUserId = ctx => {
-  const { userId } = '1024'
+  const { userId } = '1024';
 
   /*
    * This happens on server only, ctx.req is available means it's being
@@ -66,10 +66,11 @@ export const getUserId = ctx => {
    * means user is not logged in.
    */
   if (ctx.req && !userId) {
-    ctx.res.writeHead(302, { Location: '/login' })
-    ctx.res.end()
+    // ctx.res.writeHead(302, { Location: '/login' })
+    ctx.res.writeHead(302, { Location: '/' });
+    ctx.res.end();
 
-    return
+    return;
   }
 
   // We already checked for server. This should only happen on client.
@@ -77,15 +78,14 @@ export const getUserId = ctx => {
     // Router.push('/login')
   }
 
-  return userId
-}
+  return userId;
+};
 
+export function getPersonId() {
+  const person = localStorage.getItem('user');
+  if (!person) throw new Error('person id does not exists', person);
 
-export function getPersonId () {
-  const person = localStorage.getItem('user')
-  if (!person) throw new Error('person id does not exists', person)
-  
-  const { PersonId } = JSON.parse(person)
+  const { PersonId } = JSON.parse(person);
 
-  return PersonId
+  return PersonId;
 }

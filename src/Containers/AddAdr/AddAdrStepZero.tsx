@@ -23,7 +23,7 @@ const AddAdrStepZero: React.FC<RouteComponentProps<{}>> = (props) => {
   }
 
   return (
-    <Layout>
+    <Layout noHeader>
       <Container>
         <Heading title="ADR" subtitle="Patient Information" />
         <AddAdrStepZeroForm onSubmit={onSubmit} />

@@ -113,16 +113,17 @@ class AddDrugForm extends Component<AddDrugFormProps, AddDrugFormState> {
             DrugName
           });
           resetFields();
-          
-          this.setState({
-            frequencies: [],
-            routes: [],
-            DrugId: null,
-            DrugName: '',
-            drugNameError: '' },
+
+          this.setState(
+            {
+              DrugId: null,
+              DrugName: '',
+              drugNameError: ''
+            },
             () => {
               this.setState({ isOpen: false });
-            });
+            }
+          );
         } catch (_) {}
       });
     };
@@ -172,10 +173,12 @@ class AddDrugForm extends Component<AddDrugFormProps, AddDrugFormState> {
             )}
           </CaseFormItem>
           <CaseFormItem>
-            {getFieldDecorator('BatchNo', { initialValue: '' })(<Input placeholder="Batch Number" />)}
+            {getFieldDecorator('BatchNo', { initialValue: '' })(
+              <Input placeholder="Batch Number" />
+            )}
           </CaseFormItem>
           <CaseFormItem>
-            {getFieldDecorator('Description', { initialValue: '' } )(
+            {getFieldDecorator('Description', { initialValue: '' })(
               <Textarea placeholder="Description" />
             )}
           </CaseFormItem>

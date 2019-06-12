@@ -1,8 +1,11 @@
-export const ROOT_ROUTE = '/';
-export const LOGIN_ROUTE = '/login';
+export const ROOT_ROUTE = '/login';
+export const LOGIN_ROUTE = '/';
 
 // HOME
 export const HOME_ROUTE = '/home';
+
+// SEARCH
+export const SEARCH_ROUTE = '/search';
 
 // CHAT
 export const CHAT_ROUTE = '/chat';

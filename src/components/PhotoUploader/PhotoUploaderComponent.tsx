@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import styled from 'styled-components';
-// import { IoIosClose } from 'react-icons/io'
 import { PulseLoader } from 'react-spinners';
 
 const FileInput = styled.input`
@@ -27,20 +26,6 @@ const LoadedPhotosContainer = styled.div`
 const Photo = styled.img`
   width: 4rem;
   height: 4rem;
-`;
-
-const CloseIconWrapper = styled.div`
-  position: absolute;
-  background-color: #fff;
-  border-radius: 3px;
-  left: 50%;
-  top: 50%;
-  width: 1.3rem;
-  height: 1.3rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform: translateY(-50%) translateX(-50%);
 `;
 
 export interface Photo {
@@ -75,10 +60,6 @@ const PhotoUploader: React.FC<PhotoUploaderProps> = props => {
 
       reader.readAsDataURL(selectedFile);
     }
-  };
-
-  const onRemovePhoto = (photoIndex: number) => {
-    props.onDeletePhoto(photoIndex);
   };
 
   const openFilePicker = () => {

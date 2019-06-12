@@ -2,7 +2,6 @@ import React, { useState, useEffect, Fragment } from 'react';
 import Drawer from 'components/Drawer/DrawerComponent';
 import { PaddedWrapper, Title, LoadingWrapprer } from '../Components/Styled';
 import { BounceLoader } from 'react-spinners';
-import Layout from '../../../components/Partials/Layout';
 import styled from 'styled-components';
 import { Value, Row, Col, Wrapper } from '../Components/Styled';
 import ShowCaseItem from '../Components/ShowCaseItem';
