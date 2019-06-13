@@ -112,7 +112,7 @@ export const MockupImage = styled.img`
 export const FormWrapper = styled.div`
   flex: 1;
   @media (min-width: 440px) {
-    padding: 0 2rem;
+    padding: 0 1rem;
   }
   @media (min-width: 960px) {
     flex: 0.45;
@@ -131,14 +131,12 @@ export const FormContainer = styled.div`
   background-color: #fff;
   margin: 1rem auto;
   min-height: 345px;
-  @media (min-width: 400px) {
-    min-width: 385px;
-  }
   @media (min-width: 440px) {
     padding: 2rem;
     max-width: 420px;
   }
   @media (min-width: 960px) {
+    min-width: 385px;
     position: absolute;
     margin: 1rem 0 0 3rem;
     bottom: -25%;
