@@ -1,26 +1,28 @@
-import React from 'react'
+import React from 'react';
 import styled from 'styled-components';
 import Layout from 'components/Partials/Layout';
 import AddCaseStepZeroForm from './Forms/AddCaseStepZeroForm';
 import { RouteComponentProps } from 'react-router';
-import { ADD_CASE_STEP_ONE_ROUTE } from 'router/RouterConstants';
 import Heading from './Components/Heading';
 import { CaseApi } from 'Api/CaseApi';
 
 const Container = styled.div`
   padding: 0 1rem;
-`
+`;
 
-const AddCaseStepZero: React.FC<RouteComponentProps<{}>> = (props) => {
-
+const AddCaseStepZero: React.FC<RouteComponentProps<{}>> = props => {
   const onSubmit = async (values: any) => {
-    const { status, data } = await CaseApi.addNewCase(values)
-    if (status !== 200) throw status
-    const { CaseId, PatientId } = data
+    const { status, data } = await CaseApi.addNewCase(values);
+    if (status !== 200) throw status;
+    const { CaseId, PatientId } = data;
 
-    localStorage.setItem('current_case', JSON.stringify({ CaseId, PatientId }))
-    props.history.push(ADD_CASE_STEP_ONE_ROUTE)
-  }
+    localStorage.setItem('current_case', JSON.stringify({ CaseId, PatientId }));
+    const storageName = `case_info_${CaseId}`;
+    // console.log('values', values);
+    await localStorage.setItem(storageName, JSON.stringify(values));
+
+    props.history.push(`/add-case-step-one/${CaseId}`);
+  };
 
   return (
     <Layout noHeader>
@@ -29,10 +31,10 @@ const AddCaseStepZero: React.FC<RouteComponentProps<{}>> = (props) => {
         <AddCaseStepZeroForm onSubmit={onSubmit} />
       </Container>
     </Layout>
-  )
-}
+  );
+};
 
-export default AddCaseStepZero
+export default AddCaseStepZero;
 
 // === page 1
 // // pregnant type

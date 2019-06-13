@@ -91,15 +91,17 @@ class Select extends React.Component<SelectProps> {
         >
           <option value="Select_Default_Value" />
           {options.length > 0 &&
-            options.map(option => (
-              <option
-                key={`${option.name}-${option.value}`}
-                value={option.value}
-                selected={option.value===value}
-              >
-                {option.name}
-              </option>
-            ))}
+            options.map(option => {
+              return (
+                <option
+                  key={`${option.name}-${option.value}`}
+                  value={option.value}
+                  selected={option.value == value}
+                >
+                  {option.name}
+                </option>
+              );
+            })}
         </select>
       </Container>
     );

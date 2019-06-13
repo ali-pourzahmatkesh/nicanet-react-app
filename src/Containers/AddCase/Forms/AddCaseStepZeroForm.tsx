@@ -51,9 +51,29 @@ function AddCaseStepZeroForm(props: AddCaseStepZeroFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const onSelect = console.log;
   const {
-    form: { getFieldDecorator, validateFields, getFieldError, getFieldsValue },
+    form: {
+      getFieldDecorator,
+      validateFields,
+      getFieldError,
+      getFieldsValue,
+      setFieldsValue
+    },
     onSubmit
   } = props;
+
+  const formValues = getFieldsValue();
+
+  useEffect(() => {
+    const currentCase = localStorage.getItem('current_case');
+    if (currentCase === null) return;
+
+    const storageName = `case_info_${JSON.parse(currentCase).CaseId}`;
+
+    let oldValues = null;
+    oldValues = localStorage.getItem(storageName);
+    if (oldValues === null) return;
+    setFieldsValue(JSON.parse(oldValues));
+  }, [setFieldsValue, formValues.Gender]);
 
   const submit = () => {
     validateFields(async (error: any, values: any) => {
@@ -70,6 +90,7 @@ function AddCaseStepZeroForm(props: AddCaseStepZeroFormProps) {
   useEffect(() => {
     const effect = async () => {
       const response = await ConfigApi.getConfig(124);
+
       if (response.status === 200) {
         setEducationDegrees(
           response.data.map((ed: any) => ({
@@ -82,13 +103,11 @@ function AddCaseStepZeroForm(props: AddCaseStepZeroFormProps) {
     effect();
   }, []);
 
-  const formValues = getFieldsValue();
-
   return (
     <div>
       <CaseFormItem>
         {getFieldDecorator('YearofBirth', {
-          rules: [{ required: true, message: 'Year of Birth is required' }],
+          rules: [{ required: true, message: 'Year of Birth is required' }]
         })(<Select options={YearsofBirth} placeholder="Year of Birth" />)}
         {getFieldError('YearofBirth') && (
           <ErrorMesseage>
@@ -161,7 +180,7 @@ function AddCaseStepZeroForm(props: AddCaseStepZeroFormProps) {
         {getFieldDecorator('GradeId')(
           <Select
             options={educationDegrees}
-            placeholder="Last Educational Degree"
+            placeholder={'Last Educational Degree'}
           />
         )}
       </CaseFormItem>
