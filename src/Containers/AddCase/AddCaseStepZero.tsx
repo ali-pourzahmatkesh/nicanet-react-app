@@ -5,59 +5,51 @@ import AddCaseStepZeroForm from './Forms/AddCaseStepZeroForm';
 import { RouteComponentProps } from 'react-router';
 import Heading from './Components/Heading';
 import { CaseApi } from 'Api/CaseApi';
+import { getCase, setCase } from '../../utils/utils';
 
 const Container = styled.div`
   padding: 0 1rem;
 `;
 
-const AddCaseStepZero: React.FC<RouteComponentProps<{}>> = props => {
+const AddCaseStepZero: React.FC<
+  RouteComponentProps<{ caseId: '' }>
+> = props => {
+  const { match } = props;
+  const { params } = match;
+  const { caseId } = params;
+
   const onSubmit = async (values: any) => {
-    const { status, data } = await CaseApi.addNewCase(values);
-    if (status !== 200) throw status;
-    const { CaseId, PatientId } = data;
+    try {
+      if (caseId) {
+        const currentCase = await getCase(caseId);
+        const params = {
+          ...values,
+          patientId: currentCase.PatientId
+        };
 
-    localStorage.setItem('current_case', JSON.stringify({ CaseId, PatientId }));
-    const storageName = `case_info_${CaseId}`;
-    // console.log('values', values);
-    await localStorage.setItem(storageName, JSON.stringify(values));
-
-    props.history.push(`/add-case-step-one/${CaseId}`);
+        const { status } = await CaseApi.updatePatient(params);
+        if (status !== 204) throw status;
+        await setCase(caseId, values);
+        props.history.push(`/add-case-step-one/${caseId}`);
+      } else {
+        const { status, data } = await CaseApi.addNewCase(values);
+        if (status !== 200) throw status;
+        const { CaseId, PatientId } = data;
+        const params = { ...values, PatientId, CaseId };
+        await setCase(CaseId, params);
+        props.history.push(`/add-case-step-one/${CaseId}`);
+      }
+    } catch (_) {}
   };
 
   return (
     <Layout noHeader>
       <Container>
         <Heading title="Case Report" subtitle="Patient Information" />
-        <AddCaseStepZeroForm onSubmit={onSubmit} />
+        <AddCaseStepZeroForm onSubmit={onSubmit} caseId={caseId} />
       </Container>
     </Layout>
   );
 };
 
 export default AddCaseStepZero;
-
-// === page 1
-// // pregnant type
-// yes = 106
-// no = 107
-// unknown = 108
-
-// // maried
-// single = 134
-// maried = 136
-
-// {
-//   "GradeId":125,
-//   "MartialStatusId":134,
-//   "YearofBirth":"1375",
-//   "Weight":80,
-//   "Height":180,
-//   "Gender":0,
-//   "PregnancyId":105,
-//   "JobTitle":"Designer",
-//   "CurrentResidence":"Tehran",
-//   "Originaly":"Tehran", // not in design Originally
-//   "Nationality" "",
-// } => patient id
-
-// === page 2

@@ -8,6 +8,7 @@ import { ConfigApi } from 'Api/ConfigApi';
 import Input from 'components/Input/InputComponent';
 import { Title, ErrorMesseage } from '../Components/Styled';
 import ContinueButton from '../Components/ContinueButton';
+import { getCase } from '../../../utils/utils';
 
 const WeightAndHeight = styled.div`
   display: flex;
@@ -44,6 +45,7 @@ const Heights = new Array(230)
 interface AddCaseStepZeroFormProps {
   form: any;
   onSubmit: (values: any) => Promise<any>;
+  caseId: string;
 }
 
 function AddCaseStepZeroForm(props: AddCaseStepZeroFormProps) {
@@ -58,22 +60,19 @@ function AddCaseStepZeroForm(props: AddCaseStepZeroFormProps) {
       getFieldsValue,
       setFieldsValue
     },
-    onSubmit
+    onSubmit,
+    caseId
   } = props;
 
   const formValues = getFieldsValue();
 
   useEffect(() => {
-    const currentCase = localStorage.getItem('current_case');
-    if (currentCase === null) return;
-
-    const storageName = `case_info_${JSON.parse(currentCase).CaseId}`;
-
-    let oldValues = null;
-    oldValues = localStorage.getItem(storageName);
-    if (oldValues === null) return;
-    setFieldsValue(JSON.parse(oldValues));
-  }, [setFieldsValue, formValues.Gender]);
+    const effect = async () => {
+      const oldValues = await getCase(caseId);
+      setFieldsValue(oldValues);
+    };
+    effect();
+  }, [setFieldsValue, formValues.Gender, caseId]);
 
   const submit = () => {
     validateFields(async (error: any, values: any) => {

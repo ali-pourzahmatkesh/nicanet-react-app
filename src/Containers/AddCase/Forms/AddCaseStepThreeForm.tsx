@@ -9,10 +9,12 @@ import AddDrugForm from './AddDrugForm';
 import ContinueButton from '../Components/ContinueButton';
 import Drug from '../Components/Drug';
 import { ConfigApi } from 'Api/ConfigApi';
+import { getCase } from '../../../utils/utils';
 
 interface AddCaseStepThreeFormProps {
   form: any;
   onSubmit: (values: any) => Promise<any>;
+  caseId: string;
 }
 
 function AddCaseStepThreeForm(props: AddCaseStepThreeFormProps) {
@@ -22,8 +24,9 @@ function AddCaseStepThreeForm(props: AddCaseStepThreeFormProps) {
   const [herbalHistories, setHerbalHistories] = useState<any[]>([]);
 
   const {
-    form: { getFieldDecorator, validateFields, getFieldValue },
-    onSubmit
+    form: { getFieldDecorator, validateFields, getFieldValue, setFieldsValue },
+    onSubmit,
+    caseId
   } = props;
 
   const submit = () => {
@@ -33,7 +36,7 @@ function AddCaseStepThreeForm(props: AddCaseStepThreeFormProps) {
         setIsSubmitting(true);
         await onSubmit({
           ...values,
-          CaseDrugs: caseDrugs.map(drug => ({ ...drug, DrugName: undefined }))
+          CaseDrugs: caseDrugs
         });
       } catch (_) {
         setIsSubmitting(false);
@@ -68,6 +71,16 @@ function AddCaseStepThreeForm(props: AddCaseStepThreeFormProps) {
     };
     effect();
   }, []);
+
+  useEffect(() => {
+    const effect = async () => {
+      const oldValues = await getCase(caseId);
+      setFieldsValue(oldValues);
+      if (!oldValues.CaseDrugs) return;
+      setCaseDrugs(oldValues.CaseDrugs);
+    };
+    effect();
+  }, [setFieldsValue, habitualHistories, herbalHistories, caseId]);
 
   const dhDrugs = caseDrugs.filter(drug => drug.TypeId === 350);
   const otcDrugs = caseDrugs.filter(drug => drug.TypeId === 351);
@@ -124,9 +137,6 @@ function AddCaseStepThreeForm(props: AddCaseStepThreeFormProps) {
       <Title>Habitual History:</Title>
       <PaddedWrapper>
         {habitualHistories.map((habitualHistory: any) => {
-          console.log(
-            getFieldValue(`habitualHistory_check_${habitualHistory.value}`)
-          );
           return (
             <Fragment key={habitualHistory.name}>
               {getFieldDecorator(
