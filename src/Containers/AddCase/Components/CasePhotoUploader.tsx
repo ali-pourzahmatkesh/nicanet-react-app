@@ -31,9 +31,6 @@ const CasePhotoUploader: React.FC<CasePhotoUploaderProps> = props => {
 
   const uploadPhoto = async (photo: Photo) => {
     try {
-      // const currentCaseRaw = localStorage.getItem('current_case');
-      // if (currentCaseRaw === null) return;
-      // const { CaseId } = JSON.parse(currentCaseRaw);
       if (!fieldName || !caseId) return null;
       setIsLoading(true);
       const bodyFormData = new FormData();

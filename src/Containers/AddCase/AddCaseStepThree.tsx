@@ -19,13 +19,9 @@ const AddCaseStepThree: React.FC<
   const { caseId } = params;
 
   const onSubmit = async (values: any) => {
-    const currentCaseRaw = localStorage.getItem('current_case');
-    if (currentCaseRaw === null) return;
-    const { CaseId } = JSON.parse(currentCaseRaw);
-
     const data = {
       StatusId: 3,
-      CaseId,
+      CaseId: caseId,
       CaseDrugs: values.CaseDrugs,
       DhDrugNote: values.DhDrugNote,
       OtcDrugNote: values.OtcDrugNote,

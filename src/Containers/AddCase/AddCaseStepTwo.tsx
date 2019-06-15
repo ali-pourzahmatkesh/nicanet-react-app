@@ -17,12 +17,9 @@ const AddCaseStepTwo: React.FC<RouteComponentProps<{ caseId: '' }>> = props => {
   const { caseId } = params;
 
   const onSubmit = async (values: any) => {
-    const currentCaseRaw = localStorage.getItem('current_case');
-    if (currentCaseRaw === null) return;
-    const { CaseId } = JSON.parse(currentCaseRaw);
 
     const data = {
-      CaseId,
+      CaseId: caseId,
       StatusId: 2,
       PastSurgicalHistory: values.PastSurgicalHistory,
       FamilyHistory: values.FamilyHistory,

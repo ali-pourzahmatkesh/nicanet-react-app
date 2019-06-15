@@ -2,16 +2,13 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Layout from 'components/Partials/Layout';
 import { RouteComponentProps } from 'react-router';
-import {
-  ADD_CASE_STEP_SIX_ROUTE,
-  ADD_CASE_STEP_FOUR_ROUTE
-} from 'router/RouterConstants';
 import Heading from './Components/Heading';
 import AddCaseStepFiveFormOne from './Forms/AddCaseStepFiveFormOne';
 import AddCaseStepFiveFormTwo from './Forms/AddCaseStepFiveFormTwo';
 import MultiButton from 'components/MultiButton/MultiButton';
 import ContinueButton from './Components/ContinueButton';
 import { CaseApi } from 'Api/CaseApi';
+import { setCase, getCase } from '../../utils/utils';
 
 const Container = styled.div`
   padding: 0 1rem;
@@ -21,10 +18,8 @@ const ContinueButtonWrapper = styled.div`
   margin-top: 1rem;
 `;
 
-function getFormOneValues() {
-  const valuesRaw = localStorage.getItem('AddCaseStepFiveFormOne');
-  if (valuesRaw === null) return {};
-  const values = JSON.parse(valuesRaw);
+async function getFormOneValues(caseId: string) {
+  const values = await getCase(caseId);
 
   const nextData = {
     BloodBank: {
@@ -76,10 +71,8 @@ function getFormOneValues() {
   return nextData;
 }
 
-function getFormTwoValues() {
-  const valuesRaw = localStorage.getItem('AddCaseStepFiveFormTwo');
-  if (valuesRaw === null) return {};
-  const values = JSON.parse(valuesRaw);
+async function getFormTwoValues(caseId: string) {
+  const values = await getCase(caseId);
   const keys = Object.keys(values);
 
   const nextData = {
@@ -103,40 +96,46 @@ function getFormTwoValues() {
   return nextData;
 }
 
-const AddCaseStepFive: React.FC<RouteComponentProps<{}>> = props => {
+const AddCaseStepFive: React.FC<
+  RouteComponentProps<{ caseId: '' }>
+> = props => {
+  const { match } = props;
+  const { params } = match;
+  const { caseId } = params;
+
   const [activeTabName, setActiveTabName] = useState('Lab Test');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const onSubmit = async () => {
     setIsSubmitting(true);
     try {
-      const currentCaseRaw = localStorage.getItem('current_case');
-      if (currentCaseRaw === null) return;
-
-      const { CaseId } = JSON.parse(currentCaseRaw);
-      const formOneValues = getFormOneValues();
-      const formTwoValues = getFormTwoValues();
+      const formOneValues = await getFormOneValues(caseId);
+      const formTwoValues = await getFormTwoValues(caseId);
       const data = {
         StatusId: 5,
-        CaseId,
+        CaseId: caseId,
         ...formOneValues,
         ...formTwoValues
       };
 
       const { status } = await CaseApi.updateCase(data);
       if (status !== 204) throw status;
-      props.history.push(ADD_CASE_STEP_SIX_ROUTE);
+      await setCase(caseId, {
+        ...formOneValues,
+        ...formTwoValues
+      });
+      // props.history.push(`/add-case-step-six/${caseId}`);
     } catch (_) {
       setIsSubmitting(false);
     }
   };
 
   const goToStepFour = () => {
-    props.history.push(ADD_CASE_STEP_FOUR_ROUTE);
+    props.history.push(`/add-case-step-four/${caseId}`);
   };
 
   const goToStepSix = () => {
-    props.history.push(ADD_CASE_STEP_SIX_ROUTE);
+    props.history.push(`/add-case-step-six/${caseId}`);
   };
 
   return (
@@ -155,8 +154,12 @@ const AddCaseStepFive: React.FC<RouteComponentProps<{}>> = props => {
             { name: 'Imaging', onClick: () => setActiveTabName('Imaging') }
           ]}
         />
-        {activeTabName === 'Lab Test' && <AddCaseStepFiveFormOne />}
-        {activeTabName === 'Imaging' && <AddCaseStepFiveFormTwo />}
+        {activeTabName === 'Lab Test' && (
+          <AddCaseStepFiveFormOne caseId={caseId} />
+        )}
+        {activeTabName === 'Imaging' && (
+          <AddCaseStepFiveFormTwo caseId={caseId} />
+        )}
         <ContinueButtonWrapper>
           <ContinueButton isLoading={isSubmitting} onClick={onSubmit} />
         </ContinueButtonWrapper>
