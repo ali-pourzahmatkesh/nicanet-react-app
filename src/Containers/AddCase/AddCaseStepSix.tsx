@@ -2,27 +2,28 @@ import React from 'react';
 import styled from 'styled-components';
 import Layout from 'components/Partials/Layout';
 import { RouteComponentProps } from 'react-router';
-import { ADD_CASE_STEP_FIVE_ROUTE, HOME_ROUTE } from 'router/RouterConstants';
+import { HOME_ROUTE } from 'router/RouterConstants';
 import Heading from './Components/Heading';
 import AddCaseStepSixForm from './Forms/AddCaseStepSixForm';
 import { CaseApi } from 'Api/CaseApi';
 import { toast } from 'react-toastify';
+import { setCase } from '../../utils/utils';
 
 const Container = styled.div`
   padding: 0 1rem;
 `;
 
-const AddCaseStepSix: React.FC<RouteComponentProps<{}>> = props => {
-  const onSubmit = async (values: any) => {
-    const currentCaseRaw = localStorage.getItem('current_case');
-    if (currentCaseRaw === null) return;
-    const { CaseId } = JSON.parse(currentCaseRaw);
+const AddCaseStepSix: React.FC<RouteComponentProps<{ caseId: '' }>> = props => {
+  const { match } = props;
+  const { params } = match;
+  const { caseId } = params;
 
+  const onSubmit = async (values: any) => {
     const data = {
       StatusId: 6,
-      CaseId,
+      CaseId: caseId,
       Diagnoses: [],
-      PrescriptionDrugs: values.CaseDrugs,
+      PrescriptionDrugs: values.PrescriptionDrugs,
       Tags: values.selectedTags
     };
 
@@ -58,14 +59,16 @@ const AddCaseStepSix: React.FC<RouteComponentProps<{}>> = props => {
         });
       });
 
-    const { status } = await CaseApi.updateCase(data);
-    if (status !== 204) throw status;
+    // const { status } = await CaseApi.updateCase(data);
+    // if (status !== 204) throw status;
+    console.log('values', values);
+    await setCase(caseId, values);
 
     toast.success('Case has been successfully published', {
       position: toast.POSITION.TOP_CENTER
     });
     setTimeout(() => {
-      props.history.push(HOME_ROUTE);
+      // props.history.push(HOME_ROUTE);
     }, 4000);
   };
 
@@ -74,7 +77,7 @@ const AddCaseStepSix: React.FC<RouteComponentProps<{}>> = props => {
   };
 
   const goBackward = () => {
-    props.history.push(ADD_CASE_STEP_FIVE_ROUTE);
+    props.history.push(`/add-case-step-five/${caseId}`);
   };
 
   return (
@@ -86,7 +89,7 @@ const AddCaseStepSix: React.FC<RouteComponentProps<{}>> = props => {
           onGoBack={goBackward}
           onGoForward={goForward}
         />
-        <AddCaseStepSixForm onSubmit={onSubmit} />
+        <AddCaseStepSixForm onSubmit={onSubmit} caseId={caseId} />
       </Container>
     </Layout>
   );

@@ -11,8 +11,10 @@ const Container = styled.div`
 
 const Image = styled.img`
   width: 100%;
+  display: block;
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
+  border-radius: ${props => props.hasBorderRadius && '5px'};
 `;
 
 const Title = styled.div`
@@ -88,7 +90,12 @@ function Card(props) {
 
   return (
     <Container onClick={onClick}>
-      {image && <Image src={`https://api.pointina.ir${image}`} />}
+      {image && (
+        <Image
+          src={`https://api.pointina.ir${image}`}
+          hasBorderRadius={typeId === 118}
+        />
+      )}
       {typeId !== 118 && (
         <Main>
           {Object.keys(author).length > 0 && (

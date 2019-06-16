@@ -56,7 +56,9 @@ export async function setCase(caseId, values) {
     // console.log('values', values);
     const params = { ...currentCase, ...values };
     await localStorage.setItem(storageName, JSON.stringify(params));
-  } catch (_) {}
+  } catch (error) {
+    console.log('error in set case', error);
+  }
 }
 
 export async function getCase(caseId) {

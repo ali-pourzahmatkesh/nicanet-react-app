@@ -124,7 +124,7 @@ const AddCaseStepFive: React.FC<
         ...formOneValues,
         ...formTwoValues
       });
-      // props.history.push(`/add-case-step-six/${caseId}`);
+      props.history.push(`/add-case-step-six/${caseId}`);
     } catch (_) {
       setIsSubmitting(false);
     }
