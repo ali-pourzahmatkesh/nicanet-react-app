@@ -64,6 +64,7 @@ interface SelectProps {
   placeholder?: string;
   onChange?: (value: string | undefined) => void;
   value?: any;
+  defaultValue?: string;
 }
 
 class Select extends React.Component<SelectProps> {
@@ -72,7 +73,7 @@ class Select extends React.Component<SelectProps> {
   };
 
   render() {
-    const { options, placeholder, onChange, value } = this.props;
+    const { options, placeholder, onChange, value, defaultValue } = this.props;
 
     const handleChange = (event: any) => {
       if (!onChange) return;
@@ -88,18 +89,25 @@ class Select extends React.Component<SelectProps> {
           placeholder="Year of Birth"
           className="select-css"
           onChange={handleChange}
+          value={value}
+          // onClick={() => {
+          //   console.log('defaultValue', defaultValue);
+          //   if (!onChange) return;
+          //   onChange(defaultValue);
+          // }}
         >
           <option value="Select_Default_Value" />
           {options.length > 0 &&
-            options.map(option => (
-              <option
-                key={`${option.name}-${option.value}`}
-                value={option.value}
-                selected={option.value===value}
-              >
-                {option.name}
-              </option>
-            ))}
+            options.map(option => {
+              return (
+                <option
+                  key={`${option.name}-${option.value}`}
+                  value={option.value}
+                >
+                  {option.name}
+                </option>
+              );
+            })}
         </select>
       </Container>
     );

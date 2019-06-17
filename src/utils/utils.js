@@ -44,7 +44,30 @@ export function englishNumber(number) {
 
 export function urlify(text) {
   var urlRegex = /(https?:\/\/[^\s]+)/g;
-  return text.replace(urlRegex, function (url) {
+  return text.replace(urlRegex, function(url) {
     return '<a href="' + url + '">' + url + '</a>';
-  })
+  });
+}
+
+export async function setCase(caseId, values) {
+  try {
+    const storageName = `case_info_${caseId}`;
+    const currentCase = await getCase(caseId);
+    // console.log('values', values);
+    const params = { ...currentCase, ...values };
+    await localStorage.setItem(storageName, JSON.stringify(params));
+  } catch (error) {
+    console.log('error in set case', error);
+  }
+}
+
+export async function getCase(caseId) {
+  try {
+    const storageName = `case_info_${caseId}`;
+
+    let currentCase = null;
+    currentCase = await localStorage.getItem(storageName);
+    if (currentCase === null) return;
+    return JSON.parse(currentCase);
+  } catch (_) {}
 }

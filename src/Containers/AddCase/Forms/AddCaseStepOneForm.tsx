@@ -14,10 +14,12 @@ import Select from 'components/Select/SelectComponent';
 import ContinueButton from '../Components/ContinueButton';
 import CasePhotoUploader from '../Components/CasePhotoUploader';
 import { CaseApi } from 'Api/CaseApi';
+import { getCase } from '../../../utils/utils';
 
 interface AddCaseStepOneFormProps {
   form: any;
   onSubmit: (values: any) => Promise<any>;
+  caseId: string;
 }
 
 const BloodPressureRates = [
@@ -142,8 +144,9 @@ function AddCaseStepOneForm(props: AddCaseStepOneFormProps) {
   const [presentIllnesses, setPresentIllnesses] = useState<any[]>([]);
   const [generalAppearances, setGeneralAppearances] = useState<any[]>([]);
   const {
-    form: { getFieldDecorator, validateFields, getFieldError },
-    onSubmit
+    form: { getFieldDecorator, validateFields, getFieldError, setFieldsValue },
+    onSubmit,
+    caseId
   } = props;
 
   useEffect(() => {
@@ -162,6 +165,14 @@ function AddCaseStepOneForm(props: AddCaseStepOneFormProps) {
     };
     effect();
   }, []);
+
+  useEffect(() => {
+    const effect = async () => {
+      const oldValues = await getCase(caseId);
+      setFieldsValue(oldValues);
+    };
+    effect();
+  }, [setFieldsValue, presentIllnesses, caseId]);
 
   const submit = () => {
     validateFields(async (error: any, values: any) => {
@@ -188,7 +199,11 @@ function AddCaseStepOneForm(props: AddCaseStepOneFormProps) {
           </ErrorMesseage>
         )}
       </CaseFormItem>
-      <CasePhotoUploader presetName="ChiefComplaint" />
+      <CasePhotoUploader
+        presetName="ChiefComplaint"
+        caseId={caseId}
+        fieldName="ChiefComplaintPhotos"
+      />
 
       <Title>Present Illness (PI):</Title>
       <PaddedWrapper>
@@ -238,7 +253,7 @@ function AddCaseStepOneForm(props: AddCaseStepOneFormProps) {
         </FromCol>
         <FormRow>
           <FromCol>
-            {getFieldDecorator('BloodPressureOne', {initialValue: '120' })(
+            {getFieldDecorator('BloodPressureOne', { initialValue: '120' })(
               <Select options={BloodPressureRates} />
             )}
           </FromCol>
@@ -256,7 +271,7 @@ function AddCaseStepOneForm(props: AddCaseStepOneFormProps) {
         </FromCol>
         <FormRow>
           <FromCol>
-            {getFieldDecorator('TempratureOne',{ initialValue: '37' })(
+            {getFieldDecorator('TempratureOne', { initialValue: '37' })(
               <Select options={TempratureOne} />
             )}
           </FromCol>

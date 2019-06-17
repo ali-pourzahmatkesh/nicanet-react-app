@@ -10,6 +10,7 @@ import { CaseApi } from 'Api/CaseApi';
 import Input from 'components/Input/InputComponent';
 import CasePhotoUploader from '../Components/CasePhotoUploader';
 import Select from 'components/Select/SelectComponent';
+import { setCase, getCase } from '../../../utils/utils';
 
 const CaseFormItemesWrapper = styled.div<{ hasUnit?: boolean }>`
   display: ${props => (props.hasUnit ? 'flex' : 'block')};
@@ -27,6 +28,7 @@ const UnitWrapper = styled.div`
 
 interface AddCaseStepFiveFormOneProps {
   form: any;
+  caseId: string;
 }
 
 function AddCaseStepFiveFormOne(props: AddCaseStepFiveFormOneProps) {
@@ -35,21 +37,26 @@ function AddCaseStepFiveFormOne(props: AddCaseStepFiveFormOneProps) {
   const [isLoading, setIsLoading] = useState(true);
 
   const {
-    form: { getFieldDecorator, getFieldsValue, setFieldsValue, getFieldValue }
+    form: { getFieldDecorator, getFieldsValue, setFieldsValue, getFieldValue },
+    caseId
   } = props;
 
   useEffect(() => {
-    const oldValues = localStorage.getItem('AddCaseStepFiveFormOne');
-    if (oldValues === null) return;
-    setFieldsValue(JSON.parse(oldValues));
-  }, [setFieldsValue]);
+    const effect = async () => {
+      const oldValues = await getCase(caseId);
+      setFieldsValue(oldValues);
+    };
+    effect();
+  }, [setFieldsValue, caseId, examinations]);
 
-  setTimeout(() => {
-    localStorage.setItem(
-      'AddCaseStepFiveFormOne',
-      JSON.stringify(getFieldsValue())
-    );
-  }, 0);
+  const formValues = getFieldsValue();
+
+  useEffect(() => {
+    const effect = async () => {
+      await setCase(caseId, getFieldsValue());
+    };
+    effect();
+  }, [caseId, formValues, getFieldsValue]);
 
   useEffect(() => {
     const effect = async () => {
@@ -75,6 +82,8 @@ function AddCaseStepFiveFormOne(props: AddCaseStepFiveFormOneProps) {
                         <CaseFormItem>
                           <CasePhotoUploader
                             presetName={childNode.Title.replace('/', '_')}
+                            caseId={caseId}
+                            fieldName={`${childNode.Title}Photos`}
                           />
                         </CaseFormItem>
                       )}
@@ -159,6 +168,8 @@ function AddCaseStepFiveFormOne(props: AddCaseStepFiveFormOneProps) {
                       {childNode.NeedImage && (
                         <CasePhotoUploader
                           presetName={childNode.Title.replace('/', '_')}
+                          caseId={caseId}
+                          fieldName={`${childNode.Title}Photos`}
                         />
                       )}
                     </Fragment>
@@ -175,7 +186,7 @@ function AddCaseStepFiveFormOne(props: AddCaseStepFiveFormOneProps) {
     if (examinations.length > 0) {
       setIsLoading(false);
     }
-  }, [examinations, getFieldDecorator, getFieldValue]);
+  }, [examinations, getFieldDecorator, getFieldValue, formValues, caseId]);
 
   if (isLoading)
     return (
