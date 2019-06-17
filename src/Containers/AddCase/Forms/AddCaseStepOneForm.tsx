@@ -143,6 +143,14 @@ function AddCaseStepOneForm(props: AddCaseStepOneFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [presentIllnesses, setPresentIllnesses] = useState<any[]>([]);
   const [generalAppearances, setGeneralAppearances] = useState<any[]>([]);
+
+  const [bloodPressureOne, setBloodPressureOne] = useState(false);
+  const [bloodPressureTwo, setBloodPressureTwo] = useState(false);
+  const [tempratureOne, setTempratureOne] = useState(false);
+  const [tempratureTwo, setTempratureTwo] = useState(false);
+  const [pulseRate, setPulseRate] = useState(false);
+  const [respiratoryRate, setRespiratoryRate] = useState(false);
+
   const {
     form: { getFieldDecorator, validateFields, getFieldError, setFieldsValue },
     onSubmit,
@@ -179,7 +187,16 @@ function AddCaseStepOneForm(props: AddCaseStepOneFormProps) {
       if (error !== null) return;
       try {
         setIsSubmitting(true);
-        await onSubmit(values);
+        const data = {
+          ...values,
+          BloodPressureOne: bloodPressureOne ? values.BloodPressureOne : '',
+          BloodPressureTwo: bloodPressureTwo ? values.BloodPressureTwo : '',
+          TempratureOne: tempratureOne ? values.TempratureOne : '',
+          TempratureTwo: tempratureTwo ? values.TempratureTwo : '',
+          PulseRate: pulseRate ? values.PulseRate : '',
+          RespiratoryRate: respiratoryRate ? values.RespiratoryRate : ''
+        };
+        await onSubmit(data);
       } catch (_) {
         setIsSubmitting(false);
       }
@@ -254,12 +271,18 @@ function AddCaseStepOneForm(props: AddCaseStepOneFormProps) {
         <FormRow>
           <FromCol>
             {getFieldDecorator('BloodPressureOne', { initialValue: '120' })(
-              <Select options={BloodPressureRates} />
+              <Select
+                options={BloodPressureRates}
+                onClick={() => setBloodPressureOne(true)}
+              />
             )}
           </FromCol>
           <FromCol>
             {getFieldDecorator('BloodPressureTwo', { initialValue: '80' })(
-              <Select options={BloodPressureRates} />
+              <Select
+                options={BloodPressureRates}
+                onClick={() => setBloodPressureTwo(true)}
+              />
             )}
           </FromCol>
         </FormRow>
@@ -272,12 +295,18 @@ function AddCaseStepOneForm(props: AddCaseStepOneFormProps) {
         <FormRow>
           <FromCol>
             {getFieldDecorator('TempratureOne', { initialValue: '37' })(
-              <Select options={TempratureOne} />
+              <Select
+                options={TempratureOne}
+                onClick={() => setTempratureOne(true)}
+              />
             )}
           </FromCol>
           <FromCol>
             {getFieldDecorator('TempratureTwo', { initialValue: '0' })(
-              <Select options={TempratureTwo} />
+              <Select
+                options={TempratureTwo}
+                onClick={() => setTempratureTwo(true)}
+              />
             )}
           </FromCol>
         </FormRow>
@@ -291,7 +320,10 @@ function AddCaseStepOneForm(props: AddCaseStepOneFormProps) {
         <FormRow>
           <FromCol>
             {getFieldDecorator('PulseRate', { initialValue: '75' })(
-              <Select options={pulseRateValues} />
+              <Select
+                options={pulseRateValues}
+                onClick={() => setPulseRate(true)}
+              />
             )}
           </FromCol>
         </FormRow>
@@ -304,7 +336,10 @@ function AddCaseStepOneForm(props: AddCaseStepOneFormProps) {
         <FormRow>
           <FromCol>
             {getFieldDecorator('RespiratoryRate', { initialValue: '12' })(
-              <Select options={respiratoryRates} />
+              <Select
+                options={respiratoryRates}
+                onClick={() => setRespiratoryRate(true)}
+              />
             )}
           </FromCol>
         </FormRow>
