@@ -150,7 +150,7 @@ const EditProfileContainer: React.FC<
     callback(options);
   };
 
-  const onSubmit = (selectedUniversity: any, GroupId: null) => {
+  const onSubmit = (selectedUniversity: any) => {
     props.form.validateFields(async (error: any, values: any) => {
       if (error !== null) return;
       if (!isValid(values)) {
@@ -165,8 +165,7 @@ const EditProfileContainer: React.FC<
 
         const params = {
           UniversityId,
-          ...values,
-          // GroupId: values.GroupId || GroupId
+          ...values
         };
 
         const { status } = await UsersApi.editUser(params);
@@ -238,13 +237,11 @@ const EditProfileContainer: React.FC<
   const {
     FirstName,
     LastName,
-    Group,
     UniversityNameEn,
     Bio,
     GroupId,
     ImageUrl
   } = user;
-  const { ConfigName } = Group;
   return (
     <Layout>
       <ProfileFormImageItem>
@@ -302,7 +299,6 @@ const EditProfileContainer: React.FC<
       <ProfileFormItem>
         {getFieldDecorator('GroupId', { initialValue: GroupId })(
           <Select options={major} placeholder={'Major'} />
-          // <Select options={major} placeholder={ConfigName || 'Major'} />
         )}
       </ProfileFormItem>
       <ProfileFormItem>
@@ -361,7 +357,7 @@ const EditProfileContainer: React.FC<
         )}
       </ProfileFormItem>
 
-      <Button onClick={() => onSubmit(university, GroupId)}>
+      <Button onClick={() => onSubmit(university)}>
         {isSubmitting ? (
           <PulseLoader sizeUnit="rem" size={0.5} color="#fff" />
         ) : (
