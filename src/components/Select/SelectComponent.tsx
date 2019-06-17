@@ -83,6 +83,8 @@ class Select extends React.Component<SelectProps> {
       else onChange(value);
     };
 
+    console.log('value', value);
+
     return (
       <Container
         onClick={() => {

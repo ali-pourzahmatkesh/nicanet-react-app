@@ -121,7 +121,6 @@ const EditProfileContainer: React.FC<
           const data = response.data;
           setUser(data);
           setUniversity({ UniversityId: data.UniversityId });
-          // setFieldsInitialValue({ GroupId: data.GroupId.toString() });
         }
       } catch (_) {}
     };
@@ -167,7 +166,7 @@ const EditProfileContainer: React.FC<
         const params = {
           UniversityId,
           ...values,
-          GroupId: values.GroupId || GroupId
+          // GroupId: values.GroupId || GroupId
         };
 
         const { status } = await UsersApi.editUser(params);
@@ -301,8 +300,9 @@ const EditProfileContainer: React.FC<
         )}
       </ProfileFormItem>
       <ProfileFormItem>
-        {getFieldDecorator('GroupId')(
-          <Select options={major} placeholder={ConfigName || 'Major'} />
+        {getFieldDecorator('GroupId', { initialValue: GroupId })(
+          <Select options={major} placeholder={'Major'} />
+          // <Select options={major} placeholder={ConfigName || 'Major'} />
         )}
       </ProfileFormItem>
       <ProfileFormItem>
