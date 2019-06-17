@@ -56,7 +56,7 @@ function AddCaseStepFiveFormOne(props: AddCaseStepFiveFormOneProps) {
       await setCase(caseId, getFieldsValue());
     };
     effect();
-  }, [caseId, formValues]);
+  }, [caseId, formValues, getFieldsValue]);
 
   useEffect(() => {
     const effect = async () => {
@@ -186,7 +186,7 @@ function AddCaseStepFiveFormOne(props: AddCaseStepFiveFormOneProps) {
     if (examinations.length > 0) {
       setIsLoading(false);
     }
-  }, [examinations, getFieldDecorator, getFieldValue, formValues]);
+  }, [examinations, getFieldDecorator, getFieldValue, formValues, caseId]);
 
   if (isLoading)
     return (

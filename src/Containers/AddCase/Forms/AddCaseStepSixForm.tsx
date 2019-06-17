@@ -47,16 +47,20 @@ function AddCaseStepSixForm(props: AddCaseStepSixFormProps) {
   useEffect(() => {
     const effect = async () => {
       const oldValues = await getCase(caseId);
-      if (oldValues.diagnosisCount) {
-        setDiagnosisCount(oldValues.diagnosisCount);
+      if (oldValues && oldValues.diagnosisCount) {
+        await setDiagnosisCount(oldValues.diagnosisCount);
       }
 
-      if (oldValues.prescriptionsCount) {
-        setDiagnosisCount(oldValues.prescriptionsCount);
+      if (oldValues && oldValues.prescriptionsCount) {
+        await setPrescriptionsCount(oldValues.prescriptionsCount);
       }
 
-      if (oldValues.PrescriptionDrugs) {
-        setCaseDrugs(oldValues.PrescriptionDrugs);
+      if (oldValues && oldValues.PrescriptionDrugsList) {
+        await setCaseDrugs(oldValues.PrescriptionDrugsList);
+      }
+
+      if (oldValues && oldValues.selectedTags) {
+        await setSelectedTags(oldValues.selectedTags);
       }
 
       setFieldsValue(oldValues);
@@ -69,9 +73,10 @@ function AddCaseStepSixForm(props: AddCaseStepSixFormProps) {
       if (error !== null) return;
       try {
         setIsSubmitting(true);
+        await setCase(caseId, { PrescriptionDrugsList: caseDrugs });
         await onSubmit({
           ...values,
-          selectedTags: selectedTags.map((tag: any) => tag.value).join(','),
+          selectedTags,
           PrescriptionDrugs: caseDrugs
         });
       } catch (_) {
@@ -93,8 +98,6 @@ function AddCaseStepSixForm(props: AddCaseStepSixFormProps) {
     };
     effect();
   }, []);
-
-  console.log('diagnosisCount', diagnosisCount);
 
   return (
     <div>
@@ -165,8 +168,11 @@ function AddCaseStepSixForm(props: AddCaseStepSixFormProps) {
         <Select
           isMulti
           options={tags}
+          value={selectedTags}
           placeholder="Select tags"
-          onChange={(data: any) => setSelectedTags(data)}
+          onChange={(data: any) => {
+            setSelectedTags(data);
+          }}
         />
       </CaseFormItem>
 

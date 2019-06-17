@@ -89,6 +89,7 @@ class Select extends React.Component<SelectProps> {
           placeholder="Year of Birth"
           className="select-css"
           onChange={handleChange}
+          value={value}
           // onClick={() => {
           //   console.log('defaultValue', defaultValue);
           //   if (!onChange) return;
@@ -102,7 +103,6 @@ class Select extends React.Component<SelectProps> {
                 <option
                   key={`${option.name}-${option.value}`}
                   value={option.value}
-                  selected={option.value == value}
                 >
                   {option.name}
                 </option>

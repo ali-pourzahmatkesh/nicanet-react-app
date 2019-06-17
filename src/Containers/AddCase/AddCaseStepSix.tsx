@@ -24,7 +24,7 @@ const AddCaseStepSix: React.FC<RouteComponentProps<{ caseId: '' }>> = props => {
       CaseId: caseId,
       Diagnoses: [],
       PrescriptionDrugs: values.PrescriptionDrugs,
-      Tags: values.selectedTags
+      Tags: values.selectedTags.map((tag: any) => tag.value).join(',')
     };
 
     const keys = Object.keys(values);
@@ -59,16 +59,17 @@ const AddCaseStepSix: React.FC<RouteComponentProps<{ caseId: '' }>> = props => {
         });
       });
 
-    // const { status } = await CaseApi.updateCase(data);
-    // if (status !== 204) throw status;
-    console.log('values', values);
     await setCase(caseId, values);
+    const { status } = await CaseApi.updateCase(data);
+    if (status !== 204) throw status;
 
     toast.success('Case has been successfully published', {
       position: toast.POSITION.TOP_CENTER
     });
     setTimeout(() => {
-      // props.history.push(HOME_ROUTE);
+      localStorage.removeItem(`case_info_${caseId}`);
+
+      props.history.push(HOME_ROUTE);
     }, 4000);
   };
 

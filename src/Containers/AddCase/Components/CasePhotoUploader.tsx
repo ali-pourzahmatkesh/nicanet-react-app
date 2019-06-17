@@ -23,7 +23,7 @@ const CasePhotoUploader: React.FC<CasePhotoUploaderProps> = props => {
   useEffect(() => {
     const effect = async () => {
       const oldValues = await getCase(caseId);
-      if (!fieldName) return null;
+      if (!oldValues || !fieldName || !oldValues[fieldName]) return null;
       setPhotos(oldValues[fieldName] || []);
     };
     effect();
@@ -39,6 +39,7 @@ const CasePhotoUploader: React.FC<CasePhotoUploaderProps> = props => {
       });
       bodyFormData.append('CaseId', caseId);
       bodyFormData.append('file', image);
+      console.log('image', image);
       const reponse = await CaseApi.uploadCasePhoto(bodyFormData);
       if (reponse.status === 200) {
         setPhotos(prevPhotos => [...prevPhotos, photo]);
