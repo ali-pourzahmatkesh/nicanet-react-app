@@ -22,7 +22,7 @@ const Logo = styled.img`
 
 const LogoWrapper = styled.div`
   margin: 0 auto;
-  height: 50px;
+  height: 44px;
   @media (min-width: 720px) {
     margin: 0;
     height: auto;
@@ -35,13 +35,16 @@ const Container = styled.div`
   background-color: #fff;
   position: fixed;
   top: 0;
-  left: 50%;
   height: 50px;
-  // z-index: 2;
-  width: 560px;
-  margin-left: -280px;
+  width: 100%;
+  left: 0;
   display: ${props => (props.noHeader ? 'none' : 'flex')};
   box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.1);
+  @media (min-width: 560px) {
+    width: 560px;
+    left: 50%;
+    margin-left: -280px;
+  }
   @media (min-width: 720px) {
     position: static;
     border-bottom: 1px solid #bdbdbd;
@@ -50,21 +53,21 @@ const Container = styled.div`
     display: flex;
     width: 100%;
     left: 0;
-    right: 0;
     margin-left: 0;
   }
 `;
 
 const Wrapper = styled.div`
-  width: 560px;
   margin: 0 auto;
   padding: 0.2rem 0;
   position: relative;
+  width: 100%;
   @media (min-width: 720px) {
     width: 720px;
     display: flex;
     align-items: center;
     padding: 0;
+    overflow: hidden;
   }
 `;
 
@@ -127,7 +130,7 @@ const Right = styled.div`
 
 const GoBack = styled.div`
   position: absolute;
-  left: 1rem;
+  left: 0.5rem;
   top: 50%;
   transform: translateY(-50%);
   @media (min-width: 720px) {
@@ -158,7 +161,10 @@ function Header(props) {
           <MiddleEelements>
             <SearchBox />
             <LinksContainer>
-              <IconWrapper onClick={() => props.history.push(HOME_ROUTE)} hasMargin>
+              <IconWrapper
+                onClick={() => props.history.push(HOME_ROUTE)}
+                hasMargin
+              >
                 {route.startsWith('/home') ||
                 route.startsWith('/post') ||
                 route.startsWith('/add-adr') ||
@@ -181,7 +187,6 @@ function Header(props) {
                 <IconTitle>Search</IconTitle>
               </IconWrapper> */}
             </LinksContainer>
-            
           </MiddleEelements>
           <Right>
             <IconWrapper onClick={() => props.history.push('/profile')}>
