@@ -11,6 +11,7 @@ const AuthorImage = styled.img<{ level?: number }>`
   margin: 0.2rem 0.5rem 0 0;
   margin-top: ${props => props.level === 1 && 0};
   cursor:pointer;
+  background-size: cover;
 `;
 
 const Col = styled.div`
