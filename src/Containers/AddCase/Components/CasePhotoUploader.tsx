@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import PhotoUploader, {
   Photo
@@ -6,33 +6,47 @@ import PhotoUploader, {
 import Picker from 'components/Picker/PickerComponent';
 import CameraSilver from 'Assets/CameraSilver.svg';
 import { CaseApi } from 'Api/CaseApi';
+import { setCase, getCase } from '../../../utils/utils';
 
 type CasePhotoUploaderProps = {
   presetName: string;
+  caseId?: string;
+  fieldName?: string;
 };
 
 const CasePhotoUploader: React.FC<CasePhotoUploaderProps> = props => {
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { presetName } = props;
+  const { presetName, caseId, fieldName } = props;
+
+  useEffect(() => {
+    const effect = async () => {
+      const oldValues = await getCase(caseId);
+      if (!oldValues || !fieldName || !oldValues[fieldName]) return null;
+      setPhotos(oldValues[fieldName] || []);
+    };
+    effect();
+  }, [caseId, fieldName]);
 
   const uploadPhoto = async (photo: Photo) => {
     try {
+      if (!fieldName || !caseId) return null;
       setIsLoading(true);
-      const currentCaseRaw = localStorage.getItem('current_case');
-      if (currentCaseRaw === null) return;
-      const { CaseId } = JSON.parse(currentCaseRaw);
       const bodyFormData = new FormData();
       const image = new File([photo.file], `${presetName}&${photo.file.name}`, {
         type: photo.file.type
       });
-      bodyFormData.append('CaseId', CaseId);
+      bodyFormData.append('CaseId', caseId);
       bodyFormData.append('file', image);
+      console.log('image', image);
       const reponse = await CaseApi.uploadCasePhoto(bodyFormData);
-
-      if (reponse.status === 200)
+      if (reponse.status === 200) {
         setPhotos(prevPhotos => [...prevPhotos, photo]);
+        const caseInfo: { [k: string]: any } = {};
+        caseInfo[fieldName] = [...photos, photo];
+        await setCase(caseId, caseInfo);
+      }
     } catch (_) {
     } finally {
       setIsLoading(false);
