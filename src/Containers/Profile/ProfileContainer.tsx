@@ -234,7 +234,11 @@ function ProfileContainer(
           <Card
             onClick={() => {
               if (content.TypeId === 118) return;
-              props.history.push(`/post/${content.ContentId}`);
+              if (content.CaseId === 0) {
+                props.history.push(`/post/${content.ContentId}`);
+              } else {
+                props.history.push(`/show-case-step-one/${content.CaseId}`);
+              }
             }}
             key={content.ContentId}
             title={content.Subject}

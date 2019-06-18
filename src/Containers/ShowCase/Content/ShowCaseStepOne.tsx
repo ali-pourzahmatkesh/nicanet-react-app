@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { BounceLoader } from 'react-spinners';
 import { CaseApi } from '../../../Api/CaseApi';
-import { Value, StringValue, LoadingWrapprer } from '../Components/Styled';
+import {
+  Value,
+  StringValue,
+  LoadingWrapprer,
+  RightValue
+} from '../Components/Styled';
 import ShowCaseItem from '../Components/ShowCaseItem';
 import ShowCaseStringArray from '../Components/ShowCaseStringArray';
 import ImageSlider from '../../../components/ImageSlider/ImageSliderComponent';
@@ -104,7 +109,7 @@ function ShowCaseStepOne(props: ShowCaseStepOneProps) {
 
       {ChiefComplaint && (
         <ShowCaseItem title="Chief Complaint(CC):">
-          <Value>{ChiefComplaint}</Value>
+          <RightValue>{ChiefComplaint}</RightValue>
         </ShowCaseItem>
       )}
 
@@ -117,14 +122,14 @@ function ShowCaseStepOne(props: ShowCaseStepOneProps) {
       {(presentIllness.length > 0 || PiNote) && (
         <ShowCaseItem title="Present Illness (PI):">
           <ShowCaseStringArray stringArray={presentIllness} title="Title" />
-          {PiNote && <Value>{PiNote}</Value>}
+          {PiNote && <RightValue>{PiNote}</RightValue>}
         </ShowCaseItem>
       )}
 
       {(generalAppearance.length > 0 || GaNote) && (
         <ShowCaseItem title="General Appearance (GA):">
           <ShowCaseStringArray stringArray={generalAppearance} title="Title" />
-          {GaNote && <Value>{GaNote}</Value>}
+          {GaNote && <RightValue>{GaNote}</RightValue>}
         </ShowCaseItem>
       )}
 
@@ -147,19 +152,19 @@ function ShowCaseStepOne(props: ShowCaseStepOneProps) {
             stringArray={pastMedicalHistories}
             title="DiseaseTitle"
           />
-          {PastMedicalHistory && <Value>{PastMedicalHistory}</Value>}
+          {PastMedicalHistory && <RightValue>{PastMedicalHistory}</RightValue>}
         </ShowCaseItem>
       )}
 
       {PastSurgicalHistory && (
         <ShowCaseItem title="Past Surgical History (PSH):">
-          <Value>{PastSurgicalHistory}</Value>
+          <RightValue>{PastSurgicalHistory}</RightValue>
         </ShowCaseItem>
       )}
 
       {FamilyHistory && (
         <ShowCaseItem title="Family History (FH):">
-          <Value>{FamilyHistory}</Value>
+          <RightValue>{FamilyHistory}</RightValue>
         </ShowCaseItem>
       )}
 

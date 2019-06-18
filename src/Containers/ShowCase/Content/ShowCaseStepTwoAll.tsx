@@ -3,7 +3,7 @@ import Drawer from 'components/Drawer/DrawerComponent';
 import { PaddedWrapper, Title, LoadingWrapprer } from '../Components/Styled';
 import { BounceLoader } from 'react-spinners';
 import styled from 'styled-components';
-import { Value, Row, Col, Wrapper } from '../Components/Styled';
+import { RightValue, Row, Col, Wrapper } from '../Components/Styled';
 import ShowCaseItem from '../Components/ShowCaseItem';
 import ImageSlider from '../../../components/ImageSlider/ImageSliderComponent';
 
@@ -103,7 +103,7 @@ function ShowCaseStepTwoAll(props: ShowCaseStepTwoAllProps) {
                       <Fragment key={childNode.DiseaseId.toString()}>
                         {signSymptomNote && (
                           <NoteWrapper>
-                            <Value noIndent>{signSymptomNote}</Value>
+                            <RightValue noIndent>{signSymptomNote}</RightValue>
                           </NoteWrapper>
                         )}
                       </Fragment>

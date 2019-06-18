@@ -3,7 +3,7 @@ import Drawer from 'components/Drawer/DrawerComponent';
 import { PaddedWrapper, Title, LoadingWrapprer } from '../Components/Styled';
 import { BounceLoader } from 'react-spinners';
 import styled from 'styled-components';
-import { Value, Row, Col } from '../Components/Styled';
+import { RightValue, Row, Col } from '../Components/Styled';
 import ShowCaseItem from '../Components/ShowCaseItem';
 import ImageSlider from '../../../components/ImageSlider/ImageSliderComponent';
 
@@ -79,7 +79,7 @@ function ShowCaseStepThreeLabTest(props: ShowCaseStepThreeLabTestProps) {
                     {childNode.Title.trim() === 'Note' && examinationNote && (
                       <NoteWrapper>
                         <Title>Note:</Title>
-                        <Value noIndent>{examinationNote}</Value>
+                        <RightValue noIndent>{examinationNote}</RightValue>
                       </NoteWrapper>
                     )}
 
