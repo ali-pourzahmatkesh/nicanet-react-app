@@ -2,6 +2,7 @@ import Api from './Api';
 
 export const CaseApi = {
   addNewCase: data => Api.post('/Case', data),
+  updatePatient: data => Api.put('/Patient', data),
   updateCase: data => Api.put('/Case', data),
   getSymptoms: () => Api.get('/Symptom'),
   searchDrugs: text => Api.get(`/Drug?drugName=${text}`),

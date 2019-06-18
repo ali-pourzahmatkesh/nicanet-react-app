@@ -10,6 +10,7 @@ import CasePhotoUploader from '../Components/CasePhotoUploader';
 import { CaseApi } from 'Api/CaseApi';
 import styled from 'styled-components';
 import ContinueButton from '../Components/ContinueButton';
+import { getCase } from '../../../utils/utils';
 
 const CasePhotoUploaderWrapper = styled.div`
   margin-top: 1rem;
@@ -18,6 +19,7 @@ const CasePhotoUploaderWrapper = styled.div`
 interface AddCaseStepFourFormProps {
   form: any;
   onSubmit: (values: any) => Promise<any>;
+  caseId: string;
 }
 
 function AddCaseStepFourForm(props: AddCaseStepFourFormProps) {
@@ -26,8 +28,9 @@ function AddCaseStepFourForm(props: AddCaseStepFourFormProps) {
   const [formTree, setFormTree] = useState<any>();
   const [isLoading, setIsLoading] = useState(true);
   const {
-    form: { getFieldDecorator, validateFields },
-    onSubmit
+    form: { getFieldDecorator, validateFields, setFieldsValue },
+    onSubmit,
+    caseId
   } = props;
 
   const submit = () => {
@@ -50,6 +53,14 @@ function AddCaseStepFourForm(props: AddCaseStepFourFormProps) {
     };
     effect();
   }, []);
+
+  useEffect(() => {
+    const effect = async () => {
+      const oldValues = await getCase(caseId);
+      setFieldsValue(oldValues);
+    };
+    effect();
+  }, [setFieldsValue, caseId, tree]);
 
   useEffect(() => {
     const formTree = tree.map((node: any) => {
@@ -116,7 +127,11 @@ function AddCaseStepFourForm(props: AddCaseStepFourFormProps) {
     <div>
       {formTree}
       <CasePhotoUploaderWrapper>
-        <CasePhotoUploader presetName="ReviewOfSystem" />
+        <CasePhotoUploader
+          presetName="ReviewOfSystem"
+          caseId={caseId}
+          fieldName="ReviewOfSystemPhotos"
+        />
         <ContinueButton isLoading={isSubmitting} onClick={submit} />
       </CasePhotoUploaderWrapper>
     </div>

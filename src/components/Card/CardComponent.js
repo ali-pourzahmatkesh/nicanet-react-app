@@ -11,8 +11,10 @@ const Container = styled.div`
 
 const Image = styled.img`
   width: 100%;
+  display: block;
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
+  border-radius: ${props => props.hasBorderRadius && '5px'};
 `;
 
 const Title = styled.div`
@@ -39,11 +41,13 @@ const AuthorWrapper = styled.div`
   padding-top: 1rem;
 `;
 
-const AuthorImage = styled.img`
+const AuthorImage = styled.div`
   width: 4rem;
   height: 4rem;
   border-radius: 4rem;
   margin-right: 1rem;
+  background: ${props => `url(${props.src}) center center no-repeat`};
+  background-size: cover;
 `;
 
 const AuthorInfo = styled.div`
@@ -97,8 +101,13 @@ function Card(props) {
   }
 
   return (
-      <Container onClick={onClick} id={`post-cart-${mainId}`}>
-      {image && <Image src={`https://api.pointina.ir${image}`} />}
+    <Container onClick={onClick} id={`post-cart-${mainId}`}>
+      {image && (
+        <Image
+          src={`https://api.pointina.ir${image}`}
+          hasBorderRadius={typeId === 118}
+        />
+      )}
       {typeId !== 118 && (
         <Main>
           {Object.keys(author).length > 0 && (
