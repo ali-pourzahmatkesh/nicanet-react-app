@@ -41,3 +41,7 @@ export const SHOW_CASE_STEP_FOUR_ROUTE = '/show-case-step-four/:caseId';
 // PROFILE
 export const PROFILE_ROUTE = '/profile/:userId?';
 export const EDIT_PROFILE_ROUTE = '/edit-profile';
+
+
+// 404
+export const NOT_FOUND_ROUTE = '/404';

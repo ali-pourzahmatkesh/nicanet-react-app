@@ -82,8 +82,22 @@ function AddCaseStepFourForm(props: AddCaseStepFourFormProps) {
                         <Radio
                           label={childNode.Title}
                           options={[
-                            { name: 'Yes', value: true },
-                            { name: 'No', value: false }
+                            {
+                              name:
+                                childNode.DiseaseId === 41 ||
+                                childNode.DiseaseId === 42
+                                  ? 'Positive'
+                                  : 'Yes',
+                              value: true
+                            },
+                            {
+                              name:
+                                childNode.DiseaseId === 41 ||
+                                childNode.DiseaseId === 42
+                                  ? 'Negative'
+                                  : 'No',
+                              value: false
+                            }
                           ]}
                         />
                       )}
@@ -112,7 +126,7 @@ function AddCaseStepFourForm(props: AddCaseStepFourFormProps) {
     if (tree.length > 0) {
       setIsLoading(false);
     }
-  });
+  }, [tree, getFieldDecorator]);
 
   if (isLoading)
     return (
