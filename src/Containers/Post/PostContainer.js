@@ -33,11 +33,13 @@ const AuthorWrapper = styled.div`
   padding: 0 1rem;
 `;
 
-const AuthorImage = styled.img`
+const AuthorImage = styled.div`
   width: 3rem;
   height: 3rem;
-  border-radius: 4rem;
+  border-radius: 2rem;
+  border: solid 1px #eeeeee;
   margin-right: 1rem;
+  background: ${props => `url(${props.src}) center center no-repeat`};
   background-size: cover;
 `;
 

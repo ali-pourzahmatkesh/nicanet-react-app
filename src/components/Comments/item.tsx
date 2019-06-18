@@ -4,13 +4,14 @@ import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 import { MdReply } from 'react-icons/md';
 import avatarPhoto from '../../Assets/avatar.jpg';
 
-const AuthorImage = styled.img<{ level?: number }>`
-  width: ${props => (props.level === 1 ? '2.5rem' : '2rem')};
-  height: ${props => (props.level === 1 ? '2.5rem' : '2rem')};
+const AuthorImage = styled.div<{ theme?: any }>`
+  width: ${props => (props.theme.level === 1 ? '2.5rem' : '2rem')};
+  height: ${props => (props.theme.level === 1 ? '2.5rem' : '2rem')};
   border-radius: 2rem;
   margin: 0.2rem 0.5rem 0 0;
-  margin-top: ${props => props.level === 1 && 0};
-  cursor:pointer;
+  margin-top: ${props => props.theme.level === 1 && 0};
+  cursor: pointer;
+  background: ${props => `url(${props.theme.src}) center center no-repeat`};
   background-size: cover;
 `;
 
@@ -39,7 +40,7 @@ const WriterName = styled.div`
   color: #5498a9;
   flex: 1;
   font-family: Roboto;
-  cursor:pointer;
+  cursor: pointer;
 `;
 
 const Line = styled.div`
@@ -168,13 +169,13 @@ const CommentItem: React.FC<CommentItemProps> = props => {
     <Wrapper>
       {level !== 1 ? <Line /> : null}
       <AuthorImage
-        onClick={() => goToProfile && goToProfile(WriteById)}
-        src={
-          cm.WriterImage
+        theme={{
+          level,
+          src: cm.WriterImage
             ? `https://api.pointina.ir/${cm.WriterImage}`
             : avatarPhoto
-        }
-        level={level}
+        }}
+        onClick={() => goToProfile && goToProfile(WriteById)}
       />
       <Col>
         <WriterName onClick={() => goToProfile && goToProfile(WriteById)}>
