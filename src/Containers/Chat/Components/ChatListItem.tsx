@@ -7,6 +7,7 @@ const Avatar = styled.img`
   border-radius: 2rem;
   border: solid 1px #eeeeee;
   margin-right: 1rem;
+  background-size: cover;
 `;
 
 const Container = styled.div`

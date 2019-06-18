@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import avatarPhoto from '../../Assets/avatar.jpg';
+import DetectLanguage from '../DetectLanguage/DetectLanguageComponent';
 
 const Container = styled.div`
   border-radius: 10px;
@@ -128,8 +129,16 @@ function Card(props) {
               </AuthorInfo>
             </AuthorWrapper>
           )}
-          {title && <Title>{title}</Title>}
-          {subtitle && <Subtitle>{subtitle}</Subtitle>}
+          {title && (
+            <DetectLanguage value={title}>
+              <Title>{title}</Title>
+            </DetectLanguage>
+          )}
+          {subtitle && (
+            <DetectLanguage value={subtitle}>
+              <Subtitle>{subtitle}</Subtitle>
+            </DetectLanguage>
+          )}
         </Main>
       )}
     </Container>

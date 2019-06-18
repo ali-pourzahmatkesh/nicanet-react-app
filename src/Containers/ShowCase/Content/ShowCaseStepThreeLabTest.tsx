@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { Value, Row, Col } from '../Components/Styled';
 import ShowCaseItem from '../Components/ShowCaseItem';
 import ImageSlider from '../../../components/ImageSlider/ImageSliderComponent';
+import DetectLanguage from '../../../components/DetectLanguage/DetectLanguageComponent';
 
 const CaptionWrapprer = styled.div`
   margin-top: 1rem;
@@ -79,7 +80,9 @@ function ShowCaseStepThreeLabTest(props: ShowCaseStepThreeLabTestProps) {
                     {childNode.Title.trim() === 'Note' && examinationNote && (
                       <NoteWrapper>
                         <Title>Note:</Title>
-                        <Value noIndent>{examinationNote}</Value>
+                        <DetectLanguage value={examinationNote}>
+                          <Value noIndent>{examinationNote}</Value>
+                        </DetectLanguage>
                       </NoteWrapper>
                     )}
 

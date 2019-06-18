@@ -15,6 +15,7 @@ import ContinueButton from '../Components/ContinueButton';
 import CasePhotoUploader from '../Components/CasePhotoUploader';
 import { CaseApi } from 'Api/CaseApi';
 import { getCase } from '../../../utils/utils';
+import DetectLanguage from '../../../components/DetectLanguage/DetectLanguageComponent';
 
 interface AddCaseStepOneFormProps {
   form: any;
@@ -152,10 +153,18 @@ function AddCaseStepOneForm(props: AddCaseStepOneFormProps) {
   const [respiratoryRate, setRespiratoryRate] = useState(false);
 
   const {
-    form: { getFieldDecorator, validateFields, getFieldError, setFieldsValue },
+    form: {
+      getFieldDecorator,
+      validateFields,
+      getFieldError,
+      setFieldsValue,
+      getFieldsValue
+    },
     onSubmit,
     caseId
   } = props;
+
+  const formValues = getFieldsValue();
 
   useEffect(() => {
     const effect = async () => {
@@ -216,16 +225,17 @@ function AddCaseStepOneForm(props: AddCaseStepOneFormProps) {
     <div>
       <Title>Chief Complaint (CC):</Title>
       <CaseFormItem>
-        <div id="chiefComplaint">
+        <DetectLanguage value={formValues.ChiefComplaint}>
           {getFieldDecorator('ChiefComplaint', {
             rules: [{ required: true, message: 'Chief Complaint is required' }]
           })(<Textarea placeholder="Write Description" />)}
+
           {getFieldError('ChiefComplaint') && (
             <ErrorMesseage>
               {getFieldError('ChiefComplaint').join(', ')}
             </ErrorMesseage>
           )}
-        </div>
+        </DetectLanguage>
       </CaseFormItem>
       <CasePhotoUploader
         presetName="ChiefComplaint"
@@ -250,7 +260,9 @@ function AddCaseStepOneForm(props: AddCaseStepOneFormProps) {
         ))}
 
         <CaseFormItem>
-          {getFieldDecorator('PiNote')(<Textarea placeholder="Note" />)}
+          <DetectLanguage value={formValues.PiNote}>
+            {getFieldDecorator('PiNote')(<Textarea placeholder="Note" />)}
+          </DetectLanguage>
         </CaseFormItem>
       </PaddedWrapper>
 
@@ -270,7 +282,9 @@ function AddCaseStepOneForm(props: AddCaseStepOneFormProps) {
           </CaseFormItem>
         ))}
         <CaseFormItem>
-          {getFieldDecorator('GaNote')(<Textarea placeholder="Note" />)}
+          <DetectLanguage value={formValues.GaNote}>
+            {getFieldDecorator('GaNote')(<Textarea placeholder="Note" />)}
+          </DetectLanguage>
         </CaseFormItem>
       </PaddedWrapper>
 

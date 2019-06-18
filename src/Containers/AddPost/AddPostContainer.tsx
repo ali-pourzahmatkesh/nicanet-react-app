@@ -6,6 +6,7 @@ import Select from 'react-select';
 import { toast } from 'react-toastify';
 import { HOME_ROUTE } from 'router/RouterConstants';
 import { RouteComponentProps } from 'react-router';
+import DetectLanguage from '../../components/DetectLanguage/DetectLanguageComponent';
 
 import Layout from 'components/Partials/Layout';
 import PencilIconSource from 'Assets/Pencil.svg';
@@ -100,7 +101,10 @@ function AddPostContainer(props: AddPostContainerProps & RouteComponentProps) {
   const [tagsError, setTagsError] = useState('');
   const [selectedTags, setSelectedTags] = useState<any[]>([]);
 
-  const { getFieldError, getFieldDecorator } = props.form;
+  const { getFieldError, getFieldDecorator, getFieldsValue } = props.form;
+
+  const formValues = getFieldsValue();
+  console.log('formValues', formValues);
 
   useEffect(() => {
     const effect = async () => {
@@ -163,7 +167,7 @@ function AddPostContainer(props: AddPostContainerProps & RouteComponentProps) {
         }, 4000);
         // console.log('response', response);
       } catch (_) {
-         setIsSubmitting(false);
+        setIsSubmitting(false);
       }
     });
   };
@@ -175,16 +179,20 @@ function AddPostContainer(props: AddPostContainerProps & RouteComponentProps) {
           <PencilIcon src={PencilIconSource} />
           <Title>Title</Title>
         </Heading>
-        {getFieldDecorator('Subject', {
-          rules: [{ required: true, message: 'Title is required' }],
-          initialValue: ''
-        })(<Input placeholder="Enter title..." />)}
-        {getFieldError('Subject') && (
-          <ErrorMesseage>{getFieldError('Subject').join(', ')}</ErrorMesseage>
-        )}
-        {getFieldDecorator('ContentText', { initialValue: '' })(
-          <TextArea placeholder="Enter text..." />
-        )}
+        <DetectLanguage value={formValues.Subject}>
+          {getFieldDecorator('Subject', {
+            rules: [{ required: true, message: 'Title is required' }],
+            initialValue: ''
+          })(<Input placeholder="Enter title..." />)}
+          {getFieldError('Subject') && (
+            <ErrorMesseage>{getFieldError('Subject').join(', ')}</ErrorMesseage>
+          )}
+        </DetectLanguage>
+        <DetectLanguage value={formValues.ContentText}>
+          {getFieldDecorator('ContentText', { initialValue: '' })(
+            <TextArea placeholder="Enter text..." />
+          )}
+        </DetectLanguage>
 
         {getFieldDecorator('Tags', {})(
           <SelectWrapper>
