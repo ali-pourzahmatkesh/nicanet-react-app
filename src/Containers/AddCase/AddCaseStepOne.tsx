@@ -2,23 +2,23 @@ import React from 'react';
 import styled from 'styled-components';
 import Layout from 'components/Partials/Layout';
 import { RouteComponentProps } from 'react-router';
-import { ADD_CASE_STEP_TWO_ROUTE } from 'router/RouterConstants';
 import Heading from './Components/Heading';
 import AddCaseStepOneForm from './Forms/AddCaseStepOneForm';
 import { CaseApi } from 'Api/CaseApi';
+import { setCase } from '../../utils/utils';
 
 const Container = styled.div`
   padding: 0 1rem;
 `;
 
-const AddCaseStepOne: React.FC<RouteComponentProps<{}>> = props => {
-  const onSubmit = async (values: any) => {
-    const currentCaseRaw = localStorage.getItem('current_case');
-    if (currentCaseRaw === null) return;
-    const { CaseId } = JSON.parse(currentCaseRaw);
+const AddCaseStepOne: React.FC<RouteComponentProps<{ caseId: '' }>> = props => {
+  const { match } = props;
+  const { params } = match;
+  const { caseId } = params;
 
+  const onSubmit = async (values: any) => {
     const data = {
-      CaseId,
+      CaseId: caseId,
       StatusId: 1,
       ChiefComplaint: values.ChiefComplaint,
       BloodPressure: values.BloodPressureOne
@@ -50,18 +50,28 @@ const AddCaseStepOne: React.FC<RouteComponentProps<{}>> = props => {
       });
     const { status } = await CaseApi.updateCase(data);
     if (status !== 204) throw status;
-    props.history.push(ADD_CASE_STEP_TWO_ROUTE);
+    await setCase(caseId, values);
+    props.history.push(`/add-case-step-two/${caseId}`);
   };
 
   const goToStepTwo = () => {
-    props.history.push(ADD_CASE_STEP_TWO_ROUTE);
+    props.history.push(`/add-case-step-two/${caseId}`);
+  };
+
+  const goToStepZero = () => {
+    props.history.push(`/add-case-step-zero/${caseId}`);
   };
 
   return (
     <Layout noHeader>
       <Container>
-        <Heading title="Case Report" subtitle="1/6" onGoForward={goToStepTwo} />
-        <AddCaseStepOneForm onSubmit={onSubmit} />
+        <Heading
+          title="Case Report"
+          subtitle="1/6"
+          onGoForward={goToStepTwo}
+          onGoBack={goToStepZero}
+        />
+        <AddCaseStepOneForm onSubmit={onSubmit} caseId={caseId} />
       </Container>
     </Layout>
   );

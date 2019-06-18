@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import { createForm } from 'rc-form';
 import CaseFormItem from './CaseFormItem';
 import Textarea from 'components/Textarea/TextareaComponent';
@@ -6,60 +6,71 @@ import { Title, PaddedWrapper } from '../Components/Styled';
 import CheckBox from 'components/CheckBox/CheckBoxComponent';
 import { ConfigApi } from 'Api/ConfigApi';
 import ContinueButton from '../Components/ContinueButton';
+import { getCase } from '../../../utils/utils';
 
 interface AddCaseStepTwoFormProps {
-  form: any
-  onSubmit: (values: any) => Promise<any>
+  form: any;
+  onSubmit: (values: any) => Promise<any>;
+  caseId: string;
 }
 
 function AddCaseStepTwoForm(props: AddCaseStepTwoFormProps) {
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [pastMedicalHistories, setPastMedicalHistories] = useState<any[]>([])
-  
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [pastMedicalHistories, setPastMedicalHistories] = useState<any[]>([]);
+
   const {
-    form: {
-      getFieldDecorator,
-      validateFields,
-    },
+    form: { getFieldDecorator, validateFields, setFieldsValue },
     onSubmit,
+    caseId
   } = props;
 
   const submit = () => {
     validateFields(async (error: any, values: any) => {
-      if (error !== null) return
+      if (error !== null) return;
       try {
-        setIsSubmitting(true)
-        await onSubmit(values)
+        setIsSubmitting(true);
+        await onSubmit(values);
       } catch (_) {
-        setIsSubmitting(false)
+        setIsSubmitting(false);
       }
     });
-  }
+  };
+
+  useEffect(() => {
+    const effect = async () => {
+      const oldValues = await getCase(caseId);
+      setFieldsValue(oldValues);
+    };
+    effect();
+  }, [setFieldsValue, pastMedicalHistories, caseId]);
 
   useEffect(() => {
     const effect = async () => {
       try {
-        const response = await ConfigApi.getConfig(45)
-        if (response.status !== 200) setTimeout(() => effect(), 3000)
-        setPastMedicalHistories(response.data.map((item: any) => ({ ConfigId: item.ConfigId, ConfigName: item.ConfigName })))
+        const response = await ConfigApi.getConfig(45);
+        if (response.status !== 200) setTimeout(() => effect(), 3000);
+        setPastMedicalHistories(
+          response.data.map((item: any) => ({
+            ConfigId: item.ConfigId,
+            ConfigName: item.ConfigName
+          }))
+        );
       } catch (_) {}
-    }
-    effect()
-  }, [])
+    };
+    effect();
+  }, []);
 
   return (
     <div>
       <Title>Past Medical History (PMH):</Title>
       <PaddedWrapper>
-        {
-          pastMedicalHistories.map((disease: any) =>
-            <div key={disease.ConfigName}>
-              {getFieldDecorator(`disease_${disease.ConfigId}`)(
-                <CheckBox name={disease.ConfigName} />
-              )}
-            </div>
-          )
-        }
+        {pastMedicalHistories.map((disease: any) => (
+          <div key={disease.ConfigName}>
+            {getFieldDecorator(`disease_${disease.ConfigId}`)(
+              <CheckBox name={disease.ConfigName} />
+            )}
+          </div>
+        ))}
         <CaseFormItem>
           {getFieldDecorator('PastMedicalHistory')(
             <Textarea placeholder="Description" />
@@ -80,8 +91,7 @@ function AddCaseStepTwoForm(props: AddCaseStepTwoFormProps) {
       </CaseFormItem>
       <ContinueButton onClick={submit} isLoading={isSubmitting} />
     </div>
-  )
+  );
 }
-
 
 export default createForm({ name: 'AddCaseStepTwoForm' })(AddCaseStepTwoForm);

@@ -8,6 +8,7 @@ import { ConfigApi } from 'Api/ConfigApi';
 import Input from 'components/Input/InputComponent';
 import { Title, ErrorMesseage } from '../Components/Styled';
 import ContinueButton from '../Components/ContinueButton';
+import { getCase } from '../../../utils/utils';
 
 const WeightAndHeight = styled.div`
   display: flex;
@@ -44,6 +45,7 @@ const Heights = new Array(230)
 interface AddCaseStepZeroFormProps {
   form: any;
   onSubmit: (values: any) => Promise<any>;
+  caseId: string;
 }
 
 function AddCaseStepZeroForm(props: AddCaseStepZeroFormProps) {
@@ -51,9 +53,26 @@ function AddCaseStepZeroForm(props: AddCaseStepZeroFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const onSelect = console.log;
   const {
-    form: { getFieldDecorator, validateFields, getFieldError, getFieldsValue },
-    onSubmit
+    form: {
+      getFieldDecorator,
+      validateFields,
+      getFieldError,
+      getFieldsValue,
+      setFieldsValue
+    },
+    onSubmit,
+    caseId
   } = props;
+
+  const formValues = getFieldsValue();
+
+  useEffect(() => {
+    const effect = async () => {
+      const oldValues = await getCase(caseId);
+      setFieldsValue(oldValues);
+    };
+    effect();
+  }, [setFieldsValue, formValues.Gender, caseId]);
 
   const submit = () => {
     validateFields(async (error: any, values: any) => {
@@ -70,6 +89,7 @@ function AddCaseStepZeroForm(props: AddCaseStepZeroFormProps) {
   useEffect(() => {
     const effect = async () => {
       const response = await ConfigApi.getConfig(124);
+
       if (response.status === 200) {
         setEducationDegrees(
           response.data.map((ed: any) => ({
@@ -82,13 +102,11 @@ function AddCaseStepZeroForm(props: AddCaseStepZeroFormProps) {
     effect();
   }, []);
 
-  const formValues = getFieldsValue();
-
   return (
     <div>
       <CaseFormItem>
         {getFieldDecorator('YearofBirth', {
-          rules: [{ required: true, message: 'Year of Birth is required' }],
+          rules: [{ required: true, message: 'Year of Birth is required' }]
         })(<Select options={YearsofBirth} placeholder="Year of Birth" />)}
         {getFieldError('YearofBirth') && (
           <ErrorMesseage>
@@ -161,7 +179,7 @@ function AddCaseStepZeroForm(props: AddCaseStepZeroFormProps) {
         {getFieldDecorator('GradeId')(
           <Select
             options={educationDegrees}
-            placeholder="Last Educational Degree"
+            placeholder={'Last Educational Degree'}
           />
         )}
       </CaseFormItem>
