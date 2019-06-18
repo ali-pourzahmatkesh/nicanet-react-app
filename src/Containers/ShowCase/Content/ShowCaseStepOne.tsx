@@ -2,20 +2,36 @@ import React, { useState, useEffect } from 'react';
 import { BounceLoader } from 'react-spinners';
 import { CaseApi } from '../../../Api/CaseApi';
 import { StringValue, LoadingWrapprer, Value } from '../Components/Styled';
+import styled from 'styled-components';
 import ShowCaseItem from '../Components/ShowCaseItem';
 import ShowCaseStringArray from '../Components/ShowCaseStringArray';
 import ImageSlider from '../../../components/ImageSlider/ImageSliderComponent';
 import DrugItem from '../Components/DrugItem';
 import ContinueButton from '../Components/ContinueButton';
-import DetectLanguage from '../../../components/DetectLanguage/DetectLanguageComponent';
+
+const Delete = styled.div`
+  display: inline-block;
+  color: #f00;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 0.5rem;
+`;
+
+const DeleteBtn = styled.div`
+  text-align: center;
+  margin-bottom: -2rem;
+  margin-top: 2.5rem;
+`;
+
 interface ShowCaseStepOneProps {
-  caseId: string;
+  caseInfo: any;
   onSubmit: () => void;
+  onDelete: () => void;
+  user: any;
 }
 
 function ShowCaseStepOne(props: ShowCaseStepOneProps) {
-  const { caseId, onSubmit } = props;
-  const [caseInfo, setCase] = useState(null);
+  const { onSubmit, caseInfo, onDelete, user } = props;
   const [chiefComplaintImages, setchiefComplaintImages] = useState<any[]>([]);
   const [presentIllness, setPresentIllness] = useState<any[]>([]);
   const [generalAppearance, setGeneralAppearance] = useState<any[]>([]);
@@ -27,44 +43,39 @@ function ShowCaseStepOne(props: ShowCaseStepOneProps) {
 
   useEffect(() => {
     const effect = async () => {
-      const response = await CaseApi.getCase(caseId, true);
-      // console.log('response', response);
-      if (response.status === 200) {
-        const data = response.data;
+      if (caseInfo === null) return;
+      setchiefComplaintImages(
+        caseInfo.CaseImages.filter((item: any) => item.TypeId === 145)
+      );
 
-        setCase(data);
+      setPresentIllness(
+        caseInfo.PatientSigns.filter(
+          (item: any) => item.TypeId === 122 && item.ResultValue === 'Yes'
+        )
+      );
 
-        setchiefComplaintImages(
-          data.CaseImages.filter((item: any) => item.TypeId === 145)
+      setGeneralAppearance(
+        caseInfo.PatientSigns.filter(
+          (item: any) => item.TypeId === 123 && item.ResultValue === 'Yes'
+        )
+      );
+
+      if (caseInfo.CaseDrug && caseInfo.CaseDrug.length > 0) {
+        setDhDrugs(
+          caseInfo.CaseDrug.filter((item: any) => +item.TypeId === 350)
         );
-
-        setPresentIllness(
-          data.PatientSigns.filter(
-            (item: any) => item.TypeId === 122 && item.ResultValue === 'Yes'
-          )
+        setOtcDrugs(
+          caseInfo.CaseDrug.filter((item: any) => +item.TypeId === 351)
         );
-
-        setGeneralAppearance(
-          data.PatientSigns.filter(
-            (item: any) => item.TypeId === 123 && item.ResultValue === 'Yes'
-          )
-        );
-
-        if (data.CaseDrug && data.CaseDrug.length > 0) {
-          setDhDrugs(data.CaseDrug.filter((item: any) => +item.TypeId === 350));
-          setOtcDrugs(
-            data.CaseDrug.filter((item: any) => +item.TypeId === 351)
-          );
-        }
-
-        setPastMedicalHistories(data.PastMedicalHistories);
-        setHabitualHistories(data.HabitualHistories);
-        setHerbalHistories(data.HerbalHistories);
       }
+
+      setPastMedicalHistories(caseInfo.PastMedicalHistories);
+      setHabitualHistories(caseInfo.HabitualHistories);
+      setHerbalHistories(caseInfo.HerbalHistories);
     };
 
     effect();
-  }, [caseId]);
+  }, [caseInfo]);
 
   if (caseInfo === null)
     return (
@@ -89,7 +100,8 @@ function ShowCaseStepOne(props: ShowCaseStepOneProps) {
     FamilyHistory,
     HerbalHistory,
     DHDrugNote,
-    OTCDrugNote
+    OTCDrugNote,
+    WritenById
   } = caseInfo;
   const { PatientDescription, Height, Weight } = Patient;
 
@@ -239,6 +251,11 @@ function ShowCaseStepOne(props: ShowCaseStepOneProps) {
             </DetectLanguage>
           )}
         </ShowCaseItem>
+      )}
+      {+user.PersonId === +WritenById && (
+        <DeleteBtn>
+          <Delete onClick={onDelete}>Delete Case</Delete>
+        </DeleteBtn>
       )}
 
       <ContinueButton onClick={() => onSubmit()} />

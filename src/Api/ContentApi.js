@@ -7,6 +7,7 @@ export const ContentApi = {
   getAllContent: userId => Api.get('/Content'),
   getContent: contentId => Api.get(`/Content?id=${contentId}&addVisit=true`),
   getTags: () => Api.get('/Tag'),
+  deleteContent: ContentId => Api.put(`/Content/${ContentId}`),
   likeContent: (ContentId, CommentId, IsLike) =>
     Api.post('/Like', {
       ContentId,

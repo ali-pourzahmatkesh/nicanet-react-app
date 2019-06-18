@@ -4,8 +4,8 @@ import avatarPhoto from '../../Assets/avatar.jpg';
 import DetectLanguage from '../DetectLanguage/DetectLanguageComponent';
 
 const Container = styled.div`
-  border-radius: 5px;
-  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.3);
   background-color: #ffffff;
   margin-bottom: 1rem;
 `;
@@ -88,11 +88,21 @@ function Card(props) {
     title,
     subtitle,
     onClick,
-    typeId
+    typeId,
+    mainId,
+    postSelected
   } = props;
 
+  if(postSelected &&  postSelected.ContentId === mainId) {
+    let cart = document.getElementById('post-cart-' + mainId)
+    if( cart ) {
+      cart.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      localStorage.removeItem('postSelected');
+    }
+  }
+
   return (
-    <Container onClick={onClick}>
+    <Container onClick={onClick} id={`post-cart-${mainId}`}>
       {image && (
         <Image
           src={`https://api.pointina.ir${image}`}

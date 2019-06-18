@@ -2,15 +2,20 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { toast } from 'react-toastify';
 import { BounceLoader } from 'react-spinners';
-
+import { connect } from 'react-redux';
 import { ContentApi } from '../../Api/ContentApi';
+import { RouteComponentProps } from 'react-router';
 import Layout from '../../components/Partials/Layout';
 import ContentActions from '../../components/ContentActions/ContentActionsComponent';
 import ContentStatusBar from '../../components/ContentStatusBar/ContentStatusBarComponent';
-import Comments from '../../components/Comments/CommentsComponent';
+import CommentsComponent from '../../components/Comments/CommentsComponent';
 import avatarPhoto from '../../Assets/avatar.jpg';
 import { urlify } from '../../utils/utils';
 import DetectLanguage from '../../components/DetectLanguage/DetectLanguageComponent';
+import { NOT_FOUND_ROUTE, HOME_ROUTE } from '../../router/RouterConstants';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
+
 const PostImage = styled.img`
   border: solid 3px solid #eee;
   width: 100%;
@@ -30,7 +35,7 @@ const AuthorWrapper = styled.div`
   align-items: center;
   padding-top: 0.5rem;
   justify-content: space-between;
-  padding: 0 1rem;
+  padding: 1rem 1rem 0;
 `;
 
 const AuthorImage = styled.div`
@@ -102,30 +107,57 @@ const Interactions = styled.div`
 `;
 
 const ContentWrapper = styled.div`
-  padding-top: 1rem;
   min-height: calc(100vh - 361px);
   @media (min-width: 720px) {
     min-height: calc(100vh - 331px);
   }
 `;
 
-function PostContainer(props) {
+const Delete = styled.div`
+  display: inline-block;
+  color: #f00;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 0.5rem;
+`;
+
+const DeleteBtn = styled.div`
+  text-align: center;
+  margin-top: 2.5rem;
+`;
+
+interface PostContainerProps {
+  caseId: string;
+  user: any;
+}
+
+function PostContainer(
+  props: PostContainerProps & RouteComponentProps<{ postId: '' }>
+) {
   const [post, setPost] = useState(null);
-  const [showComments, setShowComments] = useState(false);
+  const [multiMedias, setMultiMedias] = useState<any[]>([]);
+
+  const { user } = props;
 
   useEffect(() => {
     const effect = async () => {
-      const { postId } = props.match.params;
-      const response = await ContentApi.getContent(postId);
+      try {
+        const { postId } = props.match.params;
+        const response = await ContentApi.getContent(postId);
 
-      if (response.status === 200) {
-        // console.log('response', response.data);
-        setPost(response.data);
+        if (response.status === 200) {
+          // console.log('response', response.data);
+          setPost(response.data);
+          setMultiMedias(response.data.MultiMedias);
+        }
+      } catch (err) {
+        console.log('error in get case: ', err);
+        props.history.push(NOT_FOUND_ROUTE);
       }
     };
 
     effect();
-  }, [props.match.params]);
+  }, [props.history, props.match.params]);
 
   if (post === null)
     return (
@@ -141,12 +173,13 @@ function PostContainer(props) {
     Subject,
     ContentText,
     WriterFullName,
-    MultiMedias,
     WriterImage,
     TimeElapsed,
     PersonVoted,
     PersonVote,
-    WrittenById
+    WrittenById,
+    CommentCount,
+    Comments
   } = post;
 
   const updatePost = async () => {
@@ -163,10 +196,10 @@ function PostContainer(props) {
     } catch (err) {}
   };
 
-  const onLike = async isLike => {
+  const onLike = async (isLike: number) => {
     try {
       // 0: first we delete like/dislike
-      await removeLikeOrDislike(isLike);
+      await removeLikeOrDislike();
 
       if (
         PersonVoted === true &&
@@ -190,17 +223,47 @@ function PostContainer(props) {
     }
   };
 
-  if (showComments) {
-    return <Comments onClose={() => setShowComments(false)} content={post} />;
-  }
+  const deleteConfirmation = () => {
+    confirmAlert({
+      title: 'Are you sure?',
+      message:
+        'Do you really want to delete this post? This Process cantnot be undone.',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () => onDelete()
+        },
+        {
+          label: 'No',
+          onClick: () => {}
+        }
+      ]
+    });
+  };
+
+  const onDelete = async () => {
+    try {
+      if (!ContentId) return;
+      const response = await ContentApi.deleteContent(ContentId);
+      if (response.status !== 204) return;
+      toast.success('This post deleted', {
+        position: toast.POSITION.TOP_CENTER
+      });
+      setTimeout(() => {
+        props.history.push(HOME_ROUTE);
+      }, 4000);
+    } catch (err) {
+      console.log('error in delete post: ', err);
+    }
+  };
 
   return (
     <Layout noPadding>
       <PostWrapper>
         <ContentWrapper>
-          {MultiMedias && MultiMedias.length > 0 && (
+          {multiMedias && multiMedias.length > 0 && (
             <PostImage
-              src={`https://api.pointina.ir${MultiMedias[0].FileUrl}`}
+              src={`https://api.pointina.ir${multiMedias[0].FileUrl}`}
             />
           )}
 
@@ -222,7 +285,6 @@ function PostContainer(props) {
                 {TimeElapsed && <PublishTime>{TimeElapsed}</PublishTime>}
               </AuthorInfo>
             </AuthorLeftCol>
-            {/* <SubscribeBtn>Subscribe</SubscribeBtn> */}
           </AuthorWrapper>
           {Subject && (
             <DetectLanguage value={Subject}>
@@ -243,18 +305,20 @@ function PostContainer(props) {
             onDisLike={() => onLike(0)}
             content={post}
           />
-          <ContentStatusBar
-            // onOpenComments={() => setShowComments(true)}
-            commentCount={post.CommentCount || 0}
-            content={post}
-          />
-          <Comments
-            onClose={() => setShowComments(false)}
+
+          {+user.PersonId === +WrittenById && (
+            <DeleteBtn>
+              <Delete onClick={deleteConfirmation}>Delete Case</Delete>
+            </DeleteBtn>
+          )}
+
+          <ContentStatusBar commentCount={CommentCount || 0} content={post} />
+          <CommentsComponent
             content={post}
             source="post"
             updateContent={() => updatePost()}
-            comments={post.Comments || []}
-            goToProfile={CommentWrittenId => {
+            comments={Comments || []}
+            goToProfile={(CommentWrittenId: number) => {
               props.history.push(`/profile/${CommentWrittenId}`);
             }}
           />
@@ -264,4 +328,10 @@ function PostContainer(props) {
   );
 }
 
-export default PostContainer;
+const mapStateToProps = (state: any) => {
+  return {
+    user: state.auth.user
+  };
+};
+
+export default connect(mapStateToProps)(PostContainer);

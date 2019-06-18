@@ -23,8 +23,8 @@ const Avatar = styled.div<{ src?: string }>`
 `;
 
 const UserInfoWrapper = styled.div`
-  border-radius: 5px;
-  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.3);
   background-color: #ffffff;
   padding: 1rem;
   position: relative;

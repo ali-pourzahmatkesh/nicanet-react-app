@@ -193,6 +193,15 @@ function AddCaseStepOneForm(props: AddCaseStepOneFormProps) {
 
   const submit = () => {
     validateFields(async (error: any, values: any) => {
+      if (!values.ChiefComplaint) {
+        let ChiefComplaintSection = document.getElementById('chiefComplaint');
+        if (ChiefComplaintSection) {
+          ChiefComplaintSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+          });
+        }
+      }
       if (error !== null) return;
       try {
         setIsSubmitting(true);
