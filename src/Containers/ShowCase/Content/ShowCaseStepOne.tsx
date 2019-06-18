@@ -8,7 +8,7 @@ import ShowCaseStringArray from '../Components/ShowCaseStringArray';
 import ImageSlider from '../../../components/ImageSlider/ImageSliderComponent';
 import DrugItem from '../Components/DrugItem';
 import ContinueButton from '../Components/ContinueButton';
-
+import DetectLanguage from '../../../components/DetectLanguage/DetectLanguageComponent';
 const Delete = styled.div`
   display: inline-block;
   color: #f00;

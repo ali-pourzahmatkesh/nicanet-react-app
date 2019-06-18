@@ -38,7 +38,7 @@ const AuthorWrapper = styled.div`
   padding: 1rem 1rem 0;
 `;
 
-const AuthorImage = styled.div`
+const AuthorImage = styled.div<{ src?: string }>`
   width: 3rem;
   height: 3rem;
   border-radius: 2rem;
