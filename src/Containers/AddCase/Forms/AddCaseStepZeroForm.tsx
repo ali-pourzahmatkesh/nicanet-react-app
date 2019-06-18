@@ -9,6 +9,7 @@ import Input from 'components/Input/InputComponent';
 import { Title, ErrorMesseage } from '../Components/Styled';
 import ContinueButton from '../Components/ContinueButton';
 import { getCase } from '../../../utils/utils';
+import DetectLanguage from '../../../components/DetectLanguage/DetectLanguageComponent';
 
 const WeightAndHeight = styled.div`
   display: flex;
@@ -65,6 +66,7 @@ function AddCaseStepZeroForm(props: AddCaseStepZeroFormProps) {
   } = props;
 
   const formValues = getFieldsValue();
+  console.log('formValues', formValues);
 
   useEffect(() => {
     const effect = async () => {
@@ -76,6 +78,24 @@ function AddCaseStepZeroForm(props: AddCaseStepZeroFormProps) {
 
   const submit = () => {
     validateFields(async (error: any, values: any) => {
+      if (!values.YearofBirth) {
+        let birthdaySection = document.getElementById('yearofBirth');
+        if (birthdaySection) {
+          birthdaySection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+          });
+        }
+      }
+      if (!values.Gender) {
+        let genderSection = document.getElementById('gender');
+        if (genderSection) {
+          genderSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+          });
+        }
+      }
       if (error !== null) return;
       try {
         setIsSubmitting(true);
@@ -105,14 +125,16 @@ function AddCaseStepZeroForm(props: AddCaseStepZeroFormProps) {
   return (
     <div>
       <CaseFormItem>
-        {getFieldDecorator('YearofBirth', {
-          rules: [{ required: true, message: 'Year of Birth is required' }]
-        })(<Select options={YearsofBirth} placeholder="Year of Birth" />)}
-        {getFieldError('YearofBirth') && (
-          <ErrorMesseage>
-            {getFieldError('YearofBirth').join(', ')}
-          </ErrorMesseage>
-        )}
+        <div id="yearofBirth">
+          {getFieldDecorator('YearofBirth', {
+            rules: [{ required: true, message: 'Year of Birth is required' }]
+          })(<Select options={YearsofBirth} placeholder="Year of Birth" />)}
+          {getFieldError('YearofBirth') && (
+            <ErrorMesseage>
+              {getFieldError('YearofBirth').join(', ')}
+            </ErrorMesseage>
+          )}
+        </div>
       </CaseFormItem>
       <WeightAndHeight>
         <CaseFormItem>
@@ -135,18 +157,20 @@ function AddCaseStepZeroForm(props: AddCaseStepZeroFormProps) {
         </CaseFormItem>
       </WeightAndHeight>
       <CaseFormItem>
-        {getFieldDecorator('Gender', { rules: [{ required: true }] })(
-          <Radio
-            label="Gender"
-            options={[
-              { name: 'Male', value: true },
-              { name: 'Female', value: false }
-            ]}
-          />
-        )}
-        {getFieldError('Gender') && (
-          <ErrorMesseage>{getFieldError('Gender').join(', ')}</ErrorMesseage>
-        )}
+        <div id="gender">
+          {getFieldDecorator('Gender', { rules: [{ required: true }] })(
+            <Radio
+              label="Gender"
+              options={[
+                { name: 'Male', value: true },
+                { name: 'Female', value: false }
+              ]}
+            />
+          )}
+          {getFieldError('Gender') && (
+            <ErrorMesseage>{getFieldError('Gender').join(', ')}</ErrorMesseage>
+          )}
+        </div>
       </CaseFormItem>
 
       {formValues.Gender === false && (
@@ -184,20 +208,30 @@ function AddCaseStepZeroForm(props: AddCaseStepZeroFormProps) {
         )}
       </CaseFormItem>
       <CaseFormItem>
-        {getFieldDecorator('JobTitle')(<Input placeholder="Job Title" />)}
+        <DetectLanguage value={formValues.JobTitle}>
+          {getFieldDecorator('JobTitle')(<Input placeholder="Job Title" />)}
+        </DetectLanguage>
       </CaseFormItem>
       <CaseFormItem>
-        {getFieldDecorator('Nationality')(<Input placeholder="Nationality" />)}
+        <DetectLanguage value={formValues.Nationality}>
+          {getFieldDecorator('Nationality')(
+            <Input placeholder="Nationality" />
+          )}
+        </DetectLanguage>
       </CaseFormItem>
       <CaseFormItem>
-        {getFieldDecorator('CurrentResidence')(
-          <Input placeholder="Resident in" />
-        )}
+        <DetectLanguage value={formValues.CurrentResidence}>
+          {getFieldDecorator('CurrentResidence')(
+            <Input placeholder="Resident in" />
+          )}
+        </DetectLanguage>
       </CaseFormItem>
       <CaseFormItem>
-        {getFieldDecorator('Originaly')(
-          <Input placeholder="Originally from" />
-        )}
+        <DetectLanguage value={formValues.Originaly}>
+          {getFieldDecorator('Originaly')(
+            <Input placeholder="Originally from" />
+          )}
+        </DetectLanguage>
       </CaseFormItem>
       <ContinueButton isLoading={isSubmitting} onClick={submit} />
     </div>

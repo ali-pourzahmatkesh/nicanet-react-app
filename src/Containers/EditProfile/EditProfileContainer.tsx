@@ -42,6 +42,7 @@ const Avatar = styled.img`
   height: 120px;
   border-radius: 90px;
   border: solid 1px #eeeeee;
+  background-size: cover;
 `;
 
 const Title = styled.div<{ primary?: boolean }>`

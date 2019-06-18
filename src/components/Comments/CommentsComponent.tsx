@@ -5,6 +5,7 @@ import { MdSend } from 'react-icons/md';
 import { ContentApi } from '../../Api/ContentApi';
 import { CaseApi } from '../../Api/CaseApi';
 import CommentItem from './item';
+import DetectLanguage from '../DetectLanguage/DetectLanguageComponent';
 
 const CommentWrapper = styled.div`
   padding: 1rem;
@@ -34,8 +35,14 @@ const CommentForm = styled.div`
   border-top: 1px solid #ddd;
 `;
 
+const WrapperInputStyle = styled.div`
+  ‍‍display: flex;
+  flex: 1;
+`;
+
 const StyledInput = styled.input`
   border: 0;
+  width: 100%;
   border-bottom: 1px solid #aaa;
   padding: 0.6em 1.4em 0.5em 0.8em;
   display: flex;
@@ -190,13 +197,17 @@ const Comments: React.FC<CommentsProps> = props => {
       {isSubmitting && renderLoading()}
 
       <CommentForm>
-        <StyledInput
-          ref={element => setInputText(element)}
-          type="text"
-          placeholder="Write a Comment"
-          value={commentText}
-          onChange={event => setCommentText(event.target.value)}
-        />
+        <WrapperInputStyle>
+          <DetectLanguage value={commentText}>
+            <StyledInput
+              ref={element => setInputText(element)}
+              type="text"
+              placeholder="Write a Comment"
+              value={commentText}
+              onChange={event => setCommentText(event.target.value)}
+            />
+          </DetectLanguage>
+        </WrapperInputStyle>
         <SendButton onClick={() => onSubmit(parentId)}>
           <MdSend color="#444" size={30} />
         </SendButton>

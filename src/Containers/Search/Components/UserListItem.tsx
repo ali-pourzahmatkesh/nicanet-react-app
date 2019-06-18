@@ -1,12 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Avatar = styled.img`
+const Avatar = styled.div<{ src?: string }>`
   width: 3rem;
   height: 3rem;
   border-radius: 2rem;
   border: solid 1px #eeeeee;
   margin-right: 1rem;
+  background: ${props => `url(${props.src}) center center no-repeat`};
+  background-size: cover;
 `;
 
 const Container = styled.div`

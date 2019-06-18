@@ -15,8 +15,8 @@ const StyledTextarea = styled.textarea<React.HTMLProps<HTMLTextAreaElement>>`
   font-size: 0.7rem;
   outline: 0;
   padding: 0.5rem 0;
-  text-align: ${props => (props.value ? 'right' : 'left')};
-  direction: ${props => (props.value ? 'rtl' : 'ltr')};
+  // text-align: ${props => (props.value ? 'right' : 'left')};
+  // direction: ${props => (props.value ? 'rtl' : 'ltr')};
 `;
 
 type TextareaProps = {

@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import avatarPhoto from '../../Assets/avatar.jpg';
+import DetectLanguage from '../DetectLanguage/DetectLanguageComponent';
 
 const Container = styled.div`
-  border-radius: 5px;
-  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.3);
   background-color: #ffffff;
   margin-bottom: 1rem;
 `;
@@ -128,8 +129,16 @@ function Card(props) {
               </AuthorInfo>
             </AuthorWrapper>
           )}
-          {title && <Title>{title}</Title>}
-          {subtitle && <Subtitle>{subtitle}</Subtitle>}
+          {title && (
+            <DetectLanguage value={title}>
+              <Title>{title}</Title>
+            </DetectLanguage>
+          )}
+          {subtitle && (
+            <DetectLanguage value={subtitle}>
+              <Subtitle>{subtitle}</Subtitle>
+            </DetectLanguage>
+          )}
         </Main>
       )}
     </Container>

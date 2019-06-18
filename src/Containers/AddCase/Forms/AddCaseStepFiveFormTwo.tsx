@@ -272,6 +272,24 @@ function AddCaseStepFiveFormTwo(props: AddCaseStepFiveFormTwoProps) {
             />
           </CaseFormItem>
 
+          <Title>ECG(ElectroCardioGram):</Title>
+          <CaseFormItem>
+            <CasePhotoUploader
+              presetName="OthersECG"
+              caseId={caseId}
+              fieldName="OthersECG"
+            />
+          </CaseFormItem>
+
+          <Title>Echocardiography:</Title>
+          <CaseFormItem>
+            <CasePhotoUploader
+              presetName="OthersERG"
+              caseId={caseId}
+              fieldName="OthersERG"
+            />
+          </CaseFormItem>
+
           <Title>Other Imagings:</Title>
           <CaseFormItem>
             {getFieldDecorator('DescriptionTypeId_404')(
