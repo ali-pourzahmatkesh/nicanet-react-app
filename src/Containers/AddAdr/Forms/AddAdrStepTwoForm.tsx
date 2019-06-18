@@ -108,11 +108,35 @@ function AddAdrStepOneForm(props: AddAdrStepOneFormProps) {
 
   const submit = () => {
     validateFields(async (error: any, values: any) => {
-      if (!CutEffectId) setCutEffectIdError('please select');
+      if (!values.DateOnset) {
+        let DateOnsetSection = document.getElementById('dateOnset');
+        if (DateOnsetSection) {
+          DateOnsetSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+          });
+        }
+      }
+      if (!CutEffectId) {
+        setCutEffectIdError('please select');
+        let CutEffectIdSection = document.getElementById('cutEffectId');
+        if (CutEffectIdSection) {
+          CutEffectIdSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+          });
+        }
+      }
       if (!ReuseEffectId) setReuseEffectIdError('please select');
-      if (TreatmentDone !== true && TreatmentDone !== false) setTreatmentDoneError('please select');
+      if (TreatmentDone !== true && TreatmentDone !== false)
+        setTreatmentDoneError('please select');
 
-      if (error !== null || !CutEffectId || !ReuseEffectId || (TreatmentDone !== true && TreatmentDone !== false))
+      if (
+        error !== null ||
+        !CutEffectId ||
+        !ReuseEffectId ||
+        (TreatmentDone !== true && TreatmentDone !== false)
+      )
         return;
       try {
         setIsSubmitting(true);
@@ -136,18 +160,27 @@ function AddAdrStepOneForm(props: AddAdrStepOneFormProps) {
     <div>
       <Title>The Adverse Drug Reaction:</Title>
       <AdrFormItem>
-        {getFieldDecorator('DateOnset', {
-          rules: [
-            { required: true, message: 'The Adverse Drug Reaction is required' }
-          ]
-        })(<DatePicker placeholder="Date of Onset" id="AddAdrStepOneForm" />)}
-        {getFieldError('DateOnset') && (
-          <ErrorMesseage>{getFieldError('DateOnset').join(', ')}</ErrorMesseage>
-        )}
+        <div id="dateOnset">
+          {getFieldDecorator('DateOnset', {
+            rules: [
+              {
+                required: true,
+                message: 'The Adverse Drug Reaction is required'
+              }
+            ]
+          })(<DatePicker placeholder="Date of Onset" id="AddAdrStepOneForm" />)}
+          {getFieldError('DateOnset') && (
+            <ErrorMesseage>
+              {getFieldError('DateOnset').join(', ')}
+            </ErrorMesseage>
+          )}
+        </div>
       </AdrFormItem>
       <Row>
         <AdrFormItem>
-          {getFieldDecorator('Duration')(<Input placeholder="Duration" type="number" />)}
+          {getFieldDecorator('Duration')(
+            <Input placeholder="Duration" type="number" />
+          )}
         </AdrFormItem>
         <AdrFormItem>
           {getFieldDecorator('DurationUnitId')(
@@ -280,51 +313,53 @@ function AddAdrStepOneForm(props: AddAdrStepOneFormProps) {
       </PaddedWrapper>
 
       <Separtor />
-      <Title>Does it decrease by stop using medicine?</Title>
-      <PaddedWrapper>
-        <AdrFormItem>
-          <RC.Option
-            onClick={() => {
-              setCutEffectId(81);
-              setCutEffectIdError('');
-            }}
-          >
-            <RC.OptionCircleWrapper>
-              <RC.OptionCircle isChecked={CutEffectId === 81} />
-            </RC.OptionCircleWrapper>
-            <RC.OptionLabel>Yes</RC.OptionLabel>
-          </RC.Option>
-        </AdrFormItem>
-        <AdrFormItem>
-          <RC.Option
-            onClick={() => {
-              setCutEffectId(82);
-              setCutEffectIdError('');
-            }}
-          >
-            <RC.OptionCircleWrapper>
-              <RC.OptionCircle isChecked={CutEffectId === 82} />
-            </RC.OptionCircleWrapper>
-            <RC.OptionLabel>No</RC.OptionLabel>
-          </RC.Option>
-        </AdrFormItem>
-        <AdrFormItem>
-          <RC.Option
-            onClick={() => {
-              setCutEffectId(83);
-              setCutEffectIdError('');
-            }}
-          >
-            <RC.OptionCircleWrapper>
-              <RC.OptionCircle isChecked={CutEffectId === 83} />
-            </RC.OptionCircleWrapper>
-            <RC.OptionLabel>Not stopped</RC.OptionLabel>
-          </RC.Option>
-        </AdrFormItem>
-        {CutEffectIdError && (
-          <RadioErrorMesseage>{CutEffectIdError}</RadioErrorMesseage>
-        )}
-      </PaddedWrapper>
+      <div id="cutEffectId">
+        <Title>Does it decrease by stop using medicine?</Title>
+        <PaddedWrapper>
+          <AdrFormItem>
+            <RC.Option
+              onClick={() => {
+                setCutEffectId(81);
+                setCutEffectIdError('');
+              }}
+            >
+              <RC.OptionCircleWrapper>
+                <RC.OptionCircle isChecked={CutEffectId === 81} />
+              </RC.OptionCircleWrapper>
+              <RC.OptionLabel>Yes</RC.OptionLabel>
+            </RC.Option>
+          </AdrFormItem>
+          <AdrFormItem>
+            <RC.Option
+              onClick={() => {
+                setCutEffectId(82);
+                setCutEffectIdError('');
+              }}
+            >
+              <RC.OptionCircleWrapper>
+                <RC.OptionCircle isChecked={CutEffectId === 82} />
+              </RC.OptionCircleWrapper>
+              <RC.OptionLabel>No</RC.OptionLabel>
+            </RC.Option>
+          </AdrFormItem>
+          <AdrFormItem>
+            <RC.Option
+              onClick={() => {
+                setCutEffectId(83);
+                setCutEffectIdError('');
+              }}
+            >
+              <RC.OptionCircleWrapper>
+                <RC.OptionCircle isChecked={CutEffectId === 83} />
+              </RC.OptionCircleWrapper>
+              <RC.OptionLabel>Not stopped</RC.OptionLabel>
+            </RC.Option>
+          </AdrFormItem>
+          {CutEffectIdError && (
+            <RadioErrorMesseage>{CutEffectIdError}</RadioErrorMesseage>
+          )}
+        </PaddedWrapper>
+      </div>
 
       <Separtor />
       <Title>Does it reappear after using it again?</Title>

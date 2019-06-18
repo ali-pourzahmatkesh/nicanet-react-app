@@ -1,18 +1,17 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
-import { BounceLoader } from 'react-spinners';
+import {BounceLoader} from 'react-spinners';
 import debounce from 'lodash.debounce';
-import { ContentApi } from '../../Api/ContentApi';
+import {ContentApi} from '../../Api/ContentApi';
 import Layout from '../../components/Partials/Layout';
 import Card from '../../components/Card/CardComponent';
 import logo from '../../Assets/logo.svg';
-import { connect } from 'react-redux';
-import { useEffect, useState } from 'react';
+import {connect} from 'react-redux';
 import SearchInput from './Components/SearchInput';
 import UserListItem from './Components/UserListItem';
 import Navbar from 'components/Navbar/Navbar';
-import { UsersApi } from '../../Api/UsersApi';
-import { API_FILES_BASE_URL } from 'constants/ApiConstants';
+import {UsersApi} from '../../Api/UsersApi';
+import {API_FILES_BASE_URL} from 'constants/ApiConstants';
 import avatarPhoto from '../../Assets/avatar.jpg';
 
 const Logo = styled.img`
@@ -54,15 +53,17 @@ function HomeContainer(props) {
   const [isSearchingUsers, setIsSearchingUsers] = useState(false);
   const [searchUserValue, setSearchUserValue] = useState(false);
   const [resultUsers, setResultUsers] = useState([]);
+  let postSelected = JSON.parse(localStorage.getItem('postSelected'))
 
   useEffect(() => {
     const effect = async () => {
       try {
-        const response = await ContentApi.getAllContent(userId);
+        let response = await ContentApi.getAllContent(userId);
 
-        if (response.status !== 200) {
+        if( response.status !== 200 ) {
           setContent([]);
         }
+
         setContent(response.data);
         // console.log('response.data', response.data);
       } catch (_) {
@@ -134,23 +135,30 @@ function HomeContainer(props) {
             content.length > 0 &&
             content.map(content => (
               <Card
-                onClick={() => {
+                  onClick={() => {
+
+                    localStorage.setItem('postSelected', JSON.stringify(content));
                   if (content.TypeId === 118) return;
                   if (content.CaseId === 0) {
+                    // localStorage.setItem('myData', JSON.stringify(content));
                     props.history.push(`/post/${content.ContentId}`);
                   } else {
+
+
                     props.history.push(`/show-case-step-one/${content.CaseId}`);
                   }
                 }}
-                key={content.ContentId}
-                title={content.Subject}
-                subtitle={content.ContentText}
-                image={
+                  key={content.ContentId}
+                  title={content.Subject}
+                  mainId={content.ContentId}
+                  subtitle={content.ContentText}
+                  postSelected={postSelected}
+                  image={
                   content.MultiMedias.length > 0 &&
                   content.MultiMedias[0].FileUrl
                 }
-                typeId={content.TypeId}
-                author={{
+                  typeId={content.TypeId}
+                  author={{
                   image: content.WriterImage,
                   title: content.WriterFullName,
                   publishTime: content.TimeElapsed

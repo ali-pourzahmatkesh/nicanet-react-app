@@ -54,6 +54,43 @@ function AddAdrStepZeroForm(props: AddAdrStepZeroFormProps) {
 
   const submit = () => {
     validateFields(async (error: any, values: any) => {
+      if (!values.NationalCode) {
+        let NationalCodeSection = document.getElementById('nationalCode');
+        if (NationalCodeSection) {
+          NationalCodeSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+          });
+        }
+      }
+      if (!values.FirstName) {
+        let FirstNameSection = document.getElementById('firstName');
+        if (FirstNameSection) {
+          FirstNameSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+          });
+        }
+      }
+      if (!values.LastName) {
+        let LastNameSection = document.getElementById('lastName');
+        if (LastNameSection) {
+          LastNameSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+          });
+        }
+      }
+      if (!values.Gender) {
+        let genderSection = document.getElementById('gender');
+        if (genderSection) {
+          genderSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+          });
+        }
+      }
+
       if (error !== null) return;
       try {
         setIsSubmitting(true);
@@ -69,30 +106,40 @@ function AddAdrStepZeroForm(props: AddAdrStepZeroFormProps) {
   return (
     <div>
       <AdrFormItem>
-        {getFieldDecorator('NationalCode', {
-          rules: [{ required: true, message: 'National Code is required' }]
-        })(<Input placeholder="National Code" type="number" />)}
-        {getFieldError('NationalCode') && (
-          <ErrorMesseage>
-            {getFieldError('NationalCode').join(', ')}
-          </ErrorMesseage>
-        )}
+        <div id="nationalCode">
+          {getFieldDecorator('NationalCode', {
+            rules: [{ required: true, message: 'National Code is required' }]
+          })(<Input placeholder="National Code" type="number" />)}
+          {getFieldError('NationalCode') && (
+            <ErrorMesseage>
+              {getFieldError('NationalCode').join(', ')}
+            </ErrorMesseage>
+          )}
+        </div>
       </AdrFormItem>
       <AdrFormItem>
-        {getFieldDecorator('FirstName', {
-          rules: [{ required: true, message: 'First Name is required' }]
-        })(<Input placeholder="First Name" />)}
-        {getFieldError('FirstName') && (
-          <ErrorMesseage>{getFieldError('FirstName').join(', ')}</ErrorMesseage>
-        )}
+        <div id="firstName">
+          {getFieldDecorator('FirstName', {
+            rules: [{ required: true, message: 'First Name is required' }]
+          })(<Input placeholder="First Name" />)}
+          {getFieldError('FirstName') && (
+            <ErrorMesseage>
+              {getFieldError('FirstName').join(', ')}
+            </ErrorMesseage>
+          )}
+        </div>
       </AdrFormItem>
       <AdrFormItem>
-        {getFieldDecorator('LastName', {
-          rules: [{ required: true, message: 'Last Name is required' }]
-        })(<Input placeholder="Last Name" />)}
-        {getFieldError('LastName') && (
-          <ErrorMesseage>{getFieldError('LastName').join(', ')}</ErrorMesseage>
-        )}
+        <div id="lastName">
+          {getFieldDecorator('LastName', {
+            rules: [{ required: true, message: 'Last Name is required' }]
+          })(<Input placeholder="Last Name" />)}
+          {getFieldError('LastName') && (
+            <ErrorMesseage>
+              {getFieldError('LastName').join(', ')}
+            </ErrorMesseage>
+          )}
+        </div>
       </AdrFormItem>
       <AdrFormItem>
         {getFieldDecorator('FatherName')(<Input placeholder="Father's Name" />)}
@@ -116,18 +163,20 @@ function AddAdrStepZeroForm(props: AddAdrStepZeroFormProps) {
         </AdrFormItem>
       </WeightAndHeight>
       <AdrFormItem>
-        {getFieldDecorator('Gender', { rules: [{ required: true }] })(
-          <Radio
-            label="Gender"
-            options={[
-              { name: 'Male', value: true },
-              { name: 'Female', value: false }
-            ]}
-          />
-        )}
-        {getFieldError('Gender') && (
-          <ErrorMesseage>{getFieldError('Gender').join(', ')}</ErrorMesseage>
-        )}
+        <div id="gender">
+          {getFieldDecorator('Gender', { rules: [{ required: true }] })(
+            <Radio
+              label="Gender"
+              options={[
+                { name: 'Male', value: true },
+                { name: 'Female', value: false }
+              ]}
+            />
+          )}
+          {getFieldError('Gender') && (
+            <ErrorMesseage>{getFieldError('Gender').join(', ')}</ErrorMesseage>
+          )}
+        </div>
       </AdrFormItem>
       {formValues.Gender === false && (
         <AdrFormItem>
