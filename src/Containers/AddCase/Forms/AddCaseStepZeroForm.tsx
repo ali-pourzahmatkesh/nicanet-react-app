@@ -76,6 +76,24 @@ function AddCaseStepZeroForm(props: AddCaseStepZeroFormProps) {
 
   const submit = () => {
     validateFields(async (error: any, values: any) => {
+      if (!values.YearofBirth) {
+        let birthdaySection = document.getElementById('yearofBirth');
+        if (birthdaySection) {
+          birthdaySection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+          });
+        }
+      }
+      if (!values.Gender) {
+        let genderSection = document.getElementById('gender');
+        if (genderSection) {
+          genderSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+          });
+        }
+      }
       if (error !== null) return;
       try {
         setIsSubmitting(true);
@@ -105,14 +123,16 @@ function AddCaseStepZeroForm(props: AddCaseStepZeroFormProps) {
   return (
     <div>
       <CaseFormItem>
-        {getFieldDecorator('YearofBirth', {
-          rules: [{ required: true, message: 'Year of Birth is required' }]
-        })(<Select options={YearsofBirth} placeholder="Year of Birth" />)}
-        {getFieldError('YearofBirth') && (
-          <ErrorMesseage>
-            {getFieldError('YearofBirth').join(', ')}
-          </ErrorMesseage>
-        )}
+        <div id="yearofBirth">
+          {getFieldDecorator('YearofBirth', {
+            rules: [{ required: true, message: 'Year of Birth is required' }]
+          })(<Select options={YearsofBirth} placeholder="Year of Birth" />)}
+          {getFieldError('YearofBirth') && (
+            <ErrorMesseage>
+              {getFieldError('YearofBirth').join(', ')}
+            </ErrorMesseage>
+          )}
+        </div>
       </CaseFormItem>
       <WeightAndHeight>
         <CaseFormItem>
@@ -135,18 +155,20 @@ function AddCaseStepZeroForm(props: AddCaseStepZeroFormProps) {
         </CaseFormItem>
       </WeightAndHeight>
       <CaseFormItem>
-        {getFieldDecorator('Gender', { rules: [{ required: true }] })(
-          <Radio
-            label="Gender"
-            options={[
-              { name: 'Male', value: true },
-              { name: 'Female', value: false }
-            ]}
-          />
-        )}
-        {getFieldError('Gender') && (
-          <ErrorMesseage>{getFieldError('Gender').join(', ')}</ErrorMesseage>
-        )}
+        <div id="gender">
+          {getFieldDecorator('Gender', { rules: [{ required: true }] })(
+            <Radio
+              label="Gender"
+              options={[
+                { name: 'Male', value: true },
+                { name: 'Female', value: false }
+              ]}
+            />
+          )}
+          {getFieldError('Gender') && (
+            <ErrorMesseage>{getFieldError('Gender').join(', ')}</ErrorMesseage>
+          )}
+        </div>
       </CaseFormItem>
 
       {formValues.Gender === false && (

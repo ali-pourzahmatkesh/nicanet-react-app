@@ -6,7 +6,7 @@ const ItemWrapper = styled.div`
   border-radius: 10px;
   padding: 1rem;
   margin: 0 0 1.3rem;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.3);
   background-color: #fff;
   @media (min-width: 720px) {
     margin: 0 3.2rem 1.3rem;

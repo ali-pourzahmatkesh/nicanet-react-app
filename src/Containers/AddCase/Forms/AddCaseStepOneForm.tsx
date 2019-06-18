@@ -184,6 +184,15 @@ function AddCaseStepOneForm(props: AddCaseStepOneFormProps) {
 
   const submit = () => {
     validateFields(async (error: any, values: any) => {
+      if (!values.ChiefComplaint) {
+        let ChiefComplaintSection = document.getElementById('chiefComplaint');
+        if (ChiefComplaintSection) {
+          ChiefComplaintSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+          });
+        }
+      }
       if (error !== null) return;
       try {
         setIsSubmitting(true);
@@ -207,14 +216,16 @@ function AddCaseStepOneForm(props: AddCaseStepOneFormProps) {
     <div>
       <Title>Chief Complaint (CC):</Title>
       <CaseFormItem>
-        {getFieldDecorator('ChiefComplaint', {
-          rules: [{ required: true, message: 'Chief Complaint is required' }]
-        })(<Textarea placeholder="Write Description" />)}
-        {getFieldError('ChiefComplaint') && (
-          <ErrorMesseage>
-            {getFieldError('ChiefComplaint').join(', ')}
-          </ErrorMesseage>
-        )}
+        <div id="chiefComplaint">
+          {getFieldDecorator('ChiefComplaint', {
+            rules: [{ required: true, message: 'Chief Complaint is required' }]
+          })(<Textarea placeholder="Write Description" />)}
+          {getFieldError('ChiefComplaint') && (
+            <ErrorMesseage>
+              {getFieldError('ChiefComplaint').join(', ')}
+            </ErrorMesseage>
+          )}
+        </div>
       </CaseFormItem>
       <CasePhotoUploader
         presetName="ChiefComplaint"
