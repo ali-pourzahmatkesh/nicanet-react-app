@@ -18,18 +18,6 @@ export const Value = styled.div<{ noIndent?: boolean }>`
   }
 `;
 
-export const RightValue = styled.div<{ noIndent?: boolean }>`
-  font-family: Roboto;
-  font-size: 0.8rem;
-  direction: rtl;
-  text-align: right;
-  color: #212121;
-  margin-top: 0.5rem;
-  @media (min-width: 720px) {
-    padding: ${props => (props.noIndent ? '0' : '0 2rem')};
-  }
-`;
-
 export const StringValue = styled.div`
   font-family: Roboto;
   font-size: 1rem;

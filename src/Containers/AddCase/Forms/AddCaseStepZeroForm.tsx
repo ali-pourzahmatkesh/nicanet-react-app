@@ -9,6 +9,7 @@ import Input from 'components/Input/InputComponent';
 import { Title, ErrorMesseage } from '../Components/Styled';
 import ContinueButton from '../Components/ContinueButton';
 import { getCase } from '../../../utils/utils';
+import DetectLanguage from '../../../components/DetectLanguage/DetectLanguageComponent';
 
 const WeightAndHeight = styled.div`
   display: flex;
@@ -65,6 +66,7 @@ function AddCaseStepZeroForm(props: AddCaseStepZeroFormProps) {
   } = props;
 
   const formValues = getFieldsValue();
+  console.log('formValues', formValues);
 
   useEffect(() => {
     const effect = async () => {
@@ -184,20 +186,30 @@ function AddCaseStepZeroForm(props: AddCaseStepZeroFormProps) {
         )}
       </CaseFormItem>
       <CaseFormItem>
-        {getFieldDecorator('JobTitle')(<Input placeholder="Job Title" />)}
+        <DetectLanguage value={formValues.JobTitle}>
+          {getFieldDecorator('JobTitle')(<Input placeholder="Job Title" />)}
+        </DetectLanguage>
       </CaseFormItem>
       <CaseFormItem>
-        {getFieldDecorator('Nationality')(<Input placeholder="Nationality" />)}
+        <DetectLanguage value={formValues.Nationality}>
+          {getFieldDecorator('Nationality')(
+            <Input placeholder="Nationality" />
+          )}
+        </DetectLanguage>
       </CaseFormItem>
       <CaseFormItem>
-        {getFieldDecorator('CurrentResidence')(
-          <Input placeholder="Resident in" />
-        )}
+        <DetectLanguage value={formValues.CurrentResidence}>
+          {getFieldDecorator('CurrentResidence')(
+            <Input placeholder="Resident in" />
+          )}
+        </DetectLanguage>
       </CaseFormItem>
       <CaseFormItem>
-        {getFieldDecorator('Originaly')(
-          <Input placeholder="Originally from" />
-        )}
+        <DetectLanguage value={formValues.Originaly}>
+          {getFieldDecorator('Originaly')(
+            <Input placeholder="Originally from" />
+          )}
+        </DetectLanguage>
       </CaseFormItem>
       <ContinueButton isLoading={isSubmitting} onClick={submit} />
     </div>

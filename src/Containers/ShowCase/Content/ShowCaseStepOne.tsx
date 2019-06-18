@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { BounceLoader } from 'react-spinners';
 import { CaseApi } from '../../../Api/CaseApi';
-import {
-  Value,
-  StringValue,
-  LoadingWrapprer,
-  RightValue
-} from '../Components/Styled';
+import { StringValue, LoadingWrapprer, Value } from '../Components/Styled';
 import ShowCaseItem from '../Components/ShowCaseItem';
 import ShowCaseStringArray from '../Components/ShowCaseStringArray';
 import ImageSlider from '../../../components/ImageSlider/ImageSliderComponent';
 import DrugItem from '../Components/DrugItem';
 import ContinueButton from '../Components/ContinueButton';
+import DetectLanguage from '../../../components/DetectLanguage/DetectLanguageComponent';
 interface ShowCaseStepOneProps {
   caseId: string;
   onSubmit: () => void;
@@ -101,7 +97,9 @@ function ShowCaseStepOne(props: ShowCaseStepOneProps) {
     <div>
       {PatientDescription && (
         <ShowCaseItem title="Patient Information:">
-          <Value>{PatientDescription}</Value>
+          <DetectLanguage value={PatientDescription}>
+            <Value>{PatientDescription}</Value>
+          </DetectLanguage>
           {Height > 0 && <Value>Height: {Height}</Value>}
           {Weight > 0 && <Value>Weight: {Weight}</Value>}
         </ShowCaseItem>
@@ -109,7 +107,9 @@ function ShowCaseStepOne(props: ShowCaseStepOneProps) {
 
       {ChiefComplaint && (
         <ShowCaseItem title="Chief Complaint(CC):">
-          <RightValue>{ChiefComplaint}</RightValue>
+          <DetectLanguage value={ChiefComplaint}>
+            <Value>{ChiefComplaint}</Value>
+          </DetectLanguage>
         </ShowCaseItem>
       )}
 
@@ -122,14 +122,22 @@ function ShowCaseStepOne(props: ShowCaseStepOneProps) {
       {(presentIllness.length > 0 || PiNote) && (
         <ShowCaseItem title="Present Illness (PI):">
           <ShowCaseStringArray stringArray={presentIllness} title="Title" />
-          {PiNote && <RightValue>{PiNote}</RightValue>}
+          {PiNote && (
+            <DetectLanguage value={PiNote}>
+              <Value>{PiNote}</Value>
+            </DetectLanguage>
+          )}
         </ShowCaseItem>
       )}
 
       {(generalAppearance.length > 0 || GaNote) && (
         <ShowCaseItem title="General Appearance (GA):">
           <ShowCaseStringArray stringArray={generalAppearance} title="Title" />
-          {GaNote && <RightValue>{GaNote}</RightValue>}
+          {GaNote && (
+            <DetectLanguage value={GaNote}>
+              <Value>{GaNote}</Value>
+            </DetectLanguage>
+          )}
         </ShowCaseItem>
       )}
 
@@ -152,19 +160,27 @@ function ShowCaseStepOne(props: ShowCaseStepOneProps) {
             stringArray={pastMedicalHistories}
             title="DiseaseTitle"
           />
-          {PastMedicalHistory && <RightValue>{PastMedicalHistory}</RightValue>}
+          {PastMedicalHistory && (
+            <DetectLanguage value={PastMedicalHistory}>
+              <Value>{PastMedicalHistory}</Value>
+            </DetectLanguage>
+          )}
         </ShowCaseItem>
       )}
 
       {PastSurgicalHistory && (
         <ShowCaseItem title="Past Surgical History (PSH):">
-          <RightValue>{PastSurgicalHistory}</RightValue>
+          <DetectLanguage value={PastSurgicalHistory}>
+            <Value>{PastSurgicalHistory}</Value>
+          </DetectLanguage>
         </ShowCaseItem>
       )}
 
       {FamilyHistory && (
         <ShowCaseItem title="Family History (FH):">
-          <RightValue>{FamilyHistory}</RightValue>
+          <DetectLanguage value={FamilyHistory}>
+            <Value>{FamilyHistory}</Value>
+          </DetectLanguage>
         </ShowCaseItem>
       )}
 
@@ -174,7 +190,11 @@ function ShowCaseStepOne(props: ShowCaseStepOneProps) {
             dhDrugs.map(item => {
               return <DrugItem key={item.CaseDrugId} drug={item} />;
             })}
-          {DHDrugNote && <Value>{DHDrugNote}</Value>}
+          {DHDrugNote && (
+            <DetectLanguage value={DHDrugNote}>
+              <Value>{DHDrugNote}</Value>
+            </DetectLanguage>
+          )}
         </ShowCaseItem>
       )}
 
@@ -187,7 +207,11 @@ function ShowCaseStepOne(props: ShowCaseStepOneProps) {
             otcDrugs.map(item => {
               return <DrugItem key={item.CaseDrugId} drug={item} />;
             })}
-          {OTCDrugNote && <Value>{OTCDrugNote}</Value>}
+          {OTCDrugNote && (
+            <DetectLanguage value={OTCDrugNote}>
+              <Value>{OTCDrugNote}</Value>
+            </DetectLanguage>
+          )}
         </ShowCaseItem>
       )}
 
@@ -209,7 +233,11 @@ function ShowCaseStepOne(props: ShowCaseStepOneProps) {
             title="HerbalTitle"
             valueSize="0.9rem"
           />
-          {HerbalHistory && <Value>{HerbalHistory}</Value>}
+          {HerbalHistory && (
+            <DetectLanguage value={HerbalHistory}>
+              <Value>{HerbalHistory}</Value>
+            </DetectLanguage>
+          )}
         </ShowCaseItem>
       )}
 

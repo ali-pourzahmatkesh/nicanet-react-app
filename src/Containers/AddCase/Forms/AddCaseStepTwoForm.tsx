@@ -7,6 +7,7 @@ import CheckBox from 'components/CheckBox/CheckBoxComponent';
 import { ConfigApi } from 'Api/ConfigApi';
 import ContinueButton from '../Components/ContinueButton';
 import { getCase } from '../../../utils/utils';
+import DetectLanguage from '../../../components/DetectLanguage/DetectLanguageComponent';
 
 interface AddCaseStepTwoFormProps {
   form: any;
@@ -19,10 +20,12 @@ function AddCaseStepTwoForm(props: AddCaseStepTwoFormProps) {
   const [pastMedicalHistories, setPastMedicalHistories] = useState<any[]>([]);
 
   const {
-    form: { getFieldDecorator, validateFields, setFieldsValue },
+    form: { getFieldDecorator, validateFields, setFieldsValue, getFieldsValue },
     onSubmit,
     caseId
   } = props;
+
+  const formValues = getFieldsValue();
 
   const submit = () => {
     validateFields(async (error: any, values: any) => {
@@ -72,22 +75,28 @@ function AddCaseStepTwoForm(props: AddCaseStepTwoFormProps) {
           </div>
         ))}
         <CaseFormItem>
-          {getFieldDecorator('PastMedicalHistory')(
-            <Textarea placeholder="Description" />
-          )}
+          <DetectLanguage value={formValues.PastMedicalHistory}>
+            {getFieldDecorator('PastMedicalHistory')(
+              <Textarea placeholder="Description" />
+            )}
+          </DetectLanguage>
         </CaseFormItem>
       </PaddedWrapper>
       <Title>Past Surgical History (PSH):</Title>
       <CaseFormItem>
-        {getFieldDecorator('PastSurgicalHistory')(
-          <Textarea placeholder="Description" />
-        )}
+        <DetectLanguage value={formValues.PastSurgicalHistory}>
+          {getFieldDecorator('PastSurgicalHistory')(
+            <Textarea placeholder="Description" />
+          )}
+        </DetectLanguage>
       </CaseFormItem>
       <Title>Family History (FH):</Title>
       <CaseFormItem>
-        {getFieldDecorator('FamilyHistory')(
-          <Textarea placeholder="Description" />
-        )}
+        <DetectLanguage value={formValues.FamilyHistory}>
+          {getFieldDecorator('FamilyHistory')(
+            <Textarea placeholder="Description" />
+          )}
+        </DetectLanguage>
       </CaseFormItem>
       <ContinueButton onClick={submit} isLoading={isSubmitting} />
     </div>

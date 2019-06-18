@@ -112,7 +112,7 @@ function AddCaseStepFourForm(props: AddCaseStepFourFormProps) {
     if (tree.length > 0) {
       setIsLoading(false);
     }
-  });
+  }, [tree, getFieldDecorator]);
 
   if (isLoading)
     return (

@@ -10,7 +10,7 @@ import ContentStatusBar from '../../components/ContentStatusBar/ContentStatusBar
 import Comments from '../../components/Comments/CommentsComponent';
 import avatarPhoto from '../../Assets/avatar.jpg';
 import { urlify } from '../../utils/utils';
-
+import DetectLanguage from '../../components/DetectLanguage/DetectLanguageComponent';
 const PostImage = styled.img`
   border: solid 3px solid #eee;
   width: 100%;
@@ -70,7 +70,6 @@ const Title = styled.div`
   font-family: Roboto;
   font-size: 1.2rem;
   color: #000000;
-  text-align: left;
   padding: 0 1rem;
   font-weight: bold;
   margin-bottom: 1rem;
@@ -88,7 +87,6 @@ const Subtitle = styled.div`
   font-family: Roboto;
   font-size: 1rem;
   color: #757575;
-  text-align: left;
   padding: 0 1rem;
   line-height: 2rem;
 `;
@@ -226,11 +224,17 @@ function PostContainer(props) {
             </AuthorLeftCol>
             {/* <SubscribeBtn>Subscribe</SubscribeBtn> */}
           </AuthorWrapper>
-          {Subject && <Title>{Subject}</Title>}
+          {Subject && (
+            <DetectLanguage value={Subject}>
+              <Title>{Subject}</Title>
+            </DetectLanguage>
+          )}
           {ContentText && (
-            <Subtitle
-              dangerouslySetInnerHTML={{ __html: urlify(ContentText) }}
-            />
+            <DetectLanguage value={ContentText}>
+              <Subtitle
+                dangerouslySetInnerHTML={{ __html: urlify(ContentText) }}
+              />
+            </DetectLanguage>
           )}
         </ContentWrapper>
         <Interactions>
