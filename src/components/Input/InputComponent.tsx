@@ -11,6 +11,8 @@ const StyledInput = styled.input<React.HTMLProps<HTMLInputElement>>`
   border-bottom: 1px solid #aaa;
   padding: 0.6em 1.4em 0.5em 0.8em;
   display: flex;
+  margin: 0;
+  -webkit-appearance: none;
   flex: 1;
   font-size: 1rem;
   outline: 0;
@@ -22,11 +24,12 @@ type InputProps = {
   onChange?: (value: any | undefined) => void;
   placeholder: string;
   type?: any;
+  pattern?: any;
 };
 
 class Input extends React.Component<InputProps> {
   render() {
-    const { value, onChange, placeholder, type } = this.props;
+    const { value, onChange, placeholder, type, pattern } = this.props;
 
     return (
       <Container>
@@ -35,6 +38,7 @@ class Input extends React.Component<InputProps> {
           value={value}
           onChange={onChange}
           type={type}
+          pattern={pattern}
         />
       </Container>
     );
