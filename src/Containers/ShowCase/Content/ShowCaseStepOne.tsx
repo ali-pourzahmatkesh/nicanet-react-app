@@ -109,9 +109,7 @@ function ShowCaseStepOne(props: ShowCaseStepOneProps) {
     <div>
       {PatientDescription && (
         <ShowCaseItem title="Patient Information:">
-          <DetectLanguage value={PatientDescription}>
-            <Value>{PatientDescription}</Value>
-          </DetectLanguage>
+          <Value>{PatientDescription}</Value>
           {Height > 0 && <Value>Height: {Height}</Value>}
           {Weight > 0 && <Value>Weight: {Weight}</Value>}
         </ShowCaseItem>
