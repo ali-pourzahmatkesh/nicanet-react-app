@@ -15,6 +15,7 @@ import Textarea from 'components/Textarea/TextareaComponent';
 import DatePicker from 'components/DatePicker/DatePicker';
 import AdrPhotoUploader from '../Components/AdrPhotoUploader';
 import useApiConfig from 'Hooks/UseApiConfig';
+import DetectLanguage from '../../../components/DetectLanguage/DetectLanguageComponent';
 
 const Row = styled.div`
   display: flex;
@@ -299,9 +300,11 @@ function AddAdrStepOneForm(props: AddAdrStepOneFormProps) {
       <Title>Description of ADR:</Title>
       <PaddedWrapper>
         <AdrFormItem>
-          {getFieldDecorator('AdrDescription')(
-            <Textarea placeholder="Description (Max 250 Character)" />
-          )}
+          <DetectLanguage value={formValues.AdrDescription}>
+            {getFieldDecorator('AdrDescription')(
+              <Textarea placeholder="Description (Max 250 Character)" />
+            )}
+          </DetectLanguage>
         </AdrFormItem>
       </PaddedWrapper>
 
@@ -442,9 +445,11 @@ function AddAdrStepOneForm(props: AddAdrStepOneFormProps) {
         )}
 
         <AdrFormItem>
-          {getFieldDecorator('TreatmentDescription')(
-            <Textarea placeholder="Details (including dosage, frequency, route, duration)" />
-          )}
+          <DetectLanguage value={formValues.TreatmentDescription}>
+            {getFieldDecorator('TreatmentDescription')(
+              <Textarea placeholder="Details (including dosage, frequency, route, duration)" />
+            )}
+          </DetectLanguage>
         </AdrFormItem>
       </PaddedWrapper>
 

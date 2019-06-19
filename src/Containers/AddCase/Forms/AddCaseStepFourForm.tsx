@@ -11,6 +11,7 @@ import { CaseApi } from 'Api/CaseApi';
 import styled from 'styled-components';
 import ContinueButton from '../Components/ContinueButton';
 import { getCase } from '../../../utils/utils';
+import DetectLanguage from '../../../components/DetectLanguage/DetectLanguageComponent';
 
 const CasePhotoUploaderWrapper = styled.div`
   margin-top: 1rem;
@@ -28,10 +29,11 @@ function AddCaseStepFourForm(props: AddCaseStepFourFormProps) {
   const [formTree, setFormTree] = useState<any>();
   const [isLoading, setIsLoading] = useState(true);
   const {
-    form: { getFieldDecorator, validateFields, setFieldsValue },
+    form: { getFieldDecorator, validateFields, setFieldsValue, getFieldsValue },
     onSubmit,
     caseId
   } = props;
+  const formValues = getFieldsValue();
 
   const submit = () => {
     validateFields(async (error: any, values: any) => {
@@ -106,12 +108,16 @@ function AddCaseStepFourForm(props: AddCaseStepFourFormProps) {
                 case 'TextItem':
                   return (
                     <CaseFormItem key={childNode.DiseaseId.toString()}>
-                      {getFieldDecorator(`disease_${childNode.DiseaseId}`)(
-                        <Textarea
-                          key={childNode.DiseaseId.toString()}
-                          placeholder="Note"
-                        />
-                      )}
+                      <DetectLanguage
+                        value={formValues[`disease_${childNode.DiseaseId}`]}
+                      >
+                        {getFieldDecorator(`disease_${childNode.DiseaseId}`)(
+                          <Textarea
+                            key={childNode.DiseaseId.toString()}
+                            placeholder="Note"
+                          />
+                        )}
+                      </DetectLanguage>
                     </CaseFormItem>
                   );
                 default:
@@ -126,7 +132,7 @@ function AddCaseStepFourForm(props: AddCaseStepFourFormProps) {
     if (tree.length > 0) {
       setIsLoading(false);
     }
-  }, [tree, getFieldDecorator]);
+  }, [tree, getFieldDecorator, formValues]);
 
   if (isLoading)
     return (

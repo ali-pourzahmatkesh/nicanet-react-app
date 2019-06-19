@@ -12,6 +12,7 @@ import ContinueButton from '../Components/ContinueButton';
 import styled from 'styled-components';
 import { ConfigApi } from 'Api/ConfigApi';
 import { CaseApi } from 'Api/CaseApi';
+import DetectLanguage from '../../../components/DetectLanguage/DetectLanguageComponent';
 
 type AddDrugFormProps = {
   form: any;
@@ -93,9 +94,10 @@ class AddDrugForm extends Component<AddDrugFormProps, AddDrugFormState> {
   render() {
     const { isOpen, frequencies, routes } = this.state;
     const {
-      form: { getFieldDecorator, validateFields, resetFields },
+      form: { getFieldDecorator, validateFields, resetFields, getFieldsValue },
       onSubmit
     } = this.props;
+    const formValues = getFieldsValue();
 
     const submit = () => {
       validateFields(async (error: any, values: any) => {
@@ -153,9 +155,11 @@ class AddDrugForm extends Component<AddDrugFormProps, AddDrugFormState> {
             )}
           </CaseFormItem>
           <CaseFormItem>
-            {getFieldDecorator('Manufacture', { initialValue: '' })(
-              <Input placeholder="Manufacturer" />
-            )}
+            <DetectLanguage value={formValues.Manufacture}>
+              {getFieldDecorator('Manufacture', { initialValue: '' })(
+                <Input placeholder="Manufacturer" />
+              )}
+            </DetectLanguage>
           </CaseFormItem>
           <CaseFormItem>
             {getFieldDecorator('FrequencyId', { initialValue: '' })(
@@ -168,19 +172,25 @@ class AddDrugForm extends Component<AddDrugFormProps, AddDrugFormState> {
             )}
           </CaseFormItem>
           <CaseFormItem>
-            {getFieldDecorator('Indication', { initialValue: '' })(
-              <Input placeholder="Indication" />
-            )}
+            <DetectLanguage value={formValues.Indication}>
+              {getFieldDecorator('Indication', { initialValue: '' })(
+                <Input placeholder="Indication" />
+              )}
+            </DetectLanguage>
           </CaseFormItem>
           <CaseFormItem>
-            {getFieldDecorator('BatchNo', { initialValue: '' })(
-              <Input placeholder="Batch Number" />
-            )}
+            <DetectLanguage value={formValues.BatchNo}>
+              {getFieldDecorator('BatchNo', { initialValue: '' })(
+                <Input placeholder="Batch Number" />
+              )}
+            </DetectLanguage>
           </CaseFormItem>
           <CaseFormItem>
-            {getFieldDecorator('Description', { initialValue: '' })(
-              <Textarea placeholder="Description" />
-            )}
+            <DetectLanguage value={formValues.Description}>
+              {getFieldDecorator('Description', { initialValue: '' })(
+                <Textarea placeholder="Description" />
+              )}
+            </DetectLanguage>
           </CaseFormItem>
           <ContinueButton onClick={submit} title="Add Drug" />
         </Modal>

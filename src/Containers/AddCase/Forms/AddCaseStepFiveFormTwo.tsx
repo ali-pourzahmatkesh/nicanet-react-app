@@ -6,6 +6,8 @@ import Textarea from 'components/Textarea/TextareaComponent';
 import CaseFormItem from './CaseFormItem';
 import CasePhotoUploader from '../Components/CasePhotoUploader';
 import { setCase, getCase } from '../../../utils/utils';
+import DetectLanguage from '../../../components/DetectLanguage/DetectLanguageComponent';
+
 interface AddCaseStepFiveFormTwoProps {
   form: any;
   caseId: string;
@@ -67,9 +69,11 @@ function AddCaseStepFiveFormTwo(props: AddCaseStepFiveFormTwoProps) {
 
           <Title>Other X-Ray Images:</Title>
           <CaseFormItem>
-            {getFieldDecorator('DescriptionTypeId_397')(
-              <Textarea placeholder="Description" />
-            )}
+            <DetectLanguage value={formValues.DescriptionTypeId_397}>
+              {getFieldDecorator('DescriptionTypeId_397')(
+                <Textarea placeholder="Description" />
+              )}
+            </DetectLanguage>
           </CaseFormItem>
           <CaseFormItem>
             <CasePhotoUploader
@@ -112,9 +116,11 @@ function AddCaseStepFiveFormTwo(props: AddCaseStepFiveFormTwoProps) {
 
           <Title>Other Sonography Images:</Title>
           <CaseFormItem>
-            {getFieldDecorator('DescriptionTypeId_398')(
-              <Textarea placeholder="Description" />
-            )}
+            <DetectLanguage value={formValues.DescriptionTypeId_398}>
+              {getFieldDecorator('DescriptionTypeId_398')(
+                <Textarea placeholder="Description" />
+              )}
+            </DetectLanguage>
           </CaseFormItem>
           <CaseFormItem>
             <CasePhotoUploader
@@ -166,9 +172,11 @@ function AddCaseStepFiveFormTwo(props: AddCaseStepFiveFormTwoProps) {
 
           <Title>Other CT Scan Images:</Title>
           <CaseFormItem>
-            {getFieldDecorator('DescriptionTypeId_399')(
-              <Textarea placeholder="Description" />
-            )}
+            <DetectLanguage value={formValues.DescriptionTypeId_399}>
+              {getFieldDecorator('DescriptionTypeId_399')(
+                <Textarea placeholder="Description" />
+              )}
+            </DetectLanguage>
           </CaseFormItem>
           <CaseFormItem>
             <CasePhotoUploader
@@ -220,9 +228,11 @@ function AddCaseStepFiveFormTwo(props: AddCaseStepFiveFormTwoProps) {
 
           <Title>Other MRI Images:</Title>
           <CaseFormItem>
-            {getFieldDecorator('DescriptionTypeId_401')(
-              <Textarea placeholder="Description" />
-            )}
+            <DetectLanguage value={formValues.DescriptionTypeId_401}>
+              {getFieldDecorator('DescriptionTypeId_401')(
+                <Textarea placeholder="Description" />
+              )}
+            </DetectLanguage>
           </CaseFormItem>
           <CaseFormItem>
             <CasePhotoUploader
@@ -292,9 +302,11 @@ function AddCaseStepFiveFormTwo(props: AddCaseStepFiveFormTwoProps) {
 
           <Title>Other Imagings:</Title>
           <CaseFormItem>
-            {getFieldDecorator('DescriptionTypeId_404')(
-              <Textarea placeholder="Description" />
-            )}
+            <DetectLanguage value={formValues.DescriptionTypeId_404}>
+              {getFieldDecorator('DescriptionTypeId_404')(
+                <Textarea placeholder="Description" />
+              )}
+            </DetectLanguage>
           </CaseFormItem>
           <CaseFormItem>
             <CasePhotoUploader
