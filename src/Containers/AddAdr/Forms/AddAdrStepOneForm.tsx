@@ -15,6 +15,7 @@ import Textarea from 'components/Textarea/TextareaComponent';
 import CheckBox from 'components/CheckBox/CheckBoxComponent';
 import addIconSvg from 'Assets/addIcon.svg';
 import DatePicker from 'components/DatePicker/DatePicker';
+import DetectLanguage from '../../../components/DetectLanguage/DetectLanguageComponent';
 
 const AddWrapper = styled.div`
   display: flex;
@@ -109,20 +110,38 @@ function AddAdrStepOneForm(props: AddAdrStepOneFormProps) {
               <div>
                 {habitualHistory.name === 'Other' && (
                   <AdrFormItem>
-                    {getFieldDecorator('Other_HabitualTitle')(
-                      <Textarea placeholder="Type of addiction and description" /> //
-                    )}
+                    <DetectLanguage value={formValues.Other_HabitualTitle}>
+                      {getFieldDecorator('Other_HabitualTitle')(
+                        <Textarea placeholder="Type of addiction and description" /> //
+                      )}
+                    </DetectLanguage>
                   </AdrFormItem>
                 )}
                 <AdrFormItem>
-                  {getFieldDecorator(
-                    `habitualHistory_usage_${habitualHistory.value}`
-                  )(<Input placeholder="Daily usage" />)}
+                  <DetectLanguage
+                    value={
+                      formValues[
+                        `habitualHistory_usage_${habitualHistory.value}`
+                      ]
+                    }
+                  >
+                    {getFieldDecorator(
+                      `habitualHistory_usage_${habitualHistory.value}`
+                    )(<Input placeholder="Daily usage" />)}
+                  </DetectLanguage>
                 </AdrFormItem>
                 <AdrFormItem>
-                  {getFieldDecorator(
-                    `habitualHistory_duration_${habitualHistory.value}`
-                  )(<Input placeholder="Duration" />)}
+                  <DetectLanguage
+                    value={
+                      formValues[
+                        `habitualHistory_duration_${habitualHistory.value}`
+                      ]
+                    }
+                  >
+                    {getFieldDecorator(
+                      `habitualHistory_duration_${habitualHistory.value}`
+                    )(<Input placeholder="Duration" />)}
+                  </DetectLanguage>
                 </AdrFormItem>
               </div>
             )}
@@ -170,9 +189,11 @@ function AddAdrStepOneForm(props: AddAdrStepOneFormProps) {
                 )}
               </AdrFormItem>
               <AdrFormItem>
-                {getFieldDecorator(`PastHistory_Desc_${item}`)(
-                  <Textarea placeholder="Description" />
-                )}
+                <DetectLanguage value={formValues[`PastHistory_Desc_${item}`]}>
+                  {getFieldDecorator(`PastHistory_Desc_${item}`)(
+                    <Textarea placeholder="Description" />
+                  )}
+                </DetectLanguage>
               </AdrFormItem>
             </AdrFormItem>
           ))}
@@ -188,9 +209,11 @@ function AddAdrStepOneForm(props: AddAdrStepOneFormProps) {
       <Title>Genetic Disease:</Title>
       <PaddedWrapper>
         <AdrFormItem>
-          {getFieldDecorator('GeneticDisease')(
-            <Textarea placeholder="Description" />
-          )}
+          <DetectLanguage value={formValues.GeneticDisease}>
+            {getFieldDecorator('GeneticDisease')(
+              <Textarea placeholder="Description" />
+            )}
+          </DetectLanguage>
         </AdrFormItem>
       </PaddedWrapper>
 

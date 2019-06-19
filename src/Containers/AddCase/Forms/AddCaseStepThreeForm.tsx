@@ -160,20 +160,38 @@ function AddCaseStepThreeForm(props: AddCaseStepThreeFormProps) {
                 <div>
                   {habitualHistory.name === 'Other' && (
                     <CaseFormItem>
-                      {getFieldDecorator('Other_HabitualTitle')(
-                        <Textarea placeholder="Type of addiction and description" /> //
-                      )}
+                      <DetectLanguage value={formValues.Other_HabitualTitle}>
+                        {getFieldDecorator('Other_HabitualTitle')(
+                          <Textarea placeholder="Type of addiction and description" /> //
+                        )}
+                      </DetectLanguage>
                     </CaseFormItem>
                   )}
                   <CaseFormItem>
-                    {getFieldDecorator(
-                      `habitualHistory_usage_${habitualHistory.value}`
-                    )(<Input placeholder="Daily usage" />)}
+                    <DetectLanguage
+                      value={
+                        formValues[
+                          `habitualHistory_usage_${habitualHistory.value}`
+                        ]
+                      }
+                    >
+                      {getFieldDecorator(
+                        `habitualHistory_usage_${habitualHistory.value}`
+                      )(<Input placeholder="Daily usage" />)}
+                    </DetectLanguage>
                   </CaseFormItem>
                   <CaseFormItem>
-                    {getFieldDecorator(
-                      `habitualHistory_duration_${habitualHistory.value}`
-                    )(<Input placeholder="Duration" />)}
+                    <DetectLanguage
+                      value={
+                        formValues[
+                          `habitualHistory_duration_${habitualHistory.value}`
+                        ]
+                      }
+                    >
+                      {getFieldDecorator(
+                        `habitualHistory_duration_${habitualHistory.value}`
+                      )(<Input placeholder="Duration" />)}
+                    </DetectLanguage>
                   </CaseFormItem>
                 </div>
               )}
