@@ -6,8 +6,8 @@ import {
   CLEAN_AUTH
 } from '../../Constants/AuthConstants';
 import { AuthApi } from '../../../Api/AuthApi';
-import { HOME_ROUTE } from '../../../router/RouterConstants';
-import { setToken } from 'Api/Api';
+import { HOME_ROUTE, LOGIN_ROUTE } from '../../../router/RouterConstants';
+import { setToken, removeToken } from 'Api/Api';
 
 export function login(loginData) {
   return async dispatch => {
@@ -42,6 +42,8 @@ export function setUserInfo(data) {
 export function logout() {
   return dispatch => {
     localStorage.removeItem('user');
+    removeToken();
     dispatch({ type: CLEAN_AUTH });
+    dispatch(push(LOGIN_ROUTE));
   };
 }

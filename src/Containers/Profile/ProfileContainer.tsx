@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { bindActionCreators } from 'redux';
 import { RouteComponentProps } from 'react-router';
 import { BounceLoader } from 'react-spinners';
 import styled from 'styled-components';
@@ -11,6 +12,9 @@ import { API_FILES_BASE_URL } from 'constants/ApiConstants';
 import PenIconSvg from 'Assets/Pen.svg';
 import avatarPhoto from '../../Assets/avatar.jpg';
 import Navbar from 'components/Navbar/Navbar';
+import { IoMdLogOut } from 'react-icons/io';
+import { logout } from '../../Redux/Actions/Auth/AuthActions';
+import { confirmAlert } from 'react-confirm-alert';
 
 const Avatar = styled.div<{ src?: string }>`
   width: 60px;
@@ -40,6 +44,13 @@ const NavbarWrapper = styled.div`
 const PenIcon = styled.img`
   position: absolute;
   top: 1rem;
+  right: 3rem;
+  cursor: pointer;
+`;
+
+const Logout = styled.div`
+  position: absolute;
+  top: 1.4rem;
   right: 1rem;
   cursor: pointer;
 `;
@@ -97,12 +108,13 @@ export const LoadingWrapprer = styled.div`
 
 interface ProfileContainerProps {
   user: any;
+  logout: any;
 }
 
 function ProfileContainer(
   props: ProfileContainerProps & RouteComponentProps<{ userId: '' }>
 ) {
-  const { match } = props;
+  const { match, logout } = props;
   const { params } = match;
   const { userId } = params;
 
@@ -187,6 +199,24 @@ function ProfileContainer(
     } catch (_) {}
   };
 
+  const logoutConfirmation = () => {
+    confirmAlert({
+      title: 'Confirm Logout',
+      message:
+        'Do you want to logout?',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () => logout()
+        },
+        {
+          label: 'No',
+          onClick: () => { }
+        }
+      ]
+    });
+  };
+
   const { ImageUrl, FullName, Group, Bio, PersonId } = user;
   const { ConfigName } = Group;
   const goToPage = (route: any) => {
@@ -206,12 +236,17 @@ function ProfileContainer(
         )}
         <Paragraph>{Bio}</Paragraph>
         {isOwn ? (
-          <PenIcon
-            src={PenIconSvg}
-            onClick={() => {
-              props.history.push('/edit-profile');
-            }}
-          />
+          <div>
+            <PenIcon
+              src={PenIconSvg}
+              onClick={() => {
+                props.history.push('/edit-profile');
+              }}
+            />
+            <Logout onClick={logoutConfirmation}>
+              <IoMdLogOut color={'#5498A9'} size={24} />
+            </Logout>
+          </div>
         ) : (
           <SubscribeButton
             isSubscribe={isSubscribe}
@@ -267,4 +302,15 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-export default connect(mapStateToProps)(ProfileContainer);
+const mapDispatchToProps = (dispatch: any) =>
+  bindActionCreators(
+    {
+      logout
+    },
+    dispatch
+  );
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProfileContainer);
