@@ -86,6 +86,7 @@ class AppRouter extends React.Component<
       return <Redirect to={LOGIN_ROUTE} />;
     } else if (
       this.props.isLoggedIn &&
+      location.pathname !== LOGIN_ROUTE &&
       location.pathname !== HOME_ROUTE &&
       location.pathname !== NOT_FOUND_ROUTE &&
       !location.pathname.startsWith('/add-case-step-zero') &&
