@@ -80,13 +80,38 @@ class AppRouter extends React.Component<
     const { location } = this.props;
 
     console.log('this.props.isLoggedIn', this.props.isLoggedIn);
-    console.log(
-      'location.pathname.startsWith(LOGIN_ROUTE)',
-      location.pathname.startsWith(LOGIN_ROUTE)
-    );
+    console.log('location.pathname.startsWith(LOGIN_ROUTE)', location.pathname);
 
-    if (!this.props.isLoggedIn && !location.pathname.startsWith(LOGIN_ROUTE)) {
+    if (!this.props.isLoggedIn && location.pathname !== LOGIN_ROUTE) {
       return <Redirect to={LOGIN_ROUTE} />;
+    } else if (
+      this.props.isLoggedIn &&
+      location.pathname !== HOME_ROUTE &&
+      location.pathname !== NOT_FOUND_ROUTE &&
+      !location.pathname.startsWith('/add-case-step-zero') &&
+      location.pathname !== ADD_POST_ROUTE &&
+      !location.pathname.startsWith('/add-case-step-one') &&
+      !location.pathname.startsWith('/add-case-step-two') &&
+      !location.pathname.startsWith('/add-case-step-three') &&
+      !location.pathname.startsWith('/add-case-step-four') &&
+      !location.pathname.startsWith('/add-case-step-five') &&
+      !location.pathname.startsWith('/add-case-step-six') &&
+      !location.pathname.startsWith('/profile') &&
+      !location.pathname.startsWith('/post') &&
+      location.pathname !== ADD_ADR_STEP_ZERO_ROUTE &&
+      location.pathname !== ADD_ADR_STEP_ONE_ROUTE &&
+      location.pathname !== ADD_ADR_STEP_TWO_ROUTE &&
+      location.pathname !== ADD_ADR_STEP_THREE_ROUTE &&
+      location.pathname !== ADD_ADR_STEP_FOUR_ROUTE &&
+      location.pathname !== ADD_ADR_STEP_FIVE_ROUTE &&
+      !location.pathname.startsWith('/show-case-step-one') &&
+      !location.pathname.startsWith('/show-case-step-two') &&
+      !location.pathname.startsWith('/show-case-step-three') &&
+      !location.pathname.startsWith('/show-case-step-four') &&
+      location.pathname !== EDIT_PROFILE_ROUTE &&
+      location.pathname !== SEARCH_ROUTE
+    ) {
+      return <Redirect to={NOT_FOUND_ROUTE} />;
     }
 
     chatMiddleWare.start();

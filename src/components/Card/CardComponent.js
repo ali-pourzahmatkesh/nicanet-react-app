@@ -96,7 +96,7 @@ function Card(props) {
   if (postSelected && postSelected.ContentId === mainId) {
     let cart = document.getElementById('post-cart-' + mainId);
     if (cart) {
-      cart.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      cart.scrollIntoView({ block: 'center' });
       localStorage.removeItem('postSelected');
     }
   }
