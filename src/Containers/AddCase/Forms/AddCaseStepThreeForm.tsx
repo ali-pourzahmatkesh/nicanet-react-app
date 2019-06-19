@@ -10,6 +10,7 @@ import ContinueButton from '../Components/ContinueButton';
 import Drug from '../Components/Drug';
 import { ConfigApi } from 'Api/ConfigApi';
 import { getCase } from '../../../utils/utils';
+import DetectLanguage from '../../../components/DetectLanguage/DetectLanguageComponent';
 
 interface AddCaseStepThreeFormProps {
   form: any;
@@ -24,10 +25,17 @@ function AddCaseStepThreeForm(props: AddCaseStepThreeFormProps) {
   const [herbalHistories, setHerbalHistories] = useState<any[]>([]);
 
   const {
-    form: { getFieldDecorator, validateFields, getFieldValue, setFieldsValue },
+    form: {
+      getFieldDecorator,
+      validateFields,
+      getFieldValue,
+      setFieldsValue,
+      getFieldsValue
+    },
     onSubmit,
     caseId
   } = props;
+  const formValues = getFieldsValue();
 
   const submit = () => {
     validateFields(async (error: any, values: any) => {
@@ -107,7 +115,9 @@ function AddCaseStepThreeForm(props: AddCaseStepThreeFormProps) {
           />
         ))}
         <CaseFormItem>
-          {getFieldDecorator('DhDrugNote')(<Textarea placeholder="Note" />)}
+          <DetectLanguage value={formValues.DhDrugNote}>
+            {getFieldDecorator('DhDrugNote')(<Textarea placeholder="Note" />)}
+          </DetectLanguage>
         </CaseFormItem>
       </PaddedWrapper>
       <Title>Over The Counter Drugs (OTC):</Title>
@@ -130,7 +140,9 @@ function AddCaseStepThreeForm(props: AddCaseStepThreeFormProps) {
           />
         ))}
         <CaseFormItem>
-          {getFieldDecorator('OtcDrugNote')(<Textarea placeholder="Note" />)}
+          <DetectLanguage value={formValues.OtcDrugNote}>
+            {getFieldDecorator('OtcDrugNote')(<Textarea placeholder="Note" />)}
+          </DetectLanguage>
         </CaseFormItem>
       </PaddedWrapper>
 

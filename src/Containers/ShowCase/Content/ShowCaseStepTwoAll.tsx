@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { Value, Row, Col, Wrapper } from '../Components/Styled';
 import ShowCaseItem from '../Components/ShowCaseItem';
 import ImageSlider from '../../../components/ImageSlider/ImageSliderComponent';
+import DetectLanguage from '../../../components/DetectLanguage/DetectLanguageComponent';
 
 const CaptionWrapprer = styled.div`
   margin-top: 1rem;
@@ -103,7 +104,9 @@ function ShowCaseStepTwoAll(props: ShowCaseStepTwoAllProps) {
                       <Fragment key={childNode.DiseaseId.toString()}>
                         {signSymptomNote && (
                           <NoteWrapper>
-                            <Value noIndent>{signSymptomNote}</Value>
+                            <DetectLanguage value={signSymptomNote}>
+                              <Value noIndent>{signSymptomNote}</Value>
+                            </DetectLanguage>
                           </NoteWrapper>
                         )}
                       </Fragment>

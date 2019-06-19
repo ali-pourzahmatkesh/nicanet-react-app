@@ -4,6 +4,7 @@ import { PaddedWrapper, Title, LoadingWrapprer } from '../Components/Styled';
 import { BounceLoader } from 'react-spinners';
 import styled from 'styled-components';
 import { Value, Row, Col } from '../Components/Styled';
+import DetectLanguage from '../../../components/DetectLanguage/DetectLanguageComponent';
 
 const CaptionWrapprer = styled.div`
   margin-top: 1rem;
@@ -81,7 +82,9 @@ function ShowCaseStepTwoPositive(props: ShowCaseStepTwoAllProps) {
                           <Fragment key={childNode.DiseaseId.toString()}>
                             {signSymptomNote && (
                               <NoteWrapper>
-                                <Value noIndent>{signSymptomNote}</Value>
+                                <DetectLanguage value={signSymptomNote}>
+                                  <Value noIndent>{signSymptomNote}</Value>
+                                </DetectLanguage>
                               </NoteWrapper>
                             )}
                           </Fragment>

@@ -12,11 +12,14 @@ import PenIconSvg from 'Assets/Pen.svg';
 import avatarPhoto from '../../Assets/avatar.jpg';
 import Navbar from 'components/Navbar/Navbar';
 
-const Avatar = styled.img`
+const Avatar = styled.div<{ src?: string }>`
   width: 60px;
   height: 60px;
-  border-radius: 60px;
+  border-radius: 2rem;
   border: solid 1px #eeeeee;
+  margin-right: 1rem;
+  background: ${props => `url(${props.src}) center center no-repeat`};
+  background-size: cover;
 `;
 
 const UserInfoWrapper = styled.div`
@@ -234,7 +237,11 @@ function ProfileContainer(
           <Card
             onClick={() => {
               if (content.TypeId === 118) return;
-              props.history.push(`/post/${content.ContentId}`);
+              if (content.CaseId === 0) {
+                props.history.push(`/post/${content.ContentId}`);
+              } else {
+                props.history.push(`/show-case-step-one/${content.CaseId}`);
+              }
             }}
             key={content.ContentId}
             title={content.Subject}

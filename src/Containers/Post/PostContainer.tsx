@@ -11,6 +11,7 @@ import ContentStatusBar from '../../components/ContentStatusBar/ContentStatusBar
 import CommentsComponent from '../../components/Comments/CommentsComponent';
 import avatarPhoto from '../../Assets/avatar.jpg';
 import { urlify } from '../../utils/utils';
+import DetectLanguage from '../../components/DetectLanguage/DetectLanguageComponent';
 import { NOT_FOUND_ROUTE, HOME_ROUTE } from '../../router/RouterConstants';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
@@ -37,11 +38,14 @@ const AuthorWrapper = styled.div`
   padding: 1rem 1rem 0;
 `;
 
-const AuthorImage = styled.img`
+const AuthorImage = styled.div<{ src?: string }>`
   width: 3rem;
   height: 3rem;
-  border-radius: 4rem;
+  border-radius: 2rem;
+  border: solid 1px #eeeeee;
   margin-right: 1rem;
+  background: ${props => `url(${props.src}) center center no-repeat`};
+  background-size: cover;
 `;
 
 const AuthorInfo = styled.div`
@@ -71,7 +75,6 @@ const Title = styled.div`
   font-family: Roboto;
   font-size: 1.2rem;
   color: #000000;
-  text-align: left;
   padding: 0 1rem;
   font-weight: bold;
   margin-bottom: 1rem;
@@ -89,7 +92,6 @@ const Subtitle = styled.div`
   font-family: Roboto;
   font-size: 1rem;
   color: #757575;
-  text-align: left;
   padding: 0 1rem;
   line-height: 2rem;
 `;
@@ -284,11 +286,17 @@ function PostContainer(
               </AuthorInfo>
             </AuthorLeftCol>
           </AuthorWrapper>
-          {Subject && <Title>{Subject}</Title>}
+          {Subject && (
+            <DetectLanguage value={Subject}>
+              <Title>{Subject}</Title>
+            </DetectLanguage>
+          )}
           {ContentText && (
-            <Subtitle
-              dangerouslySetInnerHTML={{ __html: urlify(ContentText) }}
-            />
+            <DetectLanguage value={ContentText}>
+              <Subtitle
+                dangerouslySetInnerHTML={{ __html: urlify(ContentText) }}
+              />
+            </DetectLanguage>
           )}
         </ContentWrapper>
         <Interactions>
