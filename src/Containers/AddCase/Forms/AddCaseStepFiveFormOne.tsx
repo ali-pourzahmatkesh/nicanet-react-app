@@ -129,6 +129,7 @@ function AddCaseStepFiveFormOne(props: AddCaseStepFiveFormOneProps) {
                               )(
                                 <Input
                                   type="number"
+                                  pattern="\d*"
                                   placeholder={`${childNode.Title} ${
                                     childNode.Unit.UnitId !== 0
                                       ? `(${childNode.Unit.Title})`

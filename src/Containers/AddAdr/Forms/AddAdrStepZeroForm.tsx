@@ -110,7 +110,7 @@ function AddAdrStepZeroForm(props: AddAdrStepZeroFormProps) {
         <div id="nationalCode">
           {getFieldDecorator('NationalCode', {
             rules: [{ required: true, message: 'National Code is required' }]
-          })(<Input placeholder="National Code" type="number" />)}
+          })(<Input placeholder="National Code" type="number" pattern="\d*" />)}
           {getFieldError('NationalCode') && (
             <ErrorMesseage>
               {getFieldError('NationalCode').join(', ')}
@@ -221,7 +221,7 @@ function AddAdrStepZeroForm(props: AddAdrStepZeroFormProps) {
       <AdrFormItem>
         {getFieldDecorator('PhoneNumber', {
           rules: [{ required: true, message: 'Phone Number' }]
-        })(<Input placeholder="Phone Number" type="number" />)}
+        })(<Input placeholder="Phone Number" type="number" pattern="\d*" />)}
         {getFieldError('PhoneNumber') && (
           <ErrorMesseage>
             {getFieldError('PhoneNumber').join(', ')}
