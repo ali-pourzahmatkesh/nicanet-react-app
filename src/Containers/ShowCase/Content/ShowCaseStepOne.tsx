@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { BounceLoader } from 'react-spinners';
-import { CaseApi } from '../../../Api/CaseApi';
 import { StringValue, LoadingWrapprer, Value } from '../Components/Styled';
 import styled from 'styled-components';
 import ShowCaseItem from '../Components/ShowCaseItem';
