@@ -7,6 +7,7 @@ import Radio from 'components/Radio/RadioComponent';
 import Input from 'components/Input/InputComponent';
 import { Title, ErrorMesseage } from 'Containers/AddCase/Components/Styled';
 import ContinueButton from 'Containers/AddCase/Components/ContinueButton';
+import DetectLanguage from '../../../components/DetectLanguage/DetectLanguageComponent';
 
 const WeightAndHeight = styled.div`
   display: flex;
@@ -119,9 +120,11 @@ function AddAdrStepZeroForm(props: AddAdrStepZeroFormProps) {
       </AdrFormItem>
       <AdrFormItem>
         <div id="firstName">
-          {getFieldDecorator('FirstName', {
-            rules: [{ required: true, message: 'First Name is required' }]
-          })(<Input placeholder="First Name" />)}
+          <DetectLanguage value={formValues.FirstName}>
+            {getFieldDecorator('FirstName', {
+              rules: [{ required: true, message: 'First Name is required' }]
+            })(<Input placeholder="First Name" />)}
+          </DetectLanguage>
           {getFieldError('FirstName') && (
             <ErrorMesseage>
               {getFieldError('FirstName').join(', ')}
@@ -131,9 +134,11 @@ function AddAdrStepZeroForm(props: AddAdrStepZeroFormProps) {
       </AdrFormItem>
       <AdrFormItem>
         <div id="lastName">
-          {getFieldDecorator('LastName', {
-            rules: [{ required: true, message: 'Last Name is required' }]
-          })(<Input placeholder="Last Name" />)}
+          <DetectLanguage value={formValues.LastName}>
+            {getFieldDecorator('LastName', {
+              rules: [{ required: true, message: 'Last Name is required' }]
+            })(<Input placeholder="Last Name" />)}
+          </DetectLanguage>
           {getFieldError('LastName') && (
             <ErrorMesseage>
               {getFieldError('LastName').join(', ')}
@@ -142,7 +147,11 @@ function AddAdrStepZeroForm(props: AddAdrStepZeroFormProps) {
         </div>
       </AdrFormItem>
       <AdrFormItem>
-        {getFieldDecorator('FatherName')(<Input placeholder="Father's Name" />)}
+        <DetectLanguage value={formValues.FatherName}>
+          {getFieldDecorator('FatherName')(
+            <Input placeholder="Father's Name" />
+          )}
+        </DetectLanguage>
       </AdrFormItem>
 
       <AdrFormItem>
@@ -205,7 +214,9 @@ function AddAdrStepZeroForm(props: AddAdrStepZeroFormProps) {
       </AdrFormItem>
       <Title>Further information</Title>
       <AdrFormItem>
-        {getFieldDecorator('JobTitle')(<Input placeholder="Job Title" />)}
+        <DetectLanguage value={formValues.JobTitle}>
+          {getFieldDecorator('JobTitle')(<Input placeholder="Job Title" />)}
+        </DetectLanguage>
       </AdrFormItem>
       <AdrFormItem>
         {getFieldDecorator('PhoneNumber', {
@@ -218,9 +229,11 @@ function AddAdrStepZeroForm(props: AddAdrStepZeroFormProps) {
         )}
       </AdrFormItem>
       <AdrFormItem>
-        {getFieldDecorator('Address', {
-          rules: [{ required: true, message: 'Home Address' }]
-        })(<Input placeholder="Home Address" />)}
+        <DetectLanguage value={formValues.Address}>
+          {getFieldDecorator('Address', {
+            rules: [{ required: true, message: 'Home Address' }]
+          })(<Input placeholder="Home Address" />)}
+        </DetectLanguage>
         {getFieldError('Address') && (
           <ErrorMesseage>{getFieldError('Address').join(', ')}</ErrorMesseage>
         )}

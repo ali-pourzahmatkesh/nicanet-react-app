@@ -11,6 +11,7 @@ import Drug from '../Components/Drug';
 import ContinueButton from '../Components/ContinueButton';
 import { CaseApi } from 'Api/CaseApi';
 import { getCase, setCase } from '../../../utils/utils';
+import DetectLanguage from '../../../components/DetectLanguage/DetectLanguageComponent';
 
 const AddWrapper = styled.div`
   display: flex;
@@ -39,10 +40,11 @@ function AddCaseStepSixForm(props: AddCaseStepSixFormProps) {
   const [selectedTags, setSelectedTags] = useState<any[]>([]);
 
   const {
-    form: { getFieldDecorator, validateFields, setFieldsValue },
+    form: { getFieldDecorator, validateFields, setFieldsValue, getFieldsValue },
     onSubmit,
     caseId
   } = props;
+  const formValues = getFieldsValue();
 
   useEffect(() => {
     const effect = async () => {
@@ -105,9 +107,11 @@ function AddCaseStepSixForm(props: AddCaseStepSixFormProps) {
       <PaddedWrapper>
         {diagnosisCount.map((item: number) => (
           <CaseFormItem key={item.toString()}>
-            {getFieldDecorator(`Diagnoses_${item}`)(
-              <Textarea placeholder="Write your Diagnosis" />
-            )}
+            <DetectLanguage value={formValues[`Diagnoses_${item}`]}>
+              {getFieldDecorator(`Diagnoses_${item}`)(
+                <Textarea placeholder="Write your Diagnosis" />
+              )}
+            </DetectLanguage>
           </CaseFormItem>
         ))}
 
@@ -127,9 +131,11 @@ function AddCaseStepSixForm(props: AddCaseStepSixFormProps) {
       <PaddedWrapper>
         {prescriptionsCount.map((item: number) => (
           <CaseFormItem key={item.toString()}>
-            {getFieldDecorator(`Prescriptions_${item}`)(
-              <Textarea placeholder="Write your Prescription" />
-            )}
+            <DetectLanguage value={formValues[`Prescriptions_${item}`]}>
+              {getFieldDecorator(`Prescriptions_${item}`)(
+                <Textarea placeholder="Write your Prescription" />
+              )}
+            </DetectLanguage>
           </CaseFormItem>
         ))}
 

@@ -11,6 +11,7 @@ import Input from 'components/Input/InputComponent';
 import CasePhotoUploader from '../Components/CasePhotoUploader';
 import Select from 'components/Select/SelectComponent';
 import { setCase, getCase } from '../../../utils/utils';
+import DetectLanguage from '../../../components/DetectLanguage/DetectLanguageComponent';
 
 const CaseFormItemesWrapper = styled.div<{ hasUnit?: boolean }>`
   display: ${props => (props.hasUnit ? 'flex' : 'block')};
@@ -104,12 +105,22 @@ function AddCaseStepFiveFormOne(props: AddCaseStepFiveFormOneProps) {
                           }
                         >
                           <CaseFormItem>
-                            {childNode.Title === 'Note' &&
-                              getFieldDecorator(
-                                `Note_ExaminationValue_${
-                                  childNode.ExaminationTypeId
-                                }`
-                              )(<Textarea placeholder="Note" />)}
+                            <DetectLanguage
+                              value={
+                                formValues[
+                                  `Note_ExaminationValue_${
+                                    childNode.ExaminationTypeId
+                                  }`
+                                ]
+                              }
+                            >
+                              {childNode.Title === 'Note' &&
+                                getFieldDecorator(
+                                  `Note_ExaminationValue_${
+                                    childNode.ExaminationTypeId
+                                  }`
+                                )(<Textarea placeholder="Note" />)}
+                            </DetectLanguage>
                             {childNode.Title !== 'Note' &&
                               getFieldDecorator(
                                 `ExaminationValue_${
