@@ -308,7 +308,7 @@ function PostContainer(
 
           {+user.PersonId === +WrittenById && (
             <DeleteBtn>
-              <Delete onClick={deleteConfirmation}>Delete Case</Delete>
+              <Delete onClick={deleteConfirmation}>Delete Post</Delete>
             </DeleteBtn>
           )}
 
