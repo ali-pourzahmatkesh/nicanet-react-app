@@ -13,9 +13,9 @@ const Container = styled.div`
 const Image = styled.img`
   width: 100%;
   display: block;
-  border-top-right-radius: 5px;
-  border-top-left-radius: 5px;
-  border-radius: ${props => props.hasBorderRadius && '5px'};
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  border-radius: ${props => props.hasBorderRadius && '10px'};
 `;
 
 const Title = styled.div`
@@ -93,10 +93,10 @@ function Card(props) {
     postSelected
   } = props;
 
-  if(postSelected &&  postSelected.ContentId === mainId) {
-    let cart = document.getElementById('post-cart-' + mainId)
-    if( cart ) {
-      cart.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  if (postSelected && postSelected.ContentId === mainId) {
+    let cart = document.getElementById('post-cart-' + mainId);
+    if (cart) {
+      cart.scrollIntoView({ behavior: 'smooth', block: 'center' });
       localStorage.removeItem('postSelected');
     }
   }
