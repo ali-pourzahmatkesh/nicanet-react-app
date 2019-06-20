@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { BounceLoader } from 'react-spinners';
-import { CaseApi } from '../../../Api/CaseApi';
 import { StringValue, LoadingWrapprer, Value } from '../Components/Styled';
 import styled from 'styled-components';
 import ShowCaseItem from '../Components/ShowCaseItem';
@@ -109,9 +108,7 @@ function ShowCaseStepOne(props: ShowCaseStepOneProps) {
     <div>
       {PatientDescription && (
         <ShowCaseItem title="Patient Information:">
-          <DetectLanguage value={PatientDescription}>
-            <Value>{PatientDescription}</Value>
-          </DetectLanguage>
+          <Value>{PatientDescription}</Value>
           {Height > 0 && <Value>Height: {Height}</Value>}
           {Weight > 0 && <Value>Weight: {Weight}</Value>}
         </ShowCaseItem>

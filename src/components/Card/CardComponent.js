@@ -96,7 +96,7 @@ function Card(props) {
   if (postSelected && postSelected.ContentId === mainId) {
     let cart = document.getElementById('post-cart-' + mainId);
     if (cart) {
-      cart.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      cart.scrollIntoView({ block: 'center' });
       localStorage.removeItem('postSelected');
     }
   }
@@ -129,11 +129,12 @@ function Card(props) {
               </AuthorInfo>
             </AuthorWrapper>
           )}
-          {title && (
+          {typeId === 104 && title && (
             <DetectLanguage value={title}>
               <Title>{title}</Title>
             </DetectLanguage>
           )}
+          {typeId === 1425 && title && <Title>{title}</Title>}
           {subtitle && (
             <DetectLanguage value={subtitle}>
               <Subtitle>{subtitle}</Subtitle>
