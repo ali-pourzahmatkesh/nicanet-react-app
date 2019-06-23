@@ -4,7 +4,7 @@ import Layout from 'components/Partials/Layout';
 import { RouteComponentProps } from 'react-router';
 import { CaseApi } from 'Api/CaseApi';
 import Heading from './Components/Heading';
-import { HOME_ROUTE } from 'router/RouterConstants';
+import { HOME_ROUTE, NOT_FOUND_ROUTE } from 'router/RouterConstants';
 import MultiButton from 'components/MultiButton/MultiButton';
 import ShowCaseStepFourDX from './Content/ShowCaseStepFourDX';
 import ShowCaseStepFourRX from './Content/ShowCaseStepFourRX';
@@ -41,17 +41,22 @@ const ShowCaseStepFourContainer: React.FC<
 
   useEffect(() => {
     const effect = async () => {
-      const response = await CaseApi.getCase(caseId, false);
-      if (response.status !== 200) return;
-      const CaseInfo = response.data;
-      // console.log('CaseInfo', CaseInfo);
-      setCaseInfo(CaseInfo);
-      setContentId(CaseInfo.ContentId);
-      setPersonVoted(CaseInfo.PersonVoted);
-      setPersonVote(CaseInfo.PersonVote);
+      try {
+        const response = await CaseApi.getCase(caseId, false);
+        if (response.status !== 200) return;
+        const CaseInfo = response.data;
+        // console.log('CaseInfo', CaseInfo);
+        setCaseInfo(CaseInfo);
+        setContentId(CaseInfo.ContentId);
+        setPersonVoted(CaseInfo.PersonVoted);
+        setPersonVote(CaseInfo.PersonVote);
+      } catch (err) {
+        console.log('error in get case: ', err);
+        props.history.push(NOT_FOUND_ROUTE);
+      }
     };
     effect();
-  }, [caseId]);
+  }, [caseId, props.history]);
 
   const updateCase = async () => {
     try {

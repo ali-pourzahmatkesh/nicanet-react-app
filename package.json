@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@types/react-avatar-editor": "^10.3.4",
+    "@types/react-cropper": "^0.10.6",
     "@types/react-slick": "^0.23.4",
     "@types/slick-carousel": "^1.6.33",
     "axios": "^0.18.0",
@@ -16,7 +18,9 @@
     "moment-jalaali": "^0.8.3",
     "rc-form": "^2.4.4",
     "react": "^16.8.6",
+    "react-avatar-editor": "^11.0.7",
     "react-confirm-alert": "^2.4.1",
+    "react-cropper": "^1.2.0",
     "react-dates": "^20.2.0",
     "react-dom": "^16.8.6",
     "react-icons": "^3.6.1",
