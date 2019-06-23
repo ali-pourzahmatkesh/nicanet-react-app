@@ -13,8 +13,6 @@ import { ConfigApi } from 'Api/ConfigApi';
 import { UsersApi } from 'Api/UsersApi';
 import { RouteComponentProps } from 'react-router';
 import { passwordValidation } from '../../utils/validation';
-import avatarPhoto from '../../Assets/avatar.jpg';
-import { API_FILES_BASE_URL } from 'constants/ApiConstants';
 import PhotoUploader, {
   Photo
 } from 'components/PhotoUploader/PhotoUploaderComponent';
@@ -35,14 +33,6 @@ const LoadingWrapprer = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 1rem;
-`;
-
-const Avatar = styled.img`
-  width: 120px;
-  height: 120px;
-  border-radius: 90px;
-  border: solid 1px #eeeeee;
-  background-size: cover;
 `;
 
 const Title = styled.div<{ primary?: boolean }>`
@@ -92,6 +82,7 @@ const EditProfileContainer: React.FC<
   const [passwordRepeatError, setPasswordRepeatError] = useState('');
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [photoError, setPhotoError] = useState('');
 
   const {
     getFieldError,
@@ -219,17 +210,37 @@ const EditProfileContainer: React.FC<
 
   const uploadPhoto = async (photo: Photo) => {
     try {
+      setPhotoError('');
       setIsLoading(true);
       const bodyFormData = new FormData();
 
-      const image = new File([photo.file], photo.file.name, {
+      const dataURI = photo.previewUrl;
+      if (!dataURI) return;
+      const byteString = atob(dataURI.toString().split(',')[1]);
+
+      // separate out the mime component
+      const mimeString = dataURI
+        .toString()
+        .split(',')[0]
+        .split(':')[1]
+        .split(';')[0];
+
+      const array = [];
+      for (var i = 0; i < byteString.length; i++) {
+        array.push(byteString.charCodeAt(i));
+      }
+
+      const blob = new Blob([new Uint8Array(array)], { type: mimeString });
+      const image = new File([blob], photo.file.name, {
         type: photo.file.type
       });
       bodyFormData.append('file', image);
 
-      const reponse = await UsersApi.uploadUserPhoto(bodyFormData);
-      if (reponse.status === 204) setPhotos([photo]);
+      const { status } = await UsersApi.uploadUserPhoto(bodyFormData);
+      if (status !== 204) throw status;
+      setPhotos([photo]);
     } catch (_) {
+      setPhotoError('maximum size is 1500*1500');
     } finally {
       setIsLoading(false);
     }
@@ -246,24 +257,6 @@ const EditProfileContainer: React.FC<
   return (
     <Layout>
       <ProfileFormImageItem>
-        {photos.length > 0 ? (
-          <div>
-            {photos.map((photo, index) => {
-              if (photo.previewUrl === null) return null;
-
-              return (
-                <Avatar
-                  key={photo.previewUrl.toString()}
-                  src={photo.previewUrl.toString()}
-                />
-              );
-            })}{' '}
-          </div>
-        ) : (
-          <Avatar
-            src={ImageUrl ? `${API_FILES_BASE_URL}/${ImageUrl}` : avatarPhoto}
-          />
-        )}
         <PhotoUploader
           isLoading={isLoading}
           photos={photos}
@@ -274,7 +267,10 @@ const EditProfileContainer: React.FC<
           onDeletePhoto={photoIndex =>
             setPhotos([...photos].filter((p, index) => index !== photoIndex))
           }
-          preview={false}
+          source="profile"
+          customImage
+          error={photoError}
+          preview={ImageUrl}
         />
       </ProfileFormImageItem>
 

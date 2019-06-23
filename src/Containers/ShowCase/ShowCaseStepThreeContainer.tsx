@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Layout from 'components/Partials/Layout';
 import { RouteComponentProps } from 'react-router';
 import { CaseApi } from 'Api/CaseApi';
+import { NOT_FOUND_ROUTE } from '../../router/RouterConstants';
 import Heading from './Components/Heading';
 import MultiButton from 'components/MultiButton/MultiButton';
 import ContinueButton from './Components/ContinueButton';
@@ -43,13 +44,18 @@ const ShowCaseStepThreeContainer: React.FC<
 
   useEffect(() => {
     const effect = async () => {
-      const response = await CaseApi.getCase(caseId, false);
-      if (response.status !== 200) return;
-      setCaseInfo(response.data);
-      setCaseExaminations(response.data.Examinations);
+      try {
+        const response = await CaseApi.getCase(caseId, false);
+        if (response.status !== 200) return;
+        setCaseInfo(response.data);
+        setCaseExaminations(response.data.Examinations);
+      } catch (err) {
+        console.log('error in get case: ', err);
+        props.history.push(NOT_FOUND_ROUTE);
+      }
     };
     effect();
-  }, [caseId]);
+  }, [caseId, props.history]);
 
   useEffect(() => {
     const effect = async () => {

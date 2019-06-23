@@ -6,6 +6,7 @@ import { CaseApi } from 'Api/CaseApi';
 import Heading from './Components/Heading';
 import MultiButton from 'components/MultiButton/MultiButton';
 import ContinueButton from './Components/ContinueButton';
+import { NOT_FOUND_ROUTE } from '../../router/RouterConstants';
 import ShowCaseStepTwoAll from './Content/ShowCaseStepTwoAll';
 import ShowCaseStepTwoPositive from './Content/ShowCaseStepTwoPositive';
 import ShowCaseStepTwoNegative from './Content/ShowCaseStepTwoNegative';
@@ -45,13 +46,18 @@ const ShowCaseStepTwoContainer: React.FC<
 
   useEffect(() => {
     const effect = async () => {
-      const response = await CaseApi.getCase(caseId, false);
-      if (response.status !== 200) return;
-      setCaseInfo(response.data);
-      setSignSymptoms(response.data.SignSymptoms);
+      try {
+        const response = await CaseApi.getCase(caseId, false);
+        if (response.status !== 200) return;
+        setCaseInfo(response.data);
+        setSignSymptoms(response.data.SignSymptoms);
+      } catch (err) {
+        console.log('error in get case: ', err);
+        props.history.push(NOT_FOUND_ROUTE);
+      }
     };
     effect();
-  }, [caseId]);
+  }, [caseId, props.history]);
 
   useEffect(() => {
     const effect = async () => {
