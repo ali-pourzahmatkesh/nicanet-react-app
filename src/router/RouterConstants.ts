@@ -44,3 +44,6 @@ export const EDIT_PROFILE_ROUTE = '/edit-profile';
 
 // 404
 export const NOT_FOUND_ROUTE = '/404';
+
+// SCIENCE BOX
+export const SCIENCE_BOX_ROUTE = '/sciencebox';

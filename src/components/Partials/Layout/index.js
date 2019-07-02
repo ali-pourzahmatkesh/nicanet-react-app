@@ -42,15 +42,24 @@ export default function Layout({
   children,
   noPadding = false,
   noHeader = false,
-  title = 'Pointina'
+  title = '',
+  isWide = false,
+  hasZindex = false
 }) {
   return (
     <Fragment>
       <ToastContainer />
       <GlobalStyle />
-      <Header noHeader={noHeader} />
-      <ContentWrapper noHeader={noHeader}>
-        <ContentContainer noPadding={noPadding}>{children}</ContentContainer>
+      <Header
+        noHeader={noHeader}
+        title={title}
+        hasZindex={hasZindex}
+        isWide={isWide}
+      />
+      <ContentWrapper theme={{ noHeader, isWide }}>
+        <ContentContainer theme={{ noHeader, isWide, noPadding }}>
+          <Content noPadding={noPadding}>{children}</Content>
+        </ContentContainer>
       </ContentWrapper>
       <TabBar />
     </Fragment>
@@ -58,24 +67,25 @@ export default function Layout({
 }
 
 const ContentWrapper = styled.div`
-  padding-bottom: 70px;
-  max-width: 560px;
+  background-color: ${props => (props.theme.isWide ? '#fff' : '#eee')};
+`;
+
+const ContentContainer = styled.div`
+  max-width: ${props => (props.theme.isWide ? '960px' : '560px')};
   margin: 0 auto;
   background-color: #fff;
+  padding-bottom: 70px;
   min-height: 100vh;
-  padding-top: ${props => (props.noHeader ? '0' : '60px')};
+  padding-top: ${props => (props.theme.noHeader ? '0' : '60px')};
   @media (min-width: 720px) {
+    border-left: ${props => (props.theme.isWide ? '0' : '1px solid #eee')};
+    border-right: ${props => (props.theme.isWide ? '0' : '1px solid #eee')};
     min-height: calc(100vh - 100px);
-    border-left: 1px solid #eee;
-    border-right: 1px solid #eee;
     padding-top: 0;
     padding-bottom: 0;
   }
 `;
 
-const ContentContainer = styled.div`
-  margin: 0 auto;
-  background-color: #fff;
+const Content = styled.div`
   padding: ${props => (props.noPadding ? 0 : '1rem')};
-  // max-width: 1200px;
 `;

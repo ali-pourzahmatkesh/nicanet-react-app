@@ -36,6 +36,7 @@ import AddAdrStepFive from 'Containers/AddAdr/AddAdrStepFive';
 import EditProfile from 'Containers/EditProfile/EditProfileContainer';
 import SearchContainer from 'Containers/Search/SearchContainer';
 import NotFoundContainer from 'Containers/NotFound/NotFoundContainer';
+import CmeContainer from 'Containers/ScienceBox/CME/CmeContainer';
 
 import {
   ROOT_ROUTE,
@@ -65,7 +66,8 @@ import {
   SHOW_CASE_STEP_FOUR_ROUTE,
   EDIT_PROFILE_ROUTE,
   SEARCH_ROUTE,
-  NOT_FOUND_ROUTE
+  NOT_FOUND_ROUTE,
+  SCIENCE_BOX_ROUTE
 } from './RouterConstants';
 
 interface AppRouterProps {
@@ -109,7 +111,8 @@ class AppRouter extends React.Component<
       !location.pathname.startsWith('/show-case-step-three') &&
       !location.pathname.startsWith('/show-case-step-four') &&
       location.pathname !== EDIT_PROFILE_ROUTE &&
-      location.pathname !== SEARCH_ROUTE
+      location.pathname !== SEARCH_ROUTE &&
+      location.pathname !== SCIENCE_BOX_ROUTE
     ) {
       return <Redirect to={NOT_FOUND_ROUTE} />;
     }
@@ -205,6 +208,7 @@ class AppRouter extends React.Component<
         />
         <Route path={EDIT_PROFILE_ROUTE} exact component={EditProfile} />
         <Route path={SEARCH_ROUTE} exact component={SearchContainer} />
+        <Route path={SCIENCE_BOX_ROUTE} exact component={CmeContainer} />
         <Route path={NOT_FOUND_ROUTE} component={NotFoundContainer} />
       </Switch>
     );
