@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { BounceLoader } from 'react-spinners';
+import InfiniteScroll from 'react-infinite-scroller';
 import Layout from 'components/Partials/Layout';
 import { RouteComponentProps } from 'react-router';
 import { CmeApi } from '../../../Api/CmeApi';
 import debounce from 'lodash.debounce';
 import ScienceBoxCard from './Components/ScienceBoxCard';
 import SearchInput from './Components/SearchInput';
+import { API_PAGINATION_TAKE } from '../../../constants/ApiConstants';
 
 const List = styled.div`
   display: flex;
@@ -23,6 +25,8 @@ const Card = styled.div`
   }
   @media (min-width: 960px) {
     width: 33.3333%;
+    // width: 100%;
+    // height: 200px;
   }
 `;
 
@@ -71,46 +75,61 @@ const Title = styled.div`
   font-weight: bold;
 `;
 
+const ScrollParent = styled.div``;
+
 interface CmeContainerProps {}
 
 function CmeContainer(props: CmeContainerProps & RouteComponentProps<{}>) {
-  const [courseList, setCourseLists] = useState([]);
-  const [isFetching, setIsFetching] = useState(false);
+  const [courseList, setCourseList] = useState([]);
   const [isSearchingCourse, setIsSearchingCourse] = useState(false);
+  const [hasMoreItems, setHasMoreItems] = useState(true);
+  const [pageNumber, setPageNumber] = useState(0);
 
-  useEffect(() => {
-    const effect = async () => {
-      setIsFetching(true);
-      try {
-        const response = await CmeApi.getCourseList();
-        console.log('response', response);
-        if (response.status === 200) {
-          const data = response.data.CourseList;
-          setCourseLists(data);
+  const getCourceList = async () => {
+    try {
+      const response = await CmeApi.getCourseList(pageNumber);
+      console.log('response', response);
+      await setHasMoreItems(false);
+      if (response.status === 200) {
+        const AllCount = response.data.AllCount;
+        setCourseList(courseList.concat(response.data.CourseList));
+        if (
+          (pageNumber + 1) * API_PAGINATION_TAKE <
+          AllCount + API_PAGINATION_TAKE
+        ) {
+          await setHasMoreItems(true);
+          await setPageNumber(pageNumber + 1);
         }
-      } catch (err) {
-        console.log('error in get course list: ', err);
-      } finally {
-        setIsFetching(false);
       }
-    };
-    effect();
-  }, []);
+    } catch (err) {
+      setHasMoreItems(false);
+      console.log('error in get course list: ', err);
+    } finally {
+      await setHasMoreItems(false);
+    }
+  };
 
   const onSearchCourses = async (searchValue: any) => {
+    console.log('yess');
     setIsSearchingCourse(true);
     try {
-      const response = await CmeApi.getCourseList(searchValue);
-      const data = response.data.CourseList;
-      setCourseLists(data);
-    } catch (_) {
+      const response = await CmeApi.getSearchedCourseList(searchValue);
+      if (response.status === 200) {
+        setCourseList(response.data.CourseList);
+      }
+    } catch (err) {
+      console.log('error in get searched course list: ', err);
     } finally {
       setIsSearchingCourse(false);
     }
   };
 
-  const onSearchCoursesDebounced = debounce(onSearchCourses, 500);
-
+  const onSearchCoursesDebounced = debounce(onSearchCourses, 1000);
+  const loader = (
+    <LoadingWrapprer key={0}>
+      <BounceLoader sizeUnit="rem" size={3} color="#5498a9" loading />
+    </LoadingWrapprer>
+  );
   return (
     <Layout title="Courses" isWide hasZindex>
       <PageTitle>
@@ -123,13 +142,31 @@ function CmeContainer(props: CmeContainerProps & RouteComponentProps<{}>) {
         />
       </SearchInputContainer>
 
-      {isFetching && (
-        <LoadingWrapprer>
-          <BounceLoader sizeUnit="rem" size={3} color="#5498a9" loading />
-        </LoadingWrapprer>
-      )}
+      <ScrollParent>
+        <InfiniteScroll
+          pageStart={0}
+          loadMore={getCourceList}
+          hasMore={hasMoreItems}
+          loader={loader}
+        >
+          <List>
+            {courseList.length > 0 &&
+              courseList.map((course, index) => {
+                return (
+                  <Card key={index.toString()}>
+                    <ScienceBoxCard
+                      isLarge={index === 0}
+                      course={course}
+                      // onPress={() => this.onCoursePress(course)}
+                    />
+                  </Card>
+                );
+              })}
+          </List>
+        </InfiniteScroll>
+      </ScrollParent>
 
-      <List>
+      {/* <List>
         {courseList.length > 0 &&
           courseList.map((course, index) => {
             return (
@@ -142,7 +179,7 @@ function CmeContainer(props: CmeContainerProps & RouteComponentProps<{}>) {
               </Card>
             );
           })}
-      </List>
+      </List> */}
     </Layout>
   );
 }
