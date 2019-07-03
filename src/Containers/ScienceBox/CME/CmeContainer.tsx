@@ -88,15 +88,12 @@ function CmeContainer(props: CmeContainerProps & RouteComponentProps<{}>) {
   const getCourceList = async () => {
     try {
       const response = await CmeApi.getCourseList(pageNumber);
-      console.log('response', response);
+      // console.log('response', response);
       await setHasMoreItems(false);
       if (response.status === 200) {
         const AllCount = response.data.AllCount;
         setCourseList(courseList.concat(response.data.CourseList));
-        if (
-          (pageNumber + 1) * API_PAGINATION_TAKE <
-          AllCount + API_PAGINATION_TAKE
-        ) {
+        if (pageNumber * API_PAGINATION_TAKE < AllCount) {
           await setHasMoreItems(true);
           await setPageNumber(pageNumber + 1);
         }
@@ -110,7 +107,6 @@ function CmeContainer(props: CmeContainerProps & RouteComponentProps<{}>) {
   };
 
   const onSearchCourses = async (searchValue: any) => {
-    console.log('yess');
     setIsSearchingCourse(true);
     try {
       const response = await CmeApi.getSearchedCourseList(searchValue);
