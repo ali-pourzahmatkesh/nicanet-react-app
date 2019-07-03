@@ -94,7 +94,6 @@ function CmeContainer(props: CmeContainerProps & RouteComponentProps<{}>) {
       if (response.status === 200) {
         const AllCount = response.data.AllCount;
         setCourseList(courseList.concat(response.data.CourseList));
-        console.log('pageNumber', pageNumber);
         if ((pageNumber + 1) * API_PAGINATION_TAKE < AllCount) {
           await setHasMoreItems(true);
           await setPageNumber(pageNumber + 1);
