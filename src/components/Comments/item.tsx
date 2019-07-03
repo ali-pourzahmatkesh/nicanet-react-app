@@ -109,9 +109,10 @@ type CommentItemProps = {
   level: number;
   onReply: (parentId: number) => void;
   goToProfile?: (parentId: number) => void;
+  disabled?: boolean;
 };
 const CommentItem: React.FC<CommentItemProps> = props => {
-  const { cm, level, onReply, handleLike, goToProfile } = props;
+  const { cm, level, onReply, handleLike, goToProfile, disabled } = props;
   const [voted, setVoted] = useState(false);
   const [like, setLike] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
@@ -198,7 +199,7 @@ const CommentItem: React.FC<CommentItemProps> = props => {
             <Text>{disLikeCount}</Text>
           </Action>
           <Reply onClick={() => onReply(cm.CommentId)}>
-            {level < 4 && <MdReply color="#bdbdbd" size={22} />}
+            {level < 4 && !disabled && <MdReply color="#bdbdbd" size={22} />}
           </Reply>
           <TimeAgo>{cm.TimeElapsed}</TimeAgo>
         </CommentActions>

@@ -11,6 +11,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: ${props => (props.isLarge ? 'column' : 'row')};
   padding: ${props => (props.isLarge ? '0' : '10px')};
+  cursor: pointer;
   @media (min-width: 420px) {
     padding: ${props => (props.isLarge ? '0' : '18px')};
   }

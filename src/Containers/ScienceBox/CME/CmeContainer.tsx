@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { BounceLoader } from 'react-spinners';
 import InfiniteScroll from 'react-infinite-scroller';
@@ -25,8 +25,6 @@ const Card = styled.div`
   }
   @media (min-width: 960px) {
     width: 33.3333%;
-    // width: 100%;
-    // height: 200px;
   }
 `;
 
@@ -78,6 +76,11 @@ const Title = styled.div`
 
 const ScrollParent = styled.div``;
 
+const Empty = styled.div`
+  text-align: center;
+  padding: 20px 0;
+`;
+
 interface CmeContainerProps {}
 
 function CmeContainer(props: CmeContainerProps & RouteComponentProps<{}>) {
@@ -85,11 +88,12 @@ function CmeContainer(props: CmeContainerProps & RouteComponentProps<{}>) {
   const [isSearchingCourse, setIsSearchingCourse] = useState(false);
   const [hasMoreItems, setHasMoreItems] = useState(true);
   const [pageNumber, setPageNumber] = useState(0);
+  const [searchValue, setSearchValue] = useState('');
 
   const getCourceList = async () => {
     try {
       const response = await CmeApi.getCourseList(pageNumber);
-      // console.log('response', response);
+      console.log('response', response.data);
       await setHasMoreItems(false);
       if (response.status === 200) {
         const AllCount = response.data.AllCount;
@@ -109,6 +113,7 @@ function CmeContainer(props: CmeContainerProps & RouteComponentProps<{}>) {
 
   const onSearchCourses = async (searchValue: any) => {
     setIsSearchingCourse(true);
+    setSearchValue(searchValue);
     try {
       const response = await CmeApi.getSearchedCourseList(searchValue);
       if (response.status === 200) {
@@ -120,6 +125,11 @@ function CmeContainer(props: CmeContainerProps & RouteComponentProps<{}>) {
       setIsSearchingCourse(false);
     }
   };
+
+  const onCoursePress = (course: any) =>
+    course.Bought
+      ? props.history.push(`course/${course.CourseId}`)
+      : props.history.push(`course/${course.CourseId}`);
 
   const onSearchCoursesDebounced = debounce(onSearchCourses, 1000);
   const loader = (
@@ -139,6 +149,10 @@ function CmeContainer(props: CmeContainerProps & RouteComponentProps<{}>) {
         />
       </SearchInputContainer>
 
+      {searchValue && courseList.length === 0 && (
+        <Empty>No results found.</Empty>
+      )}
+
       <ScrollParent>
         <InfiniteScroll
           pageStart={0}
@@ -154,7 +168,7 @@ function CmeContainer(props: CmeContainerProps & RouteComponentProps<{}>) {
                     <ScienceBoxCard
                       isLarge={index === 0}
                       course={course}
-                      // onPress={() => this.onCoursePress(course)}
+                      onPress={() => onCoursePress(course)}
                     />
                   </Card>
                 );
@@ -162,21 +176,6 @@ function CmeContainer(props: CmeContainerProps & RouteComponentProps<{}>) {
           </List>
         </InfiniteScroll>
       </ScrollParent>
-
-      {/* <List>
-        {courseList.length > 0 &&
-          courseList.map((course, index) => {
-            return (
-              <Card key={index.toString()}>
-                <ScienceBoxCard
-                  isLarge={index === 0}
-                  course={course}
-                  // onPress={() => this.onCoursePress(course)}
-                />
-              </Card>
-            );
-          })}
-      </List> */}
     </Layout>
   );
 }

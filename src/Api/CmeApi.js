@@ -10,5 +10,19 @@ export const CmeApi = {
   getSearchedCourseList: (searchValue = '') => {
     const url = `/CourseList?SearchText=${searchValue}`;
     return Api.get(url);
-  }
+  },
+  getCourse: courseId => Api.get(`/Course/${courseId}`),
+  likeContent: (CourseId, CourseCommentId, IsLike) =>
+    Api.post('/CourseLike', {
+      CourseId,
+      CourseCommentId,
+      IsLike
+    }),
+  removeLikeOrDislike: (CourseId, CourseCommentId) =>
+    Api.delete('/CourseLike', {
+      data: {
+        CourseId,
+        CourseCommentId
+      }
+    })
 };
