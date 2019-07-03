@@ -36,6 +36,7 @@ const LoadingWrapprer = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 1rem;
+  width: 100%;
 `;
 
 const SearchInputContainer = styled.div`
@@ -93,7 +94,8 @@ function CmeContainer(props: CmeContainerProps & RouteComponentProps<{}>) {
       if (response.status === 200) {
         const AllCount = response.data.AllCount;
         setCourseList(courseList.concat(response.data.CourseList));
-        if (pageNumber * API_PAGINATION_TAKE < AllCount) {
+        console.log('pageNumber', pageNumber);
+        if ((pageNumber + 1) * API_PAGINATION_TAKE < AllCount) {
           await setHasMoreItems(true);
           await setPageNumber(pageNumber + 1);
         }
