@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { numberWithCommas } from '../../../utils/utils';
-import playImage from '../../../Assets/play.png';
 import { toast } from 'react-toastify';
 import { BounceLoader } from 'react-spinners';
 import Layout from 'components/Partials/Layout';
 import { RouteComponentProps } from 'react-router';
 import { CmeApi } from '../../../Api/CmeApi';
 import avatarPhoto from '../../../Assets/avatar.jpg';
-import { IoIosVideocam } from 'react-icons/io';
 import ContentActions from '../../../components/ContentActions/ContentActionsComponent';
 import ContentStatusBar from '../../../components/ContentStatusBar/ContentStatusBarComponent';
 import CommentsComponent from '../../../components/Comments/CommentsComponent';
+import BuyInfo from './Components/BuyInfo';
+import movieIcon from '../../../Assets/movie.svg';
 
 const Container = styled.div`
   margin-top: -10px;
@@ -37,28 +36,16 @@ const ImageBackground = styled.img`
 `;
 
 const MoreButton = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
   border-radius: 5px;
   background-color: rgba(0, 0, 0, 0.8);
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translateY(-50%);
-  padding: 8px;
   width: 136px;
   margin-left: -68px;
 `;
 
-const MoreButtonText = styled.div`
-  color: #fff;
-  flex: 1;
-  text-align: center;
-  font-size: 12px;
-`;
-
-const MoreButtonPlayIcon = styled.img``;
 const DetailsWrapper = styled.div`
   display: flex;
   flex: 1;
@@ -79,6 +66,7 @@ const LoadingWrapprer = styled.div`
 const AuthorWrapper = styled.div`
   display: flex;
   flex-direction: row;
+  flex: 1;
 `;
 
 const AuthorImage = styled.img`
@@ -91,7 +79,6 @@ const AuthorImage = styled.img`
 `;
 
 const AuthorName = styled.div`
-  font-size: 14;
   font-weight: bold;
   margin-bottom: 4px;
 `;
@@ -110,12 +97,14 @@ const TrailerWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+  width: 100px;
 `;
 
 const TrailerText = styled.div`
-  font-size: 14px;
+  font-size: 12px;
   font-weight: bold;
   margin-left: 5px;
+  margin-top: 3px;
 `;
 
 const CourseInfo = styled.div`
@@ -132,7 +121,7 @@ const CourseTitle = styled.div`
 `;
 
 const CourseDesc = styled.div`
-  color: rgb(117, 117, 117);
+  color: #757575;
   font-size: 12px;
   margin-bottom: 28px;
 `;
@@ -141,23 +130,52 @@ const CourseInfoCol = styled.div`
   display: flex;
   flex-direction: row;
   margin-bottom: 8px;
+  margin: 0.6rem 0;
 `;
 
-const CourseInfoText = styled.div`
+const CourseInfoText = styled.div<{ hasMargin?: boolean }>`
   color: rgb(117, 117, 117);
   font-size: 10px;
   padding-left: 5px;
   padding-right: 5px;
+  margin-right: ${props => (props.hasMargin ? '12px' : '0')};
+  @media (min-width: 720px) {
+    font-size: 13px;
+  }
 `;
 
 const CourseInfoNumber = styled.div`
   font-weight: bold;
   color: #5498a9;
   font-size: 10px;
+  @media (min-width: 720px) {
+    font-size: 13px;
+  }
 `;
 
 const Interactions = styled.div`
   margin-top: 3.5rem;
+`;
+
+const MoreButtonTexts = styled.div`
+  color: #fff;
+  text-align: center;
+  padding: 8px;
+  cursor: pointer;
+`;
+
+const Purchased = styled.div`
+  font-size: 0.6rem;
+  margin-bottom: 5px;
+`;
+
+const ViewEpisodes = styled.div`
+  font-size: 0.7rem;
+  font-weight: bold;
+`;
+
+const Icon = styled.img`
+  width: 20px;
 `;
 
 interface SienceBoxCourseContainerProps {}
@@ -200,7 +218,6 @@ function SienceBoxCourseContainer(
 
   const {
     CourseName: courseName,
-    Price: coursePrice,
     Teacher: courseTeacher,
     Episodes: courseEpisodesCount,
     TrainingPoints: courseTrainingPoints,
@@ -212,7 +229,8 @@ function SienceBoxCourseContainer(
     CourseComments: courseComments,
     PersonVoted,
     PersonVote,
-    CommentCount
+    CommentCount,
+    CourseId
   } = course;
 
   const updateCourse = async () => {
@@ -258,19 +276,28 @@ function SienceBoxCourseContainer(
     }
   };
 
+  const onBuyPress = () => {
+    console.log('go to bank');
+  };
+
+  const onViewEpisodesPress = (course: any) =>
+    props.history.push(`/episodes/${course.CourseId}`);
+
   return (
-    <Layout title="Videos" hasZindex noPadding>
+    <Layout title="Videos" noPadding>
       <Container>
         <ImageWrapper>
           <ImageBackground
             src={`https://api.pointina.ir${courseIntroductionUrl}`}
           />
           <MoreButton>
-            <MoreButtonPlayIcon src={playImage} alt="" />
-            {!bought && (
-              <MoreButtonText>
-                {numberWithCommas(coursePrice)} IRR
-              </MoreButtonText>
+            {bought ? (
+              <MoreButtonTexts onClick={() => onViewEpisodesPress(course)}>
+                <Purchased>Purchased</Purchased>
+                <ViewEpisodes>View Episodes</ViewEpisodes>
+              </MoreButtonTexts>
+            ) : (
+              <BuyInfo course={course} onBuyPress={onBuyPress} />
             )}
           </MoreButton>
         </ImageWrapper>
@@ -292,7 +319,7 @@ function SienceBoxCourseContainer(
             </AuthorWrapper>
 
             <TrailerWrapper>
-              <IoIosVideocam color={'#5498A9'} size={22} />
+              <Icon src={movieIcon} />
               <TrailerText>Watch Trailer</TrailerText>
             </TrailerWrapper>
           </DetailsWrapper>
@@ -301,7 +328,7 @@ function SienceBoxCourseContainer(
             <CourseTitle>{courseName}</CourseTitle>
             <CourseInfoCol>
               <CourseInfoNumber>{courseEpisodesCount}</CourseInfoNumber>
-              <CourseInfoText>Episodes</CourseInfoText>
+              <CourseInfoText hasMargin>Episodes</CourseInfoText>
               <CourseInfoNumber>{courseTrainingPoints}</CourseInfoNumber>
               <CourseInfoText>Training Points</CourseInfoText>
             </CourseInfoCol>

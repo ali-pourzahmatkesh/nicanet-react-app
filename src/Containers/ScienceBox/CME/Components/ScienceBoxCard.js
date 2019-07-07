@@ -48,9 +48,6 @@ const ImageBackground = styled.img`
 `;
 
 const MoreButton = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
   border-radius: 5px;
   background-color: rgba(0, 0, 0, 0.8);
   position: absolute;
@@ -65,6 +62,12 @@ const MoreButton = styled.div`
     width: ${props => (props.isLarge ? '136px' : '136px')};
     margin-left: ${props => (props.isLarge ? '-68px' : '-68px')};
   }
+`;
+
+const MoreButtonPrice = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 
 const MoreButtonText = styled.div`
@@ -159,6 +162,21 @@ const DetailsFooterText = styled.div`
   padding: ${props => (props.noPadding ? '0' : '0 5px')};
 `;
 
+const MoreButtonTexts = styled.div`
+  color: #fff;
+  text-align: center;
+`;
+
+const Purchased = styled.div`
+  font-size: 0.6rem;
+  margin-bottom: 5px;
+`;
+
+const ViewEpisodes = styled.div`
+  font-size: 0.7rem;
+  font-weight: bold;
+`;
+
 function ScienceBoxCard(props) {
   const { onPress, course, isLarge } = props;
   if (!course) return null;
@@ -180,11 +198,18 @@ function ScienceBoxCard(props) {
           src={`https://api.pointina.ir${courseIntroductionUrl}`}
         />
         <MoreButton isLarge={isLarge}>
-          <MoreButtonPlayIcon src={playImage} isLarge={isLarge} alt="" />
-          {!bought && (
-            <MoreButtonText isLarge={isLarge}>
-              {numberWithCommas(coursePrice)} IRR
-            </MoreButtonText>
+          {bought ? (
+            <MoreButtonTexts>
+              <Purchased>Purchased</Purchased>
+              <ViewEpisodes>View Episodes</ViewEpisodes>
+            </MoreButtonTexts>
+          ) : (
+            <MoreButtonPrice>
+              <MoreButtonPlayIcon src={playImage} isLarge={isLarge} alt="" />
+              <MoreButtonText isLarge={isLarge}>
+                {numberWithCommas(coursePrice)} IRR
+              </MoreButtonText>
+            </MoreButtonPrice>
           )}
         </MoreButton>
       </ImageWrapper>

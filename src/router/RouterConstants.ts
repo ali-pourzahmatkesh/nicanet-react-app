@@ -48,3 +48,4 @@ export const NOT_FOUND_ROUTE = '/404';
 // SCIENCE BOX
 export const SCIENCE_BOX_ROUTE = '/sciencebox';
 export const COURSE_ROUTE = '/course/:courseId';
+export const EPISODES_ROUTE = '/episodes/:courseId';

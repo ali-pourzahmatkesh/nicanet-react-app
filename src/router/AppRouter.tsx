@@ -38,6 +38,7 @@ import SearchContainer from 'Containers/Search/SearchContainer';
 import NotFoundContainer from 'Containers/NotFound/NotFoundContainer';
 import CmeContainer from 'Containers/ScienceBox/CME/CmeContainer';
 import CourseContainer from 'Containers/ScienceBox/CME/Course';
+import EpisodesContainer from 'Containers/ScienceBox/CME/Episodes';
 
 import {
   ROOT_ROUTE,
@@ -69,7 +70,8 @@ import {
   SEARCH_ROUTE,
   NOT_FOUND_ROUTE,
   SCIENCE_BOX_ROUTE,
-  COURSE_ROUTE
+  COURSE_ROUTE,
+  EPISODES_ROUTE
 } from './RouterConstants';
 
 interface AppRouterProps {
@@ -115,7 +117,8 @@ class AppRouter extends React.Component<
       location.pathname !== EDIT_PROFILE_ROUTE &&
       location.pathname !== SEARCH_ROUTE &&
       location.pathname !== SCIENCE_BOX_ROUTE &&
-      !location.pathname.startsWith('/course')
+      !location.pathname.startsWith('/course') &&
+      !location.pathname.startsWith('/episodes')
     ) {
       return <Redirect to={NOT_FOUND_ROUTE} />;
     }
@@ -213,6 +216,7 @@ class AppRouter extends React.Component<
         <Route path={SEARCH_ROUTE} exact component={SearchContainer} />
         <Route path={SCIENCE_BOX_ROUTE} exact component={CmeContainer} />
         <Route path={COURSE_ROUTE} exact component={CourseContainer} />
+        <Route path={EPISODES_ROUTE} exact component={EpisodesContainer} />
         <Route path={NOT_FOUND_ROUTE} component={NotFoundContainer} />
       </Switch>
     );
