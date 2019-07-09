@@ -11,6 +11,7 @@ import ContentStatusBar from '../../../components/ContentStatusBar/ContentStatus
 import CommentsComponent from '../../../components/Comments/CommentsComponent';
 import BuyInfo from './Components/BuyInfo';
 import movieIcon from '../../../Assets/movie.svg';
+import VideoPlayer from '../../../components/VideoPlayer/VideoPlayerComponent';
 
 const Container = styled.div`
   margin-top: -10px;
@@ -22,17 +23,6 @@ const Container = styled.div`
 
 const CourseInfoWrapper = styled.div`
   padding: 10px 20px 0;
-`;
-
-const ImageWrapper = styled.div`
-  position: relative;
-  margin: 0 0 10px 0;
-  z-index: 0;
-`;
-
-const ImageBackground = styled.img`
-  width: 100%;
-  display: block;
 `;
 
 const MoreButton = styled.div`
@@ -98,6 +88,7 @@ const TrailerWrapper = styled.div`
   flex-direction: row;
   align-items: flex-start;
   width: 100px;
+  cursor: pointer;
 `;
 
 const TrailerText = styled.div`
@@ -178,6 +169,34 @@ const Icon = styled.img`
   width: 20px;
 `;
 
+const ImageWrapper = styled.div<{ isShow?: boolean }>`
+  position: relative;
+  margin: 0 0 10px 0;
+  z-index: ${props => (props.isShow ? 1 : 0)};
+  opacity: ${props => (props.isShow ? 1 : 0)};
+  transition: opacity 0.3 ease-in-out;
+`;
+
+const ImageBackground = styled.img`
+  width: 100%;
+  display: block;
+`;
+
+const VideoPlayerWrapper = styled.div<{ isShow?: boolean }>`
+  opacity: ${props => (props.isShow ? 1 : 0)};
+  transition: opacity 0.3 ease-in-out;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: ${props => (props.isShow ? 1 : 0)};
+`;
+
+const Media = styled.div`
+  position: relative;
+`;
+
 interface CourseContainerProps {}
 
 function CourseContainer(
@@ -189,6 +208,7 @@ function CourseContainer(
 
   const [course, setCourse] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
+  const [playTrailer, setPlayTrailer] = useState(false);
 
   useEffect(() => {
     const effect = async () => {
@@ -237,7 +257,8 @@ function CourseContainer(
     PersonVoted,
     PersonVote,
     CommentCount,
-    CourseId
+    CourseId,
+    TrailerUrl
   } = course;
 
   const updateCourse = async () => {
@@ -293,19 +314,31 @@ function CourseContainer(
   return (
     <Layout title="Videos" noPadding>
       <Container>
-        <ImageWrapper>
-          <ImageBackground src={`https://api.pointina.ir${courseImageUrl}`} />
-          <MoreButton>
-            {bought ? (
-              <MoreButtonTexts onClick={() => onViewEpisodesPress(course)}>
-                <Purchased>Purchased</Purchased>
-                <ViewEpisodes>View Episodes</ViewEpisodes>
-              </MoreButtonTexts>
-            ) : (
-              <BuyInfo course={course} onBuyPress={onBuyPress} />
-            )}
-          </MoreButton>
-        </ImageWrapper>
+        <Media>
+          <ImageWrapper isShow={!playTrailer}>
+            <ImageBackground src={`https://api.pointina.ir${courseImageUrl}`} />
+            <MoreButton>
+              {bought ? (
+                <MoreButtonTexts onClick={() => onViewEpisodesPress(course)}>
+                  <Purchased>Purchased</Purchased>
+                  <ViewEpisodes>View Episodes</ViewEpisodes>
+                </MoreButtonTexts>
+              ) : (
+                <BuyInfo course={course} onBuyPress={onBuyPress} />
+              )}
+            </MoreButton>
+          </ImageWrapper>
+          <VideoPlayerWrapper isShow={playTrailer}>
+            <VideoPlayer
+              poster={`https://api.pointina.ir${courseImageUrl}`}
+              source={`https://api.pointina.ir${TrailerUrl}`}
+              play={playTrailer}
+              videoWidth="100%"
+              videoHeight="100%"
+            />
+          </VideoPlayerWrapper>
+        </Media>
+
         <CourseInfoWrapper>
           <DetailsWrapper>
             <AuthorWrapper>
@@ -323,7 +356,7 @@ function CourseContainer(
               </div>
             </AuthorWrapper>
 
-            <TrailerWrapper>
+            <TrailerWrapper onClick={() => setPlayTrailer(true)}>
               <Icon src={movieIcon} />
               <TrailerText>Watch Trailer</TrailerText>
             </TrailerWrapper>

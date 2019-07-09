@@ -39,7 +39,8 @@
     "slick-carousel": "^1.8.1",
     "socket.io-client": "^2.2.0",
     "styled-components": "^4.2.0",
-    "typescript": "3.4.5"
+    "typescript": "3.4.5",
+    "video-react": "^0.14.0"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
