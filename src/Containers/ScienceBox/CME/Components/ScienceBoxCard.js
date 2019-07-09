@@ -185,18 +185,16 @@ function ScienceBoxCard(props) {
     CourseName: courseName,
     Price: coursePrice,
     Teacher: courseTeacher,
-    Episodes: courseEpisodesCount,
+    EpisodeCount: courseEpisodesCount,
     TrainingPoints: courseTrainingPoints,
-    CourseIntroductionUrl: courseIntroductionUrl,
+    CourseImageUrl: courseImageUrl,
     Bought: bought
   } = course;
 
   return (
     <Container onClick={onPress} isLarge={isLarge}>
       <ImageWrapper isLarge={isLarge}>
-        <ImageBackground
-          src={`https://api.pointina.ir${courseIntroductionUrl}`}
-        />
+        <ImageBackground src={`https://api.pointina.ir${courseImageUrl}`} />
         <MoreButton isLarge={isLarge}>
           {bought ? (
             <MoreButtonTexts>

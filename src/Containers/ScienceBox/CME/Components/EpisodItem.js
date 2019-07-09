@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import playImage from '../../../../Assets/play.png';
+// import playImage from '../../../../Assets/play.png';
 
 const Container = styled.div`
   border-bottom: 1px solid #ddd;
@@ -96,26 +96,26 @@ const WatchedText = styled.div`
   font-weight: bold;
 `;
 
-const MoreButton = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: ${props => (props.isLarge ? '48px' : '32px')};
-  height: ${props => (props.isLarge ? '48px' : '32px')};
-  border-radius: ${props => (props.isLarge ? '24px' : '16px')};
-  background-color: rgba(0, 0, 0, 0.8);
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translateY(-50%);
-  margin-left: ${props => (props.isLarge ? '-24px' : '-16px')};
-`;
+// const MoreButton = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: center;
+//   align-items: center;
+//   width: ${props => (props.isLarge ? '48px' : '32px')};
+//   height: ${props => (props.isLarge ? '48px' : '32px')};
+//   border-radius: ${props => (props.isLarge ? '24px' : '16px')};
+//   background-color: rgba(0, 0, 0, 0.8);
+//   position: absolute;
+//   left: 50%;
+//   top: 50%;
+//   transform: translateY(-50%);
+//   margin-left: ${props => (props.isLarge ? '-24px' : '-16px')};
+// `;
 
-const MoreButtonPlayIcon = styled.img`
-  width: ${props => (props.isLarge ? '24px' : '16px')};
-  height: ${props => (props.isLarge ? '24px' : '16px')};
-`;
+// const MoreButtonPlayIcon = styled.img`
+//   width: ${props => (props.isLarge ? '24px' : '16px')};
+//   height: ${props => (props.isLarge ? '24px' : '16px')};
+// `;
 
 function EpisodItem(props) {
   const { onPress, episod, isLarge } = props;
@@ -123,8 +123,8 @@ function EpisodItem(props) {
 
   const {
     CourseItemName: courseItemName,
-    CourseItemDescription: courseItemDescription,
-    CourseItemUrl: courseItemUrl
+    CourseItemDescription: courseItemDescription
+    // CourseItemUrl: courseItemUrl
   } = episod;
 
   const isWatched = true;
@@ -145,11 +145,11 @@ function EpisodItem(props) {
               <WatchedText>Watched</WatchedText>
             </WatchedLabel>
           )}
-          {!isWatched && (
+          {/* {!isWatched && (
             <MoreButton isLarge={isLarge}>
               <MoreButtonPlayIcon src={playImage} />
             </MoreButton>
-          )}
+          )} */}
         </ImageWrapper>
         <DetailsWrapper isLarge={isLarge}>
           <Title isLarge={isLarge}>{courseItemName}</Title>

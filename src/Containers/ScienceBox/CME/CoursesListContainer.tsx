@@ -81,9 +81,9 @@ const Empty = styled.div`
   padding: 20px 0;
 `;
 
-interface CmeContainerProps {}
+interface CoursesListContainerProps {}
 
-function CmeContainer(props: CmeContainerProps & RouteComponentProps<{}>) {
+function CoursesListContainer(props: CoursesListContainerProps & RouteComponentProps<{}>) {
   const [courseList, setCourseList] = useState([]);
   const [isSearchingCourse, setIsSearchingCourse] = useState(false);
   const [hasMoreItems, setHasMoreItems] = useState(true);
@@ -180,4 +180,4 @@ function CmeContainer(props: CmeContainerProps & RouteComponentProps<{}>) {
   );
 }
 
-export default CmeContainer;
+export default CoursesListContainer;

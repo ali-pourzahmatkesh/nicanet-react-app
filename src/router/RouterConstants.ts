@@ -49,3 +49,4 @@ export const NOT_FOUND_ROUTE = '/404';
 export const SCIENCE_BOX_ROUTE = '/sciencebox';
 export const COURSE_ROUTE = '/course/:courseId';
 export const EPISODES_ROUTE = '/episodes/:courseId';
+export const EPISODE_DETAIL_ROUTE = '/episode/:episodId';

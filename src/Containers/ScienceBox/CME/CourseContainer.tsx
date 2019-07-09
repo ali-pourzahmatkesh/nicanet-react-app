@@ -178,10 +178,10 @@ const Icon = styled.img`
   width: 20px;
 `;
 
-interface SienceBoxCourseContainerProps {}
+interface CourseContainerProps {}
 
-function SienceBoxCourseContainer(
-  props: SienceBoxCourseContainerProps & RouteComponentProps<{ courseId: '' }>
+function CourseContainer(
+  props: CourseContainerProps & RouteComponentProps<{ courseId: '' }>
 ) {
   const { match } = props;
   const { params } = match;
@@ -207,21 +207,28 @@ function SienceBoxCourseContainer(
     effect();
   }, [courseId]);
 
-  if (course === null || isFetching)
+  if (isFetching)
     return (
-      <Layout>
+      <Layout title="Videos">
         <LoadingWrapprer>
           <BounceLoader sizeUnit="rem" size={3} color="#5498a9" loading />
         </LoadingWrapprer>
       </Layout>
     );
 
+  if (course === null)
+    return (
+      <Layout title="Videos">
+        <div />
+      </Layout>
+    );
+
   const {
     CourseName: courseName,
     Teacher: courseTeacher,
-    Episodes: courseEpisodesCount,
+    EpisodeCount: courseEpisodesCount,
     TrainingPoints: courseTrainingPoints,
-    CourseIntroductionUrl: courseIntroductionUrl,
+    CourseImageUrl: courseImageUrl,
     TeacherImage: courseTeacherImage,
     Note: courseNote,
     TeacherMajor: courseTeacherMajor,
@@ -287,9 +294,7 @@ function SienceBoxCourseContainer(
     <Layout title="Videos" noPadding>
       <Container>
         <ImageWrapper>
-          <ImageBackground
-            src={`https://api.pointina.ir${courseIntroductionUrl}`}
-          />
+          <ImageBackground src={`https://api.pointina.ir${courseImageUrl}`} />
           <MoreButton>
             {bought ? (
               <MoreButtonTexts onClick={() => onViewEpisodesPress(course)}>
@@ -333,13 +338,6 @@ function SienceBoxCourseContainer(
               <CourseInfoText>Training Points</CourseInfoText>
             </CourseInfoCol>
             <CourseDesc>{courseNote}</CourseDesc>
-            {/* {courseExam && (
-            <ExamCard
-              disabled
-              title={courseExam.CourseItemName}
-              questionCount={courseExam.QuestionCount}
-            />
-          )} */}
           </CourseInfo>
         </CourseInfoWrapper>
       </Container>
@@ -365,4 +363,4 @@ function SienceBoxCourseContainer(
   );
 }
 
-export default SienceBoxCourseContainer;
+export default CourseContainer;

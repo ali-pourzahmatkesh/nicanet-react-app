@@ -36,9 +36,10 @@ import AddAdrStepFive from 'Containers/AddAdr/AddAdrStepFive';
 import EditProfile from 'Containers/EditProfile/EditProfileContainer';
 import SearchContainer from 'Containers/Search/SearchContainer';
 import NotFoundContainer from 'Containers/NotFound/NotFoundContainer';
-import CmeContainer from 'Containers/ScienceBox/CME/CmeContainer';
-import CourseContainer from 'Containers/ScienceBox/CME/Course';
-import EpisodesContainer from 'Containers/ScienceBox/CME/Episodes';
+import CoursesListContainer from 'Containers/ScienceBox/CME/CoursesListContainer';
+import CourseContainer from 'Containers/ScienceBox/CME/CourseContainer';
+import EpisodesContainer from 'Containers/ScienceBox/CME/EpisodesContainer';
+import EpisodeDetailContainer from 'Containers/ScienceBox/CME/EpisodeDetailContainer';
 
 import {
   ROOT_ROUTE,
@@ -71,7 +72,8 @@ import {
   NOT_FOUND_ROUTE,
   SCIENCE_BOX_ROUTE,
   COURSE_ROUTE,
-  EPISODES_ROUTE
+  EPISODES_ROUTE,
+  EPISODE_DETAIL_ROUTE
 } from './RouterConstants';
 
 interface AppRouterProps {
@@ -118,7 +120,8 @@ class AppRouter extends React.Component<
       location.pathname !== SEARCH_ROUTE &&
       location.pathname !== SCIENCE_BOX_ROUTE &&
       !location.pathname.startsWith('/course') &&
-      !location.pathname.startsWith('/episodes')
+      !location.pathname.startsWith('/episodes') &&
+      !location.pathname.startsWith('/episode')
     ) {
       return <Redirect to={NOT_FOUND_ROUTE} />;
     }
@@ -214,9 +217,18 @@ class AppRouter extends React.Component<
         />
         <Route path={EDIT_PROFILE_ROUTE} exact component={EditProfile} />
         <Route path={SEARCH_ROUTE} exact component={SearchContainer} />
-        <Route path={SCIENCE_BOX_ROUTE} exact component={CmeContainer} />
+        <Route
+          path={SCIENCE_BOX_ROUTE}
+          exact
+          component={CoursesListContainer}
+        />
         <Route path={COURSE_ROUTE} exact component={CourseContainer} />
         <Route path={EPISODES_ROUTE} exact component={EpisodesContainer} />
+        <Route
+          path={EPISODE_DETAIL_ROUTE}
+          exact
+          component={EpisodeDetailContainer}
+        />
         <Route path={NOT_FOUND_ROUTE} component={NotFoundContainer} />
       </Switch>
     );

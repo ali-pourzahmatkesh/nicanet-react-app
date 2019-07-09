@@ -6,6 +6,7 @@ import { RouteComponentProps } from 'react-router';
 import { CmeApi } from '../../../Api/CmeApi';
 import avatarPhoto from '../../../Assets/avatar.jpg';
 import EpisodItem from './Components/EpisodItem';
+import ExamCard from './Components/ ExamCard';
 
 const Container = styled.div`
   padding: 20px 20px 0;
@@ -103,10 +104,10 @@ const CourseInfoNumber = styled.div`
 
 const Episods = styled.div``;
 
-interface SienceBoxEpisodesContainerProps {}
+interface EpisodesContainerProps {}
 
-function SienceBoxEpisodesContainer(
-  props: SienceBoxEpisodesContainerProps & RouteComponentProps<{ courseId: '' }>
+function EpisodesContainer(
+  props: EpisodesContainerProps & RouteComponentProps<{ courseId: '' }>
 ) {
   const { match } = props;
   const { params } = match;
@@ -134,12 +135,19 @@ function SienceBoxEpisodesContainer(
     effect();
   }, [courseId]);
 
-  if (course === null || isFetching)
+  if (isFetching)
     return (
-      <Layout>
+      <Layout title="Episodes">
         <LoadingWrapprer>
           <BounceLoader sizeUnit="rem" size={3} color="#5498a9" loading />
         </LoadingWrapprer>
+      </Layout>
+    );
+
+  if (course === null)
+    return (
+      <Layout title="Episodes">
+        <div />
       </Layout>
     );
 
@@ -152,6 +160,9 @@ function SienceBoxEpisodesContainer(
     Note: courseNote,
     TeacherMajor: courseTeacherMajor
   } = course;
+
+  const onViewEpisodePress = (episod: any) =>
+    props.history.push(`/episode/${episod.CourseId}`);
 
   return (
     <Layout title="Episodes" noPadding hasZindex>
@@ -180,29 +191,31 @@ function SienceBoxEpisodesContainer(
             <CourseInfoNumber>{courseTrainingPoints}</CourseInfoNumber>
             <CourseInfoText>Training Points</CourseInfoText>
           </CourseInfoCol>
-
-          {/* {courseExam && (
-            <ExamCard
-              disabled
-              title={courseExam.CourseItemName}
-              questionCount={courseExam.QuestionCount}
-            />
-          )} */}
         </CourseInfo>
-        {episodes.length > 0 && (
+        {/* {episodes.length > 0 && (
           <Episods>
             {episodes.map((episod, index) => (
               <EpisodItem
                 key={index.toString()}
                 episod={episod}
                 isLarge={index === 0}
+                onPress={() => onViewEpisodePress(episod)}
               />
             ))}
           </Episods>
-        )}
+        )} */}
+
+        {/* {courseExam && (
+            <ExamCard
+              disabled
+              title={courseExam.CourseItemName}
+              questionCount={courseExam.QuestionCount}
+            />
+          )} */}
+        <ExamCard type="disabled" title="Exam Title" questionCount={50} />
       </Container>
     </Layout>
   );
 }
 
-export default SienceBoxEpisodesContainer;
+export default EpisodesContainer;
