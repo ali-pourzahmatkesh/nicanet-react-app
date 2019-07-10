@@ -15,15 +15,53 @@ import 'video-react/dist/video-react.css';
 const Container = styled.div``;
 
 function VideoPlayer(props) {
-  const { autoPlay, poster, source, play, videoWidth, videoHeight } = props;
+  const {
+    autoPlay,
+    poster,
+    source,
+    play,
+    videoWidth,
+    videoHeight,
+    onEnded,
+    diff
+  } = props;
 
   const playerRef = useRef();
-  // const [isSearchingUsers, setIsSearchingUsers] = useState(false);
-  // const [resultUsers, setResultUsers] = useState([]);
+  const [currentTime, setCurrentTime] = useState(false);
+  const [duration, setDuration] = useState([]);
+  const [ended, setEnded] = useState(false);
+
+  useEffect(() => {
+    const effect = async () => {
+      const { player } = playerRef.current.getState();
+      const different = diff || 1;
+      setTimeout(() => {
+        setCurrentTime(player.currentTime);
+        setDuration(player.duration);
+        setEnded(player.ended);
+        // console.log('player', player);
+        if (
+          (diff &&
+            Math.floor(player.currentTime) > 60 &&
+            Math.floor(player.duration) - Math.floor(player.currentTime) <
+              +different) ||
+          (!diff && ended)
+        ) {
+          setEnded(false);
+          !diff && playerRef.current.load();
+          setTimeout(() => {
+            onEnded();
+          }, 0);
+        }
+      }, 10000);
+    };
+    effect();
+  }, [currentTime, diff, duration, ended, onEnded]);
 
   useEffect(() => {
     const effect = async () => {
       if (play) {
+        setEnded(false);
         playerRef.current.play();
       }
     };

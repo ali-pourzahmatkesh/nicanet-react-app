@@ -95,12 +95,18 @@ const Price = styled.div`
 type BuyInfoProps = {
   course: any;
   onBuyPress: () => void;
+  onTriggerModal: (isOpen: boolean) => void;
 };
 
 class BuyInfo extends React.Component<BuyInfoProps> {
   state = {
     isOpen: false
   };
+
+  triggerModal(isOpen: boolean) {
+    this.props.onTriggerModal(isOpen);
+    this.setState({ isOpen });
+  }
 
   renderModal = () => {
     const { course, onBuyPress } = this.props;
@@ -116,7 +122,7 @@ class BuyInfo extends React.Component<BuyInfoProps> {
     return (
       <Modal
         isOpen={this.state.isOpen}
-        onClose={() => this.setState({ isOpen: false })}
+        onClose={() => this.triggerModal(false)}
         style={{
           left: window.innerWidth < 720 ? 0 : 40,
           top: window.innerWidth < 720 ? 0 : 40,
@@ -168,7 +174,7 @@ class BuyInfo extends React.Component<BuyInfoProps> {
     const { Price: coursePrice } = course;
     return (
       <div>
-        <MoreButtonPrice onClick={() => this.setState({ isOpen: true })}>
+        <MoreButtonPrice onClick={() => this.triggerModal(true)}>
           <MoreButtonPlayIcon src={playImage} alt="" />
           <MoreButtonText>{numberWithCommas(coursePrice)} IRR</MoreButtonText>
         </MoreButtonPrice>

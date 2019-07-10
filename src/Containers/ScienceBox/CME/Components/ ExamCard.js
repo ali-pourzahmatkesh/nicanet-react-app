@@ -20,6 +20,7 @@ const Wrapper = styled.div`
   padding: 15px 24px;
   align-items: center;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+  cursor: ${props => (props.clickable ? 'pointer' : 'default')};
 `;
 
 const ExamImage = styled.img`
@@ -102,7 +103,10 @@ function EpisodItem(props) {
   return (
     <Container>
       {examDescription && <ExamDescription>{examDescription}</ExamDescription>}
-      <Wrapper onClick={type === 'disabled' ? undefined : onPress}>
+      <Wrapper
+        onClick={type === 'disabled' || type === 'passed' ? undefined : onPress}
+        clickable={type === 'failed' || type === 'readyToExam'}
+      >
         <ExamImage src={examIcon} />
         <div>
           <ExamText examColor={examColor}>{examCaption}</ExamText>

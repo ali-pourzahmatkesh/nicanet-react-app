@@ -115,16 +115,16 @@ function EpisodesContainer(
 
   const [course, setCourse] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
-  const [episodes, setEpisodes] = useState([]);
+  const [chaptersList, setChaptersList] = useState([]);
 
   useEffect(() => {
     const effect = async () => {
       setIsFetching(true);
       try {
-        let response = await CmeApi.getCourse(courseId);
+        let response = await CmeApi.getCourseEpisods(courseId);
         if (response.status === 200) {
           setCourse(response.data);
-          setEpisodes(response.data.EpisodesContent);
+          setChaptersList(response.data.ChaptersList);
           console.log('response.data', response.data);
         }
       } catch (_) {
@@ -158,8 +158,18 @@ function EpisodesContainer(
     TrainingPoints: courseTrainingPoints,
     TeacherImage: courseTeacherImage,
     Note: courseNote,
-    TeacherMajor: courseTeacherMajor
+    TeacherMajor: courseTeacherMajor,
+    QuestionCount,
+    ExamTitle,
+    AllowExam,
+    PassExam
   } = course;
+
+  const exmaType = AllowExam
+    ? PassExam
+      ? 'passed'
+      : 'readyToExam'
+    : 'disabled';
 
   const onViewEpisodePress = (episod: any) =>
     props.history.push(`/episode/${episod.CourseId}`);
@@ -205,14 +215,14 @@ function EpisodesContainer(
           </Episods>
         )} */}
 
-        {/* {courseExam && (
-            <ExamCard
-              disabled
-              title={courseExam.CourseItemName}
-              questionCount={courseExam.QuestionCount}
-            />
-          )} */}
-        <ExamCard type="disabled" title="Exam Title" questionCount={50} />
+        <ExamCard
+          type={exmaType}
+          title={ExamTitle}
+          questionCount={QuestionCount}
+          onPress={() => {
+            console.log('aaa');
+          }}
+        />
       </Container>
     </Layout>
   );

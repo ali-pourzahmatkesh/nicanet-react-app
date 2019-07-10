@@ -5,10 +5,12 @@ import Layout from 'components/Partials/Layout';
 import { RouteComponentProps } from 'react-router';
 import { CmeApi } from '../../../Api/CmeApi';
 import avatarPhoto from '../../../Assets/avatar.jpg';
+import VideoPlayer from '../../../components/VideoPlayer/VideoPlayerComponent';
 
 const Container = styled.div`
-  padding: 20px 20px 0;
+  margin-top: -10px;
   @media (min-width: 720px) {
+    margin-top: 0;
     padding: 30px 30px 0;
   }
 `;
@@ -21,10 +23,25 @@ const LoadingWrapprer = styled.div`
   margin-top: 1rem;
 `;
 
+const DetailsWrapper = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 16px;
+`;
+
+const EpisodInfoWrapper = styled.div`
+  padding: 10px 20px 0;
+`;
+
 const AuthorWrapper = styled.div`
   display: flex;
   flex-direction: row;
   flex: 1;
+  @media (min-width: 720px) {
+    padding-top: 10px;
+  }
 `;
 
 const AuthorImage = styled.img`
@@ -46,58 +63,50 @@ const AuthorJob = styled.div`
   margin-bottom: 4px;
 `;
 
+const EpisodTitle = styled.div`
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 10px;
+`;
+
+const EpisodDesc = styled.div`
+  color: #757575;
+  font-size: 12px;
+  margin: 10px 0 15px;
+  @media (min-width: 720px) {
+    margin: 20px 0 15px;
+  }
+`;
+
+const WatchedLabel = styled.div`
+  background-color: rgba(126, 211, 33, 0.7);
+  width: 60px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  @media (min-width: 720px) {
+    width: 96px;
+    height: 34px;
+  }
+`;
+
+const WatchedText = styled.div`
+  color: rgb(33, 33, 33);
+  font-size: 10px;
+  font-weight: bold;
+`;
+
 const TimeReleased = styled.div`
   color: rgb(117, 117, 117);
   font-size: 10px;
 `;
 
-const CourseInfo = styled.div`
-  padding-horizontal: 16px;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  border-bottom: 1px solid #ddd;
-  @media (min-width: 720px) {
-    margin-bottom: 10px;
-  }
-`;
+const VideoPlayerWrapper = styled.div``;
 
-const CourseTitle = styled.div`
-  font-size: 14px;
-  font-weight: bold;
-  margin-bottom: 20px;
-`;
-
-const CourseDesc = styled.div`
-  color: #757575;
-  font-size: 12px;
-  margin: 20px 0 15px;
-`;
-
-const CourseInfoCol = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 20px;
-`;
-
-const CourseInfoText = styled.div<{ hasMargin?: boolean }>`
-  color: rgb(117, 117, 117);
-  font-size: 10px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin-right: ${props => (props.hasMargin ? '12px' : '0')};
-  @media (min-width: 720px) {
-    font-size: 13px;
-  }
-`;
-
-const CourseInfoNumber = styled.div`
-  font-weight: bold;
-  color: #5498a9;
-  font-size: 10px;
-  @media (min-width: 720px) {
-    font-size: 13px;
-  }
+const Media = styled.div`
+  margin-bottom: 10px;
 `;
 
 interface EpisodeDetailContainerProps {}
@@ -111,13 +120,14 @@ function EpisodeDetailContainer(
 
   const [episod, setEpisod] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
+  const [callWatched, setCallWatched] = useState(false);
 
   useEffect(() => {
     const effect = async () => {
       setIsFetching(true);
       try {
         // let response = await CmeApi.getEpisod(episodId);
-        let response = await CmeApi.getCourse(episodId);
+        let response = await CmeApi.getEpisode(episodId);
         if (response.status === 200) {
           setEpisod(response.data);
           console.log('response.data', response.data);
@@ -129,6 +139,17 @@ function EpisodeDetailContainer(
     };
     effect();
   }, [episodId]);
+
+  const WatchEpisode = async () => {
+    try {
+      if (!callWatched) {
+        let response = await CmeApi.WatchEpisode(episodId);
+        if (response.status === 204) {
+          setCallWatched(true);
+        }
+      }
+    } catch (_) {}
+  };
 
   if (isFetching)
     return (
@@ -147,43 +168,58 @@ function EpisodeDetailContainer(
     );
 
   const {
-    CourseName: courseName,
-    Teacher: courseTeacher,
-    Episodes: courseEpisodesCount,
-    TrainingPoints: courseTrainingPoints,
-    TeacherImage: courseTeacherImage,
-    Note: courseNote,
-    TeacherMajor: courseTeacherMajor
+    Name: name,
+    EpisodeCover: episodeCover,
+    EpisodeUrl: episodeUrl,
+    Description: description,
+    Teacher: episodTeacher,
+    TeacherImage: episodTeacherImage,
+    TeacherMajor: episodTeacherMajor,
+    Watched: watched
   } = episod;
 
   return (
     <Layout title="Episodes" noPadding hasZindex>
       <Container>
-        <CourseTitle>{courseName}</CourseTitle>
-        <AuthorWrapper>
-          <AuthorImage
-            src={
-              courseTeacherImage
-                ? `https://api.pointina.ir${courseTeacherImage}`
-                : avatarPhoto
-            }
-          />
-          <div>
-            <AuthorName>{courseTeacher}</AuthorName>
-            <AuthorJob>{courseTeacherMajor}</AuthorJob>
-            <TimeReleased>Today, 2hrs ago</TimeReleased>
-          </div>
-        </AuthorWrapper>
+        <Media>
+          <VideoPlayerWrapper>
+            <VideoPlayer
+              poster={`https://api.pointina.ir${episodeCover}`}
+              source={`https://api.pointina.ir${episodeUrl}`}
+              videoWidth="100%"
+              videoHeight="100%"
+              onEnded={WatchEpisode}
+              diff="60"
+            />
+          </VideoPlayerWrapper>
+        </Media>
+        <EpisodInfoWrapper>
+          <DetailsWrapper>
+            <AuthorWrapper>
+              <AuthorImage
+                src={
+                  episodTeacherImage
+                    ? `https://api.pointina.ir${episodTeacherImage}`
+                    : avatarPhoto
+                }
+              />
+              <div>
+                <AuthorName>{episodTeacher}</AuthorName>
+                <AuthorJob>{episodTeacherMajor}</AuthorJob>
+                <TimeReleased>Today, 2hrs ago</TimeReleased>
+              </div>
+            </AuthorWrapper>
 
-        <CourseInfo>
-          <CourseDesc>{courseNote}</CourseDesc>
-          <CourseInfoCol>
-            <CourseInfoNumber>{courseEpisodesCount}</CourseInfoNumber>
-            <CourseInfoText hasMargin>Episodes</CourseInfoText>
-            <CourseInfoNumber>{courseTrainingPoints}</CourseInfoNumber>
-            <CourseInfoText>Training Points</CourseInfoText>
-          </CourseInfoCol>
-        </CourseInfo>
+            {watched && (
+              <WatchedLabel>
+                <WatchedText>Watched</WatchedText>
+              </WatchedLabel>
+            )}
+          </DetailsWrapper>
+
+          <EpisodTitle>{name}</EpisodTitle>
+          <EpisodDesc>{description}</EpisodDesc>
+        </EpisodInfoWrapper>
       </Container>
     </Layout>
   );

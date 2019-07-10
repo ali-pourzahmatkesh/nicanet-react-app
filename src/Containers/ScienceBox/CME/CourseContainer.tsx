@@ -209,6 +209,7 @@ function CourseContainer(
   const [course, setCourse] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
   const [playTrailer, setPlayTrailer] = useState(false);
+  const [openBuyInfoModal, setOpenBuyInfoModal] = useState(false);
 
   useEffect(() => {
     const effect = async () => {
@@ -315,7 +316,7 @@ function CourseContainer(
     <Layout title="Videos" noPadding>
       <Container>
         <Media>
-          <ImageWrapper isShow={!playTrailer}>
+          <ImageWrapper isShow={!playTrailer && !openBuyInfoModal}>
             <ImageBackground src={`https://api.pointina.ir${courseImageUrl}`} />
             <MoreButton>
               {bought ? (
@@ -324,17 +325,26 @@ function CourseContainer(
                   <ViewEpisodes>View Episodes</ViewEpisodes>
                 </MoreButtonTexts>
               ) : (
-                <BuyInfo course={course} onBuyPress={onBuyPress} />
+                <BuyInfo
+                  course={course}
+                  onBuyPress={onBuyPress}
+                  onTriggerModal={(isOpenBuyInfoModal: boolean) => {
+                    setOpenBuyInfoModal(isOpenBuyInfoModal);
+                  }}
+                />
               )}
             </MoreButton>
           </ImageWrapper>
-          <VideoPlayerWrapper isShow={playTrailer}>
+          <VideoPlayerWrapper isShow={playTrailer && !openBuyInfoModal}>
             <VideoPlayer
               poster={`https://api.pointina.ir${courseImageUrl}`}
               source={`https://api.pointina.ir${TrailerUrl}`}
               play={playTrailer}
               videoWidth="100%"
               videoHeight="100%"
+              onEnded={() => {
+                setPlayTrailer(false);
+              }}
             />
           </VideoPlayerWrapper>
         </Media>

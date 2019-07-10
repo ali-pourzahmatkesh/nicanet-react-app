@@ -83,7 +83,9 @@ const Empty = styled.div`
 
 interface CoursesListContainerProps {}
 
-function CoursesListContainer(props: CoursesListContainerProps & RouteComponentProps<{}>) {
+function CoursesListContainer(
+  props: CoursesListContainerProps & RouteComponentProps<{}>
+) {
   const [courseList, setCourseList] = useState([]);
   const [isSearchingCourse, setIsSearchingCourse] = useState(false);
   const [hasMoreItems, setHasMoreItems] = useState(true);
@@ -128,7 +130,7 @@ function CoursesListContainer(props: CoursesListContainerProps & RouteComponentP
 
   const onCoursePress = (course: any) =>
     course.Bought
-      ? props.history.push(`course/${course.CourseId}`)
+      ? props.history.push(`episodes/${course.CourseId}`)
       : props.history.push(`course/${course.CourseId}`);
 
   const onSearchCoursesDebounced = debounce(onSearchCourses, 1000);
