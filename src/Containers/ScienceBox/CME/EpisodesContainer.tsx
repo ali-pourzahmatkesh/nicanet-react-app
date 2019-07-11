@@ -9,9 +9,8 @@ import EpisodItem from './Components/EpisodItem';
 import ExamCard from './Components/ ExamCard';
 
 const Container = styled.div`
-  padding: 20px 10px 0;
   @media (min-width: 720px) {
-    padding: 30px 20px 0;
+    padding: 15px 20px 0;
   }
 `;
 
