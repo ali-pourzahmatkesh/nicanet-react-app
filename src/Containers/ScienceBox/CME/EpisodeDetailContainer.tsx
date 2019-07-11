@@ -8,10 +8,10 @@ import avatarPhoto from '../../../Assets/avatar.jpg';
 import VideoPlayer from '../../../components/VideoPlayer/VideoPlayerComponent';
 
 const Container = styled.div`
-  margin-top: -10px;
+  margin: -25px -1rem -1rem;
   @media (min-width: 720px) {
     margin-top: 0;
-    padding: 30px 30px 0;
+    padding: 30px 40px 0;
   }
 `;
 
@@ -130,7 +130,7 @@ function EpisodeDetailContainer(
         let response = await CmeApi.getEpisode(episodId);
         if (response.status === 200) {
           setEpisod(response.data);
-          console.log('response.data', response.data);
+          // console.log('response.data', response.data);
         }
       } catch (_) {
       } finally {
@@ -139,17 +139,6 @@ function EpisodeDetailContainer(
     };
     effect();
   }, [episodId]);
-
-  const WatchEpisode = async () => {
-    try {
-      if (!callWatched) {
-        let response = await CmeApi.WatchEpisode(episodId);
-        if (response.status === 204) {
-          setCallWatched(true);
-        }
-      }
-    } catch (_) {}
-  };
 
   if (isFetching)
     return (
@@ -178,8 +167,36 @@ function EpisodeDetailContainer(
     Watched: watched
   } = episod;
 
+  const WatchEpisode = async () => {
+    try {
+      if (!callWatched && !watched) {
+        let response = await CmeApi.WatchEpisode(episodId);
+        if (response.status === 204) {
+          await setCallWatched(true);
+          setTimeout(() => {
+            UpdateEpisode();
+          }, 0);
+        }
+      }
+    } catch (_) {}
+  };
+
+  const UpdateEpisode = async () => {
+    setIsFetching(true);
+    try {
+      // let response = await CmeApi.getEpisod(episodId);
+      let response = await CmeApi.getEpisode(episodId);
+      if (response.status === 200) {
+        setEpisod(response.data);
+      }
+    } catch (_) {
+    } finally {
+      setIsFetching(false);
+    }
+  };
+
   return (
-    <Layout title="Episodes" noPadding hasZindex>
+    <Layout title="Episodes" hasZindex>
       <Container>
         <Media>
           <VideoPlayerWrapper>
@@ -189,7 +206,7 @@ function EpisodeDetailContainer(
               videoWidth="100%"
               videoHeight="100%"
               onEnded={WatchEpisode}
-              diff="60"
+              diff="40"
             />
           </VideoPlayerWrapper>
         </Media>

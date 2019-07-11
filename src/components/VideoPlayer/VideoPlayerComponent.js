@@ -40,6 +40,7 @@ function VideoPlayer(props) {
         setDuration(player.duration);
         setEnded(player.ended);
         // console.log('player', player);
+
         if (
           (diff &&
             Math.floor(player.currentTime) > 60 &&
@@ -67,17 +68,6 @@ function VideoPlayer(props) {
     };
     effect();
   }, [play]);
-
-  // const onSearchUsers = async searchValue => {
-  //   setIsSearchingUsers(true);
-  //   try {
-  //     const response = await UsersApi.getUsers(searchValue);
-  //     setIsSearchingUsers(false);
-  //     setResultUsers(response.data);
-  //   } catch (_) { }
-  // };
-
-  // const onSearchUsersDebounced = debounce(onSearchUsers, 500);
 
   return (
     <Container>

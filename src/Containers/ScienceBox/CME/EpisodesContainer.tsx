@@ -9,9 +9,9 @@ import EpisodItem from './Components/EpisodItem';
 import ExamCard from './Components/ ExamCard';
 
 const Container = styled.div`
-  padding: 20px 20px 0;
+  padding: 20px 10px 0;
   @media (min-width: 720px) {
-    padding: 30px 30px 0;
+    padding: 30px 20px 0;
   }
 `;
 
@@ -58,10 +58,6 @@ const CourseInfo = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  border-bottom: 1px solid #ddd;
-  @media (min-width: 720px) {
-    margin-bottom: 10px;
-  }
 `;
 
 const CourseTitle = styled.div`
@@ -102,7 +98,15 @@ const CourseInfoNumber = styled.div`
   }
 `;
 
-const Episods = styled.div``;
+const Chapters = styled.div``;
+const Chapter = styled.div``;
+const ChapterTitle = styled.div`
+  color: #5498a9;
+  font-size: 18px;
+  font-weight: bold;
+  padding-top: 25px;
+  border-top: 1px solid #ddd;
+`;
 
 interface EpisodesContainerProps {}
 
@@ -154,7 +158,7 @@ function EpisodesContainer(
   const {
     CourseName: courseName,
     Teacher: courseTeacher,
-    Episodes: courseEpisodesCount,
+    EpisodeCount: courseEpisodesCount,
     TrainingPoints: courseTrainingPoints,
     TeacherImage: courseTeacherImage,
     Note: courseNote,
@@ -162,20 +166,24 @@ function EpisodesContainer(
     QuestionCount,
     ExamTitle,
     AllowExam,
-    PassExam
+    PassExam,
+    ExamFailed,
+    FailedMessage
   } = course;
 
-  const exmaType = AllowExam
-    ? PassExam
-      ? 'passed'
-      : 'readyToExam'
+  const exmaType = ExamFailed
+    ? 'failed'
+    : PassExam
+    ? 'passed'
+    : AllowExam
+    ? 'readyToExam'
     : 'disabled';
 
   const onViewEpisodePress = (episod: any) =>
-    props.history.push(`/episode/${episod.CourseId}`);
+    props.history.push(`/episode/${episod.EpisodeId}`);
 
   return (
-    <Layout title="Episodes" noPadding hasZindex>
+    <Layout title="Episodes" hasZindex>
       <Container>
         <CourseTitle>{courseName}</CourseTitle>
         <AuthorWrapper>
@@ -202,26 +210,64 @@ function EpisodesContainer(
             <CourseInfoText>Training Points</CourseInfoText>
           </CourseInfoCol>
         </CourseInfo>
-        {/* {episodes.length > 0 && (
-          <Episods>
-            {episodes.map((episod, index) => (
-              <EpisodItem
-                key={index.toString()}
-                episod={episod}
-                isLarge={index === 0}
-                onPress={() => onViewEpisodePress(episod)}
-              />
-            ))}
-          </Episods>
-        )} */}
+        {chaptersList.length > 0 ? (
+          <Chapters>
+            {chaptersList.map((chapter: any, index: any) => {
+              const { ChapterName } = chapter;
+              const episodsItems = chapter.EpisodesList;
+              if (!episodsItems) return null;
+              return (
+                <Chapter key={index.toString()}>
+                  {ChapterName && <ChapterTitle>{ChapterName}</ChapterTitle>}
+                  {episodsItems.map((episod: any, episodIndex: any) => {
+                    let isLarge = false;
+
+                    if (index === 0) {
+                      isLarge =
+                        (episodIndex === 0 &&
+                          !episodsItems[episodIndex].Watched) ||
+                        (!episodsItems[episodIndex].Watched &&
+                          episodsItems[episodIndex - 1].Watched);
+                    } else {
+                      const beforeChaptersListChild = chaptersList[index - 1];
+                      if (beforeChaptersListChild) {
+                        const { EpisodesList } = beforeChaptersListChild;
+                        if (!EpisodesList) return;
+                        let episods = [];
+                        episods = [...EpisodesList];
+
+                        if (episods.filter(item => !item.Watched).length > 0) {
+                          isLarge = false;
+                        } else {
+                          isLarge =
+                            (episodIndex === 0 &&
+                              !episodsItems[episodIndex].Watched) ||
+                            (!episodsItems[episodIndex].Watched &&
+                              episodsItems[episodIndex - 1].Watched);
+                        }
+                      }
+                    }
+                    return (
+                      <EpisodItem
+                        key={episodIndex.toString()}
+                        episod={episod}
+                        isLarge={isLarge}
+                        onPress={() => onViewEpisodePress(episod)}
+                      />
+                    );
+                  })}
+                </Chapter>
+              );
+            })}
+          </Chapters>
+        ) : null}
 
         <ExamCard
           type={exmaType}
-          title={ExamTitle}
+          title={ExamFailed ? FailedMessage : ExamTitle}
           questionCount={QuestionCount}
-          onPress={() => {
-            console.log('aaa');
-          }}
+          AllowExam={AllowExam}
+          onPress={() => {}}
         />
       </Container>
     </Layout>

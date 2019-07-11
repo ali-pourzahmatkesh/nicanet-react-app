@@ -122,13 +122,11 @@ function EpisodItem(props) {
   if (!episod) return null;
 
   const {
-    CourseItemName: courseItemName,
-    CourseItemDescription: courseItemDescription
-    // CourseItemUrl: courseItemUrl
+    Name: depositItemName,
+    Description: depositItemDescription,
+    EpisodeCover: episodeCover,
+    Watched: watched
   } = episod;
-
-  const isWatched = true;
-  // const isWatched = false;
 
   return (
     <Container onClick={onPress} isLarge={isLarge}>
@@ -136,24 +134,22 @@ function EpisodItem(props) {
         <ImageWrapper isLarge={isLarge}>
           <ImageBackground
             isLarge={isLarge}
-            src={
-              'https://api.pointina.ir/Course/CourseImage/6730ba7b-1db8-477f-8358-54cc2f037718.jpg'
-            }
+            src={`https://api.pointina.ir${episodeCover}`}
           />
-          {isWatched && (
+          {watched && (
             <WatchedLabel>
               <WatchedText>Watched</WatchedText>
             </WatchedLabel>
           )}
-          {/* {!isWatched && (
+          {/* {!watched && (
             <MoreButton isLarge={isLarge}>
               <MoreButtonPlayIcon src={playImage} />
             </MoreButton>
           )} */}
         </ImageWrapper>
         <DetailsWrapper isLarge={isLarge}>
-          <Title isLarge={isLarge}>{courseItemName}</Title>
-          <Description>{courseItemDescription}</Description>
+          <Title isLarge={isLarge}>{depositItemName}</Title>
+          <Description>{depositItemDescription}</Description>
           <TimeAgo>Today, 12:43 AM</TimeAgo>
         </DetailsWrapper>
       </Content>

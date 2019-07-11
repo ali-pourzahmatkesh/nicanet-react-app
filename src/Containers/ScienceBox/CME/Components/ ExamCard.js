@@ -67,7 +67,7 @@ const ExamDescription = styled.div`
 `;
 
 function EpisodItem(props) {
-  const { type, onPress, title, questionCount } = props;
+  const { type, onPress, title, questionCount, AllowExam } = props;
 
   let examIcon = examImage;
   let examTitle = title;
@@ -84,7 +84,7 @@ function EpisodItem(props) {
       break;
     case 'failed':
       examIcon = examFailedImage;
-      examTitle = 'You can review videos and take this exam again in 2 days';
+      examTitle = title;
       examColor = '#d0021b';
       examCaption = 'Exam Failed';
       examDescription = null;
@@ -103,10 +103,7 @@ function EpisodItem(props) {
   return (
     <Container>
       {examDescription && <ExamDescription>{examDescription}</ExamDescription>}
-      <Wrapper
-        onClick={type === 'disabled' || type === 'passed' ? undefined : onPress}
-        clickable={type === 'failed' || type === 'readyToExam'}
-      >
+      <Wrapper onClick={AllowExam ? onPress : undefined} clickable={AllowExam}>
         <ExamImage src={examIcon} />
         <div>
           <ExamText examColor={examColor}>{examCaption}</ExamText>
