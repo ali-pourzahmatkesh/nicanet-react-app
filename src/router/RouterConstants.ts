@@ -50,3 +50,4 @@ export const SCIENCE_BOX_ROUTE = '/sciencebox';
 export const COURSE_ROUTE = '/course/:courseId';
 export const EPISODES_ROUTE = '/episodes/:courseId';
 export const EPISODE_DETAIL_ROUTE = '/episode/:episodId';
+export const EXAM_ROUTE = '/exam/:courseId';

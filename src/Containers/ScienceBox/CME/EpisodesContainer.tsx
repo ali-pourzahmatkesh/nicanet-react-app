@@ -6,8 +6,7 @@ import { RouteComponentProps } from 'react-router';
 import { CmeApi } from '../../../Api/CmeApi';
 import avatarPhoto from '../../../Assets/avatar.jpg';
 import EpisodItem from './Components/EpisodItem';
-import ExamCard from './Components/ ExamCard';
-
+import ExamCard from './Components/ExamCard';
 const Container = styled.div`
   @media (min-width: 720px) {
     padding: 15px 20px 0;
@@ -119,6 +118,7 @@ function EpisodesContainer(
   const [course, setCourse] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
   const [chaptersList, setChaptersList] = useState([]);
+  const [openExamModal, setOpenExamModal] = useState(false);
 
   useEffect(() => {
     const effect = async () => {
@@ -182,7 +182,7 @@ function EpisodesContainer(
     props.history.push(`/episode/${episod.EpisodeId}`);
 
   return (
-    <Layout title="Episodes" hasZindex>
+    <Layout title="Episodes" hasZindex={!openExamModal}>
       <Container>
         <CourseTitle>{courseName}</CourseTitle>
         <AuthorWrapper>
@@ -262,11 +262,17 @@ function EpisodesContainer(
         ) : null}
 
         <ExamCard
+          course={course}
           type={exmaType}
           title={ExamFailed ? FailedMessage : ExamTitle}
           questionCount={QuestionCount}
           AllowExam={AllowExam}
-          onPress={() => {}}
+          onSatrtExam={() => {
+            props.history.push(`exam/${courseId}`);
+          }}
+          onTriggerModal={(isOpenModal: boolean) => {
+            setOpenExamModal(isOpenModal);
+          }}
         />
       </Container>
     </Layout>
