@@ -15,6 +15,8 @@ export const CmeApi = {
   getCourseEpisods: courseId => Api.get(`/CourseDetails/${courseId}`),
   getEpisode: episodId => Api.get(`/Episode/${episodId}`),
   WatchEpisode: episodId => Api.put('/WatchEpisode', { EpisodeId: episodId }),
+  getExam: courseId => Api.get(`/exam/${courseId}`),
+  submitExam: data => Api.put('/Exam', data),
   likeContent: (CourseId, CourseCommentId, IsLike) =>
     Api.post('/CourseLike', {
       CourseId,

@@ -268,7 +268,7 @@ function EpisodesContainer(
           questionCount={QuestionCount}
           AllowExam={AllowExam}
           onSatrtExam={() => {
-            props.history.push(`exam/${courseId}`);
+            props.history.push(`/exam/${courseId}`);
           }}
           onTriggerModal={(isOpenModal: boolean) => {
             setOpenExamModal(isOpenModal);
