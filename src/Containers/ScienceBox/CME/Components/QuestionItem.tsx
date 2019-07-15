@@ -1,24 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
-import examImage from '../../../../Assets/exam.png';
-import readyToExamImage from '../../../../Assets/readyToExam.png';
-import examFailedImage from '../../../../Assets/examFailed.png';
-import examPassedImage from '../../../../Assets/examPassed.png';
-import Modal from '../../../../components/Modal/ModalComponent';
+import avatarPhoto from '../../../../Assets/avatar.jpg';
 
-const Container = styled.div`
-  border-top: 1px solid #ddd;
-  padding-top: 25px;
-`;
+const Container = styled.div``;
 
 const QuestionText = styled.div`
   color: #757575;
   font-size: 14px;
   text-align: left;
-  margin-top: 40px;
+  margin-bottom: 70px;
 `;
 
-const Answer = styled.div<{ isSelected?: boolean }>`
+const Answer = styled.div<{ theme?: any }>`
   display: flex;
   flex-direction: row;
   padding: 12px 16px;
@@ -26,22 +19,30 @@ const Answer = styled.div<{ isSelected?: boolean }>`
   justify-content: space-around;
   margin-bottom: 24px;
   border-radius: 10px;
-  cursor: pointer;
+  cursor: ${props => (props.theme.disabled ? 'default' : 'pointer')};
   box-shadow: ${props =>
-    props.isSelected ? '0 0 0 2px #263551' : '0 0 0 2px transparent'};
+    props.theme.isSelected ? '0 0 0 2px #263551' : '0 0 0 2px transparent'};
   border: ${props =>
-    props.isSelected ? '1px solid #263551' : '1px solid #5498a9'};
+    props.theme.disabled
+      ? '1px solid #ddd'
+      : props.theme.isSelected
+      ? '1px solid #263551'
+      : '1px solid #5498a9'};
+  @media (min-width: 720px) {
+    width: 396px;
+    margin: 0 auto 24px;
+  }
 `;
 
-const AnswerText = styled.div`
+const AnswerText = styled.div<{ disabled?: boolean }>`
   font-weight: bold;
   font-size: 12px;
-  color: rgb(66, 66, 66);
+  color: ${props => (props.disabled ? '#ddd' : 'rgb(66, 66, 66)')};
   flex: 1;
   flex-wrap: wrap;
   display: flex;
 `;
-const Circle = styled.div<{ isSelected?: boolean }>`
+const Circle = styled.div<{ theme?: any }>`
   width: 32px;
   height: 32px;
   display: flex;
@@ -52,13 +53,26 @@ const Circle = styled.div<{ isSelected?: boolean }>`
   background-color: #5498a9;
   border-radius: 16px;
   color: #fff;
-  background-color: ${props => (props.isSelected ? '#263551' : '#5498a9')};
+  background-color: ${props =>
+    props.theme.disabled
+      ? '#ddd'
+      : props.theme.isSelected
+      ? '#263551'
+      : '#5498a9'};
+`;
+
+const AnswerImage = styled.img`
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto 20px;
 `;
 
 type ExamCardProps = {
   question: any;
   answers: any[];
   onSelectAnswer: (examQuestionId: any, responseId: any) => void;
+  disabled: boolean;
 };
 
 class QuestionItem extends React.Component<ExamCardProps> {
@@ -92,6 +106,7 @@ class QuestionItem extends React.Component<ExamCardProps> {
       'J',
       'K'
     ];
+    const { disabled } = this.props;
 
     const currentQuestion =
       answers.find((item: any) => item.ExamQuestionId === examQuestionId) || {};
@@ -99,19 +114,25 @@ class QuestionItem extends React.Component<ExamCardProps> {
 
     return (
       <Answer
-        onClick={() => this.onSelectAnswer(examQuestionId, answer.ResponseId)}
-        isSelected={isSelected}
+        onClick={() =>
+          !disabled && this.onSelectAnswer(examQuestionId, answer.ResponseId)
+        }
+        theme={{ isSelected, disabled }}
       >
-        <Circle isSelected={isSelected}>{alphabetArray[answerIndex]}</Circle>
-        <AnswerText>{answer.ResponseDsc}</AnswerText>
+        <Circle theme={{ isSelected, disabled }}>
+          {alphabetArray[answerIndex]}
+        </Circle>
+        <AnswerText disabled={disabled}>{answer.ResponseDsc}</AnswerText>
       </Answer>
     );
   };
 
   render() {
     const { question, answers } = this.props;
+    const hasImage = true;
     return (
       <Container>
+        {hasImage && <AnswerImage src={avatarPhoto} />}
         {question && question.QuestionText && (
           <QuestionText>{question.QuestionText}</QuestionText>
         )}

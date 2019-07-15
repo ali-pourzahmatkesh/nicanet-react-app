@@ -8,11 +8,15 @@ import { CmeApi } from '../../../Api/CmeApi';
 import QuestionItem from './Components/QuestionItem';
 import Heading from './Components/Heading';
 import Modal from '../../../components/Modal/ModalComponent';
+import { HOME_ROUTE } from 'router/RouterConstants';
+import { PulseLoader } from 'react-spinners';
+import examFailedImage from '../../../Assets/examFailed.png';
+import examPassedImage from '../../../Assets/examPassed.png';
 
 const Container = styled.div`
+  padding: 0 15px;
   @media (min-width: 720px) {
-    margin-top: 0;
-    padding: 30px 30px 0;
+    padding: 0 30px;
   }
 `;
 
@@ -24,12 +28,17 @@ const LoadingWrapprer = styled.div`
   margin-top: 1rem;
 `;
 
-export const Timer = styled.div`
-  margin: 1rem 0;
+export const Timer = styled.div<{ disabled?: boolean }>`
   text-align: center;
   width: 100px;
   height: 20px;
-  margin: 0 auto;
+  font-size: 16px;
+  margin: 1rem auto;
+  color: ${props => (props.disabled ? '#ddd' : '#5498a9')};
+  font-weight: bold;
+  @media (min-width: 720px) {
+    margin: 2rem auto 1.5rem;
+  }
 `;
 
 const Button = styled.div`
@@ -49,6 +58,20 @@ const Button = styled.div`
   }
 `;
 
+const FinishedExamText = styled.div`
+  margin: 10rem 20px;
+  text-align: left;
+  color: #757575;
+  @media (min-width: 720px) {
+    margin: 3rem 3rem 5rem;
+  }
+`;
+
+const ResultImage = styled.img`
+  width: 112px;
+  height: 122px;
+`;
+
 interface ExamContainerProps {}
 
 class ExamContainer extends React.Component<
@@ -66,7 +89,10 @@ class ExamContainer extends React.Component<
     answers: [],
     isSending: false,
     examId: 0,
-    isOpenModal: false
+    isOpenSubmitModal: false,
+    isOpenResultModal: false,
+    isTimeOut: false,
+    finishedExam: false
   };
 
   componentDidMount = async () => {
@@ -126,24 +152,32 @@ class ExamContainer extends React.Component<
         this.setState({ timer: `${minutesStr} : ${secondsStr}` });
       } else {
         if (countdown) {
-          this.submitExam(1471);
+          console.log('this.state.finishedExam', this.state.finishedExam);
+          if (!this.state.finishedExam) {
+            this.setState({ isTimeOut: true }, () => {
+              this.submitExam(1471);
+            });
+          }
           clearInterval(countdown);
         }
       }
     }, 1000);
   }
 
-  renderModal = () => {
+  renderSubmitModal = () => {
     return (
       <Modal
-        isOpen={this.state.isOpenModal}
-        onClose={() => this.setState({ isOpenModal: false })}
+        isOpen={this.state.isOpenSubmitModal}
+        onClose={() => this.setState({ isOpenSubmitModal: false })}
         style={{
-          left: window.innerWidth < 720 ? 0 : 40,
-          top: window.innerWidth < 720 ? 0 : 40,
-          right: window.innerWidth < 720 ? 0 : 40,
-          bottom: window.innerWidth < 720 ? 0 : 40,
-          borderRadius: 0
+          left: window.innerWidth < 720 ? 0 : '50%',
+          top: window.innerWidth < 720 ? 0 : '50%',
+          right: window.innerWidth < 720 ? 0 : 'auto',
+          bottom: window.innerWidth < 720 ? 0 : 'auto',
+          borderRadius: window.innerWidth < 720 ? 0 : '10px',
+          width: window.innerWidth < 720 ? 'auto' : '660px',
+          height: window.innerWidth < 720 ? 'auto' : '330px',
+          margin: window.innerWidth < 720 ? 'auto' : '-165px 0 0 -330px'
         }}
         ChildrenWrapperStyle={{
           textAlign: 'center',
@@ -159,8 +193,59 @@ class ExamContainer extends React.Component<
           zIndex: 9
         }}
       >
-        <div>aaa</div>
-        <Button onClick={() => this.submitExam(0)}>Buy this package</Button>
+        <FinishedExamText>
+          You have finished your exam. In order to get your results you need to
+          submit your answers, otherwise your answers will not be submitted.
+        </FinishedExamText>
+        <Button onClick={() => this.submitExam(0)}>
+          {this.state.isSending ? (
+            <PulseLoader sizeUnit="rem" size={0.5} color="#fff" />
+          ) : (
+            'Submit Answers'
+          )}
+        </Button>
+      </Modal>
+    );
+  };
+
+  renderResultModal = () => {
+    const type = 'passed';
+    return (
+      <Modal
+        isOpen={this.state.isOpenResultModal}
+        onClose={() => this.setState({ isOpenResultModal: false })}
+        style={{
+          left: window.innerWidth < 720 ? 0 : '50%',
+          top: window.innerWidth < 720 ? 0 : '50%',
+          right: window.innerWidth < 720 ? 0 : 'auto',
+          bottom: window.innerWidth < 720 ? 0 : 'auto',
+          borderRadius: window.innerWidth < 720 ? 0 : '10px',
+          width: window.innerWidth < 720 ? 'auto' : '600px',
+          height: window.innerWidth < 720 ? 'auto' : '542px',
+          margin: window.innerWidth < 720 ? 'auto' : '-271px 0 0 -300px'
+        }}
+        ChildrenWrapperStyle={{
+          textAlign: 'center',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          paddingTop: '2rem',
+          paddingBottom: '2rem',
+          paddingLeft: '1rem',
+          paddingRight: '1rem',
+          zIndex: 9
+        }}
+      >
+        {this.state.isTimeOut && <div>time out</div>}
+        <ResultImage
+          src={type === 'passed' ? examPassedImage : examFailedImage}
+        />
+        <FinishedExamText>aaa</FinishedExamText>
+        <Button onClick={() => this.props.history.push(HOME_ROUTE)}>
+          Done
+        </Button>
       </Modal>
     );
   };
@@ -175,6 +260,10 @@ class ExamContainer extends React.Component<
     this.setState({
       answers: answersArray
     });
+
+    setTimeout(() => {
+      this.goForward();
+    }, 1000);
   }
 
   submitExam = async (statusId: any = 0) => {
@@ -190,14 +279,25 @@ class ExamContainer extends React.Component<
       // console.log('send exam to api', response.data);
       // if (response.status === 200) {
       // }
+
+      const response = true;
+      if (response) {
+        this.setState({ isOpenResultModal: true });
+      }
     } catch (_) {
     } finally {
-      this.setState({ isSending: false });
+      this.setState({
+        isSending: false,
+        isOpenSubmitModal: false,
+        finishedExam: true,
+        timeRemaining: 0,
+        timer: '00 : 00'
+      });
     }
   };
 
   goBack = () => {
-    if (this.state.currentQuestionIndex !== 0) {
+    if (this.state.currentQuestionIndex !== 0 && !this.state.finishedExam) {
       this.setState({
         currentQuestionIndex: this.state.currentQuestionIndex - 1
       });
@@ -205,7 +305,10 @@ class ExamContainer extends React.Component<
   };
 
   goForward = () => {
-    if (this.state.currentQuestionIndex + 1 !== this.state.questionCount) {
+    if (
+      this.state.currentQuestionIndex + 1 !== this.state.questionCount &&
+      !this.state.finishedExam
+    ) {
       this.setState({
         currentQuestionIndex: this.state.currentQuestionIndex + 1
       });
@@ -242,6 +345,7 @@ class ExamContainer extends React.Component<
         {questionCount > 0 && (
           <Heading
             title={`Question ${currentQuestionIndex + 1} / ${questionCount}`}
+            disabled={this.state.finishedExam}
             onGoBack={
               this.state.currentQuestionIndex === 0 ? null : this.goBack
             }
@@ -250,20 +354,22 @@ class ExamContainer extends React.Component<
                 ? null
                 : this.goForward
             }
-            onSubmit={() => this.setState({ isOpenModal: true })}
+            onSubmit={() => this.setState({ isOpenSubmitModal: true })}
           />
         )}
         {questionCount > 0 && (
           <Container>
-            <Timer>{this.state.timer}</Timer>
+            <Timer disabled={this.state.finishedExam}>{this.state.timer}</Timer>
             <QuestionItem
               question={questions[currentQuestionIndex]}
               onSelectAnswer={(examQuestionId: any, responseId: any) =>
                 this.onSelectAnswer(examQuestionId, responseId)
               }
               answers={this.state.answers}
+              disabled={this.state.finishedExam}
             />
-            {this.renderModal()}
+            {this.renderSubmitModal()}
+            {this.renderResultModal()}
           </Container>
         )}
       </Layout>

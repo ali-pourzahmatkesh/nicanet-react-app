@@ -14,7 +14,7 @@ const Container = styled.div`
   position: relative;
   @media (min-width: 720px) {
     margin: 0;
-    padding: 1rem 0 2rem;
+    padding: 0.6rem 0 1.7rem;
     border-bottom: 1px solid #bdbdbd;
     box-shadow: none;
   }
@@ -28,37 +28,47 @@ const Title = styled.div`
   flex: 1;
   text-align: center;
   @media (min-width: 720px) {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
 `;
 
 const NavIconBase = styled.div`
   width: 1.8rem;
   height: 1.8rem;
-  cursor: pointer;
+  cursor: ${props =>
+  props.disabled ? 'default' : 'pointer'};
   position: absolute;
 `;
 
 const ForwardIcon = styled(NavIconBase)`
-  right: 1rem;
+  right: 0.5rem;
+  @media (min-width: 720px) {
+    right: 1rem;
+  }
 `;
 
 const BackIcon = styled(NavIconBase)`
-  left: 1rem;
+  left: 0.5rem;
+  @media (min-width: 720px) {
+    left: 1rem;
+  }
 `;
 
 const SubmitExamIcon = styled(NavIconBase)`
-  right: 4rem;
+  right: 2.5rem;
+  @media (min-width: 720px) {
+    right: 4rem;
+  }
 `;
 
 function Heading(props) {
-  const { title, onGoForward, onGoBack, onSubmit } = props;
+  const { title, onGoForward, onGoBack, onSubmit, disabled } = props;
 
   return (
     <Container>
       {onGoBack && (
-        <BackIcon onClick={onGoBack}>
-          <IoIosArrowBack color={'#5498a9'} size={26} />
+        <BackIcon onClick={onGoBack} disabled={disabled}>
+          <IoIosArrowBack color={disabled ? '#ddd' : '#5498a9'} size={26} />
         </BackIcon>
       )}
       <Title>{title}</Title>
@@ -68,8 +78,8 @@ function Heading(props) {
         </SubmitExamIcon>
       )}
       {onGoForward && (
-        <ForwardIcon onClick={onGoForward}>
-          <IoIosArrowForward color={'#5498a9'} size={26} />
+        <ForwardIcon onClick={onGoForward} disabled={disabled}>
+          <IoIosArrowForward color={disabled ? '#ddd' : '#5498a9'} size={26} />
         </ForwardIcon>
       )}
     </Container>
