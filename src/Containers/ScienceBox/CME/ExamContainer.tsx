@@ -68,8 +68,41 @@ const FinishedExamText = styled.div`
 `;
 
 const ResultImage = styled.img`
-  width: 112px;
-  height: 122px;
+  width: 100px;
+  height: 100px;
+  margin: 20px 0 30px;
+`;
+
+const TimeOut = styled.div`
+  font-weight: bold;
+  font-size: 16px;
+  color: #8b0000;
+  height: 20px;
+  margin-top: 10px;
+`;
+
+const YourExmaScoreTitle = styled.div`
+  color: #757575;
+  margin-bottom: 17px;
+`;
+
+const Score = styled.div<{ Pass?: boolean }>`
+  font-wight: bold;
+  font-size: 15px;
+  color: ${props => (props.Pass ? '#5498a9' : '#d0021b')};
+  margin-bottom: 30px;
+`;
+
+const ExamResultDesc = styled.div`
+  color: #757575;
+  margin-bottom: 40px;
+  font-size: 13px;
+`;
+
+const FailedExamDesc = styled.div`
+  color: #000;
+  font-size: 12px;
+  margin-top: 15px;
 `;
 
 interface ExamContainerProps {}
@@ -92,7 +125,8 @@ class ExamContainer extends React.Component<
     isOpenSubmitModal: false,
     isOpenResultModal: false,
     isTimeOut: false,
-    finishedExam: false
+    finishedExam: false,
+    examResult: { Pass: false, PersonScore: 0, RequireScore: 0 }
   };
 
   componentDidMount = async () => {
@@ -115,11 +149,11 @@ class ExamContainer extends React.Component<
           .map(() => {
             return { ExamQuestionId: '', AnswerId: '' };
           });
-        console.log('answersArray', answersArray);
+        // console.log('answersArray', answersArray);
 
         this.setState({
           exam: response.data,
-          timeRemaining: 20,
+          timeRemaining: 120,
           questions: response.data.Questions,
           answers: answersArray,
           examId: response.data.ExamId,
@@ -152,7 +186,6 @@ class ExamContainer extends React.Component<
         this.setState({ timer: `${minutesStr} : ${secondsStr}` });
       } else {
         if (countdown) {
-          console.log('this.state.finishedExam', this.state.finishedExam);
           if (!this.state.finishedExam) {
             this.setState({ isTimeOut: true }, () => {
               this.submitExam(1471);
@@ -209,11 +242,15 @@ class ExamContainer extends React.Component<
   };
 
   renderResultModal = () => {
-    const type = 'passed';
+    // ExamId: 860
+    // Pass: false
+    // PersonScore: 0
+    // RequireScore: 5
+    const { Pass, PersonScore, RequireScore } = this.state.examResult;
     return (
       <Modal
         isOpen={this.state.isOpenResultModal}
-        onClose={() => this.setState({ isOpenResultModal: false })}
+        // onClose={(s) => this.setState({ isOpenResultModal: false })}
         style={{
           left: window.innerWidth < 720 ? 0 : '50%',
           top: window.innerWidth < 720 ? 0 : '50%',
@@ -221,8 +258,8 @@ class ExamContainer extends React.Component<
           bottom: window.innerWidth < 720 ? 0 : 'auto',
           borderRadius: window.innerWidth < 720 ? 0 : '10px',
           width: window.innerWidth < 720 ? 'auto' : '600px',
-          height: window.innerWidth < 720 ? 'auto' : '542px',
-          margin: window.innerWidth < 720 ? 'auto' : '-271px 0 0 -300px'
+          height: window.innerWidth < 720 ? 'auto' : '480px',
+          margin: window.innerWidth < 720 ? 'auto' : '-240px 0 0 -300px'
         }}
         ChildrenWrapperStyle={{
           textAlign: 'center',
@@ -238,14 +275,24 @@ class ExamContainer extends React.Component<
           zIndex: 9
         }}
       >
-        {this.state.isTimeOut && <div>time out</div>}
-        <ResultImage
-          src={type === 'passed' ? examPassedImage : examFailedImage}
-        />
-        <FinishedExamText>aaa</FinishedExamText>
+        <TimeOut>{this.state.isTimeOut ? 'Time’s Up' : ''}</TimeOut>
+        <ResultImage src={Pass ? examPassedImage : examFailedImage} />
+        <YourExmaScoreTitle>Your Score</YourExmaScoreTitle>
+        <Score Pass={Pass}>{`${PersonScore} / 100`}</Score>
+        <ExamResultDesc>
+          {Pass
+            ? 'You have obtained enough points to get your certification'
+            : 'You have not obtained enough points to get your certification.'}
+        </ExamResultDesc>
         <Button onClick={() => this.props.history.push(HOME_ROUTE)}>
           Done
         </Button>
+        {!Pass && (
+          <FailedExamDesc>
+            {`In order to get your certification you can take your test again in ${RequireScore}
+            days later`}
+          </FailedExamDesc>
+        )}
       </Modal>
     );
   };
@@ -256,32 +303,36 @@ class ExamContainer extends React.Component<
         ? { ExamQuestionId: examQuestionId, AnswerId: responseId }
         : item
     );
-    console.log('answersArray', answersArray);
+    // console.log('answersArray', answersArray);
     this.setState({
       answers: answersArray
     });
 
     setTimeout(() => {
+      if (this.state.currentQuestionIndex + 1 === this.state.questionCount) {
+        this.setState({ isOpenSubmitModal: true });
+      }
       this.goForward();
     }, 1000);
   }
 
   submitExam = async (statusId: any = 0) => {
     this.setState({ isSending: true });
+    const AnswersParams = this.state.answers.filter(item => {
+      const { AnswerId } = item;
+      return AnswerId !== '';
+    });
     try {
       const params = {
         examId: this.state.examId,
-        Answers: this.state.answers,
+        Answers: AnswersParams,
         statusId
       };
-      console.log('params', params);
-      // let response = await CmeApi.submitExam(params);
-      // console.log('send exam to api', response.data);
-      // if (response.status === 200) {
-      // }
-
-      const response = true;
-      if (response) {
+      // console.log('params', params);
+      const response = await CmeApi.submitExam(params);
+      // console.log('response api after exam', response);
+      if (response.status === 200) {
+        this.setState({ examResult: response.data });
         this.setState({ isOpenResultModal: true });
       }
     } catch (_) {
