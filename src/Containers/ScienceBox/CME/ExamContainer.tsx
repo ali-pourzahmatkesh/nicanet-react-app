@@ -242,10 +242,6 @@ class ExamContainer extends React.Component<
   };
 
   renderResultModal = () => {
-    // ExamId: 860
-    // Pass: false
-    // PersonScore: 0
-    // RequireScore: 5
     const { Pass, PersonScore, RequireScore } = this.state.examResult;
     return (
       <Modal
