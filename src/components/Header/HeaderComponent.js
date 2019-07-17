@@ -23,11 +23,22 @@ const Logo = styled.img`
 const LogoWrapper = styled.div`
   margin: 0 auto;
   height: 44px;
+  display: ${props => (props.hasTitle ? 'none' : 'block')};
   @media (min-width: 720px) {
     margin: 0;
+    display: block;
     height: auto;
     padding-left: 1rem;
     width: 80px;
+  }
+`;
+
+const Title = styled.div`
+  margin: 0 auto;
+  line-height: 44px;
+  text-align: center;
+  @media (min-width: 720px) {
+    display: none;
   }
 `;
 
@@ -38,12 +49,13 @@ const Container = styled.div`
   height: 50px;
   width: 100%;
   left: 0;
-  display: ${props => (props.noHeader ? 'none' : 'flex')};
+  display: ${props => (props.theme.noHeader ? 'none' : 'flex')};
   box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.1);
+  z-index: ${props => (props.theme.hasZindex ? '1' : 'auto')};
   @media (min-width: 560px) {
-    width: 560px;
-    left: 50%;
-    margin-left: -280px;
+    width: ${props => (props.theme.isWide ? '100%' : '560px')};
+    left: ${props => (props.theme.isWide ? '0' : '50%')};
+    margin-left: ${props => (props.theme.isWide ? '0' : '-280px')};
   }
   @media (min-width: 720px) {
     position: static;
@@ -147,17 +159,20 @@ const BackIcon = styled.img`
 function Header(props) {
   const { pathname: route } = props.location;
   const noHeader = props.noHeader || false;
+  const hasZindex = props.hasZindex || false;
+  const isWide = props.isWide || false;
 
   return (
     <Fragment>
-      <Container noHeader={noHeader}>
+      <Container theme={{ hasZindex, noHeader, isWide }}>
         <Wrapper>
           <GoBack>
             <BackIcon onClick={() => props.history.goBack()} src={LeftIcon} />
           </GoBack>
-          <LogoWrapper>
+          <LogoWrapper hasTitle={props.title ? true : false}>
             <Logo src={logo} onClick={() => props.history.push(HOME_ROUTE)} />
           </LogoWrapper>
+          {props.title && <Title>{props.title}</Title>}
           <MiddleEelements>
             <SearchBox />
             <LinksContainer>

@@ -4,6 +4,7 @@ import { BeatLoader } from 'react-spinners';
 import { MdSend } from 'react-icons/md';
 import { ContentApi } from '../../Api/ContentApi';
 import { CaseApi } from '../../Api/CaseApi';
+import { CmeApi } from '../../Api/CmeApi';
 import CommentItem from './item';
 import DetectLanguage from '../DetectLanguage/DetectLanguageComponent';
 
@@ -68,6 +69,10 @@ const LoadingWrapprer = styled.div`
   padding: 1rem;
 `;
 
+const SubTitle = styled.div`
+  margin-bottom: 1rem;
+`;
+
 type CommentsProps = {
   onClose?: () => void;
   updateContent: () => void;
@@ -75,10 +80,18 @@ type CommentsProps = {
   source: string;
   comments: any[];
   goToProfile?: (WriteById: number) => void;
+  disabled?: boolean;
 };
 
 const Comments: React.FC<CommentsProps> = props => {
-  const { content, source, updateContent, comments, goToProfile } = props;
+  const {
+    content,
+    source,
+    updateContent,
+    comments,
+    goToProfile,
+    disabled
+  } = props;
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [commentText, setCommentText] = useState('');
   const [parentId, setParentId] = useState(1);
@@ -98,7 +111,9 @@ const Comments: React.FC<CommentsProps> = props => {
         ? 'Comment'
         : source === 'DX'
         ? 'DxComment'
-        : 'RxComment';
+        : source === 'RX'
+        ? 'RxComment'
+        : 'CourseComment';
 
     let params = {};
 
@@ -109,6 +124,12 @@ const Comments: React.FC<CommentsProps> = props => {
         isSpam: false,
         isPublished: true,
         ContentId: content && content.ContentId
+      };
+    } else if (source === 'course') {
+      params = {
+        ParentId: parentId,
+        commentText,
+        CourseId: content && content.CourseId
       };
     } else {
       params = {
@@ -140,12 +161,16 @@ const Comments: React.FC<CommentsProps> = props => {
       if (voted) {
         if (source === 'post') {
           await ContentApi.removeLikeOrDislike(0, CommentId);
+        } else if (source === 'course') {
+          await CmeApi.removeLikeOrDislike(0, CommentId);
         } else {
           await CaseApi.removeLikeOrDislike(CommentId);
         }
       } else {
         if (source === 'post') {
           await ContentApi.likeContent(0, CommentId, like ? 1 : 0);
+        } else if (source === 'course') {
+          await CmeApi.likeContent(0, CommentId, like ? 1 : 0);
         } else {
           await CaseApi.likeContent(CommentId, like ? 1 : 0);
         }
@@ -176,6 +201,7 @@ const Comments: React.FC<CommentsProps> = props => {
             goToProfile && goToProfile(CommentWrittenId)
           }
           onReply={(parentId: number) => onReply(parentId)}
+          disabled={disabled}
         />
         {cm.ReplyComment.map((cm: any) => buildCommentTree(cm, level + 1))}
       </Comment>
@@ -190,28 +216,35 @@ const Comments: React.FC<CommentsProps> = props => {
       {comments && comments.length > 0 && (
         <CommentWrapper>
           <Title>Comments</Title>
+          {source === 'course' && (
+            <SubTitle>
+              Commenting is enable only for people who purchased the course.
+            </SubTitle>
+          )}
           {comments.map((cm: any) => buildCommentTree(cm, 1))}
         </CommentWrapper>
       )}
 
       {isSubmitting && renderLoading()}
 
-      <CommentForm>
-        <WrapperInputStyle>
-          <DetectLanguage value={commentText}>
-            <StyledInput
-              ref={element => setInputText(element)}
-              type="text"
-              placeholder="Write a Comment"
-              value={commentText}
-              onChange={event => setCommentText(event.target.value)}
-            />
-          </DetectLanguage>
-        </WrapperInputStyle>
-        <SendButton onClick={() => onSubmit(parentId)}>
-          <MdSend color="#444" size={30} />
-        </SendButton>
-      </CommentForm>
+      {!disabled && (
+        <CommentForm>
+          <WrapperInputStyle>
+            <DetectLanguage value={commentText}>
+              <StyledInput
+                ref={element => setInputText(element)}
+                type="text"
+                placeholder="Write a Comment"
+                value={commentText}
+                onChange={event => setCommentText(event.target.value)}
+              />
+            </DetectLanguage>
+          </WrapperInputStyle>
+          <SendButton onClick={() => onSubmit(parentId)}>
+            <MdSend color="#444" size={30} />
+          </SendButton>
+        </CommentForm>
+      )}
     </div>
   );
 };

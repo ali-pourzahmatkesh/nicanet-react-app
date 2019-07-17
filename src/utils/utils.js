@@ -71,3 +71,7 @@ export async function getCase(caseId) {
     return JSON.parse(currentCase);
   } catch (_) {}
 }
+
+export function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
