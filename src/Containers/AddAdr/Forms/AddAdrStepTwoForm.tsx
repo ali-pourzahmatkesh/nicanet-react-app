@@ -180,7 +180,7 @@ function AddAdrStepOneForm(props: AddAdrStepOneFormProps) {
       <Row>
         <AdrFormItem>
           {getFieldDecorator('Duration')(
-            <Input placeholder="Duration" type="number" />
+            <Input placeholder="Duration" type="number" pattern="\d*" />
           )}
         </AdrFormItem>
         <AdrFormItem>

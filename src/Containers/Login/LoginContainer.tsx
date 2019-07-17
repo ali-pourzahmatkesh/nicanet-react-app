@@ -366,6 +366,7 @@ class LoginContainer extends React.Component<
                     <TextInputWrapper>
                       <TextInput
                         type="number"
+                        pattern="\d*"
                         placeholder="Phone Number"
                         value={this.state.phoneNumber}
                         onChange={e =>
