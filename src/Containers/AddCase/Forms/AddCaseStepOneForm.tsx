@@ -225,17 +225,21 @@ function AddCaseStepOneForm(props: AddCaseStepOneFormProps) {
     <div>
       <Title>Chief Complaint (CC):</Title>
       <CaseFormItem>
-        <DetectLanguage value={formValues.ChiefComplaint}>
-          {getFieldDecorator('ChiefComplaint', {
-            rules: [{ required: true, message: 'Chief Complaint is required' }]
-          })(<Textarea placeholder="Write Description" />)}
+        <div id="chiefComplaint">
+          <DetectLanguage value={formValues.ChiefComplaint}>
+            {getFieldDecorator('ChiefComplaint', {
+              rules: [
+                { required: true, message: 'Chief Complaint is required' }
+              ]
+            })(<Textarea placeholder="Write Description" />)}
 
-          {getFieldError('ChiefComplaint') && (
-            <ErrorMesseage>
-              {getFieldError('ChiefComplaint').join(', ')}
-            </ErrorMesseage>
-          )}
-        </DetectLanguage>
+            {getFieldError('ChiefComplaint') && (
+              <ErrorMesseage>
+                {getFieldError('ChiefComplaint').join(', ')}
+              </ErrorMesseage>
+            )}
+          </DetectLanguage>
+        </div>
       </CaseFormItem>
       <CasePhotoUploader
         presetName="ChiefComplaint"

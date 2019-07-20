@@ -21,15 +21,13 @@ const NoteWrapper = styled.div`
 `;
 
 interface ShowCaseStepTwoAllProps {
-  diseaseArrayFiltred: any[];
+  diseaseArray: any[];
   caseInfo: any;
   signSymptoms: any[];
 }
 
 function ShowCaseStepTwoPositive(props: ShowCaseStepTwoAllProps) {
-  const { caseInfo, diseaseArrayFiltred, signSymptoms } = props;
-
-  // console.log("diseaseArrayFiltred", diseaseArrayFiltred);
+  const { caseInfo, diseaseArray, signSymptoms } = props;
 
   if (caseInfo === null)
     return (
@@ -39,6 +37,20 @@ function ShowCaseStepTwoPositive(props: ShowCaseStepTwoAllProps) {
     );
 
   const signSymptomsPositive = signSymptoms.filter(ss => ss.Value === true);
+
+  const diseaseArrayFiltred = diseaseArray.filter(diseaseParent => {
+    const filtredDiseaseChildren = diseaseParent.Children.filter(
+      (child: any) => {
+        const signSymptom =
+          signSymptomsPositive.find(
+            (signSymptomItem: any) =>
+              signSymptomItem.DiseaseId === child.DiseaseId
+          ) || {};
+        return signSymptom.DiseaseId === child.DiseaseId;
+      }
+    );
+    return filtredDiseaseChildren.length > 0;
+  });
 
   return (
     <div>

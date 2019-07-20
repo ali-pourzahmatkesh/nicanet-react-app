@@ -66,7 +66,7 @@ function AddCaseStepZeroForm(props: AddCaseStepZeroFormProps) {
   } = props;
 
   const formValues = getFieldsValue();
-  console.log('formValues', formValues);
+  // console.log('formValues', formValues);
 
   useEffect(() => {
     const effect = async () => {

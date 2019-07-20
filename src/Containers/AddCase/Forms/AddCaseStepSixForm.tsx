@@ -103,7 +103,7 @@ function AddCaseStepSixForm(props: AddCaseStepSixFormProps) {
 
   return (
     <div>
-      <Title>Diagnosis (DX):</Title>
+      <Title>Differential Diagnosis (DDX):</Title>
       <PaddedWrapper>
         {diagnosisCount.map((item: number) => (
           <CaseFormItem key={item.toString()}>
