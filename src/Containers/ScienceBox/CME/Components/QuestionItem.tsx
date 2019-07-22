@@ -2,7 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import avatarPhoto from '../../../../Assets/avatar.jpg';
 
-const Container = styled.div``;
+const Container = styled.div<{ fadeOut: boolean }>`
+  opacity: ${props => (props.fadeOut ? '0' : '1')};
+  visibility: ${props => (props.fadeOut ? 'hidden' : 'visible')};
+  transition: all 0.3s ease-in-out;
+`;
 
 const QuestionText = styled.div`
   color: #757575;
@@ -11,7 +15,7 @@ const QuestionText = styled.div`
   margin-bottom: 70px;
 `;
 
-const Answer = styled.div<{ theme?: any }>`
+const Answer = styled.div<{ theme: any }>`
   display: flex;
   flex-direction: row;
   padding: 12px 16px;
@@ -73,6 +77,7 @@ type ExamCardProps = {
   answers: any[];
   onSelectAnswer: (examQuestionId: any, responseId: any) => void;
   disabled: boolean;
+  fadeOut: boolean;
 };
 
 class QuestionItem extends React.Component<ExamCardProps> {
@@ -128,11 +133,11 @@ class QuestionItem extends React.Component<ExamCardProps> {
   };
 
   render() {
-    const { question, answers } = this.props;
+    const { question, answers, fadeOut } = this.props;
     const hasImage = true;
     return (
-      <Container>
-        {hasImage && <AnswerImage src={avatarPhoto} />}
+      <Container fadeOut={fadeOut}>
+        {/* {hasImage && <AnswerImage src={avatarPhoto} />} */}
         {question && question.QuestionText && (
           <QuestionText>{question.QuestionText}</QuestionText>
         )}

@@ -59,7 +59,8 @@ function AddCaseStepZeroForm(props: AddCaseStepZeroFormProps) {
       validateFields,
       getFieldError,
       getFieldsValue,
-      setFieldsValue
+      setFieldsValue,
+      setFieldsInitialValue
     },
     onSubmit,
     caseId
@@ -128,7 +129,12 @@ function AddCaseStepZeroForm(props: AddCaseStepZeroFormProps) {
         <div id="yearofBirth">
           {getFieldDecorator('YearofBirth', {
             rules: [{ required: true, message: 'Year of Birth is required' }]
-          })(<Select options={YearsofBirth} placeholder="Year of Birth" />)}
+          })(
+            <Select
+              options={YearsofBirth}
+              placeholder="Year of Birth"
+            />
+          )}
           {getFieldError('YearofBirth') && (
             <ErrorMesseage>
               {getFieldError('YearofBirth').join(', ')}

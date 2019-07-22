@@ -4,6 +4,7 @@ import Modal from '../../../../components/Modal/ModalComponent';
 import { numberWithCommas } from '../../../../utils/utils';
 import playImage from '../../../../Assets/play.png';
 import avatarPhoto from '../../../../Assets/avatar.jpg';
+import { PulseLoader } from 'react-spinners';
 
 const MoreButtonPrice = styled.div`
   padding: 8px;
@@ -96,6 +97,7 @@ type BuyInfoProps = {
   course: any;
   onBuyPress: () => void;
   onTriggerModal: (isOpen: boolean) => void;
+  isSending: boolean;
 };
 
 class BuyInfo extends React.Component<BuyInfoProps> {
@@ -109,7 +111,7 @@ class BuyInfo extends React.Component<BuyInfoProps> {
   }
 
   renderModal = () => {
-    const { course, onBuyPress } = this.props;
+    const { course, onBuyPress, isSending } = this.props;
     const {
       CourseName: courseName,
       Price: coursePrice,
@@ -164,7 +166,13 @@ class BuyInfo extends React.Component<BuyInfoProps> {
         </CourseInfoItem>
 
         <Price>{numberWithCommas(coursePrice)} IRR</Price>
-        <Button onClick={() => onBuyPress()}>Buy this package</Button>
+        <Button onClick={() => onBuyPress()}>
+          {isSending ? (
+            <PulseLoader sizeUnit="rem" size={0.5} color="#fff" />
+          ) : (
+            'Buy this package'
+          )}
+        </Button>
       </Modal>
     );
   };

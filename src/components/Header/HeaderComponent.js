@@ -6,6 +6,8 @@ import homeIcon from '../../Assets/home.svg';
 import userIcon from '../../Assets/user.svg';
 import homeIconActive from '../../Assets/homeActive.svg';
 import userIconActive from '../../Assets/userActive.svg';
+import academyIcon from '../../Assets/academy.svg';
+import academyIconActive from '../../Assets/academyActive.svg';
 import { HOME_ROUTE } from 'router/RouterConstants';
 import LeftIcon from 'Assets/Left.svg';
 // import { FaSearch } from 'react-icons/fa';
@@ -103,12 +105,12 @@ const LinksContainer = styled.div`
   margin: 0 auto;
 `;
 
-// const IconContainer = styled.div`
-//   width: 1.7rem;
-//   height: 1.7rem;
-//   display: flex;
-//   align-items: center;
-// `;
+const IconContainer = styled.div`
+  width: 1.7rem;
+  height: 1.7rem;
+  display: flex;
+  align-items: center;
+`;
 
 const Icon = styled.img`
   width: 1.7rem;
@@ -190,6 +192,26 @@ function Header(props) {
                   <Icon src={homeIcon} />
                 )}
                 <IconTitle>Home</IconTitle>
+              </IconWrapper>
+              <IconWrapper
+                onClick={() => props.history.push('/sciencebox')}
+                hasMargin
+              >
+                <IconContainer>
+                  <Icon
+                    src={
+                      route === '/sciencebox' ||
+                      route.startsWith('/course') ||
+                      route.startsWith('/episodes') ||
+                      route.startsWith('/episode') ||
+                      route.startsWith('/exam')
+                        ? academyIconActive
+                        : academyIcon
+                    }
+                  />
+                </IconContainer>
+
+                <IconTitle>Science Box</IconTitle>
               </IconWrapper>
               {/* <IconWrapper onClick={() => props.history.push('/search')} hasMargin>
                 <IconContainer>

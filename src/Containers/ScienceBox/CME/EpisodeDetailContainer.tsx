@@ -206,7 +206,7 @@ function EpisodeDetailContainer(
               videoWidth="100%"
               videoHeight="100%"
               onEnded={WatchEpisode}
-              diff="40"
+              diff="25"
             />
           </VideoPlayerWrapper>
         </Media>
