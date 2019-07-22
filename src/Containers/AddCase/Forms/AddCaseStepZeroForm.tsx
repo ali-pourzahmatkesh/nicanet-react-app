@@ -60,7 +60,6 @@ function AddCaseStepZeroForm(props: AddCaseStepZeroFormProps) {
       getFieldError,
       getFieldsValue,
       setFieldsValue,
-      setFieldsInitialValue
     },
     onSubmit,
     caseId
