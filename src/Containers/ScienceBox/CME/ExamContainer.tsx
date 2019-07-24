@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { toast } from 'react-toastify';
 import { BounceLoader } from 'react-spinners';
 import Layout from 'components/Partials/Layout';
 import { RouteComponentProps } from 'react-router';
@@ -8,7 +7,6 @@ import { CmeApi } from '../../../Api/CmeApi';
 import QuestionItem from './Components/QuestionItem';
 import Heading from './Components/Heading';
 import Modal from '../../../components/Modal/ModalComponent';
-import { HOME_ROUTE } from 'router/RouterConstants';
 import { PulseLoader } from 'react-spinners';
 import examFailedImage from '../../../Assets/examFailed.png';
 import examPassedImage from '../../../Assets/examPassed.png';
@@ -126,7 +124,13 @@ class ExamContainer extends React.Component<
     isOpenResultModal: false,
     isTimeOut: false,
     finishedExam: false,
-    examResult: { Pass: false, PersonScore: 0, RequireScore: 0 }
+    examResult: {
+      Pass: false,
+      PersonScore: 0,
+      RequireScore: 0,
+      NextExamTime: ''
+    },
+    fadeOut: false
   };
 
   componentDidMount = async () => {
@@ -153,7 +157,7 @@ class ExamContainer extends React.Component<
 
         this.setState({
           exam: response.data,
-          timeRemaining: 120,
+          timeRemaining: this.getExamTime(response.data.ExamTime),
           questions: response.data.Questions,
           answers: answersArray,
           examId: response.data.ExamId,
@@ -195,6 +199,15 @@ class ExamContainer extends React.Component<
         }
       }
     }, 1000);
+  }
+
+  getExamTime(timeString: string) {
+    const timeArray = timeString.split(':');
+    const hours = +timeArray[0];
+    const minutes = +timeArray[1];
+    const seconds = +timeArray[2];
+    const sumSeconds = (hours * 3600) + (minutes * 60) + seconds;
+    return sumSeconds;
   }
 
   renderSubmitModal = () => {
@@ -242,7 +255,15 @@ class ExamContainer extends React.Component<
   };
 
   renderResultModal = () => {
-    const { Pass, PersonScore, RequireScore } = this.state.examResult;
+    const {
+      Pass,
+      PersonScore,
+      RequireScore,
+      NextExamTime
+    } = this.state.examResult;
+    const { match } = this.props;
+    const { params } = match;
+    const { courseId } = params;
     return (
       <Modal
         isOpen={this.state.isOpenResultModal}
@@ -274,20 +295,19 @@ class ExamContainer extends React.Component<
         <TimeOut>{this.state.isTimeOut ? 'Time’s Up' : ''}</TimeOut>
         <ResultImage src={Pass ? examPassedImage : examFailedImage} />
         <YourExmaScoreTitle>Your Score</YourExmaScoreTitle>
-        <Score Pass={Pass}>{`${PersonScore} / 100`}</Score>
+        <Score Pass={Pass}>{`${PersonScore} / ${RequireScore}`}</Score>
         <ExamResultDesc>
           {Pass
             ? 'You have obtained enough points to get your certification'
             : 'You have not obtained enough points to get your certification.'}
         </ExamResultDesc>
-        <Button onClick={() => this.props.history.push(HOME_ROUTE)}>
+        <Button
+          onClick={() => this.props.history.push(`/episodes/${courseId}`)}
+        >
           Done
         </Button>
-        {!Pass && (
-          <FailedExamDesc>
-            {`In order to get your certification you can take your test again in ${RequireScore}
-            days later`}
-          </FailedExamDesc>
+        {!Pass && NextExamTime && (
+          <FailedExamDesc>{NextExamTime}</FailedExamDesc>
         )}
       </Modal>
     );
@@ -305,9 +325,14 @@ class ExamContainer extends React.Component<
     });
 
     setTimeout(() => {
+      this.setState({ fadeOut: true });
+    }, 500);
+
+    setTimeout(() => {
       if (this.state.currentQuestionIndex + 1 === this.state.questionCount) {
         this.setState({ isOpenSubmitModal: true });
       }
+      this.setState({ fadeOut: false });
       this.goForward();
     }, 1000);
   }
@@ -414,6 +439,7 @@ class ExamContainer extends React.Component<
               }
               answers={this.state.answers}
               disabled={this.state.finishedExam}
+              fadeOut={this.state.fadeOut}
             />
             {this.renderSubmitModal()}
             {this.renderResultModal()}

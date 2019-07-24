@@ -153,7 +153,8 @@ class ExamCard extends React.Component<ExamCardProps> {
     const {
       ExamTitle: examTitle,
       QuestionCount: questionCount,
-      ExamDetails: examDetails
+      ExamDetails: examDetails,
+      ExamTime: examTime
     } = course;
     return (
       <Modal
@@ -181,14 +182,14 @@ class ExamCard extends React.Component<ExamCardProps> {
         }}
       >
         <ExamTitleText>{examTitle}</ExamTitleText>
-        <ExamMajor>Nephrology / Urology</ExamMajor>
+        {/* <ExamMajor>Nephrology / Urology</ExamMajor> */}
         <Row>
           <Label>Number of Questions</Label>
           <Value>{questionCount}</Value>
         </Row>
         <Row>
           <Label>Exam Duration</Label>
-          <Value>30 mins</Value>
+          <Value>{examTime}</Value>
         </Row>
         <Description>{examDetails}</Description>
         <Button onClick={() => onSatrtExam()}>StartExam</Button>

@@ -6,6 +6,8 @@ import userIcon from '../../Assets/user.svg';
 import homeIconActive from '../../Assets/homeActive.svg';
 import userIconActive from '../../Assets/userActive.svg';
 import { HOME_ROUTE } from 'router/RouterConstants';
+import academyIcon from '../../Assets/academy.svg';
+import academyIconActive from '../../Assets/academyActive.svg';
 // import { FaSearch } from 'react-icons/fa';
 
 const Container = styled.div`
@@ -91,13 +93,21 @@ function TabBar(props) {
 
             <IconTitle>Search</IconTitle>
           </IconWrapper> */}
-          {/* <IconWrapper onClick={() => false && undefined}>
+          <IconWrapper onClick={() => props.history.push('/sciencebox')}>
             <Icon
-              src={route === '/academy' ? academyIconActive : academyIcon}
+              src={
+                route === '/sciencebox' ||
+                route.startsWith('/course') ||
+                route.startsWith('/episodes') ||
+                route.startsWith('/episode') ||
+                route.startsWith('/exam')
+                  ? academyIconActive
+                  : academyIcon
+              }
             />
             <IconTitle>Academy</IconTitle>
           </IconWrapper>
-          <IconWrapper onClick={() => props.history.push(CHAT_ROUTE)}>
+          {/* <IconWrapper onClick={() => props.history.push(CHAT_ROUTE)}>
             <Icon src={route.startsWith('/chat') ? chatIconActive : chatIcon} />
             <IconTitle>Chat</IconTitle>
           </IconWrapper> */}

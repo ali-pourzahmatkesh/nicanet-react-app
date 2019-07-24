@@ -23,6 +23,10 @@ const Container = styled.div`
 
 const CourseInfoWrapper = styled.div`
   padding: 10px 20px 0;
+  min-height: calc(100vh - 510px);
+  @media (min-width: 720px) {
+    min-height: calc(100vh - 588px);
+  }
 `;
 
 const MoreButton = styled.div`
@@ -208,6 +212,7 @@ function CourseContainer(
 
   const [course, setCourse] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
+  const [isSending, setIsSending] = useState(false);
   const [playTrailer, setPlayTrailer] = useState(false);
   const [openBuyInfoModal, setOpenBuyInfoModal] = useState(false);
 
@@ -305,8 +310,21 @@ function CourseContainer(
     }
   };
 
-  const onBuyPress = () => {
-    console.log('go to bank');
+  const onBuyPress = async () => {
+    setIsSending(true);
+    try {
+      const params = {
+        CourseList: [{ CourseId: courseId }]
+      };
+      const response = await CmeApi.payment(params);
+
+      if (response.status === 200 && window) {
+        window.location.href = response.data.data.paymentlink;
+      }
+    } catch (err) {
+    } finally {
+      setIsSending(false);
+    }
   };
 
   const onViewEpisodesPress = (course: any) =>
@@ -326,6 +344,7 @@ function CourseContainer(
                 </MoreButtonTexts>
               ) : (
                 <BuyInfo
+                  isSending={isSending}
                   course={course}
                   onBuyPress={onBuyPress}
                   onTriggerModal={(isOpenBuyInfoModal: boolean) => {

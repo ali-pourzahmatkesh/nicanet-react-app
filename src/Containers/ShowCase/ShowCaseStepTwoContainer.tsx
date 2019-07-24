@@ -118,14 +118,14 @@ const ShowCaseStepTwoContainer: React.FC<
           )}
           {activeTabName === 'Positive' && (
             <ShowCaseStepTwoPositive
-              diseaseArrayFiltred={diseaseArrayFiltred || []}
+              diseaseArray={diseaseArray || []}
               caseInfo={caseInfo}
               signSymptoms={signSymptoms}
             />
           )}
           {activeTabName === 'Negative' && (
             <ShowCaseStepTwoNegative
-              diseaseArrayFiltred={diseaseArrayFiltred || []}
+              diseaseArray={diseaseArray || []}
               caseInfo={caseInfo}
               signSymptoms={signSymptoms}
             />

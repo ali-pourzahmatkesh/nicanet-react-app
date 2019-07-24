@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { IoMdTrash } from 'react-icons/io';
 
 const Container = styled.div`
   border-radius: 10px;
@@ -7,6 +8,10 @@ const Container = styled.div`
   background-color: #ffffff;
   padding: 1rem;
   margin: 1rem 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const Title = styled.div`
@@ -14,27 +19,37 @@ const Title = styled.div`
   font-size: 1rem;
   font-weight: bold;
   color: #5498a9;
-  margin-bottom: 1rem;
 `;
 
 const Subtitle = styled.div`
   font-family: Roboto;
   font-size: 1rem;
   color: #212121;
+  margin-top: 1rem;
+`;
+
+const Icon = styled.div`
+  cursor: pointer;
 `;
 
 type DrugProps = {
   title: string;
   subtitle: string;
+  onDelete?: () => void;
 };
 
 const Drug: React.FC<DrugProps> = props => {
-  const { title, subtitle } = props;
+  const { title, subtitle, onDelete } = props;
 
   return (
     <Container>
-      <Title>{title}</Title>
-      <Subtitle>{subtitle}</Subtitle>
+      <div>
+        <Title>{title}</Title>
+        {subtitle && <Subtitle>{subtitle}</Subtitle>}
+      </div>
+      <Icon>
+        <IoMdTrash color={'#bdbdbd'} size={22} onClick={onDelete} />
+      </Icon>
     </Container>
   );
 };
