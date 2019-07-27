@@ -156,23 +156,12 @@ function EpisodeDetailContainer(
       </Layout>
     );
 
-  const {
-    Name: name,
-    EpisodeCover: episodeCover,
-    EpisodeUrl: episodeUrl,
-    Description: description,
-    Teacher: episodTeacher,
-    TeacherImage: episodTeacherImage,
-    TeacherMajor: episodTeacherMajor,
-    Watched: watched
-  } = episod;
-
   const WatchEpisode = async () => {
     try {
       if (!callWatched && !watched) {
         let response = await CmeApi.WatchEpisode(episodId);
         if (response.status === 204) {
-          await setCallWatched(true);
+          setCallWatched(true);
           setTimeout(() => {
             UpdateEpisode();
           }, 0);
@@ -195,6 +184,17 @@ function EpisodeDetailContainer(
     }
   };
 
+  const {
+    Name: name,
+    EpisodeCover: episodeCover,
+    EpisodeUrl: episodeUrl,
+    Description: description,
+    Teacher: episodTeacher,
+    TeacherImage: episodTeacherImage,
+    TeacherMajor: episodTeacherMajor,
+    Watched: watched
+  } = episod;
+
   return (
     <Layout title="Episodes" hasZindex>
       <Container>
@@ -205,7 +205,11 @@ function EpisodeDetailContainer(
               source={`https://api.pointina.ir${episodeUrl}`}
               videoWidth="100%"
               videoHeight="100%"
-              onEnded={WatchEpisode}
+              onEnded={() => {
+                if (!callWatched && !watched) {
+                  WatchEpisode();
+                }
+              }}
               diff="25"
             />
           </VideoPlayerWrapper>

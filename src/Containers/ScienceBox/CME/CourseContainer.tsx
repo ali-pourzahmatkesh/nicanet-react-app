@@ -223,7 +223,7 @@ function CourseContainer(
         let response = await CmeApi.getCourse(courseId);
         if (response.status === 200) {
           setCourse(response.data);
-          console.log('response.data', response.data);
+          // console.log('response.data', response.data);
         }
       } catch (_) {
       } finally {

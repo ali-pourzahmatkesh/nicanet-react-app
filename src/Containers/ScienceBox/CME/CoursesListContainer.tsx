@@ -95,7 +95,7 @@ function CoursesListContainer(
   const getCourceList = async () => {
     try {
       const response = await CmeApi.getCourseList(pageNumber);
-      console.log('response', response.data);
+      // console.log('response', response.data);
       await setHasMoreItems(false);
       if (response.status === 200) {
         const AllCount = response.data.AllCount;
@@ -129,9 +129,10 @@ function CoursesListContainer(
   };
 
   const onCoursePress = (course: any) =>
-    course.Bought
-      ? props.history.push(`episodes/${course.CourseId}`)
-      : props.history.push(`course/${course.CourseId}`);
+    props.history.push(`course/${course.CourseId}`);
+  // course.Bought
+  //   ? props.history.push(`episodes/${course.CourseId}`)
+  //   : props.history.push(`course/${course.CourseId}`);
 
   const onSearchCoursesDebounced = debounce(onSearchCourses, 1000);
   const loader = (

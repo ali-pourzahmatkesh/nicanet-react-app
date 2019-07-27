@@ -128,7 +128,7 @@ function EpisodesContainer(
         if (response.status === 200) {
           setCourse(response.data);
           setChaptersList(response.data.ChaptersList);
-          console.log('response.data', response.data);
+          // console.log('response.data', response.data);
         }
       } catch (_) {
       } finally {
