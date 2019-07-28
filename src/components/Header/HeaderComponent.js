@@ -193,7 +193,7 @@ function Header(props) {
                 )}
                 <IconTitle>Home</IconTitle>
               </IconWrapper>
-              <IconWrapper
+              {/* <IconWrapper
                 onClick={() => props.history.push('/sciencebox')}
                 hasMargin
               >
@@ -212,7 +212,7 @@ function Header(props) {
                 </IconContainer>
 
                 <IconTitle>Science Box</IconTitle>
-              </IconWrapper>
+              </IconWrapper> */}
               {/* <IconWrapper onClick={() => props.history.push('/search')} hasMargin>
                 <IconContainer>
                   <FaSearch
