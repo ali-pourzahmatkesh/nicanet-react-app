@@ -199,7 +199,7 @@ function ScienceBoxCard(props) {
           {bought ? (
             <MoreButtonTexts>
               <Purchased>Purchased</Purchased>
-              <ViewEpisodes>View Episodes</ViewEpisodes>
+              <ViewEpisodes>View Course</ViewEpisodes>
             </MoreButtonTexts>
           ) : (
             <MoreButtonPrice>

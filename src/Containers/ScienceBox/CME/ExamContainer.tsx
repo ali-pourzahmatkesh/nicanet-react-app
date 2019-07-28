@@ -145,7 +145,7 @@ class ExamContainer extends React.Component<
     this.setState({ isFetching: true });
     try {
       let response = await CmeApi.getExam(courseId);
-      console.log('response.data', response.data);
+      // console.log('response.data', response.data);
       if (response.status === 200) {
         const { Questions } = response.data;
         const answersArray = new Array(response.data.Questions.length)

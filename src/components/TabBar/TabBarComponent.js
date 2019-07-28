@@ -93,7 +93,7 @@ function TabBar(props) {
 
             <IconTitle>Search</IconTitle>
           </IconWrapper> */}
-          <IconWrapper onClick={() => props.history.push('/sciencebox')}>
+          {/* <IconWrapper onClick={() => props.history.push('/sciencebox')}>
             <Icon
               src={
                 route === '/sciencebox' ||
@@ -106,7 +106,7 @@ function TabBar(props) {
               }
             />
             <IconTitle>Academy</IconTitle>
-          </IconWrapper>
+          </IconWrapper> */}
           {/* <IconWrapper onClick={() => props.history.push(CHAT_ROUTE)}>
             <Icon src={route.startsWith('/chat') ? chatIconActive : chatIcon} />
             <IconTitle>Chat</IconTitle>

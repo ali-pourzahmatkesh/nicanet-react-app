@@ -85,7 +85,7 @@ const AddCaseStepSix: React.FC<RouteComponentProps<{ caseId: '' }>> = props => {
     <Layout noHeader>
       <Container>
         <Heading
-          title="Lab Test and Imaging"
+          title="Case Report"
           subtitle="6/6"
           onGoBack={goBackward}
           onGoForward={goForward}
