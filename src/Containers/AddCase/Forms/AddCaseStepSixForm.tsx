@@ -101,9 +101,13 @@ function AddCaseStepSixForm(props: AddCaseStepSixFormProps) {
     effect();
   }, []);
 
+  const onDelete = (DrugId: number) => {
+    setCaseDrugs(caseDrugs.filter(item => item.DrugId !== DrugId));
+  };
+
   return (
     <div>
-      <Title>Diagnosis (DX):</Title>
+      <Title>Differential Diagnosis (DDX):</Title>
       <PaddedWrapper>
         {diagnosisCount.map((item: number) => (
           <CaseFormItem key={item.toString()}>
@@ -167,6 +171,9 @@ function AddCaseStepSixForm(props: AddCaseStepSixFormProps) {
           key={drug.DrugName}
           title={drug.DrugName}
           subtitle={drug.Manufacture}
+          onDelete={() => {
+            onDelete(drug.DrugId);
+          }}
         />
       ))}
 

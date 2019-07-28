@@ -1,8 +1,8 @@
-import React from "react";
-import ReactModal from "react-modal";
-import styled from "styled-components";
+import React from 'react';
+import ReactModal from 'react-modal';
+import styled from 'styled-components';
 
-import CloseIconSvg from "Assets/Close.svg";
+import CloseIconSvg from 'Assets/Close.svg';
 
 const Title = styled.div`
   font-family: Roboto;
@@ -31,7 +31,7 @@ const CloseIcon = styled.img`
 type ModalProps = {
   title?: string;
   isOpen: boolean;
-  onClose: () => void;
+  onClose?: () => void;
   style?: any;
   ChildrenWrapperStyle?: any;
 };
@@ -53,13 +53,13 @@ const Modal: React.FC<ModalProps> = props => {
       style={{
         content: style || {},
         overlay: {
-          backgroundColor: "rgba(0,0, 0, 0.4)"
+          backgroundColor: 'rgba(0,0, 0, 0.4)'
         }
       }}
     >
       <Title>
         {title}
-        <CloseIcon onClick={onClose} src={CloseIconSvg} />
+        {onClose && <CloseIcon onClick={onClose} src={CloseIconSvg} />}
       </Title>
       <ChildrenWrapper style={ChildrenWrapperStyle}>{children}</ChildrenWrapper>
     </ReactModal>

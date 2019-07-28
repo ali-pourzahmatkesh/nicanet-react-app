@@ -10,7 +10,6 @@ export const ChatApi = axios.create({
 
 export const initToken = async () => {
   const token = localStorage.getItem('api_token');
-  console.log('in init token', token);
   if (token) {
     Api.defaults.headers.common.Authorization = `Bearer ${token}`;
     ChatApi.defaults.headers.common.Authorization = `Bearer ${token}`;

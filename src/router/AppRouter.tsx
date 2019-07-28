@@ -36,6 +36,11 @@ import AddAdrStepFive from 'Containers/AddAdr/AddAdrStepFive';
 import EditProfile from 'Containers/EditProfile/EditProfileContainer';
 import SearchContainer from 'Containers/Search/SearchContainer';
 import NotFoundContainer from 'Containers/NotFound/NotFoundContainer';
+import CoursesListContainer from 'Containers/ScienceBox/CME/CoursesListContainer';
+import CourseContainer from 'Containers/ScienceBox/CME/CourseContainer';
+import EpisodesContainer from 'Containers/ScienceBox/CME/EpisodesContainer';
+import EpisodeDetailContainer from 'Containers/ScienceBox/CME/EpisodeDetailContainer';
+import ExamContainer from 'Containers/ScienceBox/CME/ExamContainer';
 
 import {
   ROOT_ROUTE,
@@ -65,7 +70,12 @@ import {
   SHOW_CASE_STEP_FOUR_ROUTE,
   EDIT_PROFILE_ROUTE,
   SEARCH_ROUTE,
-  NOT_FOUND_ROUTE
+  NOT_FOUND_ROUTE,
+  SCIENCE_BOX_ROUTE,
+  COURSE_ROUTE,
+  EPISODES_ROUTE,
+  EPISODE_DETAIL_ROUTE,
+  EXAM_ROUTE
 } from './RouterConstants';
 
 interface AppRouterProps {
@@ -109,7 +119,12 @@ class AppRouter extends React.Component<
       !location.pathname.startsWith('/show-case-step-three') &&
       !location.pathname.startsWith('/show-case-step-four') &&
       location.pathname !== EDIT_PROFILE_ROUTE &&
-      location.pathname !== SEARCH_ROUTE
+      location.pathname !== SEARCH_ROUTE &&
+      location.pathname !== SCIENCE_BOX_ROUTE &&
+      !location.pathname.startsWith('/course') &&
+      !location.pathname.startsWith('/episodes') &&
+      !location.pathname.startsWith('/episode') &&
+      !location.pathname.startsWith('/exam')
     ) {
       return <Redirect to={NOT_FOUND_ROUTE} />;
     }
@@ -205,6 +220,19 @@ class AppRouter extends React.Component<
         />
         <Route path={EDIT_PROFILE_ROUTE} exact component={EditProfile} />
         <Route path={SEARCH_ROUTE} exact component={SearchContainer} />
+        <Route
+          path={SCIENCE_BOX_ROUTE}
+          exact
+          component={CoursesListContainer}
+        />
+        <Route path={COURSE_ROUTE} exact component={CourseContainer} />
+        <Route path={EPISODES_ROUTE} exact component={EpisodesContainer} />
+        <Route
+          path={EPISODE_DETAIL_ROUTE}
+          exact
+          component={EpisodeDetailContainer}
+        />
+        <Route path={EXAM_ROUTE} exact component={ExamContainer} />
         <Route path={NOT_FOUND_ROUTE} component={NotFoundContainer} />
       </Switch>
     );

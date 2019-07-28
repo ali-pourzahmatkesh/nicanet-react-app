@@ -34,6 +34,10 @@ function AddAdrStepThreeForm(props: AddAdrStepThreeFormProps) {
     });
   };
 
+  const onDelete = (DrugId: number) => {
+    setadrDrugs(adrDrugs.filter(item => item.DrugId !== DrugId));
+  };
+
   return (
     <div>
       <Title>Suspected drug details (Minimum of one entry is required):</Title>
@@ -54,6 +58,9 @@ function AddAdrStepThreeForm(props: AddAdrStepThreeFormProps) {
             key={drug.DrugName}
             title={drug.DrugName}
             subtitle={drug.Manufacture}
+            onDelete={() => {
+              onDelete(drug.DrugId);
+            }}
           />
         </AdrFormItem>
       ))}

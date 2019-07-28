@@ -90,6 +90,10 @@ function AddCaseStepThreeForm(props: AddCaseStepThreeFormProps) {
     effect();
   }, [setFieldsValue, habitualHistories, herbalHistories, caseId]);
 
+  const onDelete = (DrugId: number) => {
+    setCaseDrugs(caseDrugs.filter(item => item.DrugId !== DrugId));
+  };
+
   const dhDrugs = caseDrugs.filter(drug => drug.TypeId === 350);
   const otcDrugs = caseDrugs.filter(drug => drug.TypeId === 351);
 
@@ -107,11 +111,14 @@ function AddCaseStepThreeForm(props: AddCaseStepThreeFormProps) {
             }
           />
         </CaseFormItem>
-        {dhDrugs.map(drug => (
+        {dhDrugs.map((drug, index) => (
           <Drug
             key={drug.DrugName}
             title={drug.DrugName}
             subtitle={drug.Manufacture}
+            onDelete={() => {
+              onDelete(drug.DrugId);
+            }}
           />
         ))}
         <CaseFormItem>
@@ -137,6 +144,9 @@ function AddCaseStepThreeForm(props: AddCaseStepThreeFormProps) {
             key={drug.DrugName}
             title={drug.DrugName}
             subtitle={drug.Manufacture}
+            onDelete={() => {
+              onDelete(drug.DrugId);
+            }}
           />
         ))}
         <CaseFormItem>

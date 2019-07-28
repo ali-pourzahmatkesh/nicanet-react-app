@@ -32,6 +32,10 @@ function AddAdrStepFourForm(props: AddAdrStepFourFormProps) {
     });
   };
 
+  const onDelete = (DrugId: number) => {
+    setadrDrugs(adrDrugs.filter(item => item.DrugId !== DrugId));
+  };
+
   return (
     <div>
       <Title>
@@ -51,6 +55,9 @@ function AddAdrStepFourForm(props: AddAdrStepFourFormProps) {
             key={drug.DrugName}
             title={drug.DrugName}
             subtitle={drug.Manufacture}
+            onDelete={() => {
+              onDelete(drug.DrugId);
+            }}
           />
         </AdrFormItem>
       ))}

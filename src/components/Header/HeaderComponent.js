@@ -6,6 +6,8 @@ import homeIcon from '../../Assets/home.svg';
 import userIcon from '../../Assets/user.svg';
 import homeIconActive from '../../Assets/homeActive.svg';
 import userIconActive from '../../Assets/userActive.svg';
+import academyIcon from '../../Assets/academy.svg';
+import academyIconActive from '../../Assets/academyActive.svg';
 import { HOME_ROUTE } from 'router/RouterConstants';
 import LeftIcon from 'Assets/Left.svg';
 // import { FaSearch } from 'react-icons/fa';
@@ -23,11 +25,22 @@ const Logo = styled.img`
 const LogoWrapper = styled.div`
   margin: 0 auto;
   height: 44px;
+  display: ${props => (props.hasTitle ? 'none' : 'block')};
   @media (min-width: 720px) {
     margin: 0;
+    display: block;
     height: auto;
     padding-left: 1rem;
     width: 80px;
+  }
+`;
+
+const Title = styled.div`
+  margin: 0 auto;
+  line-height: 44px;
+  text-align: center;
+  @media (min-width: 720px) {
+    display: none;
   }
 `;
 
@@ -38,12 +51,13 @@ const Container = styled.div`
   height: 50px;
   width: 100%;
   left: 0;
-  display: ${props => (props.noHeader ? 'none' : 'flex')};
+  display: ${props => (props.theme.noHeader ? 'none' : 'flex')};
   box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.1);
+  z-index: ${props => (props.theme.hasZindex ? '1' : 'auto')};
   @media (min-width: 560px) {
-    width: 560px;
-    left: 50%;
-    margin-left: -280px;
+    width: ${props => (props.theme.isWide ? '100%' : '560px')};
+    left: ${props => (props.theme.isWide ? '0' : '50%')};
+    margin-left: ${props => (props.theme.isWide ? '0' : '-280px')};
   }
   @media (min-width: 720px) {
     position: static;
@@ -91,12 +105,12 @@ const LinksContainer = styled.div`
   margin: 0 auto;
 `;
 
-// const IconContainer = styled.div`
-//   width: 1.7rem;
-//   height: 1.7rem;
-//   display: flex;
-//   align-items: center;
-// `;
+const IconContainer = styled.div`
+  width: 1.7rem;
+  height: 1.7rem;
+  display: flex;
+  align-items: center;
+`;
 
 const Icon = styled.img`
   width: 1.7rem;
@@ -147,17 +161,20 @@ const BackIcon = styled.img`
 function Header(props) {
   const { pathname: route } = props.location;
   const noHeader = props.noHeader || false;
+  const hasZindex = props.hasZindex || false;
+  const isWide = props.isWide || false;
 
   return (
     <Fragment>
-      <Container noHeader={noHeader}>
+      <Container theme={{ hasZindex, noHeader, isWide }}>
         <Wrapper>
           <GoBack>
             <BackIcon onClick={() => props.history.goBack()} src={LeftIcon} />
           </GoBack>
-          <LogoWrapper>
+          <LogoWrapper hasTitle={props.title ? true : false}>
             <Logo src={logo} onClick={() => props.history.push(HOME_ROUTE)} />
           </LogoWrapper>
+          {props.title && <Title>{props.title}</Title>}
           <MiddleEelements>
             <SearchBox />
             <LinksContainer>
@@ -176,6 +193,26 @@ function Header(props) {
                 )}
                 <IconTitle>Home</IconTitle>
               </IconWrapper>
+              {/* <IconWrapper
+                onClick={() => props.history.push('/sciencebox')}
+                hasMargin
+              >
+                <IconContainer>
+                  <Icon
+                    src={
+                      route === '/sciencebox' ||
+                      route.startsWith('/course') ||
+                      route.startsWith('/episodes') ||
+                      route.startsWith('/episode') ||
+                      route.startsWith('/exam')
+                        ? academyIconActive
+                        : academyIcon
+                    }
+                  />
+                </IconContainer>
+
+                <IconTitle>Science Box</IconTitle>
+              </IconWrapper> */}
               {/* <IconWrapper onClick={() => props.history.push('/search')} hasMargin>
                 <IconContainer>
                   <FaSearch
